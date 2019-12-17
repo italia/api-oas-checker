@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+const browserify_hello_world = require('browserify-hello-world');
+
+console.log(browserify_hello_world.myfunc());

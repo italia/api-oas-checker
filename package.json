@@ -1,0 +1,22 @@
+{
+  "bin": {
+    "browserify-hello-world": "browserify-hello-world"
+  },
+  "dependencies": {
+    "uniq": "^1.0.1"
+  },
+  "devDependencies": {
+    "browserify": "16.5.0"
+  },
+  "keywords": [
+    "browserify",
+    "hello world"
+  ],
+  "license": "AGPL-3.0",
+  "name": "browserify-hello-world",
+  "repository": "cirosantilli/browserify-hello-world",
+  "scripts": {
+    "b": "npx browserify --outfile out.js --standalone browserify_hello_world index.js"
+  },
+  "version": "0.1.0"
+}
