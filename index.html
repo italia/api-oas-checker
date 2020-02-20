@@ -3,30 +3,96 @@
 <head>
 <meta charset=utf-8>
 <title>Browserify hello world</title>
+<style>
+.line-error {
+	background: #fbc2c4 !important;
+}
+</style>
 <script src="out.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css" />
+
+<script>
+testUrl = "https://raw.githubusercontent.com/teamdigitale/anpr-dashboard-server/master/openapi/anpr-dashboard.yaml";
+
+function parse_url(){
+	url = document.getElementById('oas_url').value;
+	console.log("oas_url: " + url);
+    parse_url(url);
+}
+
+async function parse_text(){
+	oas_text = editor.getValue();
+    // console.log("oas_text:" + oas_text);
+    await lint_spec(oas_text);
+}
+
+async function lint_spec(oas) {
+	lint = await browserify_hello_world.parse(oas);
+	console.log("lint: " + lint);	
+	lint.forEach(highlight_error);
+	document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
+}
+function parse_url(url){
+	    myUrl = url || testUrl
+        fetch(myUrl).then(function(r){
+                r.text().then(function(oas){        
+            		console.log("Updating editor.");
+		            editor.getDoc().setValue(oas);
+                	return lint_spec(oas); 
+                });
+        });
+};
+
+function highlight_error(entry){
+	/*
+{
+    "code": "invalid-ref",
+    "path": [
+      "x-commons",
+      "common-headers",
+      "X-RateLimit-Limit",
+      "$ref"
+    ],
+    "message": "No resolver defined for scheme 'https' in ref https://teamdigitale.github.io/openapi/0.0.5/definitions.yaml",
+    "severity": 0,
+    "range": {
+      "start": {
+        "line": 113,
+        "character": 12
+      },
+      "end": {
+        "line": 113,
+        "character": 102
+      }
+    }
+  },
+ 
+	*/
+	line = entry.range.start.line;
+	console.log("line:" + line)
+	editor.addLineClass(line, 'background', 'line-error');
+}
+</script>
+
 </head>
 <body>
 <div id="form">
-<input type="text" name="url" id="oasUrl"/>
-<input type="textarea" name="url" id="oasText"/>
-<input type="button" onClick="parseUrl();" value="validate"/>
-<input type="button" onClick="parseText();" value="validate"/>
+<input type="text" name="url" id="oas_url"/>
+<input type="button" onClick="parse_url();" value="validate url"/>
+<hr/>
+<textarea id="oas_text"></textarea>
+<input type="button" onClick="parse_text();" value="validate text"/>
 </div>
-<div id="container">
-</div>
+<hr/>
+<pre id="errors" ></pre>
 </body>
 <script>
-testUrl = "https://raw.githubusercontent.com/teamdigitale/anpr-dashboard-server/master/openapi/anpr-dashboard.yaml";
-document.getElementById('container').innerHTML = browserify_hello_world.myfunc();
-function parseUrl(){
-	url = document.getElementById('oasUrl').value;
-	console.log("oasUrl: " + url);
-	document.getElementById('container').innerHTML = browserify_hello_world.parse_url(url);
-}
+var myTextarea = document.getElementById('oas_text');
+var editor = CodeMirror.fromTextArea(myTextarea, {
+    lineNumbers: true,
+    styleSelected: true
+});
 
-function parseText(){
-	oasText = document.getElementById('oasText').value;
-	document.getElementById('container').innerHTML = browserify_hello_world.parse(oasText);
-}
 </script>
 </html>

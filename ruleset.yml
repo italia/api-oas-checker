@@ -1,0 +1,8 @@
+extends: spectral:oas
+rules:
+  servers-description:
+    description: Servers must have a description.
+    given: $.servers[*]
+    then:
+      field: description
+      function: truthy
