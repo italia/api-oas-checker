@@ -3,6 +3,7 @@
     "browserify-hello-world": "browserify-hello-world"
   },
   "dependencies": {
+    "@stoplight/spectral": "^5.0.0",
     "uniq": "^1.0.1"
   },
   "devDependencies": {

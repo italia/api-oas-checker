@@ -3,13 +3,30 @@
 <head>
 <meta charset=utf-8>
 <title>Browserify hello world</title>
+<script src="out.js"></script>
 </head>
 <body>
-<div id="container">
-</body>
+<div id="form">
+<input type="text" name="url" id="oasUrl"/>
+<input type="textarea" name="url" id="oasText"/>
+<input type="button" onClick="parseUrl();" value="validate"/>
+<input type="button" onClick="parseText();" value="validate"/>
 </div>
-<script src="out.js"></script>
+<div id="container">
+</div>
+</body>
 <script>
+testUrl = "https://raw.githubusercontent.com/teamdigitale/anpr-dashboard-server/master/openapi/anpr-dashboard.yaml";
 document.getElementById('container').innerHTML = browserify_hello_world.myfunc();
+function parseUrl(){
+	url = document.getElementById('oasUrl').value;
+	console.log("oasUrl: " + url);
+	document.getElementById('container').innerHTML = browserify_hello_world.parse_url(url);
+}
+
+function parseText(){
+	oasText = document.getElementById('oasText').value;
+	document.getElementById('container').innerHTML = browserify_hello_world.parse(oasText);
+}
 </script>
 </html>

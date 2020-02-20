@@ -1,5 +1,24 @@
 #!/usr/bin/env node
 
 const browserify_hello_world = require('browserify-hello-world');
+const { Spectral } = require('@stoplight/spectral');
+const { getLocationForJsonPath, parseWithPointers } = require("@stoplight/yaml");
+
+const myOpenApiDocument = parseWithPointers(`responses:
+  '200':
+    description: ''
+    schema:
+      $ref: '#/definitions/error-response'
+`);
+
+
 
 console.log(browserify_hello_world.myfunc());
+const spectral = new Spectral();
+spectral
+  .run({
+    parsed: myOpenApiDocument,
+    getLocationForJsonPath,
+  })
+  .then(console.log);
+
