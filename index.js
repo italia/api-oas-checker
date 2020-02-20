@@ -9,8 +9,8 @@ function parse(oas3){
 		const spectral = new Spectral();
 		spectral.registerFormat('oas2', isOpenApiv2);
 		spectral.registerFormat('oas3', isOpenApiv3);
-
-		spectral.loadRuleset("https://gist.githubusercontent.com/ioggstream/88087a229643dc3186290acdb5d0de1f/raw/7b5d24185e2b8debf86ba6a639ce0b9837d7a452/ruleset.yml")
+        const ruleset = "https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/ruleset.yml"
+		spectral.loadRuleset(ruleset)
 		  .then(() => spectral
 			  .run({
 				parsed: myOpenApiDocument,

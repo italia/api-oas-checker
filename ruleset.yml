@@ -6,3 +6,10 @@ rules:
     then:
       field: description
       function: truthy
+  has-x-summary:
+    description: |
+      API must have an one-liner summary field in x-summary
+    given: $.info
+    then:
+      field: "x-summary"
+      function: truthy
