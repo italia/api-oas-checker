@@ -1,0 +1,54 @@
+extends: spectral:oas
+rules:
+  servers-description:
+    description: Servers must have a description.
+    given: $.servers[*]
+    severity: error
+    recommended: true
+    then:
+      field: description
+      function: truthy
+  has-x-summary:
+    description: |
+      API must have an one-liner summary field in x-summary
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    then:
+      field: "info.x-summary"
+      function: truthy
+
+
+  has-x-api-id:
+    description: |
+      API must have an unique identifier in x-api-id
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    then:
+      field: "info.x-api-id"
+      function: truthy
+  paths-kebab-case:
+    description: Should paths be kebab-case.
+    message: '{{property}} is not kebab-case: {{error}}'
+    severity: error
+    recommended: true
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\/[a-z0-9{}]+)+$"
+  rate-limit-header:
+    description: Use RateLimit
+    message: '{{property}} does not have ratelimit {{error}}'
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: $..[?"@.headers"]['headers']
+    then:
+      field: X-RateLimit-Limit
+      function: truthy
+      
