@@ -1,24 +1,42 @@
-<!doctype html>
-<html lang=en>
+<!DOCTYPE html>
+<html lang="en">
 <head>
-<meta charset=utf-8>
+<meta charset="utf-8">
 <title>Browserify hello world</title>
 <style>
 .line-error {
 	background: #fbc2c4 !important;
 }
+
+.linter {
+    float: right;
+    width: 20%;
+    border: solid 1px;
+    background-color: yellow;
+}
+
+.editor-div {
+	background-color: lightgreen;
+	width: 79%; 
+	border: solid 1px; 
+	float: left;
+}
+
 </style>
 <script src="out.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
 
 <script>
 testUrl = "https://raw.githubusercontent.com/teamdigitale/anpr-dashboard-server/master/openapi/anpr-dashboard.yaml";
 
 function parse_url(){
 	url = document.getElementById('oas_url').value;
-	console.log("oas_url: " + url);
-    parse_url(url);
+    if (url == "") {
+    	url = testUrl
+    	document.getElementById('oas_url').value = testUrl
+    }
+    lint_url(url);
 }
 
 async function parse_text(){
@@ -28,13 +46,13 @@ async function parse_text(){
 }
 
 async function lint_spec(oas) {
-	lint = await browserify_hello_world.parse(oas);
+	const lint = await browserify_hello_world.parse(oas);
 	console.log("lint: " + lint);	
 	lint.forEach(highlight_error);
 	document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
 }
-function parse_url(url){
-	    myUrl = url || testUrl
+function lint_url(url){
+	    const myUrl = url
         fetch(myUrl).then(function(r){
                 r.text().then(function(oas){        
             		console.log("Updating editor.");
@@ -77,15 +95,29 @@ function highlight_error(entry){
 
 </head>
 <body>
-<div id="form">
-<input type="text" name="url" id="oas_url"/>
-<input type="button" onClick="parse_url();" value="validate url"/>
-<hr/>
-<textarea id="oas_text"></textarea>
-<input type="button" onClick="parse_text();" value="validate text"/>
-</div>
-<hr/>
-<pre id="errors" ></pre>
+<h1>OpenAPI 3 Spec validator of compliance against Italian API Guidelines</h1>
+Linting rules are in <a href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml%22">.spectral.yml</a>
+<hr>
+	<div id="form" class="editor-div">
+	    Validate URL, the spec will be downloaded and shown in the editor below
+        <br>
+		<input type="text" name="url" id="oas_url" title="Write here the URL of an OAS spec." style="width: 30em;">
+		<input type="button" onclick="parse_url();" value="validate url">
+		<hr>
+		You can download an OAS spec using the URL Validator above,
+		then edit and validate the specification manually,
+		or write/paste your API spec directly in the editor.
+
+		Beware: downloading a specification will replace the editor content.
+		<textarea id="oas_text"></textarea>
+		<input type="button" onclick="parse_text();" value="validate text">
+	</div>
+
+	<div class="linter">
+		This div will show linter errors.
+		<pre id="errors"></pre>
+	</div>
+
 </body>
 <script>
 var myTextarea = document.getElementById('oas_text');
