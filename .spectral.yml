@@ -1,3 +1,8 @@
+#
+# See technical recommendations on Italian Guidelines:
+#
+# https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#raccomandazioni-tecniche-per-rest
+#
 extends: spectral:oas
 rules:
   servers-description:
@@ -8,6 +13,17 @@ rules:
     then:
       field: description
       function: truthy
+
+  servers-use-https:
+    description: Servers must use https
+    given: $.servers[*]
+    severity: error
+    recommended: true
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: ^https://.*
   has-x-summary:
     description: |
       API must have an one-liner summary field in x-summary
@@ -31,24 +47,91 @@ rules:
       field: "info.x-api-id"
       function: truthy
   paths-kebab-case:
-    description: Should paths be kebab-case.
+    description: |
+      Paths should be kebab-case.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
     message: '{{property}} is not kebab-case: {{error}}'
-    severity: error
+    severity: warn
     recommended: true
     given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^(\/[a-z0-9{}]+)+$"
+        match: "^(\/[a-z0-9-]+|\/{[a-zA-Z0-9_]+})+$"
   rate-limit-header:
-    description: Use RateLimit
-    message: '{{property}} does not have ratelimit {{error}}'
+    description: |-
+      APIs should use ratelimit headers.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    message: |-
+      {{property}} does not have ratelimit {{error}}
+    formats:
+    - oas3
+    severity: warn
+    recommended: true
+    # given: $..[?"@.headers"]['headers']
+    given: >-
+      $.[responses][*]['headers']
+    then:
+      field: X-RateLimit-Limit
+      function: truthy
+
+  use-problem-json:
+    description: |-
+      APIs should use Problem json for errors.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: |-
+      Use media-type application/problem+json for errors
+      and the associate schema.
     formats:
     - oas3
     severity: error
     recommended: true
-    given: $..[?"@.headers"]['headers']
+    given: >-
+      $.[schemas]
     then:
-      field: X-RateLimit-Limit
+      field: Problem
       function: truthy
-      
+  patch-media-type:
+    description: |-
+      application/json is not an appropriate media-type for PATCH.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: |-
+      application/json is not an appropriate media-type for PATCH.
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >-
+      $.[patch][requestBody][content]
+    then:
+      field: application/json
+      function: falsy
+
+  numeric-format:
+    description: Number must specify a format.
+    message: >-
+      Schema of type number must specify a format.
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >
+      $.[?(@.type=="number")]
+    then:
+      field: format
+      function: truthy
+ integer-format:
+    description: Integer must specify a format.
+    message: >-
+      Schema of type integer must specify a format.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >
+      $.[?(@.type=="numeric")]
+    then:
+      field: format
+      function: truthy
+

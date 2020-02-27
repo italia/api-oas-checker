@@ -2,12 +2,11 @@
 # Generate a browser bundle
 #
 #
-bundle.js: link index.js
+bundle/bundle.js: index.js
 	npm install .
 	npm install .
 	sleep 1
-	npm run b
-	npx browserify --outfile bundle.js --standalone browserify_hello_world index.js
+	npx browserify --outfile bundle/bundle.js --standalone browserify_hello_world index.js
 
 all: link bundle.js
 
@@ -17,14 +16,14 @@ gh-pages: bundle.js
 	git checkout master -- index.html
 	cp bundle.js out.js
 
-	
-
 link: 
 	npm link
 	npm link browserify-hello-world
 
-js/bootstrap-italia.min.js: 
+bundle/js/bootstrap-italia.min.js: 
 	wget https://github.com/italia/bootstrap-italia/releases/download/v1.3.9/bootstrap-italia.zip
-	unzip bootstrap-italia.zip
+	unzip -d bundle bootstrap-italia.zip
 
-
+bundle: bundle/js/bootstrap-italia.min.js bundle.js
+	mkdir -p bundle
+	cp index.html  out.js bundle
