@@ -6,16 +6,22 @@
 
 <title>Browserify hello world</title>
 <link rel="stylesheet" href="./css/bootstrap-italia.min.css">
+<!-- load browserify_hello_world -->
+<script src="out.js"></script>
+<script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
+<!-- load codemirror -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
+<link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
 <style>
 .line-error {
-	background: #fbc2c4 !important;
+	background: blue !important;
 }
 
 .linter {
     float: right;
     width: 39%;
-    background-color: yellow;
 }
 
 .editor-div {
@@ -24,15 +30,12 @@
 	float: left;
 }
 
+.CodeMirror {
+  border: 1px solid #eee;
+  height: auto;
+}
 
 </style>
-<!-- load browserify_hello_world -->
-<script src="out.js"></script>
-<script>window.__PUBLIC_PATH__ = 'fonts'</script>
-
-<!-- load codemirror -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
 
 <script>
 testUrl = "https://raw.githubusercontent.com/teamdigitale/anpr-dashboard-server/master/openapi/anpr-dashboard.yaml";
@@ -47,6 +50,11 @@ function parse_url(){
 }
 
 async function parse_text(){
+	// unmark old errored lines
+	console.log("Unmark old errored lines.")
+	marked_lines = document.getElementsByClassName('line-error')
+	Array.prototype.forEach.call(marked_lines, (x)=>{x.classList.remove("line-error")})
+
 	oas_text = editor.getValue();
     // console.log("oas_text:" + oas_text);
 	error_header = '<div class="row"> '
@@ -60,7 +68,9 @@ async function parse_text(){
 
 async function lint_spec(oas) {
 	const lint = await browserify_hello_world.parse(oas);
-	console.log("lint: " + lint);	
+	console.log("lint: " + lint);
+
+	// mark errored lines
 	lint.forEach(highlight_error);
 	/// DEBUG document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
 }
@@ -76,30 +86,6 @@ function lint_url(url){
 };
 
 function highlight_error(entry){
-	/*
-{
-    "code": "invalid-ref",
-    "path": [
-      "x-commons",
-      "common-headers",
-      "X-RateLimit-Limit",
-      "$ref"
-    ],
-    "message": "No resolver defined for scheme 'https' in ref https://teamdigitale.github.io/openapi/0.0.5/definitions.yaml",
-    "severity": 0,
-    "range": {
-      "start": {
-        "line": 113,
-        "character": 12
-      },
-      "end": {
-        "line": 113,
-        "character": 102
-      }
-    }
-  },
- 
-	*/
 	line = entry.range.start.line;
 	ch = entry.range.start.character
 	console.log("line:" + line);
@@ -127,8 +113,11 @@ function show_error(line, ch) {
 
 </head>
 <body>
-
-
+<!--
+ This page does not use a div class="container" as
+ the expected layout is to use 100% width of the scree
+ like eg. swagger editor.
+-->
 <header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
 	<div class="container-fluid">
 		<div class="d-flex flex-column pl-3 pl-sm-4">
@@ -145,12 +134,12 @@ This standalone page uses <a href="https://github.com/stoplightio/spectral">Spec
 an OAS3 specification using the rules defined in
 <a class="navbar-brand py-2 text-decoration-none" href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml%22">.spectral.yml</a>
 <br>
-		You can download an OAS spec using the URL linter and
-		then edit and lint the specification manually,
-		or write/paste your API spec directly in the editor.
-        <br>
-		<b>Beware: downloading an URL will replace the content of the editor.</b>
-		<br>
+You can download an OAS spec using the URL linter and
+then edit and lint the specification manually,
+or write/paste your API spec directly in the editor.
+<br>
+<b>Beware: downloading an URL will replace the content of the editor.</b>
+<br>
 
 <div class="container-fluid form-group" style="margin-top: 2em">
 	<input type="text" name="url" id="oas_url" data-toggle="tooltip" title="Write here the URL of an OAS spec." style="width: 79%" >
@@ -159,22 +148,22 @@ an OAS3 specification using the rules defined in
 </div>
 <hr>
 
-	<div id="form" class="editor-div">
-		<h4 class="bd-logo-subtitle">
-OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
-		</h4>
-		<div class="form-group">
-			<textarea id="oas_text"></textarea>
-			<label for="oas_text">
-				Write or modify here the OAS specification.
-			</label>
-		</div>
+<div id="form" class="editor-div">
+	<h4 class="bd-logo-subtitle">
+		OpenAPI editor
+		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
+	</h4>
+	<div class="form-group">
+		<textarea id="oas_text"></textarea>
+		<label for="oas_text">Write or modify here the OAS specification.</label>
 	</div>
+</div>
 
-	<div class="linter">
-		<h4 class="bd-logo-subtitle" >
-			Linting errors and warnings.
-		</h4>
+<!-- All errors are displayed here -->
+<div class="linter">
+	<h4 class="bd-logo-subtitle" >
+		Linting errors and warnings.
+	</h4>
 	<div class="container" id="error-lines">
 	  <div class="row">
 		<div class="col-sm-1">severity</div>
@@ -183,19 +172,27 @@ OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_tex
 		<div class="col-sm-5">message</div>
 	  </div>
 	</div>
-
-		<pre id="errors"></pre>
-	</div>
-
-    <script src="./js/bootstrap-italia.bundle.min.js"></script>
+</div>
+<script src="./js/bootstrap-italia.bundle.min.js"></script>
 
 </body>
 <script>
 var myTextarea = document.getElementById('oas_text');
 var editor = CodeMirror.fromTextArea(myTextarea, {
     lineNumbers: true,
-    styleSelected: true
+    styleSelected: true,
+    mode: "text/x-yaml",
+    theme: "darcula"
 });
-editor.on('change', (event) => {parse_text();});
+var counter =  Date.now();
+function selectively_parse(){
+	if ((Date.now() - counter) < 10000) {
+		console.log("too early");
+		return;
+	}
+	counter = Date.now();
+	parse_text();
+}
+editor.on('change', (event) => {selectively_parse();});
 </script>
 </html>
