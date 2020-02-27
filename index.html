@@ -15,15 +15,12 @@
 .linter {
     float: right;
     width: 39%;
-    border: solid 1px;
     background-color: yellow;
 }
 
 .editor-div {
-	background-color: lightgreen;
-	width: 60%; 
+	width: 60%;
 	height: 100%;
-	border: solid 1px; 
 	float: left;
 }
 
@@ -52,6 +49,7 @@ function parse_url(){
 async function parse_text(){
 	oas_text = editor.getValue();
     // console.log("oas_text:" + oas_text);
+    document.getElementById('error-lines').innerHTML = '            <tr> <th>severity</th> <th>line</th> <th>error</th> <th>message</th> </tr>';
     await lint_spec(oas_text);
 }
 
@@ -102,7 +100,11 @@ function highlight_error(entry){
 	console.log("line:" + line);
 	editor.addLineClass(line, 'background', 'line-error');
     document.getElementById('error-lines').innerHTML += 
-        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '"><td>'+line+'<td>'+ entry.code +' <td>'+entry.message+''
+        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '">'
+        +'<td>'+ entry.severity
+        +'<td>'+line
+        +'<td>'+ entry.code
+        +'<td>'+entry.message+''
 }
 
 /**
@@ -140,23 +142,35 @@ an OAS3 specification using the rules defined in
 		then edit and lint the specification manually,
 		or write/paste your API spec directly in the editor.
         <br>
-<div class="container-fluid">
+		<b>Beware: downloading an URL will replace the content of the editor.</b>
+		<br>
+
+<div class="container-fluid form-group" style="margin-top: 2em">
 	<input type="text" name="url" id="oas_url" data-toggle="tooltip" title="Write here the URL of an OAS spec." style="width: 79%" >
 	<input type="button" class="btn btn-primary" onclick="parse_url();" value="Lint URL" style="width: 20%">
+    <label for="oas_url">Write here the URL of the OAS specification.</label>
 </div>
 <hr>
 
 	<div id="form" class="editor-div">
-
-		Beware: downloading a specification will replace the editor content.
-		<textarea id="oas_text"></textarea>
-		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
+		<h4 class="bd-logo-subtitle">
+OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
+		</h4>
+		<div class="form-group">
+			<textarea id="oas_text" onchange='parse_text();'></textarea>
+			<label for="oas_text">
+				Write or modify here the OAS specification.
+			</label>
+		</div>
 	</div>
 
 	<div class="linter">
-		This div will show linter errors.
+				<h4 class="bd-logo-subtitle" >
+			Linting errors and warnings.
+		</h4>
 		<table id="error-lines">
             <tr>
+				<th>severity</th>
 				<th>line</th>
 				<th>error</th>
 				<th>message</th>
@@ -167,12 +181,10 @@ an OAS3 specification using the rules defined in
 
     <script src="./js/bootstrap-italia.bundle.min.js"></script>
 
-<!--script src="https://cdn.jsdelivr.net/npm/bootstrap-italia@1.3.9/dist/js/bootstrap-italia.min.js"
-     integrity="sha256-zNCAAQiaA5+QGlc7OUoSvdDqEZwhR+9kkUrnYwVKpQ8=" 
-     crossorigin="anonymous"></script-->
 </body>
 <script>
 var myTextarea = document.getElementById('oas_text');
+myTextarea.addEventListener('input', (event) => {parse_text();});
 var editor = CodeMirror.fromTextArea(myTextarea, {
     lineNumbers: true,
     styleSelected: true
