@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <title>Browserify hello world</title>
+<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
+
 <style>
 .line-error {
 	background: #fbc2c4 !important;
@@ -10,20 +14,23 @@
 
 .linter {
     float: right;
-    width: 20%;
-    border: solid 1px;
+    width: 39%;
     background-color: yellow;
 }
 
 .editor-div {
-	background-color: lightgreen;
-	width: 79%; 
-	border: solid 1px; 
+	width: 60%;
+	height: 100%;
 	float: left;
 }
 
+
 </style>
+<!-- load browserify_hello_world -->
 <script src="out.js"></script>
+<script>window.__PUBLIC_PATH__ = 'fonts'</script>
+
+<!-- load codemirror -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
 
@@ -42,6 +49,7 @@ function parse_url(){
 async function parse_text(){
 	oas_text = editor.getValue();
     // console.log("oas_text:" + oas_text);
+    document.getElementById('error-lines').innerHTML = '            <tr> <th>severity</th> <th>line</th> <th>error</th> <th>message</th> </tr>';
     await lint_spec(oas_text);
 }
 
@@ -49,7 +57,7 @@ async function lint_spec(oas) {
 	const lint = await browserify_hello_world.parse(oas);
 	console.log("lint: " + lint);	
 	lint.forEach(highlight_error);
-	document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
+	/// DEBUG document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
 }
 function lint_url(url){
 	    const myUrl = url
@@ -88,39 +96,95 @@ function highlight_error(entry){
  
 	*/
 	line = entry.range.start.line;
-	console.log("line:" + line)
+	ch = entry.range.start.character
+	console.log("line:" + line);
 	editor.addLineClass(line, 'background', 'line-error');
+    document.getElementById('error-lines').innerHTML += 
+        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '">'
+        +'<td>'+ entry.severity
+        +'<td>'+line
+        +'<td>'+ entry.code
+        +'<td>'+entry.message+''
 }
+
+/**
+ * Focus CodeMirror on the errored line.
+ */
+function show_error(line, ch) {
+    editor.focus();
+    editor.setCursor({line: line, ch: ch });
+}
+
+
 </script>
 
 </head>
 <body>
-<h1>OpenAPI 3 Spec validator of compliance against Italian API Guidelines</h1>
-Linting rules are in <a href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml">.spectral.yml</a>
-<hr>
-	<div id="form" class="editor-div">
-	    Validate URL, the spec will be downloaded and shown in the editor below
-        <br>
-		<input type="text" name="url" id="oas_url" title="Write here the URL of an OAS spec." style="width: 30em;">
-		<input type="button" onclick="parse_url();" value="validate url">
-		<hr>
-		You can download an OAS spec using the URL Validator above,
-		then edit and validate the specification manually,
-		or write/paste your API spec directly in the editor.
 
-		Beware: downloading a specification will replace the editor content.
-		<textarea id="oas_text"></textarea>
-		<input type="button" onclick="parse_text();" value="validate text">
+
+<header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
+	<div class="container-fluid">
+		<div class="d-flex flex-column pl-3 pl-sm-4">
+		<h1 class="bd-logo-title" style="color: white">OpenAPI 3 Spec linter</h1>
+		<h4 class="bd-logo-subtitle" style="color: white">
+			Checking compliance with Italian API Guidelines.
+
+		</h4>
+		</div>
+	</div>
+</header>
+
+This standalone page uses <a href="https://github.com/stoplightio/spectral">Spectral</a> to lint
+an OAS3 specification using the rules defined in
+<a class="navbar-brand py-2 text-decoration-none" href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml%22">.spectral.yml</a>
+<br>
+		You can download an OAS spec using the URL linter and
+		then edit and lint the specification manually,
+		or write/paste your API spec directly in the editor.
+        <br>
+		<b>Beware: downloading an URL will replace the content of the editor.</b>
+		<br>
+
+<div class="container-fluid form-group" style="margin-top: 2em">
+	<input type="text" name="url" id="oas_url" data-toggle="tooltip" title="Write here the URL of an OAS spec." style="width: 79%" >
+	<input type="button" class="btn btn-primary" onclick="parse_url();" value="Lint URL" style="width: 20%">
+    <label for="oas_url">Write here the URL of the OAS specification.</label>
+</div>
+<hr>
+
+	<div id="form" class="editor-div">
+		<h4 class="bd-logo-subtitle">
+OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
+		</h4>
+		<div class="form-group">
+			<textarea id="oas_text" onchange='parse_text();'></textarea>
+			<label for="oas_text">
+				Write or modify here the OAS specification.
+			</label>
+		</div>
 	</div>
 
 	<div class="linter">
-		This div will show linter errors.
+				<h4 class="bd-logo-subtitle" >
+			Linting errors and warnings.
+		</h4>
+		<table id="error-lines">
+            <tr>
+				<th>severity</th>
+				<th>line</th>
+				<th>error</th>
+				<th>message</th>
+			</tr>
+		</table>
 		<pre id="errors"></pre>
 	</div>
+
+    <script src="./js/bootstrap-italia.bundle.min.js"></script>
 
 </body>
 <script>
 var myTextarea = document.getElementById('oas_text');
+myTextarea.addEventListener('input', (event) => {parse_text();});
 var editor = CodeMirror.fromTextArea(myTextarea, {
     lineNumbers: true,
     styleSelected: true
