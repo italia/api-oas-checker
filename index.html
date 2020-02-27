@@ -20,12 +20,16 @@
 .editor-div {
 	background-color: lightgreen;
 	width: 60%; 
+	height: 100%;
 	border: solid 1px; 
 	float: left;
 }
 
 </style>
+<!-- load browserify_hello_world -->
 <script src="out.js"></script>
+
+<!-- load codemirror -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
 
@@ -51,7 +55,7 @@ async function lint_spec(oas) {
 	const lint = await browserify_hello_world.parse(oas);
 	console.log("lint: " + lint);	
 	lint.forEach(highlight_error);
-	document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
+	/// DEBUG document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
 }
 function lint_url(url){
 	    const myUrl = url
@@ -94,9 +98,12 @@ function highlight_error(entry){
 	console.log("line:" + line);
 	editor.addLineClass(line, 'background', 'line-error');
     document.getElementById('error-lines').innerHTML += 
-        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '"><td>'+line+'</td><td>'+ entry.code +'</td> <td>'+entry.message+'</td></tr>'
+        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '"><td>'+line+'<td>'+ entry.code +' <td>'+entry.message+''
 }
 
+/**
+ * Focus CodeMirror on the errored line.
+ */
 function show_error(line, ch) {
     editor.focus();
     editor.setCursor({line: line, ch: ch });
@@ -128,7 +135,11 @@ Linting rules are in <a href="https://raw.githubusercontent.com/ioggstream/oas-s
 	<div class="linter">
 		This div will show linter errors.
 		<table id="error-lines">
-            <th><td>line</td><td>error</td><td>message</td></th>
+            <tr>
+				<th>line</th>
+				<th>error</th>
+				<th>message</th>
+			</tr>
 		</table>
 		<pre id="errors"></pre>
 	</div>
@@ -146,4 +157,3 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
 
 </script>
 </html>
-
