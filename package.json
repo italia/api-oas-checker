@@ -4,6 +4,7 @@
   },
   "dependencies": {
     "@stoplight/spectral": "^5.0.0",
+    "bootstrap-italia": "^1.3.9",
     "uniq": "^1.0.1"
   },
   "devDependencies": {
@@ -17,6 +18,12 @@
   "name": "browserify-hello-world",
   "repository": "cirosantilli/browserify-hello-world",
   "scripts": {
+    "init": [
+      "npm link",
+      "npm link browserify-hello-world",
+      "npm install .",
+      "npm run b"
+    ],
     "b": "npx browserify --outfile out.js --standalone browserify_hello_world index.js"
   },
   "version": "0.1.0"

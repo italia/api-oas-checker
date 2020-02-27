@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
 <title>Browserify hello world</title>
+<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
+
 <style>
 .line-error {
 	background: #fbc2c4 !important;
@@ -25,9 +27,11 @@
 	float: left;
 }
 
+
 </style>
 <!-- load browserify_hello_world -->
 <script src="out.js"></script>
+<script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
 <!-- load codemirror -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
@@ -114,22 +118,39 @@ function show_error(line, ch) {
 
 </head>
 <body>
-<h1>OpenAPI 3 Spec validator of compliance against Italian API Guidelines</h1>
-Linting rules are in <a href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml%22">.spectral.yml</a>
-<hr>
-	<div id="form" class="editor-div">
-	    Validate URL, the spec will be downloaded and shown in the editor below
-        <br>
-		<input type="text" name="url" id="oas_url" title="Write here the URL of an OAS spec." style="width: 30em;">
-		<input type="button" onclick="parse_url();" value="validate url">
-		<hr>
-		You can download an OAS spec using the URL Validator above,
-		then edit and validate the specification manually,
+
+
+<header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
+	<div class="container-fluid">
+		<div class="d-flex flex-column pl-3 pl-sm-4">
+		<h1 class="bd-logo-title" style="color: white">OpenAPI 3 Spec linter</h1>
+		<h4 class="bd-logo-subtitle" style="color: white">
+			Checking compliance with Italian API Guidelines.
+
+		</h4>
+		</div>
+	</div>
+</header>
+
+This standalone page uses <a href="https://github.com/stoplightio/spectral">Spectral</a> to lint
+an OAS3 specification using the rules defined in
+<a class="navbar-brand py-2 text-decoration-none" href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml%22">.spectral.yml</a>
+<br>
+		You can download an OAS spec using the URL linter and
+		then edit and lint the specification manually,
 		or write/paste your API spec directly in the editor.
+        <br>
+<div class="container-fluid">
+	<input type="text" name="url" id="oas_url" data-toggle="tooltip" title="Write here the URL of an OAS spec." style="width: 79%" >
+	<input type="button" class="btn btn-primary" onclick="parse_url();" value="Lint URL" style="width: 20%">
+</div>
+<hr>
+
+	<div id="form" class="editor-div">
 
 		Beware: downloading a specification will replace the editor content.
 		<textarea id="oas_text"></textarea>
-		<input type="button" onclick="parse_text();" value="validate text">
+		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
 	</div>
 
 	<div class="linter">
@@ -143,6 +164,8 @@ Linting rules are in <a href="https://raw.githubusercontent.com/ioggstream/oas-s
 		</table>
 		<pre id="errors"></pre>
 	</div>
+
+    <script src="./js/bootstrap-italia.bundle.min.js"></script>
 
 <!--script src="https://cdn.jsdelivr.net/npm/bootstrap-italia@1.3.9/dist/js/bootstrap-italia.min.js"
      integrity="sha256-zNCAAQiaA5+QGlc7OUoSvdDqEZwhR+9kkUrnYwVKpQ8=" 
