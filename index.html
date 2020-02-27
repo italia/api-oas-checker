@@ -2,6 +2,8 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
 <title>Browserify hello world</title>
 <style>
 .line-error {
@@ -10,14 +12,14 @@
 
 .linter {
     float: right;
-    width: 20%;
+    width: 39%;
     border: solid 1px;
     background-color: yellow;
 }
 
 .editor-div {
 	background-color: lightgreen;
-	width: 79%; 
+	width: 60%; 
 	border: solid 1px; 
 	float: left;
 }
@@ -88,9 +90,19 @@ function highlight_error(entry){
  
 	*/
 	line = entry.range.start.line;
-	console.log("line:" + line)
+	ch = entry.range.start.character
+	console.log("line:" + line);
 	editor.addLineClass(line, 'background', 'line-error');
+    document.getElementById('error-lines').innerHTML += 
+        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '"><td>'+line+'</td><td>'+ entry.code +'</td> <td>'+entry.message+'</td></tr>'
 }
+
+function show_error(line, ch) {
+    editor.focus();
+    editor.setCursor({line: line, ch: ch });
+}
+
+
 </script>
 
 </head>
@@ -115,9 +127,15 @@ Linting rules are in <a href="https://raw.githubusercontent.com/ioggstream/oas-s
 
 	<div class="linter">
 		This div will show linter errors.
+		<table id="error-lines">
+            <th><td>line</td><td>error</td><td>message</td></th>
+		</table>
 		<pre id="errors"></pre>
 	</div>
 
+<!--script src="https://cdn.jsdelivr.net/npm/bootstrap-italia@1.3.9/dist/js/bootstrap-italia.min.js"
+     integrity="sha256-zNCAAQiaA5+QGlc7OUoSvdDqEZwhR+9kkUrnYwVKpQ8=" 
+     crossorigin="anonymous"></script-->
 </body>
 <script>
 var myTextarea = document.getElementById('oas_text');
@@ -128,3 +146,4 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
 
 </script>
 </html>
+
