@@ -49,7 +49,12 @@ function parse_url(){
 async function parse_text(){
 	oas_text = editor.getValue();
     // console.log("oas_text:" + oas_text);
-    document.getElementById('error-lines').innerHTML = '            <tr> <th>severity</th> <th>line</th> <th>error</th> <th>message</th> </tr>';
+	error_header = '<div class="row"> '
+		+'<div class="col-sm-1">severity</div>'
+		 +'<div class="col-sm-1">line</div>'
+		 +' <div class="col-sm-3">error</div> '
+		 +'<div class="col-sm-5">message</div> </div>'
+    document.getElementById('error-lines').innerHTML = error_header;
     await lint_spec(oas_text);
 }
 
@@ -99,12 +104,14 @@ function highlight_error(entry){
 	ch = entry.range.start.character
 	console.log("line:" + line);
 	editor.addLineClass(line, 'background', 'line-error');
-    document.getElementById('error-lines').innerHTML += 
-        '<tr onClick="show_error('+ line +', ' + ch +')" text="'+ entry.message+ '">'
-        +'<td>'+ entry.severity
-        +'<td>'+line
-        +'<td>'+ entry.code
-        +'<td>'+entry.message+''
+	error_line  =  `<div class="row" onClick="show_error(${line},${ch});">`
+		+`<div class="col-sm-1">${entry.severity}</div>`
+		+`<div class="col-sm-1">${line}</div>`
+		+`<div class="col-sm-3">${entry.code}</div>`
+		+`<div class="col-sm-5">${entry.message}</div>`
+		+`</div>`;
+
+    document.getElementById('error-lines').innerHTML += error_line;
 }
 
 /**
@@ -157,7 +164,7 @@ an OAS3 specification using the rules defined in
 OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
 		</h4>
 		<div class="form-group">
-			<textarea id="oas_text" onchange='parse_text();'></textarea>
+			<textarea id="oas_text"></textarea>
 			<label for="oas_text">
 				Write or modify here the OAS specification.
 			</label>
@@ -165,17 +172,18 @@ OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_tex
 	</div>
 
 	<div class="linter">
-				<h4 class="bd-logo-subtitle" >
+		<h4 class="bd-logo-subtitle" >
 			Linting errors and warnings.
 		</h4>
-		<table id="error-lines">
-            <tr>
-				<th>severity</th>
-				<th>line</th>
-				<th>error</th>
-				<th>message</th>
-			</tr>
-		</table>
+	<div class="container" id="error-lines">
+	  <div class="row">
+		<div class="col-sm-1">severity</div>
+		<div class="col-sm-1">line</div>
+		<div class="col-sm-3">error</div>
+		<div class="col-sm-5">message</div>
+	  </div>
+	</div>
+
 		<pre id="errors"></pre>
 	</div>
 
@@ -184,11 +192,10 @@ OpenAPI editor 		<input type="button" class="btn btn-primary" onclick="parse_tex
 </body>
 <script>
 var myTextarea = document.getElementById('oas_text');
-myTextarea.addEventListener('input', (event) => {parse_text();});
 var editor = CodeMirror.fromTextArea(myTextarea, {
     lineNumbers: true,
     styleSelected: true
 });
-
+editor.on('change', (event) => {parse_text();});
 </script>
 </html>
