@@ -20,7 +20,7 @@ gh-pages: bundle
 	git -C $(TMPDIR) add index.html out.js
 	git -C $(TMPDIR) -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" \
 		commit -m "Script updating gh-pages from $(shell git rev-parse short HEAD). [ci skip]"
-	git -C $(TMPDIR) -q push origin gh-pages
+	git -C $(TMPDIR) push -q origin gh-pages
 	rm $(TMPDIR) -fr
 
 bundle/js/bootstrap-italia.min.js: 

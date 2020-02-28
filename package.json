@@ -3,7 +3,8 @@
     "browserify-hello-world": "browserify-hello-world"
   },
   "dependencies": {
-    "@stoplight/spectral": "^5.0.0",
+    "@stoplight/json-ref-resolver": "^3.0.8",
+    "@stoplight/spectral": "^5.1.0",
     "bootstrap-italia": "^1.3.9",
     "uniq": "^1.0.1"
   },

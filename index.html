@@ -124,7 +124,7 @@ function show_error(line, ch) {
 		<h1 class="bd-logo-title" style="color: white">OpenAPI 3 Spec linter</h1>
 		<h4 class="bd-logo-subtitle" style="color: white">
 			Checking compliance with Italian API Guidelines.
-
+			<a href="https://github.com/ioggstream/oas-spectral-validator" class="navbar-brand text-decoration-none">Go to project.</a>
 		</h4>
 		</div>
 	</div>
@@ -143,7 +143,7 @@ or write/paste your API spec directly in the editor.
 
 <div class="container-fluid form-group" style="margin-top: 2em">
 	<input type="text" name="url" id="oas_url" data-toggle="tooltip" title="Write here the URL of an OAS spec." style="width: 79%" >
-	<input type="button" class="btn btn-primary" onclick="parse_url();" value="Lint URL" style="width: 20%">
+	<button class="btn btn-primary" onclick="parse_url();"  style="width: 20%">Lint URL</button>
     <label for="oas_url">Write here the URL of the OAS specification.</label>
 </div>
 <hr>
@@ -151,7 +151,7 @@ or write/paste your API spec directly in the editor.
 <div id="form" class="editor-div">
 	<h4 class="bd-logo-subtitle">
 		OpenAPI editor
-		<input type="button" class="btn btn-primary" onclick="parse_text();" value="Lint text">
+		<button class="btn btn-primary" onclick="parse_text();" >Lint text</button>
 	</h4>
 	<div class="form-group">
 		<textarea id="oas_text"></textarea>
