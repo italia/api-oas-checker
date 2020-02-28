@@ -32,9 +32,20 @@
 
 .CodeMirror {
   border: 1px solid #eee;
-  height: auto;
+  height: 800px;
 }
 
+#error-lines {
+	overflow-y: scroll;
+	height: 800px;
+}
+
+.severity-0 {
+	background-color: red;
+}
+.severity-1 {
+	background-color: yellow;
+}
 </style>
 
 <script>
@@ -49,6 +60,10 @@ function parse_url(){
     lint_url(url);
 }
 
+function clear_url(){
+	document.getElementById('oas_url').value = '';
+}
+
 async function parse_text(){
 	// unmark old errored lines
 	console.log("Unmark old errored lines.")
@@ -56,13 +71,7 @@ async function parse_text(){
 	Array.prototype.forEach.call(marked_lines, (x)=>{x.classList.remove("line-error")})
 
 	oas_text = editor.getValue();
-    // console.log("oas_text:" + oas_text);
-	error_header = '<div class="row"> '
-		+'<div class="col-sm-1">severity</div>'
-		 +'<div class="col-sm-1">line</div>'
-		 +' <div class="col-sm-3">error</div> '
-		 +'<div class="col-sm-5">message</div> </div>'
-    document.getElementById('error-lines').innerHTML = error_header;
+	document.getElementById('error-lines').innerHTML = '';
     await lint_spec(oas_text);
 }
 
@@ -90,9 +99,27 @@ function highlight_error(entry){
 	ch = entry.range.start.character
 	console.log("line:" + line);
 	editor.addLineClass(line, 'background', 'line-error');
-	error_line  =  `<div class="row" onClick="show_error(${line},${ch});">`
-		+`<div class="col-sm-1">${entry.severity}</div>`
-		+`<div class="col-sm-1">${line}</div>`
+	switch (entry.severity) {
+		case 0:
+			severity_style = "danger";
+			severity_icon = "error"
+			break;
+		case 1:
+			severity_style = "warning";
+			severity_icon = "warning-circle";
+			break;
+		default:
+			severity_style = "primary";
+			severity_icon = "help"
+	}
+
+
+	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});">`
+		+`<div class="col-sm-1 col-md-auto" >`
+			+`<svg class="icon align-middle">`
+			+`<use xlink:href="svg/sprite.svg#it-${severity_icon}"></use></svg>`
+			+`</div>`
+		+`<div class="col-sm-1">${line + 1}</div>`
 		+`<div class="col-sm-3">${entry.code}</div>`
 		+`<div class="col-sm-5">${entry.message}</div>`
 		+`</div>`;
@@ -121,33 +148,45 @@ function show_error(line, ch) {
 <header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
 	<div class="container-fluid">
 		<div class="d-flex flex-column pl-3 pl-sm-4">
-		<h1 class="bd-logo-title" style="color: white">OpenAPI 3 Spec linter</h1>
-		<h4 class="bd-logo-subtitle" style="color: white">
-			Checking compliance with Italian API Guidelines.
-			<a href="https://github.com/ioggstream/oas-spectral-validator" class="navbar-brand text-decoration-none">Go to project.</a>
-		</h4>
+			<h4 class="bd-logo-title" style="color: white">OpenAPI 3 Spec linter</h4>
+			<h8 class="bd-logo-subtitle" style="color: white">
+				Checking compliance with Italian API Guidelines.
+			</h8>
 		</div>
+
+	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item pr-2">
+        <a title="Repository GitHub di MODI Validator" data-toggle="tooltip"
+		   class="nav-link d-flex align-items-center"
+		   href="https://github.com/ioggstream/oas-spectral-validator/"
+		   target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg class="icon icon-sm icon-light"><use xlink:href="/svg/sprite.svg#it-github"></use></svg><span class="sr-only">GitHub</span>
+        </a>
+      </li>
+    </ul>
+
+
 	</div>
 </header>
-
+<div class="container-fluid">
 This standalone page uses <a href="https://github.com/stoplightio/spectral">Spectral</a> to lint
 an OAS3 specification using the rules defined in
-<a class="navbar-brand py-2 text-decoration-none" href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml">.spectral.yml</a>
-<br>
+<a class="navbar-brand py-2 text-decoration-none"
+   href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml">.spectral.yml</a>
 You can download an OAS spec using the URL linter and
 then edit and lint the specification manually,
 or write/paste your API spec directly in the editor.
-<br>
 <b>Beware: downloading an URL will replace the content of the editor.</b>
 <br>
 
-<div class="container-fluid form-group" style="margin-top: 2em">
-	<input type="text" name="url" id="oas_url" data-toggle="tooltip" title="Write here the URL of an OAS spec." style="width: 79%" >
-	<button class="btn btn-primary" onclick="parse_url();"  style="width: 20%">Lint URL</button>
-    <label for="oas_url">Write here the URL of the OAS specification.</label>
+	<input type="text" name="url" id="oas_url"
+		   placeholder="Write here the URL of an OAS spec. eg: https://api.example/openapi.yaml"
+		   data-toggle="tooltip"
+		   style="width: 79%"
+	>
+	<button class="btn btn-primary" onclick="clear_url()"  style="width: 5%">X</button>
+	<button class="btn btn-primary" onclick="parse_url();"  style="width: 10%">Lint URL</button>
 </div>
-<hr>
-
 <div id="form" class="editor-div">
 	<h4 class="bd-logo-subtitle">
 		OpenAPI editor
@@ -164,13 +203,16 @@ or write/paste your API spec directly in the editor.
 	<h4 class="bd-logo-subtitle" >
 		Linting errors and warnings.
 	</h4>
-	<div class="container" id="error-lines">
+	<div class="container" id="error-lines-1">
 	  <div class="row">
-		<div class="col-sm-1">severity</div>
+		<div class="col-sm-1"></div>
 		<div class="col-sm-1">line</div>
 		<div class="col-sm-3">error</div>
 		<div class="col-sm-5">message</div>
 	  </div>
+	</div>
+
+	<div class="container" id="error-lines">
 	</div>
 </div>
 <script src="./js/bootstrap-italia.bundle.min.js"></script>
