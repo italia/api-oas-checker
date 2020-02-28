@@ -1,0 +1,30 @@
+rules:
+  numeric-format:
+    description: Number must specify a format.
+    message: >-
+      Schema of type number must specify a format.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >
+      $.[?(@.type=="number")]
+    then:
+      field: format
+      function: truthy
+  integer-format:
+    description: Integer must specify a format.
+    message: >-
+      Schema of type integer must specify a format.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >
+      $.[?(@.type=="numeric")]
+    then:
+      field: format
+      function: truthy
+

@@ -4,6 +4,7 @@
 # https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#raccomandazioni-tecniche-per-rest
 #
 extends: spectral:oas
+
 rules:
   servers-description:
     description: Servers must have a description.
@@ -13,7 +14,6 @@ rules:
     then:
       field: description
       function: truthy
-
   servers-use-https:
     description: Servers must use https
     given: $.servers[*]
@@ -32,10 +32,8 @@ rules:
     recommended: true
     type: style
     then:
-      field: "info.x-summary"
+      field: info.x-summary
       function: truthy
-
-
   has-x-api-id:
     description: |
       API must have an unique identifier in x-api-id
@@ -44,94 +42,115 @@ rules:
     recommended: true
     type: style
     then:
-      field: "info.x-api-id"
+      field: info.x-api-id
       function: truthy
   paths-kebab-case:
-    description: |
+    description: >
       Paths should be kebab-case.
+
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
-    message: '{{property}} is not kebab-case: {{error}}'
+    message: "{{property}} is not kebab-case: {{error}}"
     severity: warn
     recommended: true
     given: $.paths[*]~
     then:
       function: pattern
       functionOptions:
-        match: "^(\/[a-z0-9-]+|\/{[a-zA-Z0-9_]+})+$"
+        match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
   rate-limit-header:
-    description: |-
+    description: >-
       APIs should use ratelimit headers.
+
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
-    message: |-
-      {{property}} does not have ratelimit {{error}}
+    message: "{{property}} does not have ratelimit {{error}}"
     formats:
-    - oas3
+      - oas3
     severity: warn
     recommended: true
-    # given: $..[?"@.headers"]['headers']
-    given: >-
-      $.[responses][*]['headers']
+    given: $.[responses][*]['headers']
     then:
       field: X-RateLimit-Limit
       function: truthy
+  patch-media-type:
+    description: >-
+      application/json is not an appropriate media-type for PATCH.
 
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: application/json is not an appropriate media-type for PATCH.
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: $.[patch][requestBody][content]
+    then:
+      field: application/json
+      function: falsy
+  numeric-format:
+    description: Number must specify a format.
+    message: Schema of type number must specify a format. See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: |
+      $.[?(@.type=="number")]
+    then:
+      field: format
+      function: truthy
+  integer-format:
+    description: Integer must specify a format.
+    message: Schema of type integer must specify a format. See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: |
+      $.[?(@.type=="numeric")]
+    then:
+      field: format
+      function: truthy
   use-problem-json:
-    description: |-
+    description: >-
       APIs should use Problem json for errors.
+
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
     message: |-
       Use media-type application/problem+json for errors
       and the associate schema.
     formats:
-    - oas3
+      - oas3
     severity: error
     recommended: true
-    given: >-
-      $.[schemas]
+    given: $.[schemas]
     then:
       field: Problem
       function: truthy
-  patch-media-type:
-    description: |-
-      application/json is not an appropriate media-type for PATCH.
+  use-problem-json-for-default:
+    description: >-
+      APIs should use Problem json for errors.
+
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
     message: |-
-      application/json is not an appropriate media-type for PATCH.
+      Use media-type application/problem+json for default responses (errors)
+      and the associate schema.
     formats:
-    - oas3
+      - oas3
     severity: error
     recommended: true
-    given: >-
-      $.[patch][requestBody][content]
+    given: $.[responses][default]
     then:
-      field: application/json
-      function: falsy
-
-  numeric-format:
-    description: Number must specify a format.
-    message: >-
-      Schema of type number must specify a format.
-    formats:
-    - oas3
-    severity: error
-    recommended: true
-    given: >
-      $.[?(@.type=="number")]
-    then:
-      field: format
+      field: application/problem+json
       function: truthy
- integer-format:
-    description: Integer must specify a format.
-    message: >-
-      Schema of type integer must specify a format.
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
-    formats:
-    - oas3
-    severity: error
+  response-with-json-object:
+    message: Responses must use json objects
+    severity: warn
     recommended: true
-    given: >
-      $.[?(@.type=="numeric")]
+    given: $.[responses][*][content][*][schema]
     then:
-      field: format
-      function: truthy
+      field: type
+      function: pattern
+      functionOptions:
+        match: object
 

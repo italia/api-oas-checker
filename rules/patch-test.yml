@@ -1,0 +1,17 @@
+openapi: 3.0.1
+paths:
+    /broken-patch:
+      patch:
+        requestBody:
+          content:
+            application/json:
+              schema:
+                type: string
+    /working-patch:
+      patch:
+        requestBody:
+          content:
+            application/json-patch+json:
+              schema:
+                type: string
+

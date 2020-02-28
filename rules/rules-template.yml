@@ -1,0 +1,7 @@
+#
+# See technical recommendations on Italian Guidelines:
+#
+# https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#raccomandazioni-tecniche-per-rest
+#
+extends: spectral:oas
+

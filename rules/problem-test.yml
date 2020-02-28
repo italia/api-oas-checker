@@ -1,0 +1,53 @@
+openapi: 3.0.1
+paths:
+  /ok-default-use-problem:
+    get:
+      responses:
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
+  /ko-default-use-problem:
+    get:
+      responses:
+        default:
+          content:
+            application/json: {}
+  /ko-response-not-object:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+  /ok-response-is-object:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                properties:
+                  foo:
+                    type: string
+  /ko-response-is-string:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/String'
+
+components:
+  schemas:
+    String:
+      type: string
+
+    Problem:
+      properties:
+        title:
+          type: string
