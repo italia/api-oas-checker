@@ -1,0 +1,23 @@
+#
+# See technical recommendations on Italian Guidelines:
+#
+# https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#raccomandazioni-tecniche-per-rest
+#
+# extends: spectral:oas
+rules:
+  patch-media-type:
+    description: |-
+      application/json is not an appropriate media-type for PATCH.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: |-
+      application/json is not an appropriate media-type for PATCH.
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >-
+      $.[patch][requestBody][content]
+    then:
+      field: application/json
+      function: falsy
+

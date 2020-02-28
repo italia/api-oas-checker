@@ -13,7 +13,7 @@ bundle: bundle/js/bootstrap-italia.min.js bundle/out.js index.html
 bundle/out.js: index.js package.json
 	npx browserify --outfile bundle/out.js --standalone browserify_hello_world index.js
 
-gh-pages: bundle
+gh-pages: bundle rules
 	rm css js asset svg -fr
 	git clone . $(TMPDIR) -b gh-pages
 	cp bundle/index.html  bundle/out.js $(TMPDIR)
@@ -27,6 +27,12 @@ bundle/js/bootstrap-italia.min.js:
 	wget https://github.com/italia/bootstrap-italia/releases/download/v1.3.9/bootstrap-italia.zip -O bootstrap-italia.zip
 	unzip -d bundle bootstrap-italia.zip
 
+# Merge all rules into .spectral.yml
+rules: .spectral.yml
+
+.spectral.yml: ./rules
+	cat ./rules/rules-template.yml > .spectral.yml
+	./rules/merge-yaml >> .spectral.yml
 
 clean:
 	rm bundle -fr

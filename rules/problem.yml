@@ -1,0 +1,45 @@
+rules:
+  use-problem-json:
+    description: |-
+      APIs should use Problem json for errors.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: |-
+      Use media-type application/problem+json for errors
+      and the associate schema.
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >-
+      $.[schemas]
+    then:
+      field: Problem
+      function: truthy
+  use-problem-json-for-default:
+    description: |-
+      APIs should use Problem json for errors.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: |-
+      Use media-type application/problem+json for default responses (errors)
+      and the associate schema.
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given: >-
+      $.[responses][default]
+    then:
+      field: 'application/problem+json'
+      function: truthy
+  response-with-json-object:
+    message: |-
+      Responses must use json objects
+    severity: warn
+    recommended: true
+    given: >-
+      $.[responses][*][content][*][schema]
+    then:
+      field: type
+      function: pattern
+      functionOptions:
+        match: object

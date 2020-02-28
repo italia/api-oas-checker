@@ -1,0 +1,11 @@
+#!/usr/bin/env node
+const mergeYaml = require('merge-yaml');
+const YAML = require('yaml')
+
+const all_rules = mergeYaml([
+    'rules/metadata.yml',
+    'rules/patch.yml',
+    'rules/problem.yml'
+]);
+const out = YAML.stringify(all_rules);
+console.log(out);

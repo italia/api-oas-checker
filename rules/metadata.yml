@@ -1,0 +1,51 @@
+rules:
+  servers-description:
+    description: Servers must have a description.
+    given: $.servers[*]
+    severity: error
+    recommended: true
+    then:
+      field: description
+      function: truthy
+  servers-use-https:
+    description: Servers must use https
+    given: $.servers[*]
+    severity: error
+    recommended: true
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: ^https://.*
+  has-x-summary:
+    description: |
+      API must have an one-liner summary field in x-summary
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    then:
+      field: "info.x-summary"
+      function: truthy
+  has-x-api-id:
+    description: |
+      API must have an unique identifier in x-api-id
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    then:
+      field: "info.x-api-id"
+      function: truthy
+  paths-kebab-case:
+    description: |
+      Paths should be kebab-case.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
+    message: '{{property}} is not kebab-case: {{error}}'
+    severity: warn
+    recommended: true
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
