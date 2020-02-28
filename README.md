@@ -7,12 +7,14 @@ Validate in-browser OAS3 specification using Italian API Guidelines.
 This application uses browserify to pack a node application
 using Spectral
 
-Browser usage:
+To run the application inside the browser, create the bundle
+and open the 
 
-....
-make
-npm run b
-....
+```
+node$ make bundle
+$ xdg-open bundle/index.html
+
+```
 
 Browserify recursively packs up all Node.js dependencies into the browser version of the JavaScript.
 

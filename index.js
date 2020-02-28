@@ -1,14 +1,24 @@
-const { Spectral,  isOpenApiv2, isOpenApiv3 } = require('@stoplight/spectral');
+const { Spectral,  isOpenApiv2, isOpenApiv3, isOpenApiv3_1 } = require('@stoplight/spectral');
 const { getLocationForJsonPath, parseWithPointers } = require("@stoplight/yaml");
+const { Resolver } = require( '@stoplight/json-ref-resolver');
+const { resolveFile, resolveHttp } = require('@stoplight/json-ref-readers');
 
 
+const httpAndFileResolver = new Resolver({
+  resolvers: {
+    https: { resolve: resolveHttp },
+    http: { resolve: resolveHttp },
+    file: { resolve: resolveFile },
+  },
+});
 
 function parse(oas3, ruleset){
 	ruleset = ruleset || "https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml"
 
 	return new Promise((resolve, reject) => {
 		const myOpenApiDocument = parseWithPointers(oas3);
-		const spectral = new Spectral();
+		console.log(myOpenApiDocument);
+		const spectral = new Spectral({resolver: httpAndFileResolver});
 		spectral.registerFormat('oas2', isOpenApiv2);
 		spectral.registerFormat('oas3', isOpenApiv3);
 		spectral.loadRuleset(ruleset)
@@ -24,16 +34,3 @@ function parse(oas3, ruleset){
 	});
 }
 exports.parse = parse;
-
-
-function parse_url(url){
-	fetch(url).then(function(r){
-                r.text().then(function(oas){
-			console.log("url: " + url); 
-			console.log("oas: " + oas); 
-			lint = browserify_hello_world.parse(oas, null); 
-			console.log(lint); 
-		});
-	});
-};
-exports.parse_url = parse_url;
