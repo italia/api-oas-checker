@@ -1,24 +1,51 @@
 #!/usr/bin/env node
 
 const browserify_hello_world = require('browserify-hello-world');
-const { Spectral } = require('@stoplight/spectral');
+const { Spectral, isOpenApiv3 } = require('@stoplight/spectral');
 const { getLocationForJsonPath, parseWithPointers } = require("@stoplight/yaml");
+const { Resolver } = require( '@stoplight/json-ref-resolver');
+const { resolveFile, resolveHttp } = require('@stoplight/json-ref-readers');
+
+const httpAndFileResolver = new Resolver({
+  resolvers: {
+    https: { resolve: resolveHttp },
+    http: { resolve: resolveHttp },
+    file: { resolve: resolveFile },
+  },
+});
+
 
 const myOpenApiDocument = parseWithPointers(`responses:
   '200':
     description: ''
     schema:
       $ref: '#/definitions/error-response'
+  '409':
+    schema:
+      Problem:
+        $ref: https://teamdigitale.github.io/openapi/master/definitions.yaml
 `);
 
+const resolved = httpAndFileResolver.resolve({
+  user: {
+    $ref: "https://teamdigitale.github.io/openapi/master/definitions.yaml"
+  },
+  data: {
+  	$ref: "#/models/user"
+  },
+  models: {
+    user: {
+      name: "jon"
+    }
+  }
+}).then((r)=>console.log(r.result));
 
-
-console.log(browserify_hello_world.myfunc());
-const spectral = new Spectral();
+console.log(httpAndFileResolver);
+console.log(isOpenApiv3);
+const spectral = new Spectral({resolver: httpAndFileResolver});
 spectral
   .run({
     parsed: myOpenApiDocument,
     getLocationForJsonPath,
   })
   .then(console.log);
-
