@@ -12,9 +12,10 @@ all: link bundle/out.js bundle/index.html
 
 gh-pages: bundle/out.js bundle/index.html
 	rm css js asset svg -fr
-	git checkout gh-pages
-	git checkout master -- index.html
-	cp bundle/out.js bundle/index.html .
+	git clone . /tmp/antani -b gh-pages
+	cp bundle/index.html  bundle/out.js /tmp/antani
+	git -C /tmp/antani add index.html out.js
+	git -C /tmp/antani -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" commit -m "Script updating gh-pages from $(shell git rev-parse short HEAD). [ci skip]"
 
 link: 
 	npm link
