@@ -113,8 +113,9 @@ function highlight_error(entry){
 			severity_icon = "help"
 	}
 
-
-	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});">`
+	tooltip = "errored path: #/" + entry.path.join("/");
+	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});"
+		data-toggle="tooltip" title="${tooltip}">`
 		+`<div class="col-sm-1 col-md-auto" >`
 			+`<svg class="icon align-middle">`
 			+`<use xlink:href="svg/sprite.svg#it-${severity_icon}"></use></svg>`
