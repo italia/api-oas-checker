@@ -1,0 +1,49 @@
+components:
+  schemas:
+    NumberKo:
+      schema:
+        type: number
+    NumberOk:
+      schema:
+        type: number
+        format: int32
+    IntegerKo:
+      schema:
+        type: integer
+    IntegerOk:
+      schema:
+        type: integer
+        format: int32
+openapi: 3.0.1
+paths:
+  /numeric-ok:
+    put:
+      requestBody:
+       content:
+         application/json-patch+json:
+           schema:
+             type: number
+             format: int32
+  /integer-ok:
+    put:
+      requestBody:
+      content:
+        application/json-patch+json:
+          schema:
+            $ref: '#/components/schemas/IntegerOk'
+
+  /numeric-ko:
+     put:
+      requestBody:
+       content:
+         application/json-patch+json:
+           schema:
+             type: number
+  /integer-ko:
+    put:
+      requestBody:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/IntegerKo'
+
