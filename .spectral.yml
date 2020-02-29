@@ -16,7 +16,9 @@ rules:
       function: truthy
   servers-use-https:
     description: Servers must use https
-    given: $.servers[*]
+    message: "Non-sandbox url {{error}}. Add `x-sandbox: true` to declare the server as
+      a sandbox."
+    given: $.servers[?(@["x-sandbox"] != true)]
     severity: error
     recommended: true
     then:
@@ -57,34 +59,6 @@ rules:
       function: pattern
       functionOptions:
         match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
-  rate-limit-header:
-    description: >-
-      APIs should use ratelimit headers.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
-    message: "{{property}} does not have ratelimit {{error}}"
-    formats:
-      - oas3
-    severity: warn
-    recommended: true
-    given: $.[responses][*]['headers']
-    then:
-      field: X-RateLimit-Limit
-      function: truthy
-  patch-media-type:
-    description: >-
-      application/json is not an appropriate media-type for PATCH.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: application/json is not an appropriate media-type for PATCH.
-    formats:
-      - oas3
-    severity: error
-    recommended: true
-    given: $.[patch][requestBody][content]
-    then:
-      field: application/json
-      function: falsy
   numeric-format:
     description: Number must specify a format.
     message: Schema of type number must specify a format. See
@@ -111,6 +85,20 @@ rules:
     then:
       field: format
       function: truthy
+  patch-media-type:
+    description: >-
+      application/json is not an appropriate media-type for PATCH.
+
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: application/json is not an appropriate media-type for PATCH.
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: $.[patch][requestBody][content]
+    then:
+      field: application/json
+      function: falsy
   use-problem-json:
     description: >-
       APIs should use Problem json for errors.
@@ -153,4 +141,19 @@ rules:
       function: pattern
       functionOptions:
         match: object
+  rate-limit-header:
+    description: >-
+      APIs should use ratelimit headers.
+
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    message: "{{property}} does not have ratelimit {{error}}"
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: $.[responses][*]['headers']
+    then:
+      field: X-RateLimit-Limit
+      function: truthy
+extends: spectral:oas
 
