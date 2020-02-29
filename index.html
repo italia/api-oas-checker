@@ -1,19 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-<title>Browserify hello world</title>
-<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
-<!-- load browserify_hello_world -->
-<script src="out.js"></script>
-<script>window.__PUBLIC_PATH__ = 'fonts'</script>
+	<title>Browserify hello world</title>
+	<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
+	<!-- load browserify_hello_world -->
+	<script src="out.js"></script>
+	<script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
-<!-- load codemirror -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
-<link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
+	<!-- load codemirror -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
+	<link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
+
+	<!-- markdown parser -->
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+
 <style>
 .line-error {
 	background: blue !important;
@@ -114,6 +118,7 @@ function highlight_error(entry){
 	}
 
 	tooltip = "errored path: #/" + entry.path.join("/");
+	message_md = marked(entry.message);
 	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});"
 		data-toggle="tooltip" title="${tooltip}">`
 		+`<div class="col-sm-1 col-md-auto" >`
@@ -122,7 +127,7 @@ function highlight_error(entry){
 			+`</div>`
 		+`<div class="col-sm-1">${line + 1}</div>`
 		+`<div class="col-sm-3">${entry.code}</div>`
-		+`<div class="col-sm-5">${entry.message}</div>`
+		+`<div class="col-sm-5">${message_md}</div>`
 		+`</div>`;
 
     document.getElementById('error-lines').innerHTML += error_line;

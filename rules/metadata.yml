@@ -9,7 +9,10 @@ rules:
       function: truthy
   servers-use-https:
     description: Servers must use https
-    given: $.servers[*]
+    message: >-
+      Non-sandbox url {{error}}. Add `x-sandbox: true` to declare the server as a sandbox.
+    given: >-
+      $.servers[?(@["x-sandbox"] != true)]
     severity: error
     recommended: true
     then:
@@ -17,6 +20,7 @@ rules:
       function: pattern
       functionOptions:
         match: ^https://.*
+
   has-x-summary:
     description: |
       API must have an one-liner summary field in x-summary
