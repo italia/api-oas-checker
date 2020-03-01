@@ -121,13 +121,15 @@ rules:
       - oas3
     severity: error
     recommended: true
-    given: $.[responses][?(@property[0] != "2" || @property[0] != "3" || @property[0]
-      != "1" )][[schema]]
+    given: |-
+      $.[responses]
+        [?(@property[0] != "1" && @property[0] != "2" && @property[0] != "3" )]
+        [[schema]]
     then:
       function: schema
       functionOptions:
         schema:
-          $ref: https://opensource.zalando.com/problem/schema.yaml#/Problem
+          $ref: https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/schemas/Problem
   response-with-json-object:
     message: Responses must use json objects {{path}}
     severity: warn
