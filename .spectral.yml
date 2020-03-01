@@ -141,19 +141,46 @@ rules:
       function: pattern
       functionOptions:
         match: object
-  rate-limit-header:
-    description: >-
-      APIs should use ratelimit headers.
+  missing-retry-after:
+    description: APIs should use Retry-After on 429 and 503 responses.
+    message: >-
+      Missing ratelimit header: {{property}}
 
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
-    message: "{{property}} does not have ratelimit {{error}}"
     formats:
       - oas3
     severity: warn
     recommended: true
-    given: $.[responses][*]['headers']
+    given: $.[responses][?(@property == "429" || @property == "503"  )][headers]
     then:
-      field: X-RateLimit-Limit
+      field: Retry-After
       function: truthy
+  missing-ratelimit:
+    description: APIs should use ratelimit headers at least on successful responses.
+    message: >-
+      Missing ratelimit headers. {{property}} {{error}} {{path}}
+
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: $.[responses][?(@property[0] == "2" )][headers]
+    then:
+      - functionOptions:
+          properties:
+            - X-RateLimit-Limit
+            - RateLimit-Limit
+        function: xor
+      - functionOptions:
+          properties:
+            - X-RateLimit-Remaining
+            - RateLimit-Remaining
+        function: xor
+      - functionOptions:
+          properties:
+            - X-RateLimit-Reset
+            - RateLimit-Reset
+        function: xor
 extends: spectral:oas
 

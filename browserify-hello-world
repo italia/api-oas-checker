@@ -15,17 +15,27 @@ const httpAndFileResolver = new Resolver({
 });
 
 
-const myOpenApiDocument = parseWithPointers(`responses:
+const myOpenApiDocument = parseWithPointers(
+`
+foo: &foo
+  a: a
+  b: b
+  c: c
+responses:
   '200':
+    <<: *foo
     description: ''
     schema:
       $ref: '#/definitions/error-response'
   '409':
     schema:
       Problem:
-        $ref: https://teamdigitale.github.io/openapi/master/definitions.yaml
-`);
+        $ref: https://teamdigitale.github.io/openapi/master/definitions.yaml#/schemas/Problem
+`, {
+    mergeKeys: true
+});
 
+console.log('MyOAS', JSON.stringify(myOpenApiDocument.data, 1));
 const resolved = httpAndFileResolver.resolve({
   user: {
     $ref: "https://teamdigitale.github.io/openapi/master/definitions.yaml"
@@ -38,14 +48,16 @@ const resolved = httpAndFileResolver.resolve({
       name: "jon"
     }
   }
-}).then((r)=>console.log(r.result));
+}).then((r)=>console.log(
+//r.result
+));
 
-console.log(httpAndFileResolver);
-console.log(isOpenApiv3);
+// console.log(httpAndFileResolver);
+// console.log(isOpenApiv3);
 const spectral = new Spectral({resolver: httpAndFileResolver});
 spectral
   .run({
     parsed: myOpenApiDocument,
     getLocationForJsonPath,
   })
-  .then(console.log);
+  .then((e) => {console.log;});

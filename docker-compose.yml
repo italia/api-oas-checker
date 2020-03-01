@@ -1,0 +1,21 @@
+version: '3.0'
+services:
+  browserify-dev:
+    image: node
+    user: $UID:$GID
+    volumes:
+    - .:/code
+    entrypoint:
+    - /usr//bin/tail
+    - -f
+    - /etc/hosts
+
+  browserify-build:
+    image: node
+    user: $UID:$GID
+
+    working_dir: /code
+    volumes:
+    - .:/code
+    entrypoint:
+    - make
