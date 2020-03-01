@@ -68,6 +68,11 @@ function clear_url(){
 	document.getElementById('oas_url').value = '';
 }
 
+function render_statistics(statistics){
+	document.getElementById('errors-count').innerHTML = statistics[0];
+	document.getElementById('warnings-count').innerHTML = statistics[1];
+}
+
 async function parse_text(){
 	// unmark old errored lines
 	console.log("Unmark old errored lines.")
@@ -81,11 +86,18 @@ async function parse_text(){
 
 async function lint_spec(oas) {
 	const lint = await browserify_hello_world.parse(oas);
-	console.log("lint: " + lint);
+	console.log("lint: ", lint);
 
 	// mark errored lines
 	lint.forEach(highlight_error);
 	/// DEBUG document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
+
+	var statistics = {0:0, 1:0, 2:0};
+	lint.forEach((e) => {
+		statistics[e.severity] +=1;
+	});
+	console.debug("error statistics", statistics);
+	render_statistics(statistics);
 }
 function lint_url(url){
 	    const myUrl = url
@@ -206,9 +218,14 @@ or write/paste your API spec directly in the editor.
 
 <!-- All errors are displayed here -->
 <div class="linter">
-	<h4 class="bd-logo-subtitle" >
-		Linting errors and warnings.
-	</h4>
+	<div class="container-fluid">
+		<h4 class="bd-logo-subtitle" >
+			Found
+			<span class="badge badge-danger"> <span id="errors-count">0</span> errors</span>
+			and
+			<span class="badge badge-warning"><span id="warnings-count">0</span> warnings</span>
+		</h4>
+	</div>
 	<div class="container" id="error-lines-1">
 	  <div class="row">
 		<div class="col-sm-1"></div>
