@@ -1,6 +1,8 @@
 /node_modules
-/out.js
 
+# generated bundle files
+/out.js
+/bundle
 /assets
 *.zip
 /css
@@ -8,3 +10,6 @@
 /svg
 yarn-error.log
 yarn.lock
+
+# generated json files
+rules/*.json

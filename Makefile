@@ -30,7 +30,7 @@ bundle/js/bootstrap-italia.min.js:
 # Merge all rules into .spectral.yml
 rules: .spectral.yml
 
-.spectral.yml: ./rules
+.spectral.yml: ./rules/
 	cat ./rules/rules-template.yml > .spectral.yml
 	./rules/merge-yaml >> .spectral.yml
 
