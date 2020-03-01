@@ -8,13 +8,20 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/Problem'
-
   /ko-default-use-problem:
     get:
       responses:
         default:
           content:
             application/json: {}
+  /ko-bad-schema-use-problem:
+    get:
+      responses:
+        "400":
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/ko_Problem'
   /ko-response-not-object:
     get:
       responses:
@@ -40,14 +47,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/String'
+                $ref: '#/components/schemas/ko_String'
 
 components:
   schemas:
-    String:
+    ko_String:
       type: string
 
     Problem:
       properties:
         title:
           type: string
+        status:
+          type: integer
+          format: int32
+
+    ko_Problem:
+      properties:
+        message:
+          type: string
+        code:
+          type: integer
+          format: int32

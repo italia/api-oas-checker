@@ -2,7 +2,7 @@ rules:
   numeric-format:
     description: Number must specify a format.
     message: >-
-      Schema of type number must specify a format.
+      Schema of type number must specify a format. {{path}}
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
     formats:
     - oas3
@@ -16,7 +16,7 @@ rules:
   integer-format:
     description: Integer must specify a format.
     message: >-
-      Schema of type integer must specify a format.
+      Schema of type integer must specify a format. {{path}}
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
     formats:
     - oas3

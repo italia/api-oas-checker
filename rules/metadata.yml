@@ -1,6 +1,8 @@
 rules:
   servers-description:
     description: Servers must have a description.
+    message: >-
+      Server {{path}} must have a description.
     given: $.servers[*]
     severity: error
     recommended: true
@@ -10,7 +12,7 @@ rules:
   servers-use-https:
     description: Servers must use https
     message: >-
-      Non-sandbox url {{error}}. Add `x-sandbox: true` to declare the server as a sandbox.
+      Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to declare the server as a sandbox.
     given: >-
       $.servers[?(@["x-sandbox"] != true)]
     severity: error
@@ -22,18 +24,21 @@ rules:
         match: ^https://.*
 
   has-x-summary:
-    description: |
-      API must have an one-liner summary field in x-summary
+    description: >-
+      API must have an one-liner summary field in x-summary {{path}}
     given: $
     severity: error
     recommended: true
     type: style
+    formats:
+    - oas3
     then:
       field: "info.x-summary"
       function: truthy
+
   has-x-api-id:
-    description: |
-      API must have an unique identifier in x-api-id
+    description: >-
+      API must have an unique identifier in x-api-id {{path}}
     given: $
     severity: error
     recommended: true
