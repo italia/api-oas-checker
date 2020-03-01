@@ -13,11 +13,20 @@ const httpAndFileResolver = new Resolver({
   },
 });
 
+
+/**
+ * Parse an OAS file resolving yaml anchors and merging keys.
+ */
+function parse_and_resolve_yaml_anchors(oas3){
+	return parseWithPointers(oas3, { mergeKeys: true })
+}
+
+
 function parse(oas3, ruleset){
 	ruleset = ruleset || "https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml"
 
 	return new Promise((resolve, reject) => {
-		const myOpenApiDocument = parseWithPointers(oas3);
+		const myOpenApiDocument = parse_and_resolve_yaml_anchors(oas3);
 		console.log(myOpenApiDocument);
 		const spectral = new Spectral({resolver: httpAndFileResolver});
 		spectral.registerFormat('oas2', isOpenApiv2);
