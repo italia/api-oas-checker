@@ -49,3 +49,16 @@ setup: /usr/local/lib/node_modules/browserify-hello-world package.json
 	# XXX to make it work after link you need to run twice npm install
 	npm install .
 	npm install .
+
+t:
+	spectral lint rules/$(RULE)-test.yml -r rules/$(RULE).yml
+
+
+test:
+	# once you filter out "ko" strings, you should have no "  error  "s.
+	@for f in $(shell ls rules/*-test.yml); do \
+		spectral lint $$f -r `echo $$f | sed -e 's,-test,,'` ; \
+		done \
+		| grep -v ko | grep '  error  ' && exit 1 || exit 0
+	
+	

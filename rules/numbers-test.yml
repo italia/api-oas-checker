@@ -1,16 +1,16 @@
 components:
   schemas:
-    NumberKo:
+    ko_Number:
       schema:
         type: number
-    NumberOk:
+    Number:
       schema:
         type: number
         format: int32
-    IntegerKo:
+    ko_Integer:
       schema:
         type: integer
-    IntegerOk:
+    Integer:
       schema:
         type: integer
         format: int32
@@ -30,7 +30,7 @@ paths:
       content:
         application/json-patch+json:
           schema:
-            $ref: '#/components/schemas/IntegerOk'
+            $ref: '#/components/schemas/Integer'
 
   /numeric-ko:
      put:
@@ -45,5 +45,5 @@ paths:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/IntegerKo'
+            $ref: '#/components/schemas/ko_Integer'
 

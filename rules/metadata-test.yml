@@ -1,13 +1,13 @@
-openapi: 3.0.1
+openapi: "3.0.1"
 servers:
+  - url: https://ko.nodescription
   - url: https://ok.example
     description: production
   - url: http://ok.sandbox.examle
     x-sandbox: true
     description: ok
-
   - url: http://ko.example
     description: should be https
-  - url: http://ok.sandbox.examle
+  - url: http://ko.sandbox.examle
     x-sandbox: false
-    description: should be http
+    description: should be https
