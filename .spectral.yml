@@ -8,6 +8,7 @@ extends: spectral:oas
 rules:
   servers-description:
     description: Servers must have a description.
+    message: Server {{path}} must have a description.
     given: $.servers[*]
     severity: error
     recommended: true
@@ -16,8 +17,8 @@ rules:
       function: truthy
   servers-use-https:
     description: Servers must use https
-    message: "Non-sandbox url {{error}}. Add `x-sandbox: true` to declare the server as
-      a sandbox."
+    message: "Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to declare
+      the server as a sandbox."
     given: $.servers[?(@["x-sandbox"] != true)]
     severity: error
     recommended: true
@@ -27,18 +28,18 @@ rules:
       functionOptions:
         match: ^https://.*
   has-x-summary:
-    description: |
-      API must have an one-liner summary field in x-summary
+    description: API must have an one-liner summary field in x-summary {{path}}
     given: $
     severity: error
     recommended: true
     type: style
+    formats:
+      - oas3
     then:
       field: info.x-summary
       function: truthy
   has-x-api-id:
-    description: |
-      API must have an unique identifier in x-api-id
+    description: API must have an unique identifier in x-api-id {{path}}
     given: $
     severity: error
     recommended: true
@@ -61,7 +62,7 @@ rules:
         match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
   numeric-format:
     description: Number must specify a format.
-    message: Schema of type number must specify a format. See
+    message: Schema of type number must specify a format. {{path}} See
       https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
     formats:
       - oas3
@@ -74,7 +75,7 @@ rules:
       function: truthy
   integer-format:
     description: Integer must specify a format.
-    message: Schema of type integer must specify a format. See
+    message: Schema of type integer must specify a format. {{path}} See
       https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
     formats:
       - oas3
@@ -90,7 +91,7 @@ rules:
       application/json is not an appropriate media-type for PATCH.
 
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: application/json is not an appropriate media-type for PATCH.
+    message: application/json is not an appropriate media-type for PATCH. {{path}}
     formats:
       - oas3
     severity: error
@@ -99,40 +100,36 @@ rules:
     then:
       field: application/json
       function: falsy
-  use-problem-json:
-    description: >-
-      APIs should use Problem json for errors.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: |-
-      Use media-type application/problem+json for errors
-      and the associate schema.
-    formats:
-      - oas3
-    severity: error
-    recommended: true
-    given: $.[schemas]
-    then:
-      field: Problem
-      function: truthy
   use-problem-json-for-default:
-    description: >-
-      APIs should use Problem json for errors.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: |-
-      Use media-type application/problem+json for default responses (errors)
-      and the associate schema.
+    description: APIs should use Problem json for errors. See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: Use media-type application/problem+json for default responses (errors) and
+      the associate schema. {{path}}
     formats:
       - oas3
     severity: error
     recommended: true
-    given: $.[responses][default]
+    given: $.[responses][default][content]
     then:
       field: application/problem+json
       function: truthy
+  use-problem-json-schema:
+    description: APIs should use Problem json for errors. See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: Use RFC7807 schema to model errors. {{path}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: $.[responses][?(@property[0] != "2" || @property[0] != "3" || @property[0]
+      != "1" )][[schema]]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          $ref: https://opensource.zalando.com/problem/schema.yaml#/Problem
   response-with-json-object:
-    message: Responses must use json objects
+    message: Responses must use json objects {{path}}
     severity: warn
     recommended: true
     given: $.[responses][*][content][*][schema]
@@ -143,10 +140,10 @@ rules:
         match: object
   missing-retry-after:
     description: APIs should use Retry-After on 429 and 503 responses.
-    message: >-
-      Missing ratelimit header: {{property}}
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    message: "Missing ratelimit header: {{property}} in {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabil\
+      ita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-ra\
+      ggiunti-limiti-di-utilizzo"
     formats:
       - oas3
     severity: warn
@@ -157,10 +154,8 @@ rules:
       function: truthy
   missing-ratelimit:
     description: APIs should use ratelimit headers at least on successful responses.
-    message: >-
-      Missing ratelimit headers. {{property}} {{error}} {{path}}
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    message: Missing ratelimit headers. {{property}} {{error}} {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
     formats:
       - oas3
     severity: warn
@@ -182,5 +177,4 @@ rules:
             - X-RateLimit-Reset
             - RateLimit-Reset
         function: xor
-extends: spectral:oas
 
