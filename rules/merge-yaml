@@ -9,7 +9,6 @@ const all_rules = mergeYaml([
 'rules/patch.yml',
 'rules/problem.yml',
 'rules/ratelimit.yml',
-'rules/rules-template.yml'
 ]);
 const out = YAML.stringify(all_rules);
 console.log(out);
