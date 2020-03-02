@@ -10,8 +10,8 @@ all: setup bundle
 bundle: bundle/js/bootstrap-italia.min.js bundle/out.js index.html spectral.yml
 	cp index.html spectral.yml bundle
 
-bundle/out.js: index.js package.json
-	npx browserify --outfile bundle/out.js --standalone api_oas_linter index.js
+bundle/out.js: index.js package.json setup
+	npx browserify --outfile bundle/out.js --standalone api_oas_checker index.js
 
 gh-pages: bundle rules
 	rm css js asset svg -fr
