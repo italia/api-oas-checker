@@ -1,6 +1,6 @@
 version: '3.0'
 services:
-  browserify-dev:
+  dev:
     image: node
     user: $UID:$GID
     volumes:
@@ -10,12 +10,17 @@ services:
     - -f
     - /etc/hosts
 
-  browserify-build:
+  build:
     image: node
     user: $UID:$GID
-
     working_dir: /code
     volumes:
     - .:/code
     entrypoint:
     - make
+
+  run:
+    build: .
+    ports:
+    - "8000:8000"
+    user: $UID:$GID

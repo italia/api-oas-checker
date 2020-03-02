@@ -6,7 +6,7 @@
 
 	<title>Italian API Guidelines Linter</title>
 	<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
-	<!-- load browserify_hello_world -->
+	<!-- load api_oas_linter -->
 	<script src="out.js"></script>
 	<script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
@@ -96,7 +96,7 @@ async function parse_text(){
 }
 
 async function lint_spec(oas) {
-	const lint = await browserify_hello_world.parse(oas);
+	const lint = await api_oas_linter.parse(oas, window.location.origin + '/.spectral.yml');
 	console.log("lint: ", lint);
 
 	// mark errored lines
@@ -174,9 +174,12 @@ function show_error(line, ch) {
 <header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
 	<div class="container-fluid">
 		<div class="d-flex flex-column pl-3 pl-sm-4">
-			<h4 class="bd-logo-title" style="color: white">OpenAPI 3 Spec linter</h4>
+			<h4 class="bd-logo-title" style="color: white">Validatore specifiche OpenAPI 3 0.1 (beta)</h4>
 			<h8 class="bd-logo-subtitle" style="color: white">
-				Checking compliance with Italian API Guidelines.
+				Verifica l'applicazione delle
+					<a  class="text-white"
+						href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs" >
+						Linee Guida per le API REST</a>
 			</h8>
 		</div>
 
@@ -195,18 +198,18 @@ function show_error(line, ch) {
 	</div>
 </header>
 <div class="container-fluid">
-This standalone page uses <a href="https://github.com/stoplightio/spectral">Spectral</a> to lint
-an OAS3 specification using the rules defined in
-<a class="navbar-brand py-2 text-decoration-none"
-   href="https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml">.spectral.yml</a>
-You can download an OAS spec using the URL linter and
-then edit and lint the specification manually,
-or write/paste your API spec directly in the editor.
-<b>Beware: downloading an URL will replace the content of the editor.</b>
+	Questa pagina verifica (lint) alcune delle regole indicate nel Modello d'Interoperabilità
+	usando <a href="https://github.com/stoplightio/spectral">Spectral</a>.
+	Il file con le regole è
+	<a class="navbar-brand py-2 text-decoration-none"
+   		href=".spectral.yml">.spectral.yml</a>
+	Scarica le specifiche usando "Lint URL" e modificale nell'editor
+	oppure incollale direttamente nell'editor.
+<b>Attenzione: scaricando un nuovo URL sostituirai il contenuto dell'editor.</b>
 <br>
 
 	<input type="text" name="url" id="oas_url"
-		   placeholder="Write here the URL of an OAS spec. eg: https://api.example/openapi.yaml"
+		   placeholder="https://api.example/openapi.yaml"
 		   data-toggle="tooltip"
 		   style="width: 79%"
 	>
@@ -228,10 +231,10 @@ or write/paste your API spec directly in the editor.
 <div class="linter">
 	<div class="container-fluid">
 		<h4 class="bd-logo-subtitle" >
-			Found
-			<span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errors</span>
-			and
-			<span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warnings</span>
+			Trovati
+			<span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errori</span>
+			e
+			<span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warning</span>
 		</h4>
 	</div>
 	<div class="container" id="error-lines-1">
