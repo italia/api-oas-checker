@@ -6,7 +6,7 @@
 
 	<title>Italian API Guidelines Checker</title>
 	<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
-	<!-- load api_oas_linter -->
+	<!-- load bundled node app -->
 	<script src="out.js"></script>
 	<script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
@@ -96,7 +96,7 @@ async function parse_text(){
 }
 
 async function lint_spec(oas) {
-	const lint = await api_oas_linter.parse(oas, window.location.href + '/spectral.yml');
+	const lint = await api_oas_checker.parse(oas, window.location.href + '/spectral.yml');
 	console.log("lint: ", lint);
 
 	// mark errored lines
