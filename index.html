@@ -96,7 +96,7 @@ async function parse_text(){
 }
 
 async function lint_spec(oas) {
-	const lint = await api_oas_linter.parse(oas, window.location.href + '/.spectral.yml');
+	const lint = await api_oas_linter.parse(oas, window.location.href + '/spectral.yml');
 	console.log("lint: ", lint);
 
 	// mark errored lines
@@ -201,7 +201,7 @@ function show_error(line, ch) {
 	Questa pagina verifica (lint) <b>alcune delle indicazioni</b> contenute nel Modello d'Interoperabilità
 	usando <a href="https://github.com/stoplightio/spectral">Spectral</a> le regole definite in
 	<a class="navbar-brand py-2 text-decoration-none"
-   		href=".spectral.yml">.spectral.yml</a>
+   		href="spectral.yml">spectral.yml</a>
         <br>
 	Scarica le specifiche usando "Lint URL" e modificale nell'editor
 	oppure incollale direttamente nell'editor.

@@ -1,0 +1,182 @@
+#
+# See technical recommendations on Italian Guidelines:
+#
+# https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#raccomandazioni-tecniche-per-rest
+#
+extends: spectral:oas
+
+rules:
+  servers-description:
+    description: Servers must have a description.
+    message: Server {{path}} must have a description.
+    given: $.servers[*]
+    severity: error
+    recommended: true
+    then:
+      field: description
+      function: truthy
+  servers-use-https:
+    description: Servers must use https
+    message: "Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to declare
+      the server as a sandbox."
+    given: $.servers[?(@["x-sandbox"] != true)]
+    severity: error
+    recommended: true
+    then:
+      field: url
+      function: pattern
+      functionOptions:
+        match: ^https://.*
+  has-x-summary:
+    description: API must have an one-liner summary field in x-summary {{path}}
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    formats:
+      - oas3
+    then:
+      field: info.x-summary
+      function: truthy
+  has-x-api-id:
+    description: API must have an unique identifier in x-api-id {{path}}
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    then:
+      field: info.x-api-id
+      function: truthy
+  paths-kebab-case:
+    description: >
+      Paths should be kebab-case.
+
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
+    message: "{{property}} is not kebab-case: {{error}}"
+    severity: warn
+    recommended: true
+    given: $.paths[*]~
+    then:
+      function: pattern
+      functionOptions:
+        match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
+  numeric-format:
+    description: Number must specify a format.
+    message: Schema of type number must specify a format. {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: |
+      $.[?(@.type=="number")]
+    then:
+      field: format
+      function: truthy
+  integer-format:
+    description: Integer must specify a format.
+    message: Schema of type integer must specify a format. {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: |
+      $.[?(@.type=="numeric")]
+    then:
+      field: format
+      function: truthy
+  patch-media-type:
+    description: >-
+      application/json is not an appropriate media-type for PATCH.
+
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: application/json is not an appropriate media-type for PATCH. {{path}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: $.[patch][requestBody][content]
+    then:
+      field: application/json
+      function: falsy
+  use-problem-json-for-default:
+    description: APIs should use Problem json for errors. See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: Use media-type application/problem+json for default responses (errors) and
+      the associate schema. {{path}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: $.[responses][default][content]
+    then:
+      field: application/problem+json
+      function: truthy
+  use-problem-json-schema:
+    description: APIs should use Problem json for errors. See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: Use RFC7807 schema to model errors. {{path}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: |-
+      $.[responses]
+        [?(@property[0] != "1" && @property[0] != "2" && @property[0] != "3" )]
+        [[schema]]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          $ref: https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/schemas/Problem
+  response-with-json-object:
+    message: Responses must use json objects {{path}}
+    severity: warn
+    recommended: true
+    given: $.[responses][*][content][*][schema]
+    then:
+      field: type
+      function: pattern
+      functionOptions:
+        match: object
+  missing-retry-after:
+    description: APIs should use Retry-After on 429 and 503 responses.
+    message: "Missing ratelimit header: {{property}} in {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabil\
+      ita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-ra\
+      ggiunti-limiti-di-utilizzo"
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: $.[responses][?(@property == "429" || @property == "503"  )][headers]
+    then:
+      field: Retry-After
+      function: truthy
+  missing-ratelimit:
+    description: APIs should use ratelimit headers at least on successful responses.
+    message: Missing ratelimit headers. {{property}} {{error}} {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: $.[responses][?(@property[0] == "2" )][headers]
+    then:
+      - functionOptions:
+          properties:
+            - X-RateLimit-Limit
+            - RateLimit-Limit
+        function: xor
+      - functionOptions:
+          properties:
+            - X-RateLimit-Remaining
+            - RateLimit-Remaining
+        function: xor
+      - functionOptions:
+          properties:
+            - X-RateLimit-Reset
+            - RateLimit-Reset
+        function: xor
+
