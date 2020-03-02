@@ -22,7 +22,7 @@ function parse_and_resolve_yaml_anchors(oas3){
 
 
 function parse(oas3, ruleset){
-	ruleset = ruleset || "https://raw.githubusercontent.com/ioggstream/oas-spectral-validator/master/.spectral.yml"
+	ruleset = ruleset || "https://raw.githubusercontent.com/teamdigitale/api-oas-checker/master/spectral.yml"
 
 	return new Promise((resolve, reject) => {
 		const myOpenApiDocument = parse_and_resolve_yaml_anchors(oas3);

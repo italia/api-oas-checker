@@ -1,13 +1,12 @@
 {
   "bin": {
-    "api-oas-linter": "api-oas-linter"
+    "api-oas-checker": "api-oas-checker"
   },
   "dependencies": {
     "@stoplight/json-ref-resolver": "^3.0.8",
     "@stoplight/spectral": "^5.1.0",
     "bootstrap-italia": "^1.3.9",
     "merge-yaml": "^1.1.0",
-    "uniq": "^1.0.1",
     "yaml": "^1.7.2"
   },
   "devDependencies": {
@@ -19,16 +18,16 @@
     "openapi"
   ],
   "license": "AGPL-3.0",
-  "name": "api-oas-linter",
-  "repository": "ioggstream/api-oas-linter",
+  "name": "api-oas-checker",
+  "repository": "teamdigitale/api-oas-checker",
   "scripts": {
     "init": [
       "npm link",
-      "npm link api-oas-linter",
+      "npm link api-oas-checker",
       "npm install .",
       "npm run b"
     ],
-    "b": "npx browserify --outfile out.js --standalone api_oas_linter index.js"
+    "b": "npx browserify --outfile out.js --standalone api_oas_checker index.js"
   },
   "version": "0.1.0"
 }

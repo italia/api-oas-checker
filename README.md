@@ -11,7 +11,7 @@ nel Modello di Interoperabilità.
 I progetti associati sono indicati nell' [API Starter Kit](https://github.com/teamdigitale/api-starter-kit)
 
 L'applicazione on-line pronta all'uso è disponibile  
-[qui](teamdigitale.github.io/api-oas-linter).
+[qui](teamdigitale.github.io/api-oas-checker).
 
 Rispetto ad altri validatori altrettanto buoni
 - eg. [Zally](https://github.com/zalando/zally) -
@@ -22,7 +22,7 @@ Spectral può essere eseguito direttamente sul client (browser)
 
 - Un progetto nodejs che usa webpack per creare una single-page application
 - Una directory [rules/](rules/) con le regole applicate, che vengono
-  poi aggregate nel file [.spectral.yml](.spectral.yml).
+  poi aggregate nel file [spectral.yml](spectral.yml).
   
 ## Istruzioni
 
@@ -30,8 +30,17 @@ Il modo più semplice per eseguire l'applicazione
 è tramite docker-compose:
 
 ```
+$ git clone git@github.com:teamdigitale/api-oas-validator.git
+$ cd api-oas-validator
 $ docker-compose up -d run
 $ xdg-open localhost:8000
+```
+
+Se volete controllare la vostra API usando la CLI
+di Spectral, vi basta lanciare dalla directory `api-oas-validator`
+
+```
+api-oas-validator $ spectral lint -r spectral.yml $OAS_URL_OR_FILE
 ```
 
 ## Compilazione
@@ -50,7 +59,7 @@ Spectral itera le specifiche OAS usando le espressioni jsonpath
 indicate nelle [regole](rules/)
 ed esegue le callback indicate sulle righe corrispondenti.
 
-Vedete qui [.spectral.yml](.spectral.yml) per degli esempi di regole.
+Vedete qui [spectral.yml](spectral.yml) per degli esempi di regole.
 
 Sul sito http://jsonpath.com/ si possono testare le regole online.
 
