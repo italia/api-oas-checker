@@ -51,7 +51,6 @@
 	background-color: yellow;
 }
 </style>
-
 <script>
 testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-python/master/openapi/simple.yaml.src";
 
@@ -69,8 +68,20 @@ function clear_url(){
 }
 
 function render_statistics(statistics){
-	document.getElementById('errors-count').innerHTML = statistics[0];
-	document.getElementById('warnings-count').innerHTML = statistics[1];
+	e = statistics[0];
+	w = statistics[1];
+
+	document.getElementById('errors-badge').classList = !e ? "badge badge-success" : "badge badge-danger"
+	document.getElementById('warnings-badge').classList = !w ? "badge badge-success" : "badge badge-warning"
+
+	// Show/Hide the Success badge.
+	if (!e && !w) {
+		document.getElementById('badge-valid-oas').classList.remove("d-none");
+	} else {
+		document.getElementById('badge-valid-oas').classList.add("d-none");
+	}
+	document.getElementById('errors-count').innerHTML = e;
+	document.getElementById('warnings-count').innerHTML = w;
 }
 
 async function parse_text(){
@@ -90,8 +101,8 @@ async function lint_spec(oas) {
 
 	// mark errored lines
 	lint.forEach(highlight_error);
-	/// DEBUG document.getElementById('errors').innerHTML = JSON.stringify(lint, null, 2);
 
+	// Count errors and warnings.
 	var statistics = {0:0, 1:0, 2:0};
 	lint.forEach((e) => {
 		statistics[e.severity] +=1;
@@ -152,10 +163,7 @@ function show_error(line, ch) {
     editor.focus();
     editor.setCursor({line: line, ch: ch });
 }
-
-
 </script>
-
 </head>
 <body>
 <!--
@@ -221,9 +229,9 @@ or write/paste your API spec directly in the editor.
 	<div class="container-fluid">
 		<h4 class="bd-logo-subtitle" >
 			Found
-			<span class="badge badge-danger"> <span id="errors-count">0</span> errors</span>
+			<span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errors</span>
 			and
-			<span class="badge badge-warning"><span id="warnings-count">0</span> warnings</span>
+			<span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warnings</span>
 		</h4>
 	</div>
 	<div class="container" id="error-lines-1">
@@ -233,6 +241,9 @@ or write/paste your API spec directly in the editor.
 		<div class="col-sm-3">error</div>
 		<div class="col-sm-5">message</div>
 	  </div>
+		<div class="row d-none" id="badge-valid-oas">
+			<div class="col-sm-10 badge badge-success"><h1>Success</h1></div>
+		</div>
 	</div>
 
 	<div class="container" id="error-lines">
@@ -251,7 +262,8 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
 });
 var counter =  Date.now();
 function selectively_parse(){
-	if ((Date.now() - counter) < 10000) {
+	const refresh_interval = 5000;  // milliseconds
+	if ((Date.now() - counter) < refresh_interval) {
 		console.log("too early");
 		return;
 	}
