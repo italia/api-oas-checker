@@ -7,17 +7,17 @@ TMPDIR := $(shell mktemp  -u /tmp/fooXXXXXX)
 all: setup bundle
 
 # Create the web pages in bundle/
-bundle: bundle/js/bootstrap-italia.min.js bundle/out.js index.html
-	cp index.html bundle
+bundle: bundle/js/bootstrap-italia.min.js bundle/out.js index.html .spectral.yml
+	cp index.html .spectral.yml bundle
 
 bundle/out.js: index.js package.json
-	npx browserify --outfile bundle/out.js --standalone browserify_hello_world index.js
+	npx browserify --outfile bundle/out.js --standalone api_oas_linter index.js
 
 gh-pages: bundle rules
 	rm css js asset svg -fr
 	git clone . $(TMPDIR) -b gh-pages
-	cp bundle/index.html  bundle/out.js $(TMPDIR)
-	git -C $(TMPDIR) add index.html out.js
+	cp bundle/index.html bundle/.spectral.yml bundle/out.js $(TMPDIR)
+	git -C $(TMPDIR) add index.html out.js .spectral.yml
 	git -C $(TMPDIR) -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" \
 		commit -m "Script updating gh-pages from $(shell git rev-parse short HEAD). [ci skip]"
 	git -C $(TMPDIR) push -q origin gh-pages

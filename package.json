@@ -1,6 +1,6 @@
 {
   "bin": {
-    "browserify-hello-world": "browserify-hello-world"
+    "api-oas-linter": "api-oas-linter"
   },
   "dependencies": {
     "@stoplight/json-ref-resolver": "^3.0.8",
@@ -15,19 +15,20 @@
   },
   "keywords": [
     "browserify",
-    "hello world"
+    "spectral",
+    "openapi"
   ],
   "license": "AGPL-3.0",
-  "name": "browserify-hello-world",
-  "repository": "cirosantilli/browserify-hello-world",
+  "name": "api-oas-linter",
+  "repository": "ioggstream/api-oas-linter",
   "scripts": {
     "init": [
       "npm link",
-      "npm link browserify-hello-world",
+      "npm link api-oas-linter",
       "npm install .",
       "npm run b"
     ],
-    "b": "npx browserify --outfile out.js --standalone browserify_hello_world index.js"
+    "b": "npx browserify --outfile out.js --standalone api_oas_linter index.js"
   },
   "version": "0.1.0"
 }
