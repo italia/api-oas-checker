@@ -41,11 +41,11 @@ clean:
 #
 # Preparation goals
 #
-/usr/local/lib/node_modules/browserify-hello-world: package.json
+/usr/local/lib/node_modules/api-oas-checker: package.json
 	npm link
-	npm link browserify-hello-world
+	npm link api-oas-checker
 
-setup: /usr/local/lib/node_modules/browserify-hello-world package.json
+setup: /usr/local/lib/node_modules/api-oas-checker package.json
 	# XXX to make it work after link you need to run twice npm install
 	npm install .
 	npm install .

@@ -11,7 +11,7 @@ nel Modello di Interoperabilità.
 I progetti associati sono indicati nell' [API Starter Kit](https://github.com/teamdigitale/api-starter-kit)
 
 L'applicazione on-line pronta all'uso è disponibile  
-[qui](teamdigitale.github.io/api-oas-linter).
+[qui](teamdigitale.github.io/api-oas-checker).
 
 Rispetto ad altri validatori altrettanto buoni
 - eg. [Zally](https://github.com/zalando/zally) -

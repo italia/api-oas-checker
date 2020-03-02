@@ -1,6 +1,6 @@
 {
   "bin": {
-    "api-oas-linter": "api-oas-linter"
+    "api-oas-checker": "api-oas-checker"
   },
   "dependencies": {
     "@stoplight/json-ref-resolver": "^3.0.8",
@@ -19,12 +19,12 @@
     "openapi"
   ],
   "license": "AGPL-3.0",
-  "name": "api-oas-linter",
-  "repository": "ioggstream/api-oas-linter",
+  "name": "api-oas-checker",
+  "repository": "ioggstream/api-oas-checker",
   "scripts": {
     "init": [
       "npm link",
-      "npm link api-oas-linter",
+      "npm link api-oas-checker",
       "npm install .",
       "npm run b"
     ],
