@@ -1,279 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<title>Italian API Guidelines Checker</title>
-	<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
-	<!-- load bundled node app -->
-	<script src="out.js"></script>
-	<script>window.__PUBLIC_PATH__ = 'fonts'</script>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-	<!-- load codemirror -->
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
-	<link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
+    <title>Italian API Guidelines Checker</title>
 
-	<!-- markdown parser -->
-	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- load bootstrap-italia -->
+    <link rel="stylesheet" href="css/bootstrap-italia.min.css">
 
-<style>
-.line-error {
-	background: blue !important;
-}
+    <!-- load bundled node app -->
+    <script src="out.js"></script>
+    <script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
-.linter {
-    float: right;
-    width: 39%;
-}
+    <!-- load codemirror -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
+    <link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
 
-.editor-div {
-	width: 60%;
-	height: 100%;
-	float: left;
-}
+    <!-- markdown parser -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-.CodeMirror {
-  border: 1px solid #eee;
-  height: 800px;
-}
+    <!-- load custom style -->
+    <link rel="stylesheet" href="css/index.css">
 
-#error-lines {
-	overflow-y: scroll;
-	height: 800px;
-}
+    <!-- Favicons -->
+    <link rel="icon" href="icons/favicon.ico">
+    <link rel="icon" href="icons/favicon-32x32.png" sizes="32x32" type="image/png">
+    <link rel="icon" href="icons/favicon-16x16.png" sizes="16x16" type="image/png">
+    <link rel="mask-icon" href="icons/safari-pinned-tab.svg" color="#0066CC">
+    <link rel="apple-touch-icon" href="icons/apple-touch-icon.png">
 
-.severity-0 {
-	background-color: red;
-}
-.severity-1 {
-	background-color: yellow;
-}
-</style>
-<script>
-testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-python/master/openapi/simple.yaml.src";
+    <link rel="manifest" href="icons/manifest.json">
+    <meta name="msapplication-config" content="icons/browserconfig.xml">
 
-function parse_url(){
-	url = document.getElementById('oas_url').value;
-    if (url == "") {
-    	url = testUrl
-    	document.getElementById('oas_url').value = testUrl
-    }
-    lint_url(url);
-}
+    <meta name="theme-color" content="#0066CC">
 
-function clear_url(){
-	document.getElementById('oas_url').value = '';
-}
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:site" content="@teamdigitaleIT">
+    <meta name="twitter:creator" content="Dipartimento per la Trasformazione Digitale">
+    <meta name="twitter:title" content="Italian API Guidelines Checker">
+    <meta name="twitter:description"
+      content="Questa pagina verifica (lint) alcune delle indicazioni contenute nel Modello d'Interoperabilità usando Spectral le regole definite in spectral.yml">
+    <meta name="twitter:image"
+      content="icons/logo-it.png">
 
-function render_statistics(statistics){
-	e = statistics[0];
-	w = statistics[1];
+    <!-- Facebook -->
+    <meta property="og:url" content="https://teamdigitale.github.io/api-oas-checker/">
+    <meta property="og:title" content="Italian API Guidelines Checker">
+    <meta property="og:description"
+      content="Questa pagina verifica (lint) alcune delle indicazioni contenute nel Modello d'Interoperabilità usando Spectral le regole definite in spectral.yml">
+    <meta property="og:type" content="website">
+    <meta property="og:image"
+      content="icons/logo-it.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
 
-	document.getElementById('errors-badge').classList = !e ? "badge badge-success" : "badge badge-danger"
-	document.getElementById('warnings-badge').classList = !w ? "badge badge-success" : "badge badge-warning"
+  </head>
 
-	// Show/Hide the Success badge.
-	if (!e && !w) {
-		document.getElementById('badge-valid-oas').classList.remove("d-none");
-	} else {
-		document.getElementById('badge-valid-oas').classList.add("d-none");
-	}
-	document.getElementById('errors-count').innerHTML = e;
-	document.getElementById('warnings-count').innerHTML = w;
-}
-
-async function parse_text(){
-	// unmark old errored lines
-	console.log("Unmark old errored lines.")
-	marked_lines = document.getElementsByClassName('line-error')
-	Array.prototype.forEach.call(marked_lines, (x)=>{x.classList.remove("line-error")})
-
-	oas_text = editor.getValue();
-	document.getElementById('error-lines').innerHTML = '';
-    await lint_spec(oas_text);
-}
-
-async function lint_spec(oas) {
-	const lint = await api_oas_checker.parse(oas, window.location.href + '/spectral.yml');
-	console.log("lint: ", lint);
-
-	// mark errored lines
-	lint.forEach(highlight_error);
-
-	// Count errors and warnings.
-	var statistics = {0:0, 1:0, 2:0};
-	lint.forEach((e) => {
-		statistics[e.severity] +=1;
-	});
-	console.debug("error statistics", statistics);
-	render_statistics(statistics);
-}
-function lint_url(url){
-	    const myUrl = url
-        fetch(myUrl).then(function(r){
-                r.text().then(function(oas){        
-            		console.log("Updating editor.");
-		            editor.getDoc().setValue(oas);
-                	return lint_spec(oas); 
-                });
-        });
-};
-
-function highlight_error(entry){
-	line = entry.range.start.line;
-	ch = entry.range.start.character
-	console.log("line:" + line);
-	editor.addLineClass(line, 'background', 'line-error');
-	switch (entry.severity) {
-		case 0:
-			severity_style = "danger";
-			severity_icon = "error"
-			break;
-		case 1:
-			severity_style = "warning";
-			severity_icon = "warning-circle";
-			break;
-		default:
-			severity_style = "primary";
-			severity_icon = "help"
-	}
-
-	tooltip = "errored path: #/" + entry.path.join("/");
-	message_md = marked(entry.message);
-	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});"
-		data-toggle="tooltip" title="${tooltip}">`
-		+`<div class="col-sm-1 col-md-auto" >`
-			+`<svg class="icon align-middle">`
-			+`<use xlink:href="svg/sprite.svg#it-${severity_icon}"></use></svg>`
-			+`</div>`
-		+`<div class="col-sm-1">${line + 1}</div>`
-		+`<div class="col-sm-3">${entry.code}</div>`
-		+`<div class="col-sm-5">${message_md}</div>`
-		+`</div>`;
-
-    document.getElementById('error-lines').innerHTML += error_line;
-}
-
-/**
- * Focus CodeMirror on the errored line.
- */
-function show_error(line, ch) {
-    editor.focus();
-    editor.setCursor({line: line, ch: ch });
-}
-</script>
-</head>
-<body>
-<!--
- This page does not use a div class="container" as
- the expected layout is to use 100% width of the scree
- like eg. swagger editor.
--->
-<header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
-	<div class="container-fluid">
-		<div class="d-flex flex-column pl-3 pl-sm-4">
-			<h4 class="bd-logo-title" style="color: white">Validatore specifiche OpenAPI (beta 0.1)</h4>
-			<h8 class="bd-logo-subtitle" style="color: white">
-				Verifica l'applicazione delle
-					<a  class="text-white"
-						href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs" >
-						Linee Guida per le API REST</a>
-			</h8>
-		</div>
-
-	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
-      <li class="nav-item pr-2">
-        <a title="Repository GitHub di MODI Validator" data-toggle="tooltip"
-		   class="nav-link d-flex align-items-center"
-		   href="https://github.com/teamdigitale/api-oas-checker/"
-		   target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-          <svg class="icon icon-sm icon-white"><use xlink:href="/svg/sprite.svg#it-github"></use></svg>
-			<span class="sr-only">GitHub</span>
-        </a>
-      </li>
-    </ul>
+  <body>
+    <!-- Header -->
+    <div class="it-header-wrapper">
+      <div class="it-nav-wrapper mt-0">
+        <div class="it-header-center-wrapper pt-0 h-auto">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="it-header-center-content-wrapper p-1">
+                  <h4 class="bd-logo-title">Validatore specifiche OpenAPI (beta 0.1)</h4>
 
 
-	</div>
-</header>
-<div class="container-fluid">
-	Questa pagina verifica (lint) <b>alcune delle indicazioni</b> contenute nel Modello d'Interoperabilità
-	usando <a href="https://github.com/stoplightio/spectral">Spectral</a> le regole definite in
-	<a class="navbar-brand py-2 text-decoration-none"
-   		href="spectral.yml">spectral.yml</a>
-        <br>
-	Scarica le specifiche usando "Lint URL" e modificale nell'editor
-	oppure incollale direttamente nell'editor.
-<b>Attenzione: scaricando un nuovo URL sostituirai il contenuto dell'editor.</b>
-<br>
+                  <div class="it-right-zone">
 
-	<input type="text" name="url" id="oas_url"
-		   placeholder="https://api.example/openapi.yaml"
-		   data-toggle="tooltip"
-		   style="width: 79%"
-	>
-	<button class="btn btn-primary" onclick="clear_url()"  style="width: 5%">X</button>
-	<button class="btn btn-primary" onclick="parse_url();"  style="width: 10%">Lint URL</button>
-</div>
-<div id="form" class="editor-div">
-	<h4 class="bd-logo-subtitle">
-		OpenAPI editor
-		<button class="btn btn-primary" onclick="parse_text();" >Lint text</button>
-	</h4>
-	<div class="form-group">
-		<textarea id="oas_text"></textarea>
-		<label for="oas_text">Write or modify here the OAS specification.</label>
-	</div>
-</div>
+                    <div class="it-socials d-none d-md-flex">
+                      <!-- <span class="d-none d-lg-inline">Seguici su</span> -->
+                      <ul>
+                        <li class="list-inline-item">
+                          <a title="Repository GitHub di MODI Validator" data-toggle="tooltip"
+                            href="https://github.com/teamdigitale/api-oas-checker/" target="_blank"
+                            rel="noopener noreferrer" aria-label="GitHub">
+                            <svg class="icon icon-sm icon-white">
+                              <use xlink:href="/svg/sprite.svg#it-github"></use>
+                            </svg>
+                            <span class="sr-only">GitHub</span>
+                          </a>
+                        </li>
+                        <li class="list-inline-item">
+                          <a title="README help file" data-toggle="tooltip"
+                            href="https://github.com/teamdigitale/api-oas-checker/blob/master/README.md" target="_blank"
+                            rel="noopener noreferrer" aria-label="GitHub">
+                            <svg class="icon icon-sm icon-white">
+                              <use xlink:href="svg/sprite.svg#it-help-circle"></use>
+                            </svg>
+                            <span class="sr-only">GitHub</span>
+                          </a>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="it-header-navbar-wrapper">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-12">
+                <div class="p-1">
+                  <h8 class="bd-logo-subtitle">
+                    Verifica l'applicazione delle
+                    <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs">
+                      Linee Guida per le API REST
+                    </a>
+                  </h8>
+                  <p>
+                    Questa pagina verifica (lint) alcune delle indicazioni contenute nel Modello d'Interoperabilità
+                    usando <a href="https://github.com/stoplightio/spectral">Spectral</a> le regole definite in
+                    <a href="spectral.yml">spectral.yml</a>
+                    Scarica le specifiche usando "Lint URL" e modificale nell'editor
+                    oppure incollale direttamente nell'editor.
+                    <b>Attenzione: scaricando un nuovo URL sostituirai il contenuto dell'editor.</b>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-<!-- All errors are displayed here -->
-<div class="linter">
-	<div class="container-fluid">
-		<h4 class="bd-logo-subtitle" >
-			Trovati
-			<span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errori</span>
-			e
-			<span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warning</span>
-		</h4>
-	</div>
-	<div class="container" id="error-lines-1">
-	  <div class="row">
-		<div class="col-sm-1"></div>
-		<div class="col-sm-1">line</div>
-		<div class="col-sm-3">error</div>
-		<div class="col-sm-5">message</div>
-	  </div>
-		<div class="row d-none" id="badge-valid-oas">
-			<div class="col-sm-10 badge badge-success"><h1>Success</h1></div>
-		</div>
-	</div>
+    <!-- URL bar with utility buttons -->
+    <div class="container-fluid mt-2">
+      <div class="row justify-content-between">
+        <div class="col-9">
+          <input type="text" name="url" id="oas_url" placeholder="https://api.example/openapi.yaml" data-toggle="tooltip">
+        </div>
+        <div class="col-auto">
+          <button class="btn btn-primary" style="height: 48px;" onclick="clearUrl()">
+            <svg class="icon icon-sm icon-white">
+              <use xlink:href="svg/sprite.svg#it-delete"></use>
+            </svg>
+          </button>
+          <button class="btn btn-primary" onclick="parseUrl();">Lint URL</button>
+          <button class="btn btn-primary" onclick="parseText();">Lint text</button>
+        </div>
+      </div>
+    </div>
 
-	<div class="container" id="error-lines">
-	</div>
-</div>
-<script src="./js/bootstrap-italia.bundle.min.js"></script>
 
-</body>
-<script>
-var myTextarea = document.getElementById('oas_text');
-var editor = CodeMirror.fromTextArea(myTextarea, {
-    lineNumbers: true,
-    styleSelected: true,
-    mode: "text/x-yaml",
-    theme: "darcula"
-});
-var counter =  Date.now();
-function selectively_parse(){
-	const refresh_interval = 5000;  // milliseconds
-	if ((Date.now() - counter) < refresh_interval) {
-		console.log("too early");
-		return;
-	}
-	counter = Date.now();
-	parse_text();
-}
-editor.on('change', (event) => {selectively_parse();});
-</script>
+    <!-- Editor -->
+    <div id="form" class="editor-div">
+      <div class="form-group">
+        <textarea id="oas_text"></textarea>
+        <label for="oas_text">Write or modify here the OAS specification.</label>
+      </div>
+    </div>
+
+    <!-- All errors are displayed here -->
+    <div class="linter">
+      <div class="container-fluid text-center">
+        <h4 class="bd-logo-subtitle mt-2">
+          Trovati
+          <span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errori</span>
+          e
+          <span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warning</span>
+        </h4>
+      </div>
+      <div class="container" id="error-lines-1">
+        <div id="header-error-lines" class="row">
+          <!-- autofilled from index.js -->
+        </div>
+        <div class="row d-none justify-content-center" id="badge-valid-oas">
+          <div class="col-sm-8 badge badge-success">
+            <h1>Success</h1>
+          </div>
+        </div>
+      </div>
+
+      <!-- autofilled from index.js -->
+      <div class="container" id="error-lines"></div>
+    </div>
+
+    <script src="js/bootstrap-italia.bundle.min.js"></script>
+    <script src="js/index.js"></script>
+  </body>
+
 </html>

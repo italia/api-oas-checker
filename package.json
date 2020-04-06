@@ -21,13 +21,8 @@
   "name": "api-oas-checker",
   "repository": "teamdigitale/api-oas-checker",
   "scripts": {
-    "init": [
-      "npm link",
-      "npm link api-oas-checker",
-      "npm install .",
-      "npm run b"
-    ],
-    "b": "npx browserify --outfile out.js --standalone api_oas_checker index.js"
+    "start": "cd ${PWD}/bundle && python2 -m SimpleHTTPServer",
+    "build": "make clean all"
   },
   "version": "0.1.0"
 }
