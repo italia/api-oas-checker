@@ -1,0 +1,41 @@
+.line-error {
+  background: blue !important;
+}
+
+.linter {
+  float: right;
+  width: 39%;
+}
+.it-nav-wrapper {
+  font-size: 14px;
+  color: #ffffff;
+}
+.it-nav-wrapper a{
+  color: #ffffff;
+}
+
+.editor-div {
+  width: 60%;
+  height: 100%;
+  float: left;
+}
+
+.CodeMirror {
+  border: 1px solid #eee;
+  font-size: 14px;
+  min-height: 800px;
+}
+
+#error-lines {
+  color: #3b4151;
+  font-size: 14px;
+  overflow-y: scroll;
+  min-height: 800px;
+}
+
+.severity-0 {
+  background-color: red;
+}
+.severity-1 {
+  background-color: yellow;
+}
