@@ -28,7 +28,7 @@ references:
     add_ssh_keys:
       fingerprints:
         # gh-pages deployment key from circle-ci config
-        - ef:89:bb:6b:43:11:55:29:e1:8f:10:f0:fd:c8:7f:58
+        - 2f:3c:9a:b5:80:16:1f:a2:b9:3f:1c:38:2b:a8:60:9e
 
   # commit changes to gh-pages
   # [ci skip] has been added to avoid loops with CircleCI triggers
