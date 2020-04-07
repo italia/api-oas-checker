@@ -1,294 +1,279 @@
 <!DOCTYPE html>
 <html lang="en">
-   <head>
-      <meta charset="utf-8">
-      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-      <title>Italian API Guidelines Checker</title>
-      <link rel="stylesheet" href="./css/bootstrap-italia.min.css">
-      <!-- load bundled node app -->
-      <script src="out.js"></script>
-      <script>window.__PUBLIC_PATH__ = 'fonts'</script>
-      <!-- load codemirror -->
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
-      <link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
-      <!-- markdown parser -->
-      <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-      <style>
-         .line-error {
-         background: blue !important;
-         }
-         .linter {
-         float: right;
-         width: 39%;
-         }
-         .editor-div {
-         width: 60%;
-         height: 100%;
-         float: left;
-         }
-         .CodeMirror {
-         border: 1px solid #eee;
-         height: 800px;
-         }
-         #error-lines {
-         overflow-y: scroll;
-         height: 800px;
-         }
-         .severity-0 {
-         background-color: red;
-         }
-         .severity-1 {
-         background-color: yellow;
-         }
-         h1 {
-         font-size: 32px;
-         }
-         h2 {
-         font-size: 14px;
-         }
-         header .link {
-         color: white;
-         }
-      </style>
-      <script>
-         testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-python/master/openapi/simple.yaml.src";
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-         function parse_url(){
-         	url = document.getElementById('oas_url').value;
-             if (url == "") {
-             	url = testUrl
-             	document.getElementById('oas_url').value = testUrl
-             }
-             lint_url(url);
-         }
+	<title>Italian API Guidelines Checker</title>
+	<link rel="stylesheet" href="./css/bootstrap-italia.min.css">
+	<!-- load bundled node app -->
+	<script src="out.js"></script>
+	<script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
-         function clear_url(){
-         	document.getElementById('oas_url').value = '';
-         }
+	<!-- load codemirror -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
+	<link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
 
-         function render_statistics(statistics){
-         	e = statistics[0];
-         	w = statistics[1];
+	<!-- markdown parser -->
+	<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-         	document.getElementById('errors-badge').classList = !e ? "badge badge-success" : "badge badge-danger"
-         	document.getElementById('warnings-badge').classList = !w ? "badge badge-success" : "badge badge-warning"
+<style>
+.line-error {
+	background: blue !important;
+}
 
-         	// Show/Hide the Success badge.
-         	if (!e && !w) {
-         		document.getElementById('badge-valid-oas').classList.remove("d-none");
-         	} else {
-         		document.getElementById('badge-valid-oas').classList.add("d-none");
-         	}
-         	document.getElementById('errors-count').innerHTML = e;
-         	document.getElementById('warnings-count').innerHTML = w;
-         }
+.linter {
+    float: right;
+    width: 39%;
+}
 
-         async function parse_text(){
-         	// unmark old errored lines
-         	console.log("Unmark old errored lines.")
-         	marked_lines = document.getElementsByClassName('line-error')
-         	Array.prototype.forEach.call(marked_lines, (x)=>{x.classList.remove("line-error")})
+.editor-div {
+	width: 60%;
+	height: 100%;
+	float: left;
+}
 
-         	oas_text = editor.getValue();
-         	document.getElementById('error-lines').innerHTML = '';
-             await lint_spec(oas_text);
-         }
+.CodeMirror {
+  border: 1px solid #eee;
+  height: 800px;
+}
 
-         async function lint_spec(oas) {
-         	const lint = await api_oas_checker.parse(oas, window.location.href + '/spectral.yml');
-         	console.log("lint: ", lint);
+#error-lines {
+	overflow-y: scroll;
+	height: 800px;
+}
 
-         	// mark errored lines
-         	lint.forEach(highlight_error);
+.severity-0 {
+	background-color: red;
+}
+.severity-1 {
+	background-color: yellow;
+}
+</style>
+<script>
+testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-python/master/openapi/simple.yaml.src";
 
-         	// Count errors and warnings.
-         	var statistics = {0:0, 1:0, 2:0};
-         	lint.forEach((e) => {
-         		statistics[e.severity] +=1;
-         	});
-         	console.debug("error statistics", statistics);
-         	render_statistics(statistics);
-         }
-         function lint_url(url){
-         	    const myUrl = url
-                 fetch(myUrl).then(function(r){
-                         r.text().then(function(oas){
-                     		console.log("Updating editor.");
-         		            editor.getDoc().setValue(oas);
-                         	return lint_spec(oas);
-                         });
-                 });
-         };
+function parse_url(){
+	url = document.getElementById('oas_url').value;
+    if (url == "") {
+    	url = testUrl
+    	document.getElementById('oas_url').value = testUrl
+    }
+    lint_url(url);
+}
 
-         function highlight_error(entry){
-         	line = entry.range.start.line;
-         	ch = entry.range.start.character
-         	console.log("line:" + line);
-         	editor.addLineClass(line, 'background', 'line-error');
-         	switch (entry.severity) {
-         		case 0:
-         			severity_style = "danger";
-         			severity_icon = "error"
-         			break;
-         		case 1:
-         			severity_style = "warning";
-         			severity_icon = "warning-circle";
-         			break;
-         		default:
-         			severity_style = "primary";
-         			severity_icon = "help"
-         	}
+function clear_url(){
+	document.getElementById('oas_url').value = '';
+}
 
-         	tooltip = "errored path: #/" + entry.path.join("/");
-         	message_md = marked(entry.message);
-         	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});"
-         		data-toggle="tooltip" title="${tooltip}">`
-         		+`<div class="col-sm-1 col-md-auto" >`
-         			+`<svg class="icon align-middle">`
-         			+`<use xlink:href="svg/sprite.svg#it-${severity_icon}"></use></svg>`
-         			+`</div>`
-         		+`<div class="col-sm-1">${line + 1}</div>`
-         		+`<div class="col-sm-3">${entry.code}</div>`
-         		+`<div class="col-sm-5">${message_md}</div>`
-         		+`</div>`;
+function render_statistics(statistics){
+	e = statistics[0];
+	w = statistics[1];
 
-             document.getElementById('error-lines').innerHTML += error_line;
-         }
+	document.getElementById('errors-badge').classList = !e ? "badge badge-success" : "badge badge-danger"
+	document.getElementById('warnings-badge').classList = !w ? "badge badge-success" : "badge badge-warning"
 
-         /**
-          * Focus CodeMirror on the errored line.
-          */
-         function show_error(line, ch) {
-             editor.focus();
-             editor.setCursor({line: line, ch: ch });
-         }
-      </script>
-   </head>
-   <body>
-      <!--
-         This page does not use a div class="container" as
-         the expected layout is to use 100% width of the scree
-         like eg. swagger editor.
+	// Show/Hide the Success badge.
+	if (!e && !w) {
+		document.getElementById('badge-valid-oas').classList.remove("d-none");
+	} else {
+		document.getElementById('badge-valid-oas').classList.add("d-none");
+	}
+	document.getElementById('errors-count').innerHTML = e;
+	document.getElementById('warnings-count').innerHTML = w;
+}
 
-         -->
-      <header class="id-header-wrapper navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim text-white">
-         <!--div class="it-header-slim-wrapper">
-            <div class="container"><div class="row"> <div class="col-12"></div></div> </div>
-            </div-->
-         <div class="container-fluid it-header-sticky it-header-center-wrapper">
-            <div class="d-flex flex-row">
-               <div class="d-flex flex-column  pl-sm-4">
-                        <h1 class="bd-logo-title">Validatore specifiche OpenAPI (beta 0.1)</h1>
-                        <h2 class="bd-logo-subtitle">
-                           Verifica l'applicazione delle
-                           <a class="text-white"
-                              href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs" >
-                           Linee Guida per le API REST</a>
-                        </h2>
-               </div>
-            </div>
-            <ul class="navbar-nav it-right-zone flex-row ml-md-auto d-none d-md-flex">
-               <li class="nav-item pr-2">
-                  <a title="Repository GitHub di MODI Validator" data-toggle="tooltip"
-                     class="nav-link d-flex align-items-center"
-                     href="https://github.com/teamdigitale/api-oas-checker/"
-                     target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                     <svg class="icon icon-sm icon-white">
-                        <use xlink:href="svg/sprite.svg#it-github"></use>
-                     </svg>
-                     <span class="sr-only">GitHub</span>
-                  </a>
-               </li>
-               <li class="nav-item pr-2">
-                        <a title="README help file" data-toggle="tooltip"
-                        href="https://github.com/teamdigitale/api-oas-checker/blob/master/README.md"
-                        target="_blank" rel="noopener noreferrer" aria-label="GitHub">
-                        <svg class="icon icon-sm icon-white">
-                           <use xlink:href="svg/sprite.svg#it-help"></use>
-                        </svg>
-                        <span class="sr-only">GitHub</span>
-                     </a>
-               </li>
-            </ul>
-         </div>
-         <div class="navbar-nav it-left-zone">
-         </div>
-      </header>
-      <div class="container-fluid">
-         Questa pagina verifica (lint)
-         <b>alcune delle indicazioni</b> contenute nelle Linee Guida del Modello di Interoperabilità.
-         <br>
-         Carica le tue specifiche usando "Lint URL" e modificale nell'editor
-         oppure incollale direttamente nell'editor.
+async function parse_text(){
+	// unmark old errored lines
+	console.log("Unmark old errored lines.")
+	marked_lines = document.getElementsByClassName('line-error')
+	Array.prototype.forEach.call(marked_lines, (x)=>{x.classList.remove("line-error")})
 
-         Per ulteriori informazioni vedi il <a href="https://github.com/teamdigitale/api-oas-checker/blob/master/README.md">README</a>
-         <b></b>
-         <br>
-         <input type="text" name="url" id="oas_url"
-            placeholder="https://api.example/openapi.yaml     Attenzione: scaricando un nuovo URL sostituirai il contenuto dell'editor."
-            data-toggle="tooltip"
-            style="width: 79%"
-            >
-         <button class="btn btn-primary" onclick="clear_url()"  style="width: 5%">X</button>
-         <button class="btn btn-primary" onclick="parse_url();"  style="width: 10%">Lint URL</button>
-      </div>
-      <div id="form" class="editor-div">
-         <h4 class="bd-logo-subtitle">
-            OpenAPI editor
-            <button class="btn btn-primary" onclick="parse_text();" >Lint text</button>
-         </h4>
-         <div class="form-group">
-            <textarea id="oas_text"></textarea>
-            <label for="oas_text">Write or modify here the OAS specification.</label>
-         </div>
-      </div>
-      <!-- All errors are displayed here -->
-      <div class="linter">
-         <div class="container-fluid">
-            <h4 class="bd-logo-subtitle" >
-               Trovati
-               <span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errori</span>
-               e
-               <span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warning</span>
-            </h4>
-         </div>
-         <div class="container" id="error-lines-1">
-            <div class="row">
-               <div class="col-sm-1"></div>
-               <div class="col-sm-1">line</div>
-               <div class="col-sm-3">error</div>
-               <div class="col-sm-5">message</div>
-            </div>
-            <div class="row d-none" id="badge-valid-oas">
-               <div class="col-sm-10 badge badge-success">
-                  <h1>Success</h1>
-               </div>
-            </div>
-         </div>
-         <div class="container" id="error-lines">
-         </div>
-      </div>
-      <script src="./js/bootstrap-italia.bundle.min.js"></script>
-   </body>
-   <script>
-      var myTextarea = document.getElementById('oas_text');
-      var editor = CodeMirror.fromTextArea(myTextarea, {
-          lineNumbers: true,
-          styleSelected: true,
-          mode: "text/x-yaml",
-          theme: "darcula"
-      });
-      var counter =  Date.now();
-      function selectively_parse(){
-      	const refresh_interval = 5000;  // milliseconds
-      	if ((Date.now() - counter) < refresh_interval) {
-      		console.log("too early");
-      		return;
-      	}
-      	counter = Date.now();
-      	parse_text();
-      }
-      editor.on('change', (event) => {selectively_parse();});
-   </script>
+	oas_text = editor.getValue();
+	document.getElementById('error-lines').innerHTML = '';
+    await lint_spec(oas_text);
+}
+
+async function lint_spec(oas) {
+	const lint = await api_oas_checker.parse(oas, window.location.href + '/spectral.yml');
+	console.log("lint: ", lint);
+
+	// mark errored lines
+	lint.forEach(highlight_error);
+
+	// Count errors and warnings.
+	var statistics = {0:0, 1:0, 2:0};
+	lint.forEach((e) => {
+		statistics[e.severity] +=1;
+	});
+	console.debug("error statistics", statistics);
+	render_statistics(statistics);
+}
+function lint_url(url){
+	    const myUrl = url
+        fetch(myUrl).then(function(r){
+                r.text().then(function(oas){        
+            		console.log("Updating editor.");
+		            editor.getDoc().setValue(oas);
+                	return lint_spec(oas); 
+                });
+        });
+};
+
+function highlight_error(entry){
+	line = entry.range.start.line;
+	ch = entry.range.start.character
+	console.log("line:" + line);
+	editor.addLineClass(line, 'background', 'line-error');
+	switch (entry.severity) {
+		case 0:
+			severity_style = "danger";
+			severity_icon = "error"
+			break;
+		case 1:
+			severity_style = "warning";
+			severity_icon = "warning-circle";
+			break;
+		default:
+			severity_style = "primary";
+			severity_icon = "help"
+	}
+
+	tooltip = "errored path: #/" + entry.path.join("/");
+	message_md = marked(entry.message);
+	error_line  =  `<div class="row text-${severity_style}" onClick="show_error(${line},${ch});"
+		data-toggle="tooltip" title="${tooltip}">`
+		+`<div class="col-sm-1 col-md-auto" >`
+			+`<svg class="icon align-middle">`
+			+`<use xlink:href="svg/sprite.svg#it-${severity_icon}"></use></svg>`
+			+`</div>`
+		+`<div class="col-sm-1">${line + 1}</div>`
+		+`<div class="col-sm-3">${entry.code}</div>`
+		+`<div class="col-sm-5">${message_md}</div>`
+		+`</div>`;
+
+    document.getElementById('error-lines').innerHTML += error_line;
+}
+
+/**
+ * Focus CodeMirror on the errored line.
+ */
+function show_error(line, ch) {
+    editor.focus();
+    editor.setCursor({line: line, ch: ch });
+}
+</script>
+</head>
+<body>
+<!--
+ This page does not use a div class="container" as
+ the expected layout is to use 100% width of the scree
+ like eg. swagger editor.
+-->
+<header class="navbar-main navbar navbar-dark bd-navbar px-3 bd-navbar--slim">
+	<div class="container-fluid">
+		<div class="d-flex flex-column pl-3 pl-sm-4">
+			<h4 class="bd-logo-title" style="color: white">Validatore specifiche OpenAPI (beta 0.1)</h4>
+			<h8 class="bd-logo-subtitle" style="color: white">
+				Verifica l'applicazione delle
+					<a  class="text-white"
+						href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs" >
+						Linee Guida per le API REST</a>
+			</h8>
+		</div>
+
+	<ul class="navbar-nav flex-row ml-md-auto d-none d-md-flex">
+      <li class="nav-item pr-2">
+        <a title="Repository GitHub di MODI Validator" data-toggle="tooltip"
+		   class="nav-link d-flex align-items-center"
+		   href="https://github.com/teamdigitale/api-oas-checker/"
+		   target="_blank" rel="noopener noreferrer" aria-label="GitHub">
+          <svg class="icon icon-sm icon-white"><use xlink:href="/svg/sprite.svg#it-github"></use></svg>
+			<span class="sr-only">GitHub</span>
+        </a>
+      </li>
+    </ul>
+
+
+	</div>
+</header>
+<div class="container-fluid">
+	Questa pagina verifica (lint) <b>alcune delle indicazioni</b> contenute nel Modello d'Interoperabilità
+	usando <a href="https://github.com/stoplightio/spectral">Spectral</a> le regole definite in
+	<a class="navbar-brand py-2 text-decoration-none"
+   		href="spectral.yml">spectral.yml</a>
+        <br>
+	Scarica le specifiche usando "Lint URL" e modificale nell'editor
+	oppure incollale direttamente nell'editor.
+<b>Attenzione: scaricando un nuovo URL sostituirai il contenuto dell'editor.</b>
+<br>
+
+	<input type="text" name="url" id="oas_url"
+		   placeholder="https://api.example/openapi.yaml"
+		   data-toggle="tooltip"
+		   style="width: 79%"
+	>
+	<button class="btn btn-primary" onclick="clear_url()"  style="width: 5%">X</button>
+	<button class="btn btn-primary" onclick="parse_url();"  style="width: 10%">Lint URL</button>
+</div>
+<div id="form" class="editor-div">
+	<h4 class="bd-logo-subtitle">
+		OpenAPI editor
+		<button class="btn btn-primary" onclick="parse_text();" >Lint text</button>
+	</h4>
+	<div class="form-group">
+		<textarea id="oas_text"></textarea>
+		<label for="oas_text">Write or modify here the OAS specification.</label>
+	</div>
+</div>
+
+<!-- All errors are displayed here -->
+<div class="linter">
+	<div class="container-fluid">
+		<h4 class="bd-logo-subtitle" >
+			Trovati
+			<span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errori</span>
+			e
+			<span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warning</span>
+		</h4>
+	</div>
+	<div class="container" id="error-lines-1">
+	  <div class="row">
+		<div class="col-sm-1"></div>
+		<div class="col-sm-1">line</div>
+		<div class="col-sm-3">error</div>
+		<div class="col-sm-5">message</div>
+	  </div>
+		<div class="row d-none" id="badge-valid-oas">
+			<div class="col-sm-10 badge badge-success"><h1>Success</h1></div>
+		</div>
+	</div>
+
+	<div class="container" id="error-lines">
+	</div>
+</div>
+<script src="./js/bootstrap-italia.bundle.min.js"></script>
+
+</body>
+<script>
+var myTextarea = document.getElementById('oas_text');
+var editor = CodeMirror.fromTextArea(myTextarea, {
+    lineNumbers: true,
+    styleSelected: true,
+    mode: "text/x-yaml",
+    theme: "darcula"
+});
+var counter =  Date.now();
+function selectively_parse(){
+	const refresh_interval = 5000;  // milliseconds
+	if ((Date.now() - counter) < refresh_interval) {
+		console.log("too early");
+		return;
+	}
+	counter = Date.now();
+	parse_text();
+}
+editor.on('change', (event) => {selectively_parse();});
+</script>
 </html>
