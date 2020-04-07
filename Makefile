@@ -3,9 +3,19 @@
 #
 #
 TMPDIR := $(shell mktemp  -u /tmp/fooXXXXXX)
+# $(shell git config --get remote.origin.url)
+
+ifndef CIRCLE_REPOSITORY_URL
+	REPO_ORIGIN := "."
+else
+	REPO_ORIGIN := $(CIRCLE_REPOSITORY_URL)
+endif
 
 all: setup bundle
 
+dump:
+	@echo $(CIRCLE_REPOSITORY_URL)
+	@echo $(REPO_ORIGIN)
 # Create the web pages in bundle/
 bundle: bundle/js/bootstrap-italia.min.js bundle/out.js index.html spectral.yml
 	cp index.html spectral.yml bundle
@@ -13,14 +23,14 @@ bundle: bundle/js/bootstrap-italia.min.js bundle/out.js index.html spectral.yml
 bundle/out.js: index.js package.json setup
 	npx browserify --outfile bundle/out.js --standalone api_oas_checker index.js
 
-gh-pages: bundle rules
+gh-pages: dump bundle rules
 	rm css js asset svg -fr
-	git clone . $(TMPDIR) -b gh-pages
+	git clone $(REPO_ORIGIN) $(TMPDIR) -b gh-pages
 	cp bundle/index.html bundle/spectral.yml bundle/out.js $(TMPDIR)
 	git -C $(TMPDIR) add index.html out.js spectral.yml
 	git -C $(TMPDIR) -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" \
-		commit -m "Script updating gh-pages from $(shell git rev-parse short HEAD). [ci skip]"
-	git -C $(TMPDIR) push -q origin gh-pages
+		commit -m "Script updating gh-pages from $(shell git rev-parse --short HEAD). [ci skip]"
+	git -C $(TMPDIR) push -q origin gh-pages-test
 	rm $(TMPDIR) -fr
 
 bundle/js/bootstrap-italia.min.js: 
@@ -41,15 +51,11 @@ clean:
 #
 # Preparation goals
 #
-/usr/local/lib/node_modules/api-oas-checker: package.json
-	npm link
-	npm link api-oas-checker
-
-setup: /usr/local/lib/node_modules/api-oas-checker package.json
+setup: package.json
 	# XXX to make it work after link you need to run twice npm install
 	npm install .
-	npm install .
 
+# Check RULE env var for interactive testing.
 t:
 	spectral lint rules/$(RULE)-test.yml -r rules/$(RULE).yml
 
