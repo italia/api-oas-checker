@@ -36,6 +36,12 @@ $ docker-compose up -d run
 $ xdg-open localhost:8000
 ```
 
+In alternativa sarà sufficiente eseguire:
+```
+$ npm run build
+$ npm start
+```
+
 Se volete controllare la vostra API usando la CLI
 di Spectral, vi basta lanciare dalla directory `api-oas-validator`
 
