@@ -30,7 +30,7 @@ gh-pages: dump bundle rules
 	git -C $(TMPDIR) add index.html out.js spectral.yml
 	git -C $(TMPDIR) -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" \
 		commit -m "Script updating gh-pages from $(shell git rev-parse --short HEAD). [ci skip]"
-	git -C $(TMPDIR) push -q origin gh-pages-test
+	git -C $(TMPDIR) push -q origin gh-pages:gh-pages-test
 	rm $(TMPDIR) -fr
 
 bundle/js/bootstrap-italia.min.js: 
