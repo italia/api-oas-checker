@@ -16,20 +16,20 @@ all: setup bundle
 # Create the web pages in bundle/
 bundle: bundle/js/bootstrap-italia.min.js copy_public bundle/out.js index.html spectral.yml
 
-bundle/out.js: public/js/bundle.js package.json setup
+bundle/out.js: setup public/js/bundle.js package.json
 	npx browserify --outfile bundle/out.js --standalone api_oas_checker public/js/bundle.js
 
 gh-pages: bundle rules
 	rm css js asset svg -fr
 	git clone $(REPO_ORIGIN) $(TMPDIR) -b gh-pages
 	cp -r bundle/* $(TMPDIR)
-	git -C $(TMPDIR) add *
+	git -C $(TMPDIR) add .
 	git -C $(TMPDIR) -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" \
 		commit -m "Script updating gh-pages from $(shell git rev-parse --short HEAD). [ci skip]"
 	git -C $(TMPDIR) push -q origin gh-pages
 	rm $(TMPDIR) -fr
 
-bundle/js/bootstrap-italia.min.js:
+bundle/js/bootstrap-italia.min.js: setup
 	cp -r node_modules/bootstrap-italia/dist/* bundle/
 
 copy_public:
@@ -53,6 +53,7 @@ clean:
 # Preparation goals
 #
 setup: package.json
+	mkdir -p bundle
 	npm install .
 
 # Check RULE env var for interactive testing.
