@@ -49,6 +49,12 @@ di Spectral, vi basta lanciare dalla directory `api-oas-validator`
 api-oas-validator $ spectral lint -r spectral.yml $OAS_URL_OR_FILE
 ```
 
+Se avete `docker` potete passare le regole ed il file da validare tramite URL
+
+```
+$ docker run  stoplight/spectral lint -r https://teamdigitale.github.io/api-oas-checker/spectral.yml $OAS_URL
+```
+
 ## Compilazione
 
 Questa applicazione usa Browserify,
