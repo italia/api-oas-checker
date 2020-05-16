@@ -1,0 +1,116 @@
+rules:
+  cache-control-undocumented:
+    description: |-
+      Cache usage MUST be extensively detailed in the `description` property
+      to avoid data leaks or the usage of stale data.
+
+      This rule should ensure in some way that the api provider
+      documented extensively the cache usage to avoid data leaks
+      or usage of stale data.
+
+      For now this just tests the presence of `max-age` but that's
+      only a placeholder. Hints welcome.
+    message: >-
+      Cache usage MUST be documented: {{error}} {{path}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: >-
+      $..[parameters].[?(@.name=="cache-control" || @.name=="Cache-Control")]
+    then:
+    -  field: description
+       function: truthy
+    -  field: description
+       function: pattern
+       functionOptions:
+         match: >-
+           (max-age|private|no-store|no-cache).*
+
+  expires-undocumented:
+    description: |-
+      Cache usage MUST be extensively detailed in the `description` property
+      to avoid data leaks or the usage of stale data.
+
+      This rule should ensure in some way that the api provider
+      documented extensively the cache usage to avoid data leaks
+      or usage of stale data.
+
+      For now this just tests the presence of `max-age` but that's
+      only a placeholder. Hints welcome.
+    message: >-
+      Cache usage MUST be documented: {{error}} {{path}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given: >-
+      $..[parameters].[?(@.name=="expires" || @.name=="Expires")]
+    then:
+    -  field: description
+       function: truthy
+    -  field: description
+       function: pattern
+       functionOptions:
+         match: >-
+           (max-age|private|no-store|no-cache).*
+
+  expires-or-cache-control:
+    description: |-
+      Cache-Control overrides Expires when `max-age` is set.
+    message: >-
+      Cache-Control overrides Expires when `max-age` is set.. {{property}} {{error}} {{path}}
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: >-
+      $.[responses][?(@property[0] == "2" )][headers]
+    then:
+    - functionOptions:
+        properties:
+        -  Cache-Control
+        -  Expires
+      function: xor
+    - functionOptions:
+        properties:
+        -  cache-control
+        -  expires
+      function: xor
+
+
+  beware-euristic-cache: &beware-euristic-cache
+    description: |-
+      If no Cache-Control or Expires are set, clients MAY use euristic cache.
+    message: >-
+      If no Cache-Control or Expires are set, clients MAY use euristic cache. {{property}} {{error}} {{path}}
+    formats:
+      - oas3
+    severity: info
+    recommended: true
+    given: >-
+      $.[responses][?(@property[0] == "2" )][headers]
+    then:
+    - functionOptions:
+        properties:
+        -  Cache-Control
+        -  Expires
+      function: or
+
+  beware-euristic-cache-lowercase:
+    description: |-
+      If no Cache-Control or Expires are set, clients MAY use euristic cache.
+    message: >-
+      If no Cache-Control or Expires are set, clients MAY use euristic cache. {{property}} {{error}} {{path}}
+    formats:
+      - oas3
+    severity: info
+    recommended: true
+    given: >-
+      $.[responses][?(@property[0] == "2" )][headers]
+    then:
+    - functionOptions:
+        properties:
+          - cache-control
+          - expires
+      function: xor

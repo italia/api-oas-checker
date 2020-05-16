@@ -1,0 +1,71 @@
+openapi: 3.0.1
+paths:
+  /ok-cache-control:
+    get:
+      parameters:
+      - name: Cache-Control
+        in: header
+        example: >-
+          max-age: 3000
+        description: |-
+          This rule should find a way to ensure that the API provider
+          analysed and documented all the issues of caching and
+          decided to use (eg. max-age, private, ...) because...
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Cache-Control must contain a placeholder
+  /ko-cache-control-nodescription:
+    get:
+      parameters:
+      - name: Cache-Control
+        in: header
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Should detail cache usage.
+
+  /ko-cache-control-short-description:
+    get:
+      parameters:
+      - name: Cache-Control
+        in: header
+        description: |-
+          Should detail cache usage
+        schema:
+          type: string
+      responses:
+        "201":
+          description: Should have a meaningful cache usage.
+
+  /ko-cache-control-and-expires:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Cache-Control:
+              description: |-
+                max-age private no-store
+              schema:
+                type: string
+            Expires:
+                description: |-
+                  max-age private no-store
+
+  /ko-cache-control-and-expires-lower:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            cache-control:
+              description: |-
+                max-age private no-store
+              schema:
+                type: string
+            expires:
+                description: |-
+                  max-age private no-store
