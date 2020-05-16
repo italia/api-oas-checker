@@ -16,7 +16,7 @@ components:
         format: int32
 openapi: 3.0.1
 paths:
-  /numeric-ok:
+  /number-ok:
     put:
       requestBody:
        content:
@@ -32,7 +32,7 @@ paths:
           schema:
             $ref: '#/components/schemas/Integer'
 
-  /numeric-ko:
+  /number-ko:
      put:
       requestBody:
        content:

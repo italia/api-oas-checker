@@ -82,7 +82,7 @@ rules:
     severity: error
     recommended: true
     given: |
-      $.[?(@.type=="numeric")]
+      $.[?(@.type=="integer")]
     then:
       field: format
       function: truthy
@@ -103,8 +103,8 @@ rules:
   use-problem-json-for-default:
     description: APIs should use Problem json for errors. See
       https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: Use media-type application/problem+json for default responses (errors) and
-      the associate schema. {{path}}
+    message: Use media-type application/problem+json for default responses (errors)
+      and the associate schema. {{path}}
     formats:
       - oas3
     severity: error
