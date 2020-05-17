@@ -11,3 +11,6 @@ servers:
   - url: http://ko.sandbox.examle
     x-sandbox: false
     description: should be https
+info:
+  x-contact: Missing contact
+  x-termsOfService: Missing ToS

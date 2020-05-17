@@ -38,6 +38,28 @@ rules:
     then:
       field: info.x-summary
       function: truthy
+  has-termsOfService:
+    description: API MUST reference the URL of the Terms of Service {{path}}
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    formats:
+      - oas3
+    then:
+      field: info.termsOfService
+      function: truthy
+  has-contact:
+    description: "API MUST reference a contact, either url or email: {{path}}"
+    given: $
+    severity: error
+    recommended: true
+    type: style
+    formats:
+      - oas3
+    then:
+      field: info.contact
+      function: truthy
   has-x-api-id:
     description: API must have an unique identifier in x-api-id {{path}}
     given: $
