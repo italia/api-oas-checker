@@ -127,7 +127,12 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
   lineNumbers: true,
   styleSelected: true,
   mode: "text/x-yaml",
-  theme: "darcula"
+  theme: "darcula",
+  extraKeys: {
+    "Tab": function(cm){
+      cm.replaceSelection("   " , "end");
+    }
+  }
 });
 
 var counter = Date.now();
