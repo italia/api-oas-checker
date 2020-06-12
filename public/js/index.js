@@ -151,6 +151,6 @@ window.addEventListener('load', function() {
     pageUrl = new URL(window.location.href);
     if(pageUrl.searchParams.get('url')){
         document.getElementById('oas_url').value = pageUrl.searchParams.get('url');
-	parseUrl();
+        parseUrl();
     }
 })
