@@ -1,0 +1,73 @@
+# This repository adheres to the publiccode.yml standard by including this 
+# metadata file that makes public software easily discoverable.
+# More info at https://github.com/italia/publiccode.yml
+
+publiccodeYmlVersion: '0.2'
+categories:
+  - compliance-management
+  - application-development
+description:
+  it:
+    features:
+      - Valida specifiche OpenAPI
+      - Single-page application
+      - CLI
+    genericName: api linter
+    longDescription: >
+      Questo repository contiene un validatore in-browser che verifica alcune
+      delle regole per le API REST indicate nel Modello di Interoperabilità.
+
+
+      ​
+
+
+      Il validatore è basato su stoplight spectral. Il  progetto è basato su
+      nodejs ed usa webpack per creare una single-page application
+
+
+      Nella directory
+      [rules/](https://github.com/teamdigitale/api-oas-checker/blob/master/rules)
+      ci sono le regole applicate, che vengono poi aggregate nel file
+      [spectral.yml](https://github.com/teamdigitale/api-oas-checker/blob/master/spectral.yml)
+      che è scaricabile ed utilizzabile per integrare le regole nelle proprie
+      delivery chain.
+
+
+      ​
+    shortDescription: >-
+      Questo repository contiene un validatore in-browser che verifica alcune
+      delle regole per le API REST indicate nel Modello di Interoperabilità. 
+developmentStatus: development
+it:
+  conforme:
+    gdpr: false
+    lineeGuidaDesign: false
+    misureMinimeSicurezza: false
+    modelloInteroperabilita: true
+  countryExtensionVersion: '0.2'
+  piattaforme:
+    anpr: false
+    cie: false
+    pagopa: false
+    spid: false
+  riuso:
+    codiceIPA: pcm
+legal:
+  license: BSD-3-Clause
+  repoOwner: Presidenza del Consiglio dei Ministri
+localisation:
+  availableLanguages:
+    - it
+  localisationReady: false
+maintenance:
+  contacts:
+    - email: roberto@teamdigitale.governo.it
+      name: Roberto Polli
+  type: community
+name: OpenAPI Checker
+platforms:
+  - linux
+releaseDate: '2020-06-16'
+softwareType: standalone/web
+softwareVersion: 0.0.1
+url: 'https://github.com/teamdigitale/api-oas-checker'
