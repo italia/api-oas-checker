@@ -73,3 +73,9 @@ Jsonpath supporta le back-references,
  si veda https://github.com/json-path/JsonPath/issues/287#issuecomment-265479196
 
 Per ulteriori informazioni sulle regole di spectra si veda https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/getting-started/rulesets.md
+
+## Contributi
+
+Grazie a Paolo Falomo
+e a Vincenzo Chianese per i suggerimenti ed i contributi!
+
