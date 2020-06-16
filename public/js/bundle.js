@@ -1,4 +1,11 @@
-const { Spectral,  isOpenApiv2, isOpenApiv3, isOpenApiv3_1 } = require('@stoplight/spectral');
+const {
+	Spectral,
+	isOpenApiv2,
+	isOpenApiv3,
+	isOpenApiv3_1,
+	isJSONSchema,
+	isJSONSchemaDraft2019_09
+} = require('@stoplight/spectral');
 const { getLocationForJsonPath, parseWithPointers } = require("@stoplight/yaml");
 const { Resolver } = require( '@stoplight/json-ref-resolver');
 const { resolveFile, resolveHttp } = require('@stoplight/json-ref-readers');
@@ -30,6 +37,8 @@ function parse(oas3, ruleset){
 		const spectral = new Spectral({resolver: httpAndFileResolver});
 		spectral.registerFormat('oas2', isOpenApiv2);
 		spectral.registerFormat('oas3', isOpenApiv3);
+		spectral.registerFormat('json-schema', isJSONSchema);
+		spectral.registerFormat('json-schema-2019-09', isJSONSchemaDraft2019_09);
 		spectral.loadRuleset(ruleset)
 		  .then(() => spectral
 			  .run({
