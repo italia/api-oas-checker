@@ -43,7 +43,7 @@ async function parseText() {
 }
 
 async function lintSpec(oas) {
-  const lint = await api_oas_checker.parse(oas, window.location.href + '/spectral.yml');
+  const lint = await api_oas_checker.parse(oas, location.origin + location.pathname + '/spectral.yml');
   console.log("lint: ", lint);
 
   // mark errored lines
