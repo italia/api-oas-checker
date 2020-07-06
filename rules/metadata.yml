@@ -74,15 +74,3 @@ rules:
       field: "info.x-api-id"
       function: truthy
 
-  paths-kebab-case:
-    description: |
-      Paths should be kebab-case.
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
-    message: '{{property}} is not kebab-case: {{error}}'
-    severity: warn
-    recommended: true
-    given: $.paths[*]~
-    then:
-      function: pattern
-      functionOptions:
-        match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
