@@ -11,10 +11,13 @@ rules:
     severity: error
     recommended: true
     given: >-
-      $.[responses][default][content]
+      $.[responses][default][content].*~
     then:
-      field: 'application/problem+json'
-      function: truthy
+      function: enumeration
+      functionOptions:
+        values:
+        - application/problem+xml
+        - application/problem+json
   use-problem-json-schema:
     description: >-
       APIs should use Problem json for errors.
@@ -28,7 +31,7 @@ rules:
     # Search for 4xx, 5xx and default responses schema.
     given: >-
       $.[responses]
-        [?(@property[0] != "1" && @property[0] != "2" && @property[0] != "3" )]
+        [?(@property.match(/^[45]/) )]
         [[schema]]
     then:
       function: schema

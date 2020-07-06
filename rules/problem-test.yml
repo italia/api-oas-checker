@@ -1,11 +1,22 @@
 openapi: 3.0.1
 paths:
+  /ok-default-use-problem-single:
+    get:
+      responses:
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
   /ok-default-use-problem:
     get:
       responses:
         default:
           content:
             application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+            application/problem+xml:
               schema:
                 $ref: '#/components/schemas/Problem'
   /ko-default-use-problem:
