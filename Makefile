@@ -56,16 +56,8 @@ setup: package.json
 	mkdir -p bundle
 	npm install .
 
-# Check RULE env var for interactive testing.
-t:
-	spectral lint rules/$(RULE)-test.yml -r rules/$(RULE).yml
-
 
 test:
 	# once you filter out "ko" strings, you should have no "  error  "s.
-	@for f in $(shell ls rules/*-test.yml); do \
-		spectral lint $$f -r `echo $$f | sed -e 's,-test,,'` ; \
-		done \
-		| grep -v ko | grep '  error  ' && exit 1 || exit 0
-	
+	bash test-rules.sh all	
 	

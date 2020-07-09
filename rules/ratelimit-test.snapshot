@@ -1,0 +1,9 @@
+OpenAPI 3.x detected
+
+/code/rules/ratelimit-test.yml
+ 35:19  warning  missing-ratelimit    Missing ratelimit headers. headers X-RateLimit-Limit and RateLimit-Limit cannot be both defined or both undefined #/paths/~1ko/get/responses/201/headers See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+ 39:19  warning  missing-retry-after  Missing ratelimit header: `headers.Retry-After` property  in #/paths/~1ko/get/responses/429/headers See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+ 42:19  warning  missing-retry-after  Missing ratelimit header: `headers.Retry-After` property  in #/paths/~1ko/get/responses/503/headers See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+
+✖ 3 problems (0 errors, 3 warnings, 0 infos, 0 hints)
+
