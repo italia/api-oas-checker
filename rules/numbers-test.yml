@@ -1,5 +1,13 @@
 components:
   schemas:
+    ko_Integer_bad1:
+      schema:
+        type: integer
+        format: bad
+    ko_Number_bad1:
+      schema:
+        type: number
+        format: bad
     ko_Number:
       schema:
         type: number
@@ -46,4 +54,15 @@ paths:
         application/json:
           schema:
             $ref: '#/components/schemas/ko_Integer'
-
+  /integer-ko-bad:
+    put:
+      requestBody:
+      content:
+        application/json:
+          schema:
+            properties:
+              ibad1:
+                $ref: '#/components/schemas/ko_Integer_bad1'
+              nbad1:
+                $ref: '#/components/schemas/ko_Number_bad1'
+          
