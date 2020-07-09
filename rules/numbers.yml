@@ -1,5 +1,5 @@
 rules:
-  numeric-format:
+  number-format:
     description: Number must specify a format.
     message: >-
       Schema of type number must specify a format. {{path}}
@@ -27,4 +27,43 @@ rules:
     then:
       field: format
       function: truthy
-
+  allowed-integer-format:
+    description: Integer format should be in the table.
+    message: >-
+      integer format is "{{value}}", expected one of [int32, int64]. {{path}}
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+    - oas3
+    severity: hint
+    recommended: true
+    given: >
+      $.[?(@.type=="integer")]
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+        - int32
+        - int64
+  allowed-number-format:
+    description: Integer format should be in the table.
+    message: >-
+      number format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+    - oas3
+    severity: hint
+    recommended: true
+    given: >
+      $.[?(@.type=="number")]
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+        - decimal32
+        - decimal64
+        - float
+        - double
+        - decimal128
+          
