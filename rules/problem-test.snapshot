@@ -1,0 +1,9 @@
+OpenAPI 3.x detected
+
+/code/rules/problem-test.yml
+ 15:19    error  use-problem-json-for-default  Use media-type application/problem+json for default responses (errors) and the associate schema. #/paths/~1ko-default-use-problem/get/responses/default/content
+ 32:23  warning  response-with-json-object     Responses must use json objects #/paths/~1ko-response-not-object/get/responses/200/content/application~1json/schema/type
+ 55:13  warning  response-with-json-object     Responses must use json objects #/components/schemas/ko_String/type
+
+✖ 3 problems (1 error, 2 warnings, 0 infos, 0 hints)
+
