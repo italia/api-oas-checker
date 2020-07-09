@@ -1,0 +1,44 @@
+rules:
+  paths-kebab-case:
+    description: |
+      Paths should be kebab-case.
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
+    message: '{{property}} is not kebab-case: {{error}}'
+    severity: warn
+    recommended: true
+    given: $.paths[*]~
+    then:
+      # BEWARE: don't use `casing` because  this pattern allows
+      #         for non-kebab parameters in the path.
+      function: pattern
+      functionOptions:
+        match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
+
+  request-headers-pascal-case:
+    description: |
+      Headers should be pascal-case.
+    message: '{{value}} {{error}} in {{path}}'
+    severity: hint
+    recommended: true
+    given:
+    - $.[parameters][?(@.in=="header")].name
+    then:
+      function: casing
+      functionOptions:
+        type: pascal
+        separator:
+          char: '-'
+  response-headers-pascal-case:
+    description: |
+      Headers should be pascal-case.
+    message: 'Header {{error}}: {{path}}'
+    severity: hint
+    recommended: true
+    given:
+    - $.[responses][*].headers.*~
+    then:
+      function: casing
+      functionOptions:
+        type: pascal
+        separator:
+          char: '-'

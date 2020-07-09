@@ -17,7 +17,7 @@ case "$1" in
             spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | diff - "rules/$RULE-test.snapshot"
         done
         ;;
-    metadata|numbers|pagination|patch|problem|ratelimit)
+    casing|metadata|numbers|pagination|patch|problem|ratelimit)
         RULE="$1"
 
         if [ ! -f "rules/$RULE-test.snapshot" ]; then
