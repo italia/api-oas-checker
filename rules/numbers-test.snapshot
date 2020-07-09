@@ -1,0 +1,9 @@
+OpenAPI 3.x detected
+
+/code/rules/numbers-test.yml
+  4:14  error  numeric-format  Schema of type number must specify a format. #/components/schemas/ko_Number/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 11:14  error  integer-format  Schema of type integer must specify a format. #/components/schemas/ko_Integer/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 40:19  error  numeric-format  Schema of type number must specify a format. #/paths/~1number-ko/put/requestBody/content/application~1json-patch+json/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+
+✖ 3 problems (3 errors, 0 warnings, 0 infos, 0 hints)
+
