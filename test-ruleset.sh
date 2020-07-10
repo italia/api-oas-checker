@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH="$PATH:./node_modules/.bin:"
 RULES=$(ls rules/*-test.yml | awk -F'[/-]' '{print $2}')
 RULES_L=$(echo $RULES)
 RULES_REGEXP=${RULES_L// /|}
@@ -20,7 +21,7 @@ case "$1" in
     all)
         for RULE in $RULES; do
             spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | \
-                diff --color  "rules/$RULE-test.snapshot" -
+                diff --color -I '^.*rules/.*-test.yml$' "rules/$RULE-test.snapshot" -
         done
         ;;
     casing|metadata|numbers|pagination|patch|problem|ratelimit|schemas)
@@ -31,7 +32,7 @@ case "$1" in
             exit 1
         fi
         spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | \
-            diff -wubBEr --color "rules/$RULE-test.snapshot" -
+            diff -wubBEr --color -I '^.*rules/.*-test.yml$' "rules/$RULE-test.snapshot" -
         TEST_OUT="$?"
         if [ "$TEST_OUT" != "0" ]; then
             echo "Unexpected test result"
