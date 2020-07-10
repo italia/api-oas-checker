@@ -3,6 +3,8 @@ paths:
   /ok-default-use-problem:
     get:
       responses:
+        "400":
+          $ref: 'https://teamdigitale.github.io/openapi/0.0.5/definitions.yaml#/responses/400BadRequest'
         default:
           content:
             application/problem+json:
@@ -27,6 +29,19 @@ paths:
   /ko-bad-schema-use-problem:
     get:
       responses:
+        "500":
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                required:
+                - foo
+                properties:
+                  foo:
+                    type: string
+  /ko-string-problem:
+    get:
+      responses:
         "400":
           content:
             application/problem+json:
@@ -37,6 +52,8 @@ components:
   schemas:
     Problem:
       properties:
+        type:
+          type: string
         title:
           type: string
         status:

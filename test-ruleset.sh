@@ -7,6 +7,11 @@ RULES_REGEXP=${RULES_L// /|}
 case "$1" in
 
     "--snapshot")
+        if [ "$2" != "" ]; then
+            RULE="$2"
+            spectral lint rules/$RULE-test.yml -r rules/$RULE.yml > rules/$RULE-test.snapshot
+            exit 0
+        fi
         for RULE in $RULES; do
             spectral lint rules/$RULE-test.yml -r rules/$RULE.yml > rules/$RULE-test.snapshot
         done
@@ -14,17 +19,19 @@ case "$1" in
         ;;
     all)
         for RULE in $RULES; do
-            spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | diff - "rules/$RULE-test.snapshot"
+            spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | \
+                diff --color  "rules/$RULE-test.snapshot" -
         done
         ;;
-    casing|metadata|numbers|pagination|patch|problem|ratelimit)
+    casing|metadata|numbers|pagination|patch|problem|ratelimit|schemas)
         RULE="$1"
 
         if [ ! -f "rules/$RULE-test.snapshot" ]; then
             echo "Missing test snapshot for rule: $RULE"
             exit 1
         fi
-        spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | diff - "rules/$RULE-test.snapshot"
+        spectral lint rules/$RULE-test.yml -r rules/$RULE.yml | \
+            diff -wubBEr --color "rules/$RULE-test.snapshot" -
         TEST_OUT="$?"
         if [ "$TEST_OUT" != "0" ]; then
             echo "Unexpected test result"
