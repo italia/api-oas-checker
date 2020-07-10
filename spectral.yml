@@ -69,20 +69,7 @@ rules:
     then:
       field: info.x-api-id
       function: truthy
-  paths-kebab-case:
-    description: >
-      Paths should be kebab-case.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
-    message: "{{property}} is not kebab-case: {{error}}"
-    severity: warn
-    recommended: true
-    given: $.paths[*]~
-    then:
-      function: pattern
-      functionOptions:
-        match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
-  numeric-format:
+  number-format:
     description: Number must specify a format.
     message: Schema of type number must specify a format. {{path}} See
       https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
@@ -108,6 +95,45 @@ rules:
     then:
       field: format
       function: truthy
+  allowed-integer-format:
+    description: Integer format should be in the table.
+    message: integer format is "{{value}}", expected one of [int32, int64]. {{path}}
+      See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+      - oas3
+    severity: hint
+    recommended: true
+    given: |
+      $.[?(@.type=="integer")]
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - int32
+          - int64
+  allowed-number-format:
+    description: Integer format should be in the table.
+    message: number format is "{{value}}", expected one of [decimal32, decimal64,
+      decimal128, float, double]. {{path}} See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    formats:
+      - oas3
+    severity: hint
+    recommended: true
+    given: |
+      $.[?(@.type=="number")]
+    then:
+      field: format
+      function: enumeration
+      functionOptions:
+        values:
+          - decimal32
+          - decimal64
+          - float
+          - double
+          - decimal128
   patch-media-type:
     description: >-
       application/json is not an appropriate media-type for PATCH.
@@ -122,46 +148,61 @@ rules:
     then:
       field: application/json
       function: falsy
-  use-problem-json-for-default:
-    description: APIs should use Problem json for errors. See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: Use media-type application/problem+json for default responses (errors)
-      and the associate schema. {{path}}
+  use-problem-json-for-errors:
+    description: "Error responses should support [RFC
+      7807](https://tools.ietf.org/html/rfc6648) "
+    message: Error responses should support [RFC
+      7807](https://tools.ietf.org/html/rfc6648) in {{path}}.
     formats:
       - oas3
     severity: error
-    recommended: true
-    given: $.[responses][default][content]
+    given: $.paths.[*].responses[?(@property.match(/^(4|5|default)/))].content.*~
     then:
-      field: application/problem+json
-      function: truthy
-  use-problem-json-schema:
-    description: APIs should use Problem json for errors. See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: Use RFC7807 schema to model errors. {{path}}
+      function: enumeration
+      functionOptions:
+        values:
+          - application/problem+xml
+          - application/problem+json
+  use-problem-schema:
+    description: "WARN: This rule is under implementation. Your problem schema
+      doesn't seem to match RFC7807. Are you sure its' ok? See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabil\
+      ita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html\
+      #usare-lo-schema-problem-json-per-le-risposte-di-errore"
+    message: Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
       - oas3
-    severity: error
-    recommended: true
-    given: |-
-      $.[responses]
-        [?(@property[0] != "1" && @property[0] != "2" && @property[0] != "3" )]
-        [[schema]]
+    severity: hint
+    recommended: false
+    given: $.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]
     then:
       function: schema
       functionOptions:
         schema:
-          $ref: https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/schemas/Problem
-  response-with-json-object:
-    message: Responses must use json objects {{path}}
-    severity: warn
+          type: object
+          properties:
+            status:
+              type: integer
+            title:
+              type: string
+            detail:
+              type: string
+  hint-problem-schema:
+    description: Your problem schema doesn't seem to match RFC7807. Are you sure
+      its' ok? See
+      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: Error response doesn't seem to match RFC7807. Are you sure it is ok?
+      {{path}}
+    formats:
+      - oas3
+    severity: hint
     recommended: true
-    given: $.[responses][*][content][*][schema]
+    given: $.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~
     then:
-      field: type
+      field: "@key"
       function: pattern
       functionOptions:
-        match: object
+        notMatch: message|code|msg
   missing-retry-after:
     description: APIs should use Retry-After on 429 and 503 responses.
     message: "Missing ratelimit header: {{property}} in {{path}} See
