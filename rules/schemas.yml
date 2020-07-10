@@ -1,0 +1,13 @@
+rules:
+  response-with-json-object:
+    message: |-
+      JSON responses must use json objects (eg "{}"), not {{value}}. {{path}}
+    severity: warn
+    recommended: true
+    given: >-
+      $.[responses][*][content][?(@property.match("json$"))][schema]
+    then:
+      field: type
+      function: pattern
+      functionOptions:
+        match: object

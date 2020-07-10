@@ -1,0 +1,43 @@
+openapi: 3.0.1
+paths:
+    /ko-response-not-object:
+        get:
+          responses:
+            "200":
+              content:
+                application/json:
+                  schema:
+                    type: string
+      /ok-response-is-object:
+        get:
+          responses:
+            "200":
+              content:
+                application/json:
+                  schema:
+                    properties:
+                      foo:
+                        type: string
+      /ko-response-is-string:
+        get:
+          responses:
+            "200":
+              content:
+                application/json:
+                  schema:
+                    $ref: '#/components/schemas/ko_String'
+      /ok-skip-other-mediatypes:
+        get:
+          responses:
+            "200":
+              content:
+                application/pdf:
+                  schema:
+                    type: string
+                    format: bytes
+
+components:
+    schemas:
+        ko_String:
+        type: string
+        
