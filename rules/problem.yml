@@ -18,14 +18,15 @@ rules:
 
   use-problem-schema:
     description: >-
-      APIs should use Problem json for errors.
+      WARN: This rule is under implementation.
+      Your problem schema doesn't seem to match RFC7807. Are you sure its' ok?
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
     message: >-
-      Use RFC7807 schema to model errors, not "{{value}}". {{path}}
+            Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
     - oas3
-    severity: error
-    recommended: true
+    severity: hint
+    recommended: false
     # Search for 4xx, 5xx and default responses schema.
     given: >-
       $.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]
@@ -33,6 +34,30 @@ rules:
       function: schema
       functionOptions:
         schema:
-          $ref: https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/schemas/Problem
+          type: object
+          properties:
+            status:
+              type: integer
+            title:
+              type: string
+            detail:
+              type: string
 
-
+  hint-problem-schema:
+    description: >-
+      Your problem schema doesn't seem to match RFC7807. Are you sure its' ok?
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    message: >-
+            Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+    formats:
+    - oas3
+    severity: hint
+    recommended: true
+    # Search for 4xx, 5xx and default responses schema.
+    given: >-
+      $.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        notMatch: message|code|msg
