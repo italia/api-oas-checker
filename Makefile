@@ -14,7 +14,7 @@ endif
 all: setup bundle
 
 # Create the web pages in bundle/
-bundle: bundle/js/bootstrap-italia.min.js copy_public bundle/out.js index.html spectral.yml
+bundle: bundle/js/bootstrap-italia.min.js spectral.yml index.html copy_public bundle/out.js
 
 bundle/out.js: setup public/js/bundle.js package.json
 	npx browserify --outfile bundle/out.js --standalone api_oas_checker public/js/bundle.js
