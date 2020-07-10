@@ -23,6 +23,7 @@ references:
       name: install-dependencies
       command: |
         make all
+        make test
 
   setup_ssh_gh_pages: &setup_ssh_gh_pages
     add_ssh_keys:
