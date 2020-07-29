@@ -24,7 +24,7 @@ case "$1" in
                 diff --color -I '^.*rules/.*-test.yml$' "rules/$RULE-test.snapshot" -
         done
         ;;
-    casing|metadata|numbers|pagination|patch|problem|ratelimit|schemas)
+    casing|metadata|numbers|oas3only|pagination|patch|problem|ratelimit|schemas)
         RULE="$1"
 
         if [ ! -f "rules/$RULE-test.snapshot" ]; then
