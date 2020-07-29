@@ -45,7 +45,7 @@ rules:
     severity: warn
     recommended: true
     given: >-
-      $.[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/))]]
+      $.[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]]
     then:
     -  field: description
        function: truthy
@@ -55,39 +55,25 @@ rules:
          match: >-
            .*(max-age|private|no-store|no-cache).*
 
-  expires-or-cache-control:
+  indeterminate-cache-behavior:
     description: |-
-      Cache-Control overrides Expires when `max-age` is set.
+      Note that:
+      - if no Cache-Control or Expires are set, clients MAY use euristic cache;
+      - Cache-Control overrides Expires when `max-age` is set.    
     message: >-
-      Cache-Control overrides Expires when `max-age` is set.. {{property}} {{error}} {{path}}
-    formats:
-      - oas3
-    severity: warn
-    recommended: true
-#      $.[responses][?(@property[0] == "2" )][headers]
-    given: >-
-      $.[responses][?(@property[0] == "2" )][headers][?(@property.match(/cache-control|expires/i))]^
-    then:
-    - function: schema
-      functionOptions:
-        schema:
-          properties:
-            Cache-Control:
-              type: object
-            Expires:
-              type: object
-
-
-  beware-euristic-cache: &beware-euristic-cache
-    description: |-
-      If no Cache-Control or Expires are set, clients MAY use euristic cache.
-    message: >-
-      If no Cache-Control or Expires are set, clients MAY use euristic cache. {{property}} {{error}} {{path}}
+      Note that
+       if no Cache-Control or Expires are set, clients MAY use euristic cache;
+       and that Cache-Control overrides Expires when `max-age` is set.
+       {{property}} {{error}} {{path}}
     formats:
       - oas3
     severity: info
     recommended: true
     given: >-
-      $.[responses][?(@property[0] == "2" )][headers][?(@property.match(/cache-control|expires/i))]
+      $.[responses][?(@property[0] == "2" )][headers]
     then:
-    - function: truthy
+    - function: xor
+      functionOptions:
+        properties:
+        -  Expires
+        -  Cache-Control
