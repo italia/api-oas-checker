@@ -52,7 +52,9 @@ paths:
           type: string
       responses:
         "201":
-          description: Should detail cache usage.
+          description: |-
+            Should detail cache usage. As `headers` is missing
+            other checks won't run on responses.
 
   /ko-cache-control-request-short-description:
     get:
