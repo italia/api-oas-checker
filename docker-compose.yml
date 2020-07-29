@@ -1,6 +1,6 @@
 version: '3.0'
 services:
-  dev:
+  dev: &base
     image: node
     user: $UID:$GID
     volumes:
@@ -9,6 +9,13 @@ services:
     - /usr//bin/tail
     - -f
     - /etc/hosts
+
+  test:
+    <<: *base
+    working_dir: /code
+    entrypoint:
+    - make
+    - test
 
   build:
     image: node
