@@ -16,7 +16,34 @@ paths:
       responses:
         "201":
           description: Cache-Control must contain a placeholder
-  /ko-cache-control-nodescription:
+          headers:
+            Cache-Control:
+              example: >-
+                max-age: 3000
+              description: |-
+                This rule should find a way to ensure that the API provider
+                analysed and documented all the issues of caching and
+                decided to use (eg. max-age, private, ...) because...
+              schema:
+                type: string
+
+  /ok-cache-control-responses:
+    get:
+      responses:
+        "201":
+          description: Cache-Control must contain a placeholder
+          headers:
+            Cache-Control:
+              example: >-
+                max-age: 3000
+              description: |-
+                This rule should find a way to ensure that the API provider
+                analysed and documented all the issues of caching and
+                decided to use (eg. max-age, private, ...) because...
+              schema:
+                type: string
+
+  /ko-cache-control-request-nodescription:
     get:
       parameters:
       - name: Cache-Control
@@ -27,7 +54,7 @@ paths:
         "201":
           description: Should detail cache usage.
 
-  /ko-cache-control-short-description:
+  /ko-cache-control-request-short-description:
     get:
       parameters:
       - name: Cache-Control
@@ -69,3 +96,40 @@ paths:
             expires:
                 description: |-
                   max-age private no-store
+  /ko-no-cache-control-nor-expires:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+  /ko-expires-nodescription:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Expires:
+              description: ""
+  /ko-cache-control-response-nodescription:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Cache-Control:
+              description: ""
+  /ko-expires-short-description:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Expires:
+              description: "short description"
+  /ko-cache-control-response-short-description:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Cache-Control:
+              description: "this is very short"

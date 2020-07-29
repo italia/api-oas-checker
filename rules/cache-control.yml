@@ -1,7 +1,7 @@
 rules:
-  cache-control-undocumented:
+  cache-control-parameter-undocumented:
     description: |-
-      Cache usage MUST be extensively detailed in the `description` property
+      Cache usage SHOULD be extensively detailed in the `description` property
       to avoid data leaks or the usage of stale data.
 
       This rule should ensure in some way that the api provider
@@ -11,13 +11,13 @@ rules:
       For now this just tests the presence of `max-age` but that's
       only a placeholder. Hints welcome.
     message: >-
-      Cache usage MUST be documented: {{error}} {{path}}
+      Cache usage SHOULD be documented: {{error}} {{path}}
     formats:
       - oas3
-    severity: error
+    severity: warn
     recommended: true
     given: >-
-      $..[parameters].[?(@.name=="cache-control" || @.name=="Cache-Control")]
+      $..[parameters][?(@.in == "header" && @.name.match(/Cache-Control/i))]
     then:
     -  field: description
        function: truthy
@@ -25,11 +25,11 @@ rules:
        function: pattern
        functionOptions:
          match: >-
-           (max-age|private|no-store|no-cache).*
+           .*(max-age|private|no-store|no-cache).*
 
-  expires-undocumented:
+  cache-responses-undocumented:
     description: |-
-      Cache usage MUST be extensively detailed in the `description` property
+      Cache usage SHOULD be extensively detailed in the `description` property
       to avoid data leaks or the usage of stale data.
 
       This rule should ensure in some way that the api provider
@@ -39,13 +39,13 @@ rules:
       For now this just tests the presence of `max-age` but that's
       only a placeholder. Hints welcome.
     message: >-
-      Cache usage MUST be documented: {{error}} {{path}}
+      Cache usage SHOULD be documented in Cache-Control and/or Expires: {{error}} {{path}}
     formats:
       - oas3
-    severity: error
+    severity: warn
     recommended: true
     given: >-
-      $..[parameters].[?(@.name=="expires" || @.name=="Expires")]
+      $.[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/))]]
     then:
     -  field: description
        function: truthy
@@ -53,7 +53,7 @@ rules:
        function: pattern
        functionOptions:
          match: >-
-           (max-age|private|no-store|no-cache).*
+           .*(max-age|private|no-store|no-cache).*
 
   expires-or-cache-control:
     description: |-
@@ -64,19 +64,18 @@ rules:
       - oas3
     severity: warn
     recommended: true
+#      $.[responses][?(@property[0] == "2" )][headers]
     given: >-
-      $.[responses][?(@property[0] == "2" )][headers]
+      $.[responses][?(@property[0] == "2" )][headers][?(@property.match(/cache-control|expires/i))]^
     then:
-    - functionOptions:
-        properties:
-        -  Cache-Control
-        -  Expires
-      function: xor
-    - functionOptions:
-        properties:
-        -  cache-control
-        -  expires
-      function: xor
+    - function: schema
+      functionOptions:
+        schema:
+          properties:
+            Cache-Control:
+              type: object
+            Expires:
+              type: object
 
 
   beware-euristic-cache: &beware-euristic-cache
@@ -89,28 +88,6 @@ rules:
     severity: info
     recommended: true
     given: >-
-      $.[responses][?(@property[0] == "2" )][headers]
+      $.[responses][?(@property[0] == "2" )][headers][?(@property.match(/cache-control|expires/i))]
     then:
-    - functionOptions:
-        properties:
-        -  Cache-Control
-        -  Expires
-      function: or
-
-  beware-euristic-cache-lowercase:
-    description: |-
-      If no Cache-Control or Expires are set, clients MAY use euristic cache.
-    message: >-
-      If no Cache-Control or Expires are set, clients MAY use euristic cache. {{property}} {{error}} {{path}}
-    formats:
-      - oas3
-    severity: info
-    recommended: true
-    given: >-
-      $.[responses][?(@property[0] == "2" )][headers]
-    then:
-    - functionOptions:
-        properties:
-          - cache-control
-          - expires
-      function: xor
+    - function: truthy
