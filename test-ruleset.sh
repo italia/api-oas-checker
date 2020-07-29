@@ -1,9 +1,12 @@
 #!/bin/bash
+shopt -s extglob
+
 export PATH="$PATH:./node_modules/.bin:"
-RULES=$(ls rules/*-test.yml | awk -F'[/-]' '{print $2}')
+RULES=$(ls rules/*-test.yml | sed -e 's/-test.yml//' | awk -F'[/]' '{print $2}')
 RULES_L=$(echo $RULES)
-RULES_REGEXP=${RULES_L// /|}
- echo >&2 "$RULES_L"
+# Use the extglob syntax to enable multiple pattern matching. See "Pattern Matching" in man bash.
+RULES_REGEXP=@(${RULES_L// /|})
+echo >&2 "$RULES_L"
 
 case "$1" in
 
@@ -24,7 +27,8 @@ case "$1" in
                 diff --color -I '^.*rules/.*-test.yml$' "rules/$RULE-test.snapshot" -
         done
         ;;
-    casing|metadata|numbers|oas3only|pagination|patch|problem|ratelimit|schemas)
+    # Requires shopt -s extglob to work.
+    $RULES_REGEXP)
         RULE="$1"
 
         if [ ! -f "rules/$RULE-test.snapshot" ]; then
