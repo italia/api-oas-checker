@@ -3,12 +3,15 @@ const mergeYaml = require('merge-yaml');
 const YAML = require('yaml')
 
 const all_rules = mergeYaml([
+'rules/casing.yml',
 'rules/metadata.yml',
 'rules/numbers.yml',
+'rules/oas3only.yml',
 'rules/pagination.yml',
 'rules/patch.yml',
 'rules/problem.yml',
 'rules/ratelimit.yml',
+'rules/schemas.yml',
 ]);
 const out = YAML.stringify(all_rules);
 console.log(out);
