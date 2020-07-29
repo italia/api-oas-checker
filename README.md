@@ -60,6 +60,14 @@ L'applicazione è in [index.js](index.js) ed utilizza
 Spectral, un software opensource che valida un file OpenAPI
   in funzione di una serie di regole.
 
+## Testing
+
+Per testare con docker basta lanciare
+
+```
+docker-compose up test
+```
+
 ## Scrivere regole
 
 Spectral itera le specifiche OAS usando le espressioni jsonpath
