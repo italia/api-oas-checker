@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/casing-test.yml
+/code/rules/tests/casing-test.yml
  15:15     hint  request-headers-pascal-case   ko-header must be pascal case in #/paths/~1header/parameters/0/name
  17:15     hint  request-headers-pascal-case   KO_REQUEST_HEADER must be pascal case in #/paths/~1header/parameters/1/name
  23:32     hint  response-headers-pascal-case  Header must be pascal case: #/paths/~1header/get/responses/200/headers/KO_RESPONSE_HEADER

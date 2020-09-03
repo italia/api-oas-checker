@@ -1,18 +1,9 @@
 #!/usr/bin/env node
 const mergeYaml = require('merge-yaml');
-const YAML = require('yaml')
+const YAML = require('yaml');
+const glob = require('glob');
 
-const all_rules = mergeYaml([
-'rules/casing.yml',
-'rules/headers.yml',
-'rules/metadata.yml',
-'rules/numbers.yml',
-'rules/oas3only.yml',
-'rules/pagination.yml',
-'rules/patch.yml',
-'rules/problem.yml',
-'rules/ratelimit.yml',
-'rules/schemas.yml',
-]);
+const rule_files = glob.sync("rules/*.yml");
+const all_rules = mergeYaml(rule_files);
 const out = YAML.stringify(all_rules);
 console.log(out);

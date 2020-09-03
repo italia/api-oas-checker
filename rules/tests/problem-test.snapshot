@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/problem-test.yml
+/code/rules/tests/problem-test.yml
  21:30  error  use-problem-json-for-errors  Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc6648) in #/paths/~1ko-default-use-problem/get/responses/default/content/application~1json.
  27:25  error  use-problem-json-for-errors  Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc6648) in #/paths/~1ko-error-use-problem/get/responses/400/content/not~1problem.
  65:17   hint  hint-problem-schema          Error response doesn't seem to match RFC7807. Are you sure it is ok? #/components/schemas/ko_Problem/properties/message

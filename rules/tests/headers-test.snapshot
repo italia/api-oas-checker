@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/headers-test.yml
+/code/rules/tests/headers-test.yml
  18:15  warning  no-x-headers-request   HTTP header 'X-Header' SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/parameters/0/name
  20:15  warning  no-x-headers-request   HTTP header 'x-header' SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/parameters/1/name
  26:31  warning  no-x-headers-response  HTTP response header SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/get/responses/200/headers/X-Response-Header
