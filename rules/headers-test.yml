@@ -1,0 +1,31 @@
+openapi: 3.0.1
+paths:
+  /ok-no-x-header:
+    parameters:
+      - name: Pascal-Ok
+        in: header
+    get:
+      responses:
+        default:
+          headers:
+            Another-Pascal-Ok: {}
+            X-RateLimit-Limit: {}
+            x-ratelimit-remaining: {}
+            xratelimit: {}
+
+  /ko-no-x-header:
+    parameters:
+      - name: X-Header
+        in: header
+      - name: x-header
+        in: header
+    get:
+      responses:
+        "200":
+          headers:
+            X-Response-Header:
+              description: not allowed
+            x-response-ko: {}
+            xa: {}
+            x-bloath: {}
+          
