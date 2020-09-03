@@ -4,6 +4,7 @@ const YAML = require('yaml')
 
 const all_rules = mergeYaml([
 'rules/casing.yml',
+'rules/headers.yml',
 'rules/metadata.yml',
 'rules/numbers.yml',
 'rules/oas3only.yml',
