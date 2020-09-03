@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/numbers-test.yml
+/code/rules/tests/numbers-test.yml
   6:17   hint  allowed-integer-format  integer format is "bad", expected one of [int32, int64]. #/components/schemas/ko_Integer_bad1/schema/format See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
  10:17   hint  allowed-number-format   number format is "bad", expected one of [decimal32, decimal64, decimal128, float, double]. #/components/schemas/ko_Number_bad1/schema/format See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
  12:14  error  number-format           Schema of type number must specify a format. #/components/schemas/ko_Number/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer

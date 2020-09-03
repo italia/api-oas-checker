@@ -42,7 +42,7 @@ copy_public:
 rules: spectral.yml
 
 spectral.yml: ./rules/
-	cat ./rules/rules-template.yml > spectral.yml
+	cat ./rules/rules-template.yml.template > spectral.yml
 	./rules/merge-yaml >> spectral.yml
 
 clean:

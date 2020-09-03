@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/rules/metadata-test.yml
+/code/rules/tests/metadata-test.yml
   3:5   error  servers-description  Server #/servers/0 must have a description.
   9:10  error  servers-use-https    Non-sandbox url  http://ko.example must match the pattern '^https://.*'. Add `x-sandbox: true` to declare the server as a sandbox.
  11:10  error  servers-use-https    Non-sandbox url  http://ko.sandbox.examle must match the pattern '^https://.*'. Add `x-sandbox: true` to declare the server as a sandbox.
