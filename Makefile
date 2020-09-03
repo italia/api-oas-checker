@@ -58,6 +58,5 @@ setup: package.json
 
 
 test:
-	# once you filter out "ko" strings, you should have no "  error  "s.
-	bash test-ruleset.sh all	
+	bash test-ruleset.sh rules/ all
 	
