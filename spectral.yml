@@ -47,6 +47,32 @@ rules:
         type: pascal
         separator:
           char: "-"
+  no-x-headers-request:
+    description: All 'HTTP' headers SHOULD NOT include 'X-' headers
+      (https://tools.ietf.org/html/rfc6648).
+    severity: warn
+    given:
+      - $..parameters[?(@.in == 'header')].name
+    message: HTTP header '{{value}}' SHOULD NOT include 'X-' prefix in {{path}}
+    recommended: true
+    type: style
+    then:
+      function: pattern
+      functionOptions:
+        match: /^([^x]|.[^-])|RateLimit-/i
+  no-x-headers-response:
+    description: All 'HTTP' headers SHOULD NOT include 'X-' headers
+      (https://tools.ietf.org/html/rfc6648).
+    severity: warn
+    given:
+      - $.[responses][*].headers.*~
+    message: HTTP response header SHOULD NOT include 'X-' prefix in {{path}}
+    recommended: true
+    type: style
+    then:
+      function: pattern
+      functionOptions:
+        match: /^([^x]|.[^-])|RateLimit-/i
   servers-description:
     description: Servers must have a description.
     message: Server {{path}} must have a description.
