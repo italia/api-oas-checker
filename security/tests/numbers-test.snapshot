@@ -1,0 +1,13 @@
+OpenAPI 3.x detected
+
+/code/rules/tests/numbers-test.yml
+  6:17   hint  allowed-integer-format  integer format is "bad", expected one of [int32, int64]. #/components/schemas/ko_Integer_bad1/schema/format See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 10:17   hint  allowed-number-format   number format is "bad", expected one of [decimal32, decimal64, decimal128, float, double]. #/components/schemas/ko_Number_bad1/schema/format See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 12:14  error  number-format           Schema of type number must specify a format. #/components/schemas/ko_Number/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 17:17   hint  allowed-number-format   number format is "int32", expected one of [decimal32, decimal64, decimal128, float, double]. #/components/schemas/Number/schema/format See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 19:14  error  integer-format          Schema of type integer must specify a format. #/components/schemas/ko_Integer/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 34:22   hint  allowed-number-format   number format is "int32", expected one of [decimal32, decimal64, decimal128, float, double]. #/paths/~1number-ok/put/requestBody/content/application~1json-patch+json/schema/format See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+ 48:19  error  number-format           Schema of type number must specify a format. #/paths/~1number-ko/put/requestBody/content/application~1json-patch+json/schema See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+
+✖ 7 problems (3 errors, 0 warnings, 0 infos, 4 hints)
+
