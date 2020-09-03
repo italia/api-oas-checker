@@ -1,0 +1,49 @@
+rules:
+  number-boundaries:
+    description: Number must specify a format.
+    message: >-
+      Schema of type number or integer must specify a maximum and a minimum. {{path}} {{error}}
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given:
+    - >-
+      $.[?(@.type=="number")]
+    - >-
+      $.[?(@.type=="integer")]
+    then:
+    - field: maximum
+      function: truthy
+    - field: minimum
+      function: truthy
+  array-boundaries:
+    description: Arrays should be limited.
+    message: >-
+      Schema of type array must specify a maximum length. {{path}} {{error}}
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given:
+    - >-
+      $.[?(@.type=="array")]
+    then:
+    - field: maxItems
+      function: truthy
+    - field: minItems
+      function: truthy
+  string-maxlength:
+    description: String length should be limited.
+    message: >-
+      Schema of type string must specify a maximum length. {{path}} {{error}}
+    formats:
+    - oas3
+    severity: error
+    recommended: true
+    given:
+    - >-
+      $.[?(@.type=="string")]
+    then:
+    - field: maxlength
+      function: truthy
