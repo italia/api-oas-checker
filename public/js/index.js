@@ -129,9 +129,7 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
   mode: "text/x-yaml",
   theme: "darcula",
   extraKeys: {
-    "Tab": function(cm){
-      cm.replaceSelection("   " , "end");
-    }
+    "Tab": "indentMore"
   }
 });
 
