@@ -13,10 +13,10 @@ E' in beta una [github-action che utilizza queste regole](https://github.com/tea
 L'applicazione on-line pronta all'uso è disponibile  
 [qui](https://teamdigitale.github.io/api-oas-checker).
 
-Rispetto ad altri validatori altrettanto buoni
-- eg. [Zally](https://github.com/zalando/zally) -
-Spectral può essere eseguito direttamente sul client (browser)
- e non richiede necessariamente l'utilizzo di un database.
+Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) che abbiamo preferito rispetto ad altri software:
+
+- [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
+- [Speccy](https://github.com/wework/speccy) pare supportare solo regole in javascript, mentre questo validatore utilizza dei file yaml statici. 
 
 ## Contenuto
 
