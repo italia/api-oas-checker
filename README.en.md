@@ -11,9 +11,10 @@ There's a Beta [github-action that uses these rules](https://github.com/teamdigi
 
 The ready-to-use online application is available [here](https://teamdigitale.github.io/api-oas-checker).
 
-Compared to other equally good validators
-- eg. [Zally](https://github.com/zalando/zally)
-Spectral can run directly on the client (browser) and does not necessarily require the use of a database.
+The validator is based on [Spectral](https://github.com/stoplightio/spectral) which we preferred over other good validators:
+
+- [Zally](https://github.com/zalando/zally) requires a database and cannot be webpackaged in a browser application;
+- [Speccy](https://github.com/wework/speccy) seem to support only javascript rules, while our rules are described using static yaml files. 
 
 ## Content
 
