@@ -1,4 +1,19 @@
 rules:
+  no-forbidden-headers:
+    description: |-
+      OAS do not allow using Authorization, Content-Type and Accept in the spec.
+    message: |-
+      {{error}} in {{path}} {{value}}
+    severity: error
+    given:
+      - "$..parameters[?(@.in == 'header')].name"
+      - $.[responses][*].headers.*~
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: >-
+          /^(accept|content-type|authorization)$/i
+
   no-x-headers-request: &no-x-headers
     description: "All 'HTTP' headers SHOULD NOT include 'X-' headers (https://tools.ietf.org/html/rfc6648)."
     severity: warn
