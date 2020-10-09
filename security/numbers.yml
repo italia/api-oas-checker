@@ -1,6 +1,6 @@
 rules:
   number-boundaries:
-    description: Number must specify a format.
+    description: Schema of type number or integer must specify a maximum and a minimum.
     message: >-
       Schema of type number or integer must specify a maximum and a minimum. {{path}} {{error}}
     formats:
@@ -47,3 +47,20 @@ rules:
     then:
     - field: maxlength
       function: truthy
+  string-pattern-or-format:
+    description: String should specify a pattern or a format.
+    message: >-
+      Schema of type string must specify a pattern or a format. {{path}} {{error}}
+    formats:
+    - oas3
+    severity: hint
+    recommended: true
+    given:
+    - >-
+      $.[?(@.type=="string")]
+    then:
+    - functionOptions:
+        properties:
+        -  pattern
+        -  format
+      function: xor
