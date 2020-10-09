@@ -1,8 +1,8 @@
 rules:
   use-problem-json-for-errors:
-    description: >-
+    description: |-
       Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc6648) 
-    message: >-
+    message: |-
       Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc6648) in {{path}}.
     formats:
       - oas3
@@ -17,12 +17,12 @@ rules:
         - application/problem+json  
 
   use-problem-schema:
-    description: >-
+    description: |-
       WARN: This rule is under implementation.
-      Your problem schema doesn't seem to match RFC7807. Are you sure its' ok?
+      Your problem schema doesn't seem to match RFC7807. Are you sure it is ok?
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: >-
-            Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+    message: |-
+      Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
     - oas3
     severity: hint
@@ -45,10 +45,10 @@ rules:
 
   hint-problem-schema:
     description: >-
-      Your problem schema doesn't seem to match RFC7807. Are you sure its' ok?
+      Your problem schema doesn't seem to match RFC7807. Are you sure it is ok?
       See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
-    message: >-
-            Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
+    message: |-
+      Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
     - oas3
     severity: hint

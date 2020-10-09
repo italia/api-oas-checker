@@ -1,37 +1,29 @@
+#
+# Here we use yaml merge keys to reuse existing rules.
+#
 rules:
-  number-format:
-    description: Number must specify a format.
+  number-format: &number-format
+    description: Schema of type number or integer must specify a format.
     message: >-
-      Schema of type number must specify a format. {{path}}
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+      Schema of type number or integer must specify a format. {{path}}
     formats:
     - oas3
     severity: error
     recommended: true
-    given: >
+    given: >-
       $.[?(@.type=="number")]
     then:
       field: format
       function: truthy
   integer-format:
-    description: Integer must specify a format.
-    message: >-
-      Schema of type integer must specify a format. {{path}}
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
-    formats:
-    - oas3
-    severity: error
-    recommended: true
+    <<: *number-format
     given: >
       $.[?(@.type=="integer")]
-    then:
-      field: format
-      function: truthy
+
   allowed-integer-format:
-    description: Integer format should be in the table.
+    description: Integer format is not valid.
     message: >-
-      integer format is "{{value}}", expected one of [int32, int64]. {{path}}
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+      Type format is "{{value}}", expected one of [int32, int64]. {{path}}
     formats:
     - oas3
     severity: hint
@@ -46,10 +38,9 @@ rules:
         - int32
         - int64
   allowed-number-format:
-    description: Integer format should be in the table.
+    description: Number format is not valid.
     message: >-
-      number format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+      Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
     formats:
     - oas3
     severity: hint
