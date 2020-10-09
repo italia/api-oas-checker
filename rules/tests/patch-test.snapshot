@@ -1,7 +1,7 @@
 OpenAPI 3.x detected
 
 /code/rules/tests/patch-test.yml
- 7:30  error  patch-media-type  application/json is not an appropriate media-type for PATCH. #/paths/~1ko-patch/patch/requestBody/content/application~1json
+ 7:30  error  patch-media-type  application/json is not an appropriate media-type for PATCH. #/paths/~1ko-patch/patch/requestBody/content/application~1json See https://www.rfc-editor.org/errata/eid3169
 
 ✖ 1 problem (1 error, 0 warnings, 0 infos, 0 hints)
 
