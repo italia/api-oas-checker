@@ -1,5 +1,20 @@
 openapi: 3.0.1
 paths:
+  /ko-no-redundant-headers:
+    parameters:
+      - name: Accept
+        in: header
+      - name: Authorization
+        in: header
+      - name: Content-Type
+        in: header
+    get:
+      responses:
+        default:
+          headers:
+            Accept: {}
+            Authorization: {}
+            Content-Type: {}
   /ok-no-x-header:
     parameters:
       - name: Pascal-Ok
