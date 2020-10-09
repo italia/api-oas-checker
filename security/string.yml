@@ -1,0 +1,32 @@
+rules:
+  string-maxlength:
+    description: String length should be limited.
+    message: >-
+      Schema of type string must specify a maximum length. {{path}} {{error}}
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given:
+      - >-
+        $.[?(@.type=="string")]
+    then:
+      - field: maxLength
+        function: truthy
+  string-pattern-or-format:
+    description: String should specify a pattern or a format.
+    message: >-
+      Schema of type string must specify a pattern or a format. {{path}} {{error}}
+    formats:
+      - oas3
+    severity: hint
+    recommended: true
+    given:
+      - >-
+        $.[?(@.type=="string")]
+    then:
+      - functionOptions:
+          properties:
+            - pattern
+            - format
+        function: xor

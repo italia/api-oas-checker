@@ -13,71 +13,8 @@ components:
         type: number
         minimum: 1
         maximum: 5
-    # String
-    ko_string_nothing:
-      type: string
-    ko_string_pattern_format:
-      type: string
-      pattern: '[a-z]+'
-      format: email
-    ok_pattern:
-      type: string
-      pattern: '[a-z]+'
-    ok_format:
-      type: string
-      format: date-time
-    # Array
-    Array:
-      type: array
-      items:
-        $ref: '#/components/schemas/Number'
-      maxItems: 5
-      minItems: 1
-    ko_Array:
-      type: array
-      items:
-        $ref: '#/components/schemas/Number'
-    ko_Array_minItems:
-      type: array
-      items:
-        $ref: '#/components/schemas/Number'
-      maxItems: 10
-    ko_Array_maxItems:
-      type: array
-      items:
-        $ref: '#/components/schemas/Number'
-      minItems: 10
 openapi: 3.0.1
 paths:
-  /string-ko-params:
-    parameters:
-      - name: ko_1
-        in: query
-        schema:
-          $ref: '#/components/schemas/ko_string_nothing'
-      - name: ko_2
-        in: query
-        schema:
-          $ref: '#/components/schemas/ko_string_pattern_format'
-
-  /array-ko-params:
-    post:
-      responses: {}
-      parameters:
-        - name: q1
-          in: query
-          schema:
-            type: object
-            properties:
-              a1:
-                $ref: '#/components/schemas/ko_Array'
-              a2:
-                $ref: '#/components/schemas/ko_Array_minItems'
-              a3:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Number'
-                minItems: 10
   /number-ko-params:
     put:
       responses: {}

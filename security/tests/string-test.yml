@@ -1,0 +1,33 @@
+components:
+  schemas:
+    # String
+    ko_string_nothing: &basestring
+      type: string
+      maxLength: 1
+    ko_string_pattern_format:
+      <<: *basestring
+      pattern: '[a-z]+'
+      format: email
+    ok_pattern:
+      <<: *basestring
+      pattern: '[a-z]+'
+    ok_format:
+      <<: *basestring
+      format: date-time
+openapi: 3.0.1
+paths:
+  /string-ko-params:
+    parameters:
+      - name: ko_1
+        in: query
+        schema:
+          $ref: '#/components/schemas/ko_string_nothing'
+      - name: ko_2
+        in: query
+        schema:
+          $ref: '#/components/schemas/ko_string_pattern_format'
+info:
+  version: 1.0.0
+  title: ciao
+
+
