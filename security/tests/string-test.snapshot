@@ -1,0 +1,8 @@
+OpenAPI 3.x detected
+
+/code/security/tests/string-test.yml
+ 4:23  hint  string-pattern-or-format  Schema of type string must specify a pattern or a format. #/components/schemas/ko_string_nothing pattern and format cannot be both defined or both undefined
+ 7:30  hint  string-pattern-or-format  Schema of type string must specify a pattern or a format. #/components/schemas/ko_string_pattern_format pattern and format cannot be both defined or both undefined
+
+✖ 2 problems (0 errors, 0 warnings, 0 infos, 2 hints)
+
