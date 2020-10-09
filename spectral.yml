@@ -7,10 +7,8 @@ extends: spectral:oas
 
 rules:
   paths-kebab-case:
-    description: >
+    description: |
       Paths should be kebab-case.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-parole-separate-da-trattino-per-i-path-kebab-case
     message: "{{property}} is not kebab-case: {{error}}"
     severity: warn
     recommended: true
@@ -106,7 +104,7 @@ rules:
       functionOptions:
         match: ^https://.*
   has-x-summary:
-    description: API must have an one-liner summary field in x-summary {{path}}
+    description: "API must have an one-liner summary field in #/info/x-summary"
     given: $
     severity: error
     recommended: true
@@ -117,7 +115,8 @@ rules:
       field: info.x-summary
       function: truthy
   has-termsOfService:
-    description: API MUST reference the URL of the Terms of Service {{path}}
+    description: "API MUST reference the URL of the Terms of Service in
+      #/info/termsOfService"
     given: $
     severity: error
     recommended: true
@@ -128,7 +127,7 @@ rules:
       field: info.termsOfService
       function: truthy
   has-contact:
-    description: "API MUST reference a contact, either url or email: {{path}}"
+    description: "API MUST reference a contact, either url or email in #/info/contact"
     given: $
     severity: error
     recommended: true
@@ -139,7 +138,7 @@ rules:
       field: info.contact
       function: truthy
   has-x-api-id:
-    description: API must have an unique identifier in x-api-id {{path}}
+    description: "API must have an unique identifier in x-api-id in #/info/x-api-id"
     given: $
     severity: error
     recommended: true
@@ -148,22 +147,19 @@ rules:
       field: info.x-api-id
       function: truthy
   number-format:
-    description: Number must specify a format.
-    message: Schema of type number must specify a format. {{path}} See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    description: Schema of type number or integer must specify a format.
+    message: Schema of type number or integer must specify a format. {{path}}
     formats:
       - oas3
     severity: error
     recommended: true
-    given: |
-      $.[?(@.type=="number")]
+    given: $.[?(@.type=="number")]
     then:
       field: format
       function: truthy
   integer-format:
-    description: Integer must specify a format.
-    message: Schema of type integer must specify a format. {{path}} See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    description: Schema of type number or integer must specify a format.
+    message: Schema of type number or integer must specify a format. {{path}}
     formats:
       - oas3
     severity: error
@@ -174,10 +170,8 @@ rules:
       field: format
       function: truthy
   allowed-integer-format:
-    description: Integer format should be in the table.
-    message: integer format is "{{value}}", expected one of [int32, int64]. {{path}}
-      See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    description: Integer format is not valid.
+    message: Type format is "{{value}}", expected one of [int32, int64]. {{path}}
     formats:
       - oas3
     severity: hint
@@ -192,10 +186,9 @@ rules:
           - int32
           - int64
   allowed-number-format:
-    description: Integer format should be in the table.
-    message: number format is "{{value}}", expected one of [decimal32, decimal64,
-      decimal128, float, double]. {{path}} See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#definire-format-quando-si-usano-i-tipi-number-ed-integer
+    description: Number format is not valid.
+    message: Type format is "{{value}}", expected one of [decimal32, decimal64,
+      decimal128, float, double]. {{path}}
     formats:
       - oas3
     severity: hint
@@ -225,11 +218,9 @@ rules:
       field: swagger
       function: falsy
   patch-media-type:
-    description: >-
-      application/json is not an appropriate media-type for PATCH.
-
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    description: application/json is not an appropriate media-type for PATCH.
     message: application/json is not an appropriate media-type for PATCH. {{path}}
+      See https://www.rfc-editor.org/errata/eid3169
     formats:
       - oas3
     severity: error
@@ -254,11 +245,12 @@ rules:
           - application/problem+xml
           - application/problem+json
   use-problem-schema:
-    description: "WARN: This rule is under implementation. Your problem schema
-      doesn't seem to match RFC7807. Are you sure its' ok? See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabil\
-      ita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html\
-      #usare-lo-schema-problem-json-per-le-risposte-di-errore"
+    description: >-
+      WARN: This rule is under implementation.
+
+      Your problem schema doesn't seem to match RFC7807. Are you sure it is ok?
+
+      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
     message: Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
       - oas3
@@ -278,8 +270,8 @@ rules:
             detail:
               type: string
   hint-problem-schema:
-    description: Your problem schema doesn't seem to match RFC7807. Are you sure
-      its' ok? See
+    description: Your problem schema doesn't seem to match RFC7807. Are you sure it
+      is ok? See
       https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
     message: Error response doesn't seem to match RFC7807. Are you sure it is ok?
       {{path}}
@@ -295,10 +287,7 @@ rules:
         notMatch: message|code|msg
   missing-retry-after:
     description: APIs should use Retry-After on 429 and 503 responses.
-    message: "Missing ratelimit header: {{property}} in {{path}} See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabil\
-      ita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-ra\
-      ggiunti-limiti-di-utilizzo"
+    message: "Missing ratelimit header: {{property}} in {{path}}"
     formats:
       - oas3
     severity: warn
@@ -309,8 +298,7 @@ rules:
       function: truthy
   missing-ratelimit:
     description: APIs should use ratelimit headers at least on successful responses.
-    message: Missing ratelimit headers. {{property}} {{error}} {{path}} See
-      https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
+    message: Missing ratelimit headers. {{property}} {{error}} {{path}}
     formats:
       - oas3
     severity: warn
