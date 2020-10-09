@@ -4,7 +4,6 @@ rules:
       APIs should use Retry-After on 429 and 503 responses.
     message: >-
       Missing ratelimit header: {{property}} in {{path}}
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
     formats:
       - oas3
     severity: warn
@@ -19,7 +18,6 @@ rules:
       APIs should use ratelimit headers at least on successful responses.
     message: >-
       Missing ratelimit headers. {{property}} {{error}} {{path}}
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/robustezza.html#segnalare-raggiunti-limiti-di-utilizzo
     formats:
       - oas3
     severity: warn

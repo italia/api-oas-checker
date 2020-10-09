@@ -26,7 +26,7 @@ rules:
 
   has-x-summary:
     description: >-
-      API must have an one-liner summary field in x-summary {{path}}
+      API must have an one-liner summary field in #/info/x-summary
     given: $
     severity: error
     recommended: true
@@ -39,7 +39,7 @@ rules:
 
   has-termsOfService:
     description: >-
-      API MUST reference the URL of the Terms of Service {{path}}
+      API MUST reference the URL of the Terms of Service in #/info/termsOfService
     given: $
     severity: error
     recommended: true
@@ -52,7 +52,7 @@ rules:
 
   has-contact:
     description: >-
-      API MUST reference a contact, either url or email: {{path}}
+      API MUST reference a contact, either url or email in #/info/contact
     given: $
     severity: error
     recommended: true
@@ -65,7 +65,7 @@ rules:
 
   has-x-api-id:
     description: >-
-      API must have an unique identifier in x-api-id {{path}}
+      API must have an unique identifier in x-api-id in #/info/x-api-id
     given: $
     severity: error
     recommended: true
