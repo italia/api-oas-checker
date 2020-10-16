@@ -146,6 +146,17 @@ rules:
     then:
       field: info.x-api-id
       function: truthy
+  use-semver:
+    severity: error
+    recommended: true
+    message: |-
+      Specs should follow semantic versioning. {{value}} is not a valid version.
+      See https://semver.org/#semantic-versioning-specification-semver
+    given: $.info.version
+    then:
+      function: pattern
+      functionOptions:
+        match: ^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?
   number-format:
     description: Schema of type number or integer must specify a format.
     message: Schema of type number or integer must specify a format. {{path}}
