@@ -1,0 +1,9 @@
+OpenAPI 3.x detected
+
+/code/rules/tests/paths-test.yml
+ 19:28  warning  paths-status-problem-schema  `properties.detail` property is not truthy #/paths/~1status/get/responses/200/content/application~1problem+json/schema/properties
+ 24:33    error  paths-status-return-problem  application/ko+json does not equal to one of application/problem+xml,application/problem+json
+ 25:22  warning  paths-status-problem-schema  `schema.properties.status` property is not truthy #/paths/~1status/get/responses/200/content/application~1ko+json/schema
+
+✖ 3 problems (1 error, 2 warnings, 0 infos, 0 hints)
+
