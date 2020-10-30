@@ -1,0 +1,26 @@
+openapi: 3.0.1
+paths:
+  /no-status:
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: string
+  /status:
+    get:
+      responses:
+        "200":
+          content:
+            application/problem+json:
+              schema:
+                type: object
+                properties:
+                  status: 
+                    type: integer
+                  title: 
+                    type: string
+            application/ko+json:
+              schema:
+                type: string
