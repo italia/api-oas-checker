@@ -266,7 +266,7 @@ rules:
     message: "{{error}} {{path}}"
     severity: warn
     recommended: true
-    given: $.paths.'/status'.get.responses.200.[[schema]]
+    given: $.paths.'/status'.get.responses.200.content.[[schema]]
     then:
       - function: truthy
         field: properties.status
