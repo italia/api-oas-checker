@@ -1,0 +1,43 @@
+rules:
+  paths-status:
+    description: |-
+      The "/status" path used to health-check the API must be defined.
+    message: >-
+      The "/status" path used to health-check the API must be defined. {{error}}
+    severity: error
+    recommended: true
+    given: $
+    then:
+      field: "paths./status.get.responses.200"
+      function: truthy  
+  paths-status-return-problem:
+    description: |-
+      "/status" must return a Problem object.
+    message: |-
+      {{error}}
+    severity: error
+    recommended: true
+    given: >-
+      $.paths.'/status'.get.responses.200.content.*~
+    then:
+      function: enumeration
+      functionOptions:
+        values:
+        - application/problem+xml
+        - application/problem+json  
+  paths-status-problem-schema:
+    description: |-
+      "/status" schema is not a Problem object.
+    message: |-
+      {{error}} {{path}}
+    severity: warn
+    recommended: true
+    given: >-
+      $.paths.'/status'.get.responses.200.[[schema]]
+    then:
+    - function: truthy
+      field: 'properties.status'
+    - function: truthy
+      field: 'properties.title'
+    - function: truthy
+      field: 'properties.detail'
