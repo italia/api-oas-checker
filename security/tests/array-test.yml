@@ -25,6 +25,9 @@ components:
         $ref: '#/components/schemas/Number'
       minItems: 10
 openapi: 3.0.1
+info:
+  version: "1.2.3"
+  title: "array-test"
 paths:
   /array-ko-params:
     post:

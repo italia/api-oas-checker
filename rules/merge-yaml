@@ -1,9 +1,8 @@
 #!/usr/bin/env node
 const mergeYaml = require('merge-yaml');
 const YAML = require('yaml');
-const glob = require('glob');
 
-const rule_files = glob.sync("rules/*.yml");
+const rule_files = process.argv.slice(2);
 const all_rules = mergeYaml(rule_files);
 const out = YAML.stringify(all_rules);
 console.log(out);

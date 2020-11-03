@@ -4,7 +4,7 @@ OpenAPI 3.x detected
  13:14  warning  array-boundaries  Schema of type array must specify maxItems and minItems. #/components/schemas/ko_Array `ko_Array.maxItems` property is not truthy
  17:23  warning  array-boundaries  Schema of type array must specify maxItems and minItems. #/components/schemas/ko_Array_minItems `ko_Array_minItems.minItems` property is not truthy
  22:23  warning  array-boundaries  Schema of type array must specify maxItems and minItems. #/components/schemas/ko_Array_maxItems `ko_Array_maxItems.maxItems` property is not truthy
- 42:18  warning  array-boundaries  Schema of type array must specify maxItems and minItems. #/paths/~1array-ko-params/post/parameters/0/schema/properties/a3 `a3.maxItems` property is not truthy
+ 45:18  warning  array-boundaries  Schema of type array must specify maxItems and minItems. #/paths/~1array-ko-params/post/parameters/0/schema/properties/a3 `a3.maxItems` property is not truthy
 
 ✖ 4 problems (0 errors, 4 warnings, 0 infos, 0 hints)
 

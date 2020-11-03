@@ -36,14 +36,22 @@ copy_public:
 	cp public/js/* bundle/js/
 	cp public/css/* bundle/css/
 	cp -r public/icons bundle/icons/
-	cp index.html spectral.yml bundle
+	cp index.html spectral.yml spectral-security.yml spectral-generic.yml bundle
 
 # Merge all rules into spectral.yml
-rules: spectral.yml
+rules: spectral.yml spectral-generic.yml spectral-security.yml
 
 spectral.yml: ./rules/
 	cat ./rules/rules-template.yml.template > spectral.yml
-	./rules/merge-yaml >> spectral.yml
+	./rules/merge-yaml rules/*.yml >> spectral.yml
+
+spectral-generic.yml: ./rules/  spectral.yml
+	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template >> spectral-generic.yml
+
+
+spectral-security.yml: ./rules/
+	cat ./rules/rules-template.yml.template > spectral-security.yml
+	./rules/merge-yaml security/*.yml >> spectral-security.yml
 
 clean:
 	# removing compiled bundle and node_modules
@@ -59,4 +67,5 @@ setup: package.json
 
 test:
 	bash test-ruleset.sh rules/ all
-	
+	bash test-ruleset.sh security/ all
+
