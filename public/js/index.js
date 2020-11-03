@@ -2,7 +2,7 @@ const testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-
 var rulesetName = 'spectral';
 
 function parseUrl() {
-  url = document.getElementById('oas_url').value;
+  var url = document.getElementById('oas_url').value;
   if (url == "") {
     url = testUrl
     document.getElementById('oas_url').value = testUrl
@@ -15,8 +15,8 @@ function clearUrl() {
 }
 
 function renderStatistics(statistics) {
-  e = statistics[0];
-  w = statistics[1];
+  const e = statistics[0];
+  const w = statistics[1];
 
   document.getElementById('errors-badge').classList = !e ? "badge badge-success" : "badge badge-danger"
   document.getElementById('warnings-badge').classList = !w ? "badge badge-success" : "badge badge-warning"
@@ -34,10 +34,10 @@ function renderStatistics(statistics) {
 async function parseText() {
   // unmark old errored lines
   console.log("Unmark old errored lines.")
-  marked_lines = document.getElementsByClassName('line-error')
+  var marked_lines = document.getElementsByClassName('line-error')
   Array.prototype.forEach.call(marked_lines, (x) => { x.classList.remove("line-error") })
 
-  oasText = editor.getValue();
+  const oasText = editor.getValue();
   document.getElementById('error-lines').innerHTML = '';
   document.getElementById('header-error-lines').innerHTML = '';
   await lintSpec(oasText, rulesetName);
@@ -81,8 +81,8 @@ function createHeader() {
 }
 
 function highlightError(entry) {
-  line = entry.range.start.line;
-  ch = entry.range.start.character
+  const line = entry.range.start.line;
+  const ch = entry.range.start.character
   console.log("line:" + line);
   editor.addLineClass(line, 'background', 'line-error');
   switch (entry.severity) {
@@ -99,9 +99,9 @@ function highlightError(entry) {
       severityIcon = "help"
   }
 
-  tooltip = "errored path: #/" + entry.path.join("/");
-  message_md = marked(entry.message);
-  error_line = `<div class="row text-${severityStyle}" onClick="show_error(${line},${ch});"
+  const tooltip = "errored path: #/" + entry.path.join("/");
+  const message_md = marked(entry.message);
+  const error_line = `<div class="row text-${severityStyle}" onClick="show_error(${line},${ch});"
 		data-toggle="tooltip" title="${tooltip}">`
     + `<div class="col-sm-1" >`
     + `<svg class="icon align-middle">`
@@ -147,7 +147,7 @@ function selectivelyParse() {
 editor.on('change', (event) => { selectivelyParse(); });
 
 window.addEventListener('load', function() {
-  pageUrl = new URL(window.location.href);
+  const pageUrl = new URL(window.location.href);
   if(pageUrl.searchParams.get('url')){
     document.getElementById('oas_url').value = pageUrl.searchParams.get('url');
     parseUrl();
