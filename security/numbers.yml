@@ -17,19 +17,3 @@ rules:
       function: truthy
     - field: minimum
       function: truthy
-  array-boundaries:
-    description: Arrays should be limited.
-    message: >-
-      Schema of type array must specify maxItems and minItems. {{path}} {{error}}
-    formats:
-    - oas3
-    severity: warn
-    recommended: true
-    given:
-    - >-
-      $.[?(@.type=="array")]
-    then:
-    - field: maxItems
-      function: truthy
-    - field: minItems
-      function: truthy

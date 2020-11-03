@@ -2,31 +2,34 @@ rules:
   string-maxlength:
     description: String length should be limited.
     message: >-
-      Schema of type string must specify a maximum length. {{path}} {{error}}
+      Strings (non enum) must specify a maximum length. {{path}} {{error}}
     formats:
       - oas3
     severity: warn
     recommended: true
     given:
       - >-
-        $.[?(@.type=="string")]
+        $.[?(@.type=="string" && !@.enum )]
     then:
       - field: maxLength
         function: truthy
-  string-pattern-or-format:
-    description: String should specify a pattern or a format.
+  string-pattern-or-format-or-enum:
+    description: String values should be constrained.
     message: >-
-      Schema of type string must specify a pattern or a format. {{path}} {{error}}
+      Strings (non enum) must specify a pattern or a format. {{path}}
     formats:
       - oas3
     severity: hint
     recommended: true
     given:
       - >-
-        $.[?(@.type=="string")]
+        $.[[?( @.type == "string" && !@.enum )]]
     then:
-      - functionOptions:
-          properties:
-            - pattern
-            - format
-        function: xor
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: [pattern]
+            - required: [format]
+          additionalProperties: true

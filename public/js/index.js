@@ -1,4 +1,5 @@
 const testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-python/master/openapi/simple.yaml.src";
+var rulesetName = 'spectral';
 
 function parseUrl() {
   url = document.getElementById('oas_url').value;
@@ -39,11 +40,11 @@ async function parseText() {
   oasText = editor.getValue();
   document.getElementById('error-lines').innerHTML = '';
   document.getElementById('header-error-lines').innerHTML = '';
-  await lintSpec(oasText);
+  await lintSpec(oasText, rulesetName);
 }
 
-async function lintSpec(oas) {
-  const lint = await api_oas_checker.parse(oas, location.origin + location.pathname + '/spectral.yml');
+async function lintSpec(oas, ruleset='spectral') {
+  const lint = await api_oas_checker.parse(oas, location.origin + location.pathname + '/' + ruleset +'.yml');
   console.log("lint: ", lint);
 
   // mark errored lines
@@ -64,7 +65,7 @@ function lintUrl(url) {
     r.text().then(function (oas) {
       console.log("Updating editor.");
       editor.getDoc().setValue(oas);
-      return lintSpec(oas);
+      return lintSpec(oas, rulesetName);
     });
   });
 };

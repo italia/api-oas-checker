@@ -1,10 +1,13 @@
 components:
   schemas:
     # String
-    ko_string_nothing: &basestring
+    ko_string_wild:
+      description: lacks everything
+      type: string
+    ko_string_no_pattern: &basestring
       type: string
       maxLength: 1
-    ko_string_pattern_format:
+    ok_string_pattern_format:
       <<: *basestring
       pattern: '[a-z]+'
       format: email
@@ -14,6 +17,14 @@ components:
     ok_format:
       <<: *basestring
       format: date-time
+    ok_enum:
+      description: |-
+        Enum don't need maxLength/pattern/format
+      type: string
+      enum:
+        - "one"
+        - "two"
+        - "three"
 openapi: 3.0.1
 paths:
   /string-ko-params:
@@ -21,11 +32,7 @@ paths:
       - name: ko_1
         in: query
         schema:
-          $ref: '#/components/schemas/ko_string_nothing'
-      - name: ko_2
-        in: query
-        schema:
-          $ref: '#/components/schemas/ko_string_pattern_format'
+          type: string
 info:
   version: 1.0.0
   title: ciao
