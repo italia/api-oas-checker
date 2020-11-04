@@ -3,6 +3,7 @@
 #
 #
 TMPDIR := $(shell mktemp  -u /tmp/fooXXXXXX)
+RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml
 # $(shell git config --get remote.origin.url)
 
 ifndef CIRCLE_REPOSITORY_URL
@@ -36,26 +37,28 @@ copy_public:
 	cp public/js/* bundle/js/
 	cp public/css/* bundle/css/
 	cp -r public/icons bundle/icons/
-	cp index.html spectral.yml spectral-security.yml spectral-generic.yml bundle
+	cp -t bundle index.html $(RULE_FILES)
 
 # Merge all rules into spectral.yml
-rules: spectral.yml spectral-generic.yml spectral-security.yml
+rules: setup $(RULE_FILES)
 
 spectral.yml: ./rules/
-	cat ./rules/rules-template.yml.template > spectral.yml
-	./rules/merge-yaml rules/*.yml >> spectral.yml
+	cat ./rules/rules-template.yml.template > $@
+	./rules/merge-yaml rules/*.yml >> $@
 
 spectral-generic.yml: ./rules/  spectral.yml
-	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template >> spectral-generic.yml
-
+	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
 
 spectral-security.yml: ./rules/  ./security/
-	cat ./rules/rules-template.yml.template > spectral-security.yml
-	./rules/merge-yaml security/*.yml >> spectral-security.yml
+	cat ./rules/rules-template.yml.template > $@
+	./rules/merge-yaml security/*.yml >> $@
+
+spectral-full.yml: spectral.yml spectral-security.yml
+	./rules/merge-yaml spectral.yml spectral-security.yml > $@
 
 clean:
-	# removing compiled bundle and node_modules
-	rm -rf bundle node_modules spectral.yml spectral-generic.yml spectral-security.yml
+	# Removing compiled bundle, node_modules and various rule profiles.
+	rm -rf bundle node_modules $(RULE_FILES)
 
 #
 # Preparation goals

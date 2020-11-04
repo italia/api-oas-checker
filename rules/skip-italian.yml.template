@@ -1,7 +1,7 @@
 rules:
-  has-x-summary: no
-  has-x-api-id: no
-  number-format: no
-  integer-format: no
-  allowed-integer-format: no
-  allowed-number-format: no
+  has-x-summary: off
+  has-x-api-id: off
+  number-format: off
+  integer-format: off
+  allowed-integer-format: off
+  allowed-number-format: off

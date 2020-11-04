@@ -71,45 +71,15 @@
             <div class="row">
               <div class="col-12">
                 <div class="it-header-center-content-wrapper p-1">
-                  <h4 class="bd-logo-title">Validatore specifiche OpenAPI (beta 0.1)</h4>
+                  <h4 class="bd-logo-title">Validatore specifiche OpenAPI (beta 0.2)</h4>
 
 
                   <div class="it-right-zone">
 
+
                     <div class="it-socials d-none d-md-flex">
                       <!-- <span class="d-none d-lg-inline">Seguici su</span> -->
                       <ul>
-
-                        <li class="list-inline-item">
-                          <a title="spectral.yml" data-toggle="tooltip"
-                            onclick="rulesetName='spectral';"
-                            target="_blank"
-                            rel="noopener noreferrer" aria-label="GitHub">
-                            Italian rules + Best practices
-                            <span class="sr-only">GitHub</span>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a title="spectral-generic.yml" data-toggle="tooltip"
-                            onclick="rulesetName='spectral-generic';"
-                            target="_blank"
-                            rel="noopener noreferrer" aria-label="GitHub">
-                            Best practices
-                            <span class="sr-only">GitHub</span>
-                          </a>
-                        </li>
-                        <li class="list-inline-item">
-                          <a title="spectral-security.yml" data-toggle="tooltip"
-                            onclick="rulesetName='spectral-security';"
-                            target="_blank"
-                            rel="noopener noreferrer" aria-label="GitHub">
-                            Security rules
-                            <span class="sr-only">GitHub</span>
-                          </a>
-                        </li>
-
-
-
                         <li class="list-inline-item">
                           <a title="Repository GitHub di MODI Validator" data-toggle="tooltip"
                             href="https://github.com/teamdigitale/api-oas-checker/" target="_blank"
@@ -192,11 +162,26 @@
       </div>
     </div>
 
+
     <!-- All errors are displayed here -->
     <div class="linter">
+
+      <!-- Select validation profile -->
+      <div class="bootstrap-select-wrapper w-20" >
+        <label>Profilo</label>
+        <select id="rulesetProfile" title="Scegli un profilo di validazione">
+          <option value="spectral" selected="selected">Italian API Guidelines</option>
+          <option value="spectral-generic" >Best Practices Only</option>
+          <option value="spectral-security" >Extra Security Checks</option>
+          <option value="spectral-full" >Italian API Guidelines + Extra Security Checks</option>
+
+        </select>
+      </div>
+
+
       <div class="container-fluid text-center">
         <h4 class="bd-logo-subtitle mt-2">
-          Trovati
+          <span id="progress-title">Trovati</span>
           <span class="badge badge-secondary" id="errors-badge"> <span id="errors-count">0</span> errori</span>
           e
           <span class="badge badge-secondary" id="warnings-badge"><span id="warnings-count">0</span> warning</span>

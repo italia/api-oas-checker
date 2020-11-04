@@ -1,5 +1,15 @@
 const testUrl = "https://raw.githubusercontent.com/teamdigitale/api-starter-kit-python/master/openapi/simple.yaml.src";
 var rulesetName = 'spectral';
+const rulesetProfileSelector = document.getElementById("rulesetProfile");
+
+function getRulesetName(){
+	try {
+		var v = rulesetProfileSelector.options[rulesetProfileSelector.selectedIndex];
+		return v.value;
+	} catch {
+		return undefined;
+	}
+}
 
 function parseUrl() {
   url = document.getElementById('oas_url').value;
@@ -40,22 +50,32 @@ async function parseText() {
   oasText = editor.getValue();
   document.getElementById('error-lines').innerHTML = '';
   document.getElementById('header-error-lines').innerHTML = '';
-  await lintSpec(oasText, rulesetName);
+  await lintSpec(oasText, getRulesetName());
 }
 
 async function lintSpec(oas, ruleset='spectral') {
+
+  // Use the
+  document.getElementById('progress-title').innerHTML = "Sto analizzando...";
+  // ruleset = ruleset || 'spectral';
   const lint = await api_oas_checker.parse(oas, location.origin + location.pathname + '/' + ruleset +'.yml');
-  console.log("lint: ", lint);
+  console.debug("lint: ", lint);
+
 
   // mark errored lines
+  document.getElementById('progress-title').innerHTML = "Rendering...";
   lint.length == 0 || createHeader();
   lint.forEach(highlightError);
 
   // Count errors and warnings.
+  document.getElementById('progress-title').innerHTML = "Conteggi...";
+
   var statistics = { 0: 0, 1: 0, 2: 0 };
   lint.forEach((e) => {
     statistics[e.severity] += 1;
   });
+  document.getElementById('progress-title').innerHTML = "Trovati ";
+
   console.debug("error statistics", statistics);
   renderStatistics(statistics);
 }
@@ -65,7 +85,7 @@ function lintUrl(url) {
     r.text().then(function (oas) {
       console.log("Updating editor.");
       editor.getDoc().setValue(oas);
-      return lintSpec(oas, rulesetName);
+      return lintSpec(oas, getRulesetName());
     });
   });
 };
@@ -83,7 +103,8 @@ function createHeader() {
 function highlightError(entry) {
   line = entry.range.start.line;
   ch = entry.range.start.character
-  console.log("line:" + line);
+  console.debug("line:" + line);
+
   editor.addLineClass(line, 'background', 'line-error');
   switch (entry.severity) {
     case 0:
@@ -152,4 +173,11 @@ window.addEventListener('load', function() {
     document.getElementById('oas_url').value = pageUrl.searchParams.get('url');
     parseUrl();
   }
+})
+
+rulesetProfileSelector.addEventListener('change', function() {
+	console.log("pluto", rulesetProfileSelector.selectedIndex, rulesetProfileSelector.options);
+	rulesetName = rulesetProfileSelector.options[rulesetProfileSelector.selectedIndex];
+	console.log("rulesetName", rulesetName);
+	selectivelyParse();
 })
