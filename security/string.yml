@@ -1,0 +1,35 @@
+rules:
+  string-maxlength:
+    description: String length should be limited.
+    message: >-
+      Strings (non enum) must specify a maximum length. {{path}} {{error}}
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given:
+      - >-
+        $.[?(@.type=="string" && !@.enum )]
+    then:
+      - field: maxLength
+        function: truthy
+  string-pattern-or-format-or-enum:
+    description: String values should be constrained.
+    message: >-
+      Strings (non enum) must specify a pattern or a format. {{path}}
+    formats:
+      - oas3
+    severity: hint
+    recommended: true
+    given:
+      - >-
+        $.[[?( @.type == "string" && !@.enum )]]
+    then:
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          anyOf:
+            - required: [pattern]
+            - required: [format]
+          additionalProperties: true

@@ -5,6 +5,9 @@ services:
     user: $UID:$GID
     volumes:
     - .:/code
+    working_dir: /code
+    environment:
+    - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/code/node_modules/.bin"
     entrypoint:
     - /usr//bin/tail
     - -f

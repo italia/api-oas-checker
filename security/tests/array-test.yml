@@ -1,0 +1,49 @@
+components:
+  schemas:
+    Number:
+      type: number
+      minimum: 1
+      maximum: 5
+    Array:
+      type: array
+      items:
+        $ref: '#/components/schemas/Number'
+      maxItems: 5
+      minItems: 1
+    ko_Array:
+      type: array
+      items:
+        $ref: '#/components/schemas/Number'
+    ko_Array_minItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/Number'
+      maxItems: 10
+    ko_Array_maxItems:
+      type: array
+      items:
+        $ref: '#/components/schemas/Number'
+      minItems: 10
+openapi: 3.0.1
+info:
+  version: "1.2.3"
+  title: "array-test"
+paths:
+  /array-ko-params:
+    post:
+      responses: {}
+      parameters:
+        - name: q1
+          in: query
+          schema:
+            type: object
+            properties:
+              a1:
+                $ref: '#/components/schemas/ko_Array'
+              a2:
+                $ref: '#/components/schemas/ko_Array_minItems'
+              a3:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Number'
+                minItems: 10
