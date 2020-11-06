@@ -1,0 +1,11 @@
+OpenAPI 3.x detected
+
+/code/security/tests/numbers-test.yml
+  4:15  warning  number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/components/schemas/ko_Number `ko_Number.maximum` property is not truthy
+  6:21  warning  number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/components/schemas/ko_Number_nomin `ko_Number_nomin.minimum` property is not truthy
+  9:21  warning  number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/components/schemas/ko_Number_nomax `ko_Number_nomax.maximum` property is not truthy
+ 26:17  warning  number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/paths/~1number-ko-params/put/parameters/0/schema/oneOf/0 `[0].maximum` property is not truthy
+ 42:19  warning  number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/paths/~1number-ko-inline/put/requestBody/content/application~1json-patch+json/schema `schema.maximum` property is not truthy
+
+✖ 5 problems (0 errors, 5 warnings, 0 infos, 0 hints)
+

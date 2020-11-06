@@ -1,0 +1,19 @@
+rules:
+  number-boundaries:
+    description: Schema of type number or integer must specify a maximum and a minimum.
+    message: >-
+      Schema of type number or integer must specify a maximum and a minimum. {{path}} {{error}}
+    formats:
+    - oas3
+    severity: warn
+    recommended: true
+    given:
+    - >-
+      $.[?(@.type=="number")]
+    - >-
+      $.[?(@.type=="integer")]
+    then:
+    - field: maximum
+      function: truthy
+    - field: minimum
+      function: truthy

@@ -1,0 +1,7 @@
+rules:
+  has-x-summary: off
+  has-x-api-id: off
+  number-format: off
+  integer-format: off
+  allowed-integer-format: off
+  allowed-number-format: off
