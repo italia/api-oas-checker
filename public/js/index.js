@@ -54,13 +54,18 @@ async function parseText() {
 }
 
 async function lintSpec(oas, ruleset='spectral') {
+  const spinner = document.getElementById('validation-spinner');
+  const results = document.getElementById('validation-results');
+
+  // Show spiner, hide results box
+  spinner.classList.remove('d-none');
+  results.classList.add('d-none');
 
   // Use the
   document.getElementById('progress-title').innerHTML = "Sto analizzando...";
   // ruleset = ruleset || 'spectral';
   const lint = await api_oas_checker.parse(oas, location.origin + location.pathname + '/' + ruleset +'.yml');
   console.debug("lint: ", lint);
-
 
   // mark errored lines
   document.getElementById('progress-title').innerHTML = "Rendering...";
@@ -78,7 +83,11 @@ async function lintSpec(oas, ruleset='spectral') {
 
   console.debug("error statistics", statistics);
   renderStatistics(statistics);
+
+  spinner.classList.add('d-none');
+  results.classList.remove('d-none');
 }
+
 function lintUrl(url) {
   const myUrl = url
   fetch(myUrl).then(function (r) {
