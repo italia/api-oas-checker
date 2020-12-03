@@ -7,6 +7,10 @@ components:
     ko_string_no_pattern: &basestring
       type: string
       maxLength: 1
+    ok_empty_string:
+      type: string
+      maxLength: 0
+      pattern: ''
     ok_string_pattern_format:
       <<: *basestring
       pattern: '[a-z]+'
