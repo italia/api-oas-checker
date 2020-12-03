@@ -10,15 +10,11 @@
     <!-- load bootstrap-italia -->
     <link rel="stylesheet" href="css/bootstrap-italia.min.css">
 
-    <!-- load bundled node app -->
-    <script src="out.js"></script>
     <script>window.__PUBLIC_PATH__ = 'fonts'</script>
 
     <!-- load codemirror -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.js"></script>
-    <script src="https://codemirror.net/mode/yaml/yaml.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.51.0/codemirror.min.css">
-    <link rel="stylesheet" href="https://codemirror.net/theme/darcula.css">
+    <link rel="stylesheet" href="css/codemirror.css">
+    <link rel="stylesheet" href="css/darcula.css">
 
     <!-- markdown parser -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
@@ -147,8 +143,8 @@
               <use xlink:href="svg/sprite.svg#it-delete"></use>
             </svg>
           </button>
-          <button class="btn btn-primary" onclick="parseUrl();">Lint URL</button>
-          <button class="btn btn-primary" onclick="parseText();">Lint text</button>
+          <button class="btn btn-primary" onclick="api_oas_checker.parseUrl();">Lint URL</button>
+          <button class="btn btn-primary" onclick="api_oas_checker.parseText();">Lint text</button>
         </div>
       </div>
     </div>
@@ -212,7 +208,9 @@
     </div>
 
     <script src="js/bootstrap-italia.bundle.min.js"></script>
-    <script src="js/index.js"></script>
+
+    <!-- load bundled node app -->
+    <script src="out.js"></script>
   </body>
 
 </html>
