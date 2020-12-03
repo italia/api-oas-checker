@@ -15,10 +15,10 @@ endif
 all: setup bundle
 
 # Create the web pages in bundle/
-bundle: bundle/js/bootstrap-italia.min.js rules index.html copy_public bundle/out.js
+bundle: copy-modules rules index.html copy_public bundle/out.js
 
-bundle/out.js: setup public/js/bundle.js package.json
-	npx browserify --outfile bundle/out.js --standalone api_oas_checker public/js/bundle.js
+bundle/out.js: setup public/js/index.js package.json
+	npx browserify public/js/index.js --outfile bundle/out.js --standalone api_oas_checker
 
 gh-pages: bundle rules
 	rm css js asset svg -fr
@@ -30,8 +30,9 @@ gh-pages: bundle rules
 	git -C $(TMPDIR) push -q origin gh-pages
 	rm $(TMPDIR) -fr
 
-bundle/js/bootstrap-italia.min.js: setup
+copy-modules: setup
 	cp -r node_modules/bootstrap-italia/dist/* bundle/
+	cp node_modules/codemirror/lib/*.css node_modules/codemirror/theme/darcula.css bundle/css/
 
 copy_public:
 	cp public/js/* bundle/js/
