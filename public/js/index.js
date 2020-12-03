@@ -194,6 +194,26 @@ var editor = CodeMirror.fromTextArea(myTextarea, {
     Tab: "indentMore",
   },
 });
+editor.setValue(`
+
+#  This application lints your OpenAPI specification using the opensource tool Spectral.
+#  You can use different verification profiles, including
+#  the one based on the Italian API Guidelines (default)
+#  the one with some basic Security checks.
+
+#  Paste here your OAS spec and click on  "Validate"
+#  or download them from the internet and click on "Load URL"
+#  then fix them directly in the editor.
+
+#  Questa applicazione controlla le tue specifiche OpenAPI utilizzando il tool opensource Spectral.
+#  Supporta diversi profili di controllo, incluso
+#  quello basato sul Modello d'Interoperabilità di AgID (default)
+#  e quello che include una serie preliminare di controlli di sicurezza.
+#  
+#  Incolla qui le tue specifiche OpenAPI e clicca su "Validate"
+#  oppure scaricale cliccando su "Load URL" e correggile direttamente nell'editor
+
+`);
 
 var counter = Date.now();
 function selectivelyParse() {
