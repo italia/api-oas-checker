@@ -1,8 +1,8 @@
-# This repository adheres to the publiccode.yml standard by including this 
+# This repository adheres to the publiccode.yml standard by including this
 # metadata file that makes public software easily discoverable.
 # More info at https://github.com/italia/publiccode.yml
 
-publiccodeYmlVersion: '0.2'
+publiccodeYmlVersion: "0.2"
 categories:
   - compliance-management
   - application-development
@@ -36,7 +36,7 @@ description:
       ​
     shortDescription: >-
       Questo repository contiene un validatore in-browser che verifica alcune
-      delle regole per le API REST indicate nel Modello di Interoperabilità. 
+      delle regole per le API REST indicate nel Modello di Interoperabilità.
 developmentStatus: development
 it:
   conforme:
@@ -44,7 +44,7 @@ it:
     lineeGuidaDesign: false
     misureMinimeSicurezza: false
     modelloInteroperabilita: true
-  countryExtensionVersion: '0.2'
+  countryExtensionVersion: "0.2"
   piattaforme:
     anpr: false
     cie: false
@@ -67,7 +67,7 @@ maintenance:
 name: OpenAPI Checker
 platforms:
   - linux
-releaseDate: '2020-06-16'
+releaseDate: "2020-06-16"
 softwareType: standalone/web
 softwareVersion: 0.0.1
-url: 'https://github.com/teamdigitale/api-oas-checker'
+url: "https://github.com/teamdigitale/api-oas-checker"

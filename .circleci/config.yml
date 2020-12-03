@@ -45,16 +45,16 @@ jobs:
     <<: *env_vars_test
     steps:
       - checkout
-      - << : *install_dependencies
+      - <<: *install_dependencies
 
   build_and_deploy_gh_pages:
     <<: *load_image
     <<: *env_vars_prod
     steps:
       - checkout
-      - << : *install_dependencies
-      - << : *setup_ssh_gh_pages
-      - << : *publish_changes_gh_pages
+      - <<: *install_dependencies
+      - <<: *setup_ssh_gh_pages
+      - <<: *publish_changes_gh_pages
 
 workflows:
   version: 2
