@@ -12,6 +12,6 @@ rules:
       $.[?(@.type=="array")]
     then:
     - field: maxItems
-      function: truthy
+      function: defined
     - field: minItems
-      function: truthy
+      function: defined
