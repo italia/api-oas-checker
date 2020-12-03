@@ -110,19 +110,12 @@
               <div class="col-12">
                 <div class="p-1">
                   <h8 class="bd-logo-subtitle">
-                    Verifica l'applicazione delle
+                    Controlla l'applicazione delle principali raccomandazioni contenute nelle
                     <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs">
                       Linee Guida per le API REST
                     </a>
+                    - scarica il file con le regole <a href="spectral.yml">spectral.yml</a>
                   </h8>
-                  <p>
-                    Questa pagina verifica (lint) alcune delle indicazioni contenute nel Modello d'Interoperabilità
-                    usando <a href="https://github.com/stoplightio/spectral">Spectral</a> le regole definite in
-                    <a href="spectral.yml">spectral.yml</a>
-                    Scarica le specifiche usando "Lint URL" e modificale nell'editor
-                    oppure incollale direttamente nell'editor.
-                    <b>Attenzione: scaricando un nuovo URL sostituirai il contenuto dell'editor.</b>
-                  </p>
                 </div>
               </div>
             </div>
@@ -143,8 +136,8 @@
               <use xlink:href="svg/sprite.svg#it-delete"></use>
             </svg>
           </button>
-          <button class="btn btn-primary" onclick="api_oas_checker.parseUrl();">Lint URL</button>
-          <button class="btn btn-primary" onclick="api_oas_checker.parseText();">Lint text</button>
+          <button class="btn btn-primary"  data-toggle="modal" data-target="#modalConfirmParseUrl">Load URL</button>
+          <button class="btn btn-primary" onclick="api_oas_checker.parseText();">Validate</button>
         </div>
       </div>
     </div>
@@ -153,7 +146,26 @@
     <!-- Editor -->
     <div id="form" class="editor-div">
       <div class="form-group">
-        <textarea id="oas_text"></textarea>
+        <textarea id="oas_text">
+
+#  This application lints your OpenAPI specification using the opensource tool Spectral.
+#  You can use different verification profiles, including
+#  the one based on the Italian API Guidelines (default)
+#  the one with some basic Security checks.
+
+#  Paste here your OAS spec and click on  "Validate"
+#  or download them from the internet and click on "Load URL"
+#  then fix them directly in the editor.
+
+#  Questa applicazione controlla le tue specifiche OpenAPI utilizzando il tool opensource Spectral.
+#  Supporta diversi profili di controllo, incluso
+#  quello basato sul Modello d'Interoperabilità di AgID (default)
+#  e quello che include una serie preliminare di controlli di sicurezza.
+#  
+#  Incolla qui le tue specifiche OpenAPI e clicca su "Validate"
+#  oppure scaricale cliccando su "Load URL" e correggile direttamente nell'editor
+
+        </textarea>
         <label for="oas_text">Write or modify here the OAS specification.</label>
       </div>
     </div>
@@ -211,6 +223,28 @@
 
     <!-- load bundled node app -->
     <script src="out.js"></script>
+
+    <!-- Modal parseUrl-->
+    <div class="modal fade" tabindex="-1" role="dialog" id="modalConfirmParseUrl">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Attenzione
+            </h5>
+          </div>
+          <div class="modal-body">
+            <p>Sostituisco il contenuto dell'editor?</p>
+            <p>Replace the editor content?</p>
+          </div>
+          <div class="modal-footer">
+             <button class="btn btn-primary btn-sm" data-dismiss="modal" onclick="api_oas_checker.parseUrl();" type="button">Ok</button>
+             
+            <button class="btn btn-primary btn-sm" data-dismiss="modal" type="button">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </body>
 
 </html>

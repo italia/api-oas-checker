@@ -42,6 +42,7 @@ function parseUrl() {
 
 function clearUrl() {
   document.getElementById("oas_url").value = "";
+  editor.getDoc().setValue("");
 }
 
 function renderStatistics(statistics) {
