@@ -3,6 +3,8 @@ const {
   isOpenApiv2,
   isOpenApiv3,
   isOpenApiv3_1,
+  isJSONSchema,
+  isJSONSchemaDraft2019_09,
 } = require("@stoplight/spectral");
 const {
   getLocationForJsonPath,
@@ -252,6 +254,8 @@ function parse(oas3, ruleset) {
     const spectral = new Spectral({ resolver: httpAndFileResolver });
     spectral.registerFormat("oas2", isOpenApiv2);
     spectral.registerFormat("oas3", isOpenApiv3);
+    spectral.registerFormat("json-schema", isJSONSchema);
+    spectral.registerFormat("json-schema-2019-09", isJSONSchemaDraft2019_09);
     spectral.loadRuleset(ruleset).then(() =>
       spectral
         .run({
@@ -269,3 +273,4 @@ function parse(oas3, ruleset) {
 exports.parseUrl = parseUrl;
 exports.parseText = parseText;
 exports.parse = parse;
+exports.clearUrl = clearUrl;
