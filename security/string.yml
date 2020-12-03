@@ -12,7 +12,7 @@ rules:
         $.[?(@.type=="string" && !@.enum )]
     then:
       - field: maxLength
-        function: truthy
+        function: defined
   string-pattern-or-format-or-enum:
     description: String values should be constrained.
     message: >-

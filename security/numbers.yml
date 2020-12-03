@@ -14,6 +14,6 @@ rules:
       $.[?(@.type=="integer")]
     then:
     - field: maximum
-      function: truthy
+      function: defined
     - field: minimum
-      function: truthy
+      function: defined
