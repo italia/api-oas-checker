@@ -380,9 +380,9 @@ rules:
       - $.[?(@.type=="array")]
     then:
       - field: maxItems
-        function: truthy
+        function: defined
       - field: minItems
-        function: truthy
+        function: defined
   number-boundaries:
     description: Schema of type number or integer must specify a maximum and a minimum.
     message: Schema of type number or integer must specify a maximum and a minimum.
@@ -396,9 +396,9 @@ rules:
       - $.[?(@.type=="integer")]
     then:
       - field: maximum
-        function: truthy
+        function: defined
       - field: minimum
-        function: truthy
+        function: defined
   string-maxlength:
     description: String length should be limited.
     message: Strings (non enum) must specify a maximum length. {{path}} {{error}}
@@ -410,7 +410,7 @@ rules:
       - $.[?(@.type=="string" && !@.enum )]
     then:
       - field: maxLength
-        function: truthy
+        function: defined
   string-pattern-or-format-or-enum:
     description: String values should be constrained.
     message: Strings (non enum) must specify a pattern or a format. {{path}}
