@@ -38,7 +38,8 @@ copy_public:
 	cp public/js/* bundle/js/
 	cp public/css/* bundle/css/
 	cp -r public/icons bundle/icons/
-	cp -t bundle index.html $(RULE_FILES)
+	cp index.html bundle/
+	cp ${RULE_FILES} bundle/
 
 # Merge all rules into spectral.yml
 rules: setup $(RULE_FILES)
