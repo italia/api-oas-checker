@@ -1,7 +1,8 @@
 import React from 'react';
 import { Button, FormGroup } from 'design-react-kit';
+import { connect } from 'react-redux';
 
-export const Menu = () => <>
+const Menu = ({ disabled }) => <>
   <div className="border-top">
     <FormGroup
       className="m-4"
@@ -10,6 +11,7 @@ export const Menu = () => <>
       <Button
         className="py-2 px-3"
         color="primary"
+        disabled={disabled}
         icon
         tag="button"
       >
@@ -23,6 +25,7 @@ export const Menu = () => <>
       <Button
         className="py-2 px-3"
         color="primary"
+        disabled={disabled}
         icon
         tag="button"
       >
@@ -38,6 +41,7 @@ export const Menu = () => <>
       <Button
         className="py-2 px-3"
         color="primary"
+        disabled={disabled}
         icon
         tag="button"
       >
@@ -51,6 +55,7 @@ export const Menu = () => <>
       <Button
         className="py-2 px-3"
         color="primary"
+        disabled={disabled}
         icon
         tag="button"
       >
@@ -64,6 +69,7 @@ export const Menu = () => <>
       <Button
         className="py-2 px-3"
         color="primary"
+        disabled={disabled}
         icon
         tag="button"
       >
@@ -79,6 +85,7 @@ export const Menu = () => <>
       <Button
         className="py-2 px-3"
         color="primary"
+        disabled={disabled}
         icon
         tag="button"
       >
@@ -87,3 +94,5 @@ export const Menu = () => <>
     </FormGroup>
   </div>
 </>
+
+export default connect(state => ({ disabled: state.validationInProgress }))(Menu)
