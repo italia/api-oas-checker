@@ -15,29 +15,29 @@ const useStyles = createUseStyles({
   }
 });
 
-const Header = props => {
+const Header = ({ showMenu, toogleMenu }) => {
   const classes = useStyles();
   const leftSection = classNames({
-      'col-sm-2': props.showMenu,
-      'col-sm-1': !props.showMenu,
-      'bg-white': props.showMenu,
+      'col-sm-2': showMenu,
+      'col-sm-1': !showMenu,
+      'bg-white': showMenu,
     }, 'd-flex', 'align-items-center', 'p-3');
 
   const rightSection = classNames({
-    'col-sm-10': props.showMenu,
-    'col-sm-11': !props.showMenu
+    'col-sm-10': showMenu,
+    'col-sm-11': !showMenu
   }, 'd-flex', 'justify-content-start', 'align-items-center', 'py-3');
 
   const iconClassNames = classNames({
-    'icon-white': !props.showMenu,
-    'icon-primary': props.showMenu
+    'icon-white': !showMenu,
+    'icon-primary': showMenu
   }, 'ml-4', classes.icon);
 
   return <header>
     <div className="container-fluid p-0 user-select-none">
         <div className={`row no-gutters bg-primary text-white`}>
           <div className={leftSection}>
-            <Icon onClick={props.toogleMenu} role='button' className={iconClassNames} icon="it-burger"/>
+            <Icon onClick={toogleMenu} role='button' className={iconClassNames} icon="it-burger"/>
           </div>
           <div className={rightSection}>
             <img className="ml-4 mr-2" src='it.svg' alt='it logo' />
@@ -61,4 +61,4 @@ const Header = props => {
   </header>
 }
 
-export default connect(state => ({ showMenu: state.showMenu }), { toogleMenu })(Header);
+export default connect(state => ({ showMenu: state.menuState.showMenu }), { toogleMenu })(Header);
