@@ -1,15 +1,16 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import * as monaco from 'monaco-editor';
 import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { Editor } from './Editor.js';
 import { Document, Parsers } from '@stoplight/spectral';
 import { getSpectral } from '../spectral.js';
-import { ValidatorControllers } from './ValidatorControllers.js';
-import { ValidatorResults } from './ValidatorResults.js';
-import { ValidatorSummary } from './ValidatorSummary.js';
-import { Menu } from './Menu.js';
-import classNames from 'classnames';
+import ValidatorControllers from './ValidatorControllers.js';
+import ValidatorResults from './ValidatorResults.js';
+import ValidatorSummary from './ValidatorSummary.js';
+import Menu from './Menu.js';
+import { setValidationResults, setValidationInProgress } from '../redux/actions.js';
+import cx from 'classnames';
 
 const useStyles = createUseStyles({
   editorMarginHighlightSev1: {
@@ -20,21 +21,18 @@ const useStyles = createUseStyles({
   }
 })
 
-const Main = ({ showMenu }) => {
-  const [spectralResult, setSpectralResult] = useState(null);
-  const [isValidating, setIsValidating] = useState(false);
+const Main = ({ showMenu, setValidationResults, setValidationInProgress }) => {
   const editor = React.createRef = {};
   const decoration = React.createRef = [];
   decoration.current = [];
   const classes = useStyles();
 
-  const validate = useCallback(
+  const handleValidation = useCallback(
     async () => {
-      setIsValidating(true);
+      setValidationInProgress(true);
       editor.current.deltaDecorations(decoration.current, []);
-      setSpectralResult(null);
-      const yaml = editor.current.getModel().getValue();
-      const document = new Document(yaml, Parsers.Yaml);
+      const text = editor.current.getModel().getValue();
+      const document = new Document(text, Parsers.Yaml);
       const spectral = await getSpectral();
       const results = await spectral.run(document);
       const newDecorations = [];
@@ -49,8 +47,8 @@ const Main = ({ showMenu }) => {
         });
       }
       decoration.current = editor.current.deltaDecorations([], newDecorations);
-      setSpectralResult(results);
-      setIsValidating(false);
+      setValidationResults(results);
+      setValidationInProgress(false);
     }, []);
 
   const revealLine = useCallback(({ line, character }) => {
@@ -59,12 +57,12 @@ const Main = ({ showMenu }) => {
     editor.current.focus();
   }, []);
 
-  const sideSection = classNames({
+  const sideSection = cx({
     'col-md-2': showMenu,
     'd-none': !showMenu,
   })
 
-  const mainSection = classNames({
+  const mainSection = cx({
     'col-md-6': showMenu,
     'col-md-8': !showMenu
   })
@@ -75,15 +73,20 @@ const Main = ({ showMenu }) => {
         <Menu />
       </aside>
       <section className={mainSection}>
-        <Editor ref={editor} onChange={validate}/>
+        <Editor ref={editor} onChange={handleValidation}/>
       </section>
       <section className="col-md-4">
-        <ValidatorControllers onValidate={validate} isValidating={isValidating}/>
-        <ValidatorSummary results={spectralResult} />
-        <ValidatorResults isValidating={isValidating} results={spectralResult} onResultClick={revealLine}/>
+        <ValidatorControllers onValidate={handleValidation} />
+        <ValidatorSummary />
+        <ValidatorResults onResultClick={revealLine} />
       </section>
     </div>
   </main>
 }
 
-export default connect(state => ({ showMenu: state.showMenu }), null)(Main);
+export default connect(
+  state => ({
+    showMenu: state.showMenu
+  }),
+  { setValidationResults, setValidationInProgress })
+(Main);
