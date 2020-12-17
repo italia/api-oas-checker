@@ -8,14 +8,14 @@ const useStyle = createUseStyles({
     wordBreak: 'break-all'
   },
   enableScrollResults: {
-    height: 'calc(100vh - 266px)',
+    height: 'calc(100vh - 298px)',
     overflow: 'scroll'
   }
 });
 
 // TODO: check if results can be merged with in progress to avoid double rendering
-const ValidatorResults = ({ validationInProgress, validationResultsInfo, onResultClick }) => {
-  if (validationInProgress || validationResultsInfo.length === 0) return null;
+const ValidatorResults = ({ validationResultsInfo, onResultClick }) => {
+  if (validationResultsInfo.length === 0) return null;
 
   const classes = useStyle();
 
@@ -43,6 +43,5 @@ const ValidatorResults = ({ validationInProgress, validationResultsInfo, onResul
 }
 
 export default connect(state => ({
-    validationInProgress: state.validationInProgress,
     validationResultsInfo: getValidationResultsInfo(state),
   }))(ValidatorResults);

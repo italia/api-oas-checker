@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
+import { isValidationInProgress } from '../redux/selectors.js';
 
 const Menu = ({ disabled }) => <>
   <div className="border-top">
@@ -95,4 +96,4 @@ const Menu = ({ disabled }) => <>
   </div>
 </>
 
-export default connect(state => ({ disabled: state.validationInProgress }))(Menu)
+export default connect(state => ({ disabled: isValidationInProgress(state) }))(Menu)

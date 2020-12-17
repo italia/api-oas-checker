@@ -86,7 +86,7 @@ const Main = ({ showMenu, setValidationResults, setValidationInProgress }) => {
 
 export default connect(
   state => ({
-    showMenu: state.showMenu
+    showMenu: state.menuState.showMenu
   }),
   { setValidationResults, setValidationInProgress })
 (Main);

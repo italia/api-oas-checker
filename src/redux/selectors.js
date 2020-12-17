@@ -1,21 +1,22 @@
 export const getValidationSummary = state => {
-  const results = state.validationResults;
-  if (!results) return {
-    errors: null,
-    warnings: null,
-  };
-
-  return {
-    errors: results.filter(r => r.severity === 1),
-    warnings: results.filter(r => r.severity !== 1)
+  if (state.validationState.inProgress || state.validationState.results === null) {
+    return null;
   }
+
+  const summary = {
+    errors: state.validationState.results.filter(r => r.severity === 1),
+    warnings: state.validationState.results.filter(r => r.severity !== 1)
+  }
+
+  return summary;
 }
 
 export const getValidationResultsInfo = state => {
-  const results = state.validationResults;
-  if (!results) return [];
+  if (state.validationState.inProgress || state.validationState.results === null) {
+    return [];
+  }
 
-  const resultsInfo = results.map(r => ({
+  const resultsInfo = state.validationState.results.map(r => ({
     fingerprint: r.fingerprint,
     severity: r.severity,
     line: r.range.start.line,
@@ -25,3 +26,5 @@ export const getValidationResultsInfo = state => {
 
   return resultsInfo;
 }
+
+export const isValidationInProgress = state => state.validationState.inProgress;

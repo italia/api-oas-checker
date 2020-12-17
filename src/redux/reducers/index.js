@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
-import showMenu from './showMenu.js';
-import validationResults from './validationResults.js';
-import validationInProgress from './validationInProgress.js';
+import menuReducer from './menuReducer.js';
+import validationReducer from './validationReducer.js';
 
-export default combineReducers({ showMenu, validationResults, validationInProgress });
+export default combineReducers({ menuState: menuReducer, validationState: validationReducer });

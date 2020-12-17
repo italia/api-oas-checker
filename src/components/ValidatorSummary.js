@@ -3,8 +3,8 @@ import { Badge } from 'design-react-kit';
 import { connect } from 'react-redux';
 import { getValidationSummary } from '../redux/selectors.js';
 
-const ValidatorSummary = ({ validationInProgress, errors, warnings }) => {
-  if (validationInProgress || errors === null) return null;
+const ValidatorSummary = ({ summary }) => {
+  if (summary === null) return null;
 
   return <div className="d-flex p-3 bg-primary">
     <h4 className="pr-3">
@@ -13,7 +13,7 @@ const ValidatorSummary = ({ validationInProgress, errors, warnings }) => {
         pill={false}
         tag="span"
       >
-        {errors.length} errors
+        {summary.errors.length} errors
       </Badge>
     </h4>
     <h4>
@@ -22,15 +22,12 @@ const ValidatorSummary = ({ validationInProgress, errors, warnings }) => {
         pill={false}
         tag="span"
       >
-        {warnings.length} warnings
+        {summary.warnings.length} warnings
       </Badge>
     </h4>
   </div>
 };
 
-export default connect(state => {
-  const { errors, warnings } = getValidationSummary(state);
-  return {
-    errors, warnings, validationInProgress: state.validationInProgress
-  };
-})(ValidatorSummary);
+export default connect(state => ({
+  summary: getValidationSummary(state)
+}))(ValidatorSummary);
