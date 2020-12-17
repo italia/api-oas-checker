@@ -3,6 +3,7 @@
 # generated bundle files
 /out.js
 /bundle
+/dist
 /assets
 *.zip
 /css
