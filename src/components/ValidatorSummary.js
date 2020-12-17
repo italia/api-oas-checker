@@ -1,13 +1,10 @@
 import React from 'react';
 import { Badge } from 'design-react-kit';
 import { connect } from 'react-redux';
+import { getValidationSummary } from '../redux/selectors.js';
 
-const ValidatorSummary = React.memo(({ validationInProgress, validationResults }) => {
-  if (validationInProgress || !validationResults) return null;
-
-  // TODO: transform this in props and use a redux selector
-  const errors = validationResults.filter(r => r.severity === 1);
-  const warnings = validationResults.filter(r => r.severity !== 1);
+const ValidatorSummary = ({ validationInProgress, errors, warnings }) => {
+  if (validationInProgress || errors === null) return null;
 
   return <div className="d-flex p-3 bg-primary">
     <h4 className="pr-3">
@@ -29,9 +26,11 @@ const ValidatorSummary = React.memo(({ validationInProgress, validationResults }
       </Badge>
     </h4>
   </div>
-});
+};
 
-export default connect(state => ({
-  validationInProgress: state.validationInProgress,
-  validationResults: state.validationResults,
-}))(ValidatorSummary);
+export default connect(state => {
+  const { errors, warnings } = getValidationSummary(state);
+  return {
+    errors, warnings, validationInProgress: state.validationInProgress
+  };
+})(ValidatorSummary);
