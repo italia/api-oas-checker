@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from 'react';
+import * as monaco from 'monaco-editor';
+import { connect } from 'react-redux';
+import { createUseStyles } from 'react-jss';
 import { Editor } from './Editor.js';
 import { Document, Parsers } from '@stoplight/spectral';
 import { getSpectral } from '../spectral.js';
-import * as monaco from 'monaco-editor';
 import { ValidatorControllers } from './ValidatorControllers.js';
 import { ValidatorResults } from './ValidatorResults.js';
-import { createUseStyles } from 'react-jss';
 import { ValidatorSummary } from './ValidatorSummary.js';
 import { Menu } from './Menu.js';
 import classNames from 'classnames';
@@ -19,7 +20,7 @@ const useStyles = createUseStyles({
   }
 })
 
-export const Main = (props) => {
+const Main = ({ showMenu }) => {
   const [spectralResult, setSpectralResult] = useState(null);
   const [isValidating, setIsValidating] = useState(false);
   const editor = React.createRef = {};
@@ -59,30 +60,30 @@ export const Main = (props) => {
   }, []);
 
   const sideSection = classNames({
-    'col-md-2': !props.isExtended,
-    'd-none': props.isExtended,
+    'col-md-2': showMenu,
+    'd-none': !showMenu,
   })
 
   const mainSection = classNames({
-    'col-md-6': !props.isExtended,
-    'col-md-8': props.isExtended
+    'col-md-6': showMenu,
+    'col-md-8': !showMenu
   })
 
-  return <main>
-          <div className="container-fluid p-0">
-            <div className="row no-gutters">
-              <div className={sideSection}>
-                <Menu />
-              </div>
-              <div className={mainSection}>
-                <Editor ref={editor} onChange={validate}/>
-              </div>
-              <div className="col-md-4">
-                <ValidatorControllers onValidate={validate} isValidating={isValidating}/>
-                <ValidatorSummary results={spectralResult} />
-                <ValidatorResults isValidating={isValidating} results={spectralResult} onResultClick={revealLine}/>
-              </div>
-            </div>
-          </div>
-        </main>
+  return <main className="container-fluid p-0">
+    <div className="row no-gutters">
+      <aside className={sideSection}>
+        <Menu />
+      </aside>
+      <section className={mainSection}>
+        <Editor ref={editor} onChange={validate}/>
+      </section>
+      <section className="col-md-4">
+        <ValidatorControllers onValidate={validate} isValidating={isValidating}/>
+        <ValidatorSummary results={spectralResult} />
+        <ValidatorResults isValidating={isValidating} results={spectralResult} onResultClick={revealLine}/>
+      </section>
+    </div>
+  </main>
 }
+
+export default connect(state => ({ showMenu: state.showMenu }), null)(Main);
