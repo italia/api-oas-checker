@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
+import { isValidationInProgress } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
   validatorIconSize: {
@@ -9,11 +10,11 @@ const useStyles = createUseStyles({
   }
 });
 
-const ValidatorControllers = ({ validationInProgress, onValidate }) => {
+const ValidatorControllers = ({ isValidationInProgress, onValidate }) => {
   const classes = useStyles();
 
   // TODO: refactor this
-  if (validationInProgress) {
+  if (isValidationInProgress) {
     return <div className="d-flex align-items-center">
       <FormGroup
         className="m-3 flex-grow-1"
@@ -63,4 +64,4 @@ const ValidatorControllers = ({ validationInProgress, onValidate }) => {
   </div>
 }
 
-export default connect(state => ({ validationInProgress: state.validationInProgress }))(ValidatorControllers);
+export default connect(state => ({ isValidationInProgress: isValidationInProgress(state) }))(ValidatorControllers);
