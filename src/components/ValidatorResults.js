@@ -1,5 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
+import { connect } from 'react-redux';
 
 const useStyle = createUseStyles({
   breakWords: {
@@ -11,8 +12,10 @@ const useStyle = createUseStyles({
   }
 });
 
-export const ValidatorResults = props => {
-  if (props.isValidating || !props.results) return null;
+const ValidatorResults = ({ validationInProgress, validationResults, onResultClick }) => {
+  if (validationInProgress || !validationResults) return null;
+
+  // TODO: transform type, severity and message in props with redux selector
 
   const classes = useStyle();
 
@@ -28,8 +31,8 @@ export const ValidatorResults = props => {
     </div>
   </div>
     <div className={classes.enableScrollResults}>
-      {props.results.map(r =>
-        <div className="row py-3" role="button" key={r.fingerprint} onClick={() => props.onResultClick({ line: r.range.start.line, character: r.range.start.character })}>
+      {validationResults.map(r =>
+        <div className="row py-3" role="button" key={r.fingerprint} onClick={() => onResultClick({ line: r.range.start.line, character: r.range.start.character })}>
           <div className="col-2 text-center">{r.severity}</div>
           <div className="col-2 text-center">{r.range.start.line}</div>
           <div className={`col-8 ${classes.breakWords}`}>{r.message}</div>
@@ -38,3 +41,8 @@ export const ValidatorResults = props => {
     </div>
     </>
 }
+
+export default connect(state => ({
+  validationInProgress: state.validationInProgress,
+  validationResults: state.validationResults,
+}))(ValidatorResults);
