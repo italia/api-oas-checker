@@ -19,6 +19,12 @@ Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) c
 - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
 - [Speccy](https://github.com/wework/speccy) pare supportare solo regole in javascript, mentre questo validatore utilizza dei file yaml statici. 
 
+## Nuova ui (wip)
+```bash
+$ yarn
+$ yarn start
+```
+
 ## Contenuto
 
 - Un progetto nodejs che usa webpack per creare una single-page application
