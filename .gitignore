@@ -9,7 +9,6 @@
 /fonts
 /svg
 yarn-error.log
-yarn.lock
 
 # generated json files
 rules/*.json
