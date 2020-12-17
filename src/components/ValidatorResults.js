@@ -13,7 +13,6 @@ const useStyle = createUseStyles({
   }
 });
 
-// TODO: check if results can be merged with in progress to avoid double rendering
 const ValidatorResults = ({ validationResultsInfo, onResultClick }) => {
   if (validationResultsInfo.length === 0) return null;
 
