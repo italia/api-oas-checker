@@ -1,6 +1,7 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
+import { getValidationResultsInfo } from '../redux/selectors.js';
 
 const useStyle = createUseStyles({
   breakWords: {
@@ -12,10 +13,9 @@ const useStyle = createUseStyles({
   }
 });
 
-const ValidatorResults = ({ validationInProgress, validationResults, onResultClick }) => {
-  if (validationInProgress || !validationResults) return null;
-
-  // TODO: transform type, severity and message in props with redux selector
+// TODO: check if results can be merged with in progress to avoid double rendering
+const ValidatorResults = ({ validationInProgress, validationResultsInfo, onResultClick }) => {
+  if (validationInProgress || validationResultsInfo.length === 0) return null;
 
   const classes = useStyle();
 
@@ -31,10 +31,10 @@ const ValidatorResults = ({ validationInProgress, validationResults, onResultCli
     </div>
   </div>
     <div className={classes.enableScrollResults}>
-      {validationResults.map(r =>
-        <div className="row py-3" role="button" key={r.fingerprint} onClick={() => onResultClick({ line: r.range.start.line, character: r.range.start.character })}>
+      {validationResultsInfo.map(r =>
+        <div className="row py-3" role="button" key={r.fingerprint} onClick={() => onResultClick({ line: r.line, character: r.character })}>
           <div className="col-2 text-center">{r.severity}</div>
-          <div className="col-2 text-center">{r.range.start.line}</div>
+          <div className="col-2 text-center">{r.line}</div>
           <div className={`col-8 ${classes.breakWords}`}>{r.message}</div>
         </div>)
       }
@@ -43,6 +43,6 @@ const ValidatorResults = ({ validationInProgress, validationResults, onResultCli
 }
 
 export default connect(state => ({
-  validationInProgress: state.validationInProgress,
-  validationResults: state.validationResults,
-}))(ValidatorResults);
+    validationInProgress: state.validationInProgress,
+    validationResultsInfo: getValidationResultsInfo(state),
+  }))(ValidatorResults);
