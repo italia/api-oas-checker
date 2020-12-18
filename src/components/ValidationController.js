@@ -20,13 +20,6 @@ const ValidationController = ({ isValidationInProgress, onValidate }) => {
     },
     'm-3'
   );
-  const buttonValidateCx = cx(
-    {
-      'w-100': isValidationInProgress,
-    },
-    'py-2',
-    'px-3'
-  );
 
   const onValidationButtonClick = isValidationInProgress ? Function.prototype : onValidate;
 
@@ -35,7 +28,7 @@ const ValidationController = ({ isValidationInProgress, onValidate }) => {
       <FormGroup className={formGroupButtonValidateCx} tag="div">
         <Button
           data-testid="validation-button"
-          className={buttonValidateCx}
+          className="w-100 py-2 px-3"
           color="primary"
           icon
           tag="button"
