@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useRef } from 'react';
 import * as monaco from 'monaco-editor';
 import { connect } from 'react-redux';
 import { createUseStyles } from 'react-jss';
@@ -22,8 +22,8 @@ const useStyles = createUseStyles({
 })
 
 const Main = ({ showMenu, setValidationResults, setValidationInProgress }) => {
-  const editor = React.createRef = {};
-  const decoration = React.createRef = [];
+  const editor = useRef({});
+  const decoration = useRef([]);
   decoration.current = [];
   const classes = useStyles();
 
