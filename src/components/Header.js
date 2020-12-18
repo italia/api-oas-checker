@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Badge, Icon } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
-import classNames from 'classnames';
+import cx from 'classnames';
 import { toogleMenu } from '../redux/actions.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
 import PropTypes from 'prop-types';
@@ -19,18 +19,18 @@ const useStyles = createUseStyles({
 
 const Header = ({ isMenuDisplayed, toogleMenu }) => {
   const classes = useStyles();
-  const leftSection = classNames({
+  const leftSection = cx({
       'col-sm-2': isMenuDisplayed,
       'col-sm-1': !isMenuDisplayed,
       'bg-white': isMenuDisplayed,
     }, 'd-flex', 'align-items-center', 'p-3');
 
-  const rightSection = classNames({
+  const rightSection = cx({
     'col-sm-10': isMenuDisplayed,
     'col-sm-11': !isMenuDisplayed
   }, 'd-flex', 'justify-content-start', 'align-items-center', 'py-3');
 
-  const iconClassNames = classNames({
+  const iconClassNames = cx({
     'icon-white': !isMenuDisplayed,
     'icon-primary': isMenuDisplayed
   }, 'ml-4', classes.icon);

@@ -1,4 +1,5 @@
 import React from 'react';
+import cx from 'classnames';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
@@ -13,55 +14,46 @@ const useStyles = createUseStyles({
 
 const ValidationController = ({ isValidationInProgress, onValidate }) => {
   const classes = useStyles();
+  const formGroupButtonValidateCx = cx({
+    'flex-grow-1': isValidationInProgress
+  }, 'm-3');
+  const buttonValidateCx = cx({
+    'w-100': isValidationInProgress
+  }, 'py-2', 'px-3');
 
-  // TODO: refactor this
-  if (isValidationInProgress) {
-    return <div className="d-flex align-items-center">
-      <FormGroup
-        className="m-3 flex-grow-1"
-        tag="div"
-      >
-        <Button
-          className="py-2 px-3 w-100"
-          color="primary"
-          icon
-          tag="button"
-        >
-          Please wait...
-          <Icon className={`ml-3 ${classes.validatorIconSize}`} color="white" icon="it-refresh"/>
-        </Button>
-      </FormGroup>
-    </div>
-  }
+  const onValidationButtonClick = isValidationInProgress ? Function.prototype : onValidate;
+
   return <div className="d-flex align-items-center">
     <FormGroup
-      className="m-3"
+      className={formGroupButtonValidateCx}
       tag="div"
     >
       <Button
-        className="py-2 px-3"
+        data-testid='validation-button'
+        className={buttonValidateCx}
         color="primary"
         icon
         tag="button"
-        onClick={ onValidate }
+        onClick={onValidationButtonClick}
       >
-        Validate
+        { isValidationInProgress ? 'Please wait...' : 'Validate' }
         <Icon className={`ml-3 ${classes.validatorIconSize}`} color="white" icon="it-refresh"/>
       </Button>
     </FormGroup>
-    <FormGroup
+
+    {!isValidationInProgress && <FormGroup
       check
       className="m-3"
       tag="div"
     >
-      <div className="toggles">
+      <div data-testid="auto-refresh" className="toggles">
         <Label className="m-0 font-weight-light" check>
           Auto-refresh
           <Input type="checkbox" defaultChecked/>
           <span className="lever" />
         </Label>
       </div>
-    </FormGroup>
+    </FormGroup>}
   </div>
 }
 

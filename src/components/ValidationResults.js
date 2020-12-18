@@ -19,7 +19,7 @@ const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
 
   const classes = useStyle();
 
-  return <><div className="row py-3">
+  return <><div className="row py-3" data-testid="validation-results-header">
     <div className="col-2 text-center">
       Type
     </div>
@@ -32,7 +32,7 @@ const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
   </div>
     <div className={classes.enableScrollResults}>
       {validationResultsInfo.map(r =>
-        <div className="row py-3" role="button" key={r.fingerprint} onClick={() => onResultClick({ line: r.line, character: r.character })}>
+        <div data-testid='validation-result-entry' className="row py-3" role="button" key={r.fingerprint} onClick={() => onResultClick({ line: r.line, character: r.character })}>
           <div className="col-2 text-center">{r.severity}</div>
           <div className="col-2 text-center">{r.line}</div>
           <div className={`col-8 ${classes.breakWords}`}>{r.message}</div>
