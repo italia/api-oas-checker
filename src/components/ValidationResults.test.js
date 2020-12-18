@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 import { fireEvent, render, screen } from '../test-utils.js';
 import ValidationResults from './ValidationResults.js';
@@ -17,9 +17,9 @@ describe('validation results', () => {
     render(<ValidationResults onResultClick={onResultClick} />, {
       initialState: {
         validationState: {
-          results: validationResultsMock
-        }
-      }
+          results: validationResultsMock,
+        },
+      },
     });
     expect(screen.queryAllByTestId('validation-result-entry').length).toBe(3);
   });
@@ -29,11 +29,11 @@ describe('validation results', () => {
     render(<ValidationResults onResultClick={onResultClick} />, {
       initialState: {
         validationState: {
-          results: validationResultsMock
-        }
-      }
+          results: validationResultsMock,
+        },
+      },
     });
     fireEvent.click(screen.queryAllByTestId('validation-result-entry')[0]);
     expect(onResultClick).toHaveBeenCalledTimes(1);
   });
-})
+});

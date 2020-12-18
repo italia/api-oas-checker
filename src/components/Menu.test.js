@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import Menu from './Menu.js'
+import Menu from './Menu.js';
 import { render, screen } from '../test-utils.js';
 
 describe('menu', () => {
@@ -12,6 +12,6 @@ describe('menu', () => {
   it('should be disabled when a validation is in progress', () => {
     render(<Menu />, { initialState: { validationState: { inProgress: true } } });
     const buttons = screen.queryAllByRole('button');
-    expect(buttons.every(y => y.className.includes('disabled'))).toBeTruthy();
+    expect(buttons.every((y) => y.className.includes('disabled'))).toBeTruthy();
   });
-})
+});
