@@ -16,7 +16,7 @@ const useStyles = createUseStyles({
     fontSize: '1.5rem',
   },
   animate: {
-    transition: '0.2s',
+    transition: '0.3s ease-in-out',
   },
 });
 
