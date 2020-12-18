@@ -35,7 +35,7 @@ const Editor = React.forwardRef((props, editorRef) => {
       });
     }
     initMonaco();
-    return () => editorRef.current.getModels().forEach(model => model.dispose());
+    // return () => editorRef.current.getModels().forEach(model => model.dispose());
   }, [])
 
   return <>

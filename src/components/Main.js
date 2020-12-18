@@ -69,7 +69,7 @@ const Main = ({ isMenuDisplayed, setValidationResults, setValidationInProgress }
     'col-md-8': !isMenuDisplayed
   })
 
-  return <main className="container-fluid p-0">
+  return <main className="container-fluid p-0" data-testid='main'>
     <div className="row no-gutters">
       <aside className={sideSection}>
         <Menu />
