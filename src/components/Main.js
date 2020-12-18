@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
     background: 'var(--primary)',
   },
   animate: {
-    transition: '0.2s',
+    transition: '0.3s ease-in-out',
   },
   'col-0': {
     flex: '0 0 0%',
