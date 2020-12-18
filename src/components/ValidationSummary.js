@@ -10,6 +10,7 @@ const ValidationSummary = ({ summary }) => {
   return <div className="d-flex p-3 bg-primary">
     <h4 className="pr-3">
       <Badge
+        data-testid="errors-badge"
         color="danger"
         pill={false}
         tag="span"
@@ -19,6 +20,7 @@ const ValidationSummary = ({ summary }) => {
     </h4>
     <h4>
       <Badge
+        data-testid="warnings-badge"
         color="warning"
         pill={false}
         tag="span"

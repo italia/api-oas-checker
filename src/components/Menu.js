@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { isValidationInProgress } from '../redux/selectors.js';
 
 const Menu = ({ disabled }) => <>
-  <div className="border-top">
+  <div className="border-top" data-testid="menu">
     <FormGroup
       className="m-4"
       tag="div"
