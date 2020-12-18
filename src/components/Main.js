@@ -21,6 +21,13 @@ const useStyles = createUseStyles({
   editorHighlightLine: {
     background: 'var(--primary)',
   },
+  animate: {
+    transition: '0.2s',
+  },
+  'col-0': {
+    flex: '0 0 0%',
+    maxWidth: '0%',
+  },
 });
 
 const Main = ({ isMenuDisplayed, setValidationResults, setValidationInProgress }) => {
@@ -58,15 +65,21 @@ const Main = ({ isMenuDisplayed, setValidationResults, setValidationInProgress }
     editor.current.focus();
   }, []);
 
-  const sideSection = cx({
-    'col-md-2': isMenuDisplayed,
-    'd-none': !isMenuDisplayed,
-  });
+  const sideSection = cx(
+    {
+      'col-md-2': isMenuDisplayed,
+      [classes['col-0']]: !isMenuDisplayed,
+    },
+    classes.animate
+  );
 
-  const mainSection = cx({
-    'col-md-6': isMenuDisplayed,
-    'col-md-8': !isMenuDisplayed,
-  });
+  const mainSection = cx(
+    {
+      'col-md-6': isMenuDisplayed,
+      'col-md-8': !isMenuDisplayed,
+    },
+    classes.animate
+  );
 
   return (
     <main className="container-fluid p-0" data-testid="main">

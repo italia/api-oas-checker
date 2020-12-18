@@ -15,6 +15,9 @@ const useStyles = createUseStyles({
   icon: {
     fontSize: '1.5rem',
   },
+  animate: {
+    transition: '0.2s',
+  },
 });
 
 const Header = ({ isMenuDisplayed, toogleMenu }) => {
@@ -27,7 +30,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
     },
     'd-flex',
     'align-items-center',
-    'p-3'
+    'p-3',
+    classes.animate
   );
 
   const rightSection = cx(
@@ -38,7 +42,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
     'd-flex',
     'justify-content-start',
     'align-items-center',
-    'py-3'
+    'py-3',
+    classes.animate
   );
 
   const iconClassNames = cx(
