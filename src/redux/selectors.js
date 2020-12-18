@@ -4,8 +4,8 @@ export const getValidationSummary = state => {
   }
 
   const summary = {
-    errors: state.validationState.results.filter(r => r.severity === 1),
-    warnings: state.validationState.results.filter(r => r.severity !== 1)
+    errors: state.validationState.results.filter(r => r.severity === 1).length,
+    warnings: state.validationState.results.filter(r => r.severity !== 1).length
   }
 
   return summary;

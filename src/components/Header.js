@@ -5,6 +5,7 @@ import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { toogleMenu } from '../redux/actions.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
+import PropTypes from 'prop-types';
 
 const useStyles = createUseStyles({
   version: {
@@ -60,6 +61,11 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
         </div>
       </div>
   </header>
+}
+
+Header.propTypes = {
+  isMenuDisplayed: PropTypes.bool.isRequired,
+  toogleMenu: PropTypes.func.isRequired
 }
 
 export default connect(state => ({ isMenuDisplayed: isMenuDisplayed(state) }), { toogleMenu })(Header);

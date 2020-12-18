@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { isValidationInProgress } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
@@ -10,7 +11,7 @@ const useStyles = createUseStyles({
   }
 });
 
-const ValidatorControllers = ({ isValidationInProgress, onValidate }) => {
+const ValidationController = ({ isValidationInProgress, onValidate }) => {
   const classes = useStyles();
 
   // TODO: refactor this
@@ -64,4 +65,9 @@ const ValidatorControllers = ({ isValidationInProgress, onValidate }) => {
   </div>
 }
 
-export default connect(state => ({ isValidationInProgress: isValidationInProgress(state) }))(ValidatorControllers);
+ValidationController.propTypes = {
+  isValidationInProgress: PropTypes.bool.isRequired,
+  onValidate: PropTypes.func.isRequired
+}
+
+export default connect(state => ({ isValidationInProgress: isValidationInProgress(state) }))(ValidationController);

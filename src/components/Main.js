@@ -1,16 +1,17 @@
 import React, { useCallback, useRef } from 'react';
 import * as monaco from 'monaco-editor';
 import { connect } from 'react-redux';
-import { createUseStyles } from 'react-jss';
-import { Editor } from './Editor.js';
-import { Document, Parsers } from '@stoplight/spectral';
-import { getSpectral } from '../spectral.js';
-import ValidatorControllers from './ValidatorControllers.js';
-import ValidatorResults from './ValidatorResults.js';
-import ValidatorSummary from './ValidatorSummary.js';
-import Menu from './Menu.js';
-import { setValidationResults, setValidationInProgress } from '../redux/actions.js';
 import cx from 'classnames';
+import { Document, Parsers } from '@stoplight/spectral';
+import PropTypes from 'prop-types';
+import { createUseStyles } from 'react-jss';
+import { getSpectral } from '../spectral.js';
+import Menu from './Menu.js';
+import Editor from './Editor.js';
+import ValidationController from './ValidationController.js';
+import ValidationSummary from './ValidationSummary.js';
+import ValidationResults from './ValidationResults.js';
+import { setValidationResults, setValidationInProgress } from '../redux/actions.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
@@ -77,12 +78,18 @@ const Main = ({ isMenuDisplayed, setValidationResults, setValidationInProgress }
         <Editor ref={editor} onChange={handleValidation}/>
       </section>
       <section className="col-md-4">
-        <ValidatorControllers onValidate={handleValidation} />
-        <ValidatorSummary />
-        <ValidatorResults onResultClick={revealLine} />
+        <ValidationController onValidate={handleValidation} />
+        <ValidationSummary />
+        <ValidationResults onResultClick={revealLine} />
       </section>
     </div>
   </main>
+}
+
+Main.propTypes = {
+  isMenuDisplayed: PropTypes.bool.isRequired,
+  setValidationResults: PropTypes.func.isRequired,
+  setValidationInProgress: PropTypes.func.isRequired
 }
 
 export default connect(

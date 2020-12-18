@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
   }
 });
 
-export const Editor = React.forwardRef((props, editorRef) => {
+const Editor = React.forwardRef((props, editorRef) => {
   const editorEl = useRef(null);
   const classes = useStyles();
 
@@ -42,3 +42,5 @@ export const Editor = React.forwardRef((props, editorRef) => {
     <div ref={editorEl} className={classes.editor}></div>
   </>;
 });
+
+export default Editor;

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { isValidationInProgress } from '../redux/selectors.js';
 
 const Menu = ({ disabled }) => <>
@@ -95,5 +96,9 @@ const Menu = ({ disabled }) => <>
     </FormGroup>
   </div>
 </>
+
+Menu.propTypes = {
+  disabled: PropTypes.bool.isRequired
+}
 
 export default connect(state => ({ disabled: isValidationInProgress(state) }))(Menu)
