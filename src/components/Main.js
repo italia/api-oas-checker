@@ -11,6 +11,7 @@ import ValidatorSummary from './ValidatorSummary.js';
 import Menu from './Menu.js';
 import { setValidationResults, setValidationInProgress } from '../redux/actions.js';
 import cx from 'classnames';
+import { isMenuDisplayed } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
   editorMarginHighlightSev1: {
@@ -21,7 +22,7 @@ const useStyles = createUseStyles({
   }
 })
 
-const Main = ({ showMenu, setValidationResults, setValidationInProgress }) => {
+const Main = ({ isMenuDisplayed, setValidationResults, setValidationInProgress }) => {
   const editor = useRef({});
   const decoration = useRef([]);
   decoration.current = [];
@@ -58,13 +59,13 @@ const Main = ({ showMenu, setValidationResults, setValidationInProgress }) => {
   }, []);
 
   const sideSection = cx({
-    'col-md-2': showMenu,
-    'd-none': !showMenu,
+    'col-md-2': isMenuDisplayed,
+    'd-none': !isMenuDisplayed,
   })
 
   const mainSection = cx({
-    'col-md-6': showMenu,
-    'col-md-8': !showMenu
+    'col-md-6': isMenuDisplayed,
+    'col-md-8': !isMenuDisplayed
   })
 
   return <main className="container-fluid p-0">
@@ -85,8 +86,6 @@ const Main = ({ showMenu, setValidationResults, setValidationInProgress }) => {
 }
 
 export default connect(
-  state => ({
-    showMenu: state.menuState.showMenu
-  }),
+  state => ({ isMenuDisplayed: isMenuDisplayed(state) }),
   { setValidationResults, setValidationInProgress })
 (Main);

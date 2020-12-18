@@ -1,14 +1,14 @@
 import { TOOGLE_MENU } from '../actionTypes.js';
 
 const initialState = {
-  showMenu: true
+  isMenuDisplayed: true
 };
 
 export default function (state = initialState, action) {
   switch (action.type) {
     case TOOGLE_MENU:
       return {
-        showMenu: !state.showMenu
+        isMenuDisplayed: !state.isMenuDisplayed
       }
       break;
     default:

@@ -4,6 +4,7 @@ import { Badge, Icon } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import classNames from 'classnames';
 import { toogleMenu } from '../redux/actions.js';
+import { isMenuDisplayed } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
   version: {
@@ -15,22 +16,22 @@ const useStyles = createUseStyles({
   }
 });
 
-const Header = ({ showMenu, toogleMenu }) => {
+const Header = ({ isMenuDisplayed, toogleMenu }) => {
   const classes = useStyles();
   const leftSection = classNames({
-      'col-sm-2': showMenu,
-      'col-sm-1': !showMenu,
-      'bg-white': showMenu,
+      'col-sm-2': isMenuDisplayed,
+      'col-sm-1': !isMenuDisplayed,
+      'bg-white': isMenuDisplayed,
     }, 'd-flex', 'align-items-center', 'p-3');
 
   const rightSection = classNames({
-    'col-sm-10': showMenu,
-    'col-sm-11': !showMenu
+    'col-sm-10': isMenuDisplayed,
+    'col-sm-11': !isMenuDisplayed
   }, 'd-flex', 'justify-content-start', 'align-items-center', 'py-3');
 
   const iconClassNames = classNames({
-    'icon-white': !showMenu,
-    'icon-primary': showMenu
+    'icon-white': !isMenuDisplayed,
+    'icon-primary': isMenuDisplayed
   }, 'ml-4', classes.icon);
 
   return <header>
@@ -61,4 +62,4 @@ const Header = ({ showMenu, toogleMenu }) => {
   </header>
 }
 
-export default connect(state => ({ showMenu: state.menuState.showMenu }), { toogleMenu })(Header);
+export default connect(state => ({ isMenuDisplayed: isMenuDisplayed(state) }), { toogleMenu })(Header);
