@@ -1,6 +1,6 @@
-import React from "react";
+import React from 'react';
 
-import Header from './Header.js'
+import Header from './Header.js';
 import { render, screen, fireEvent } from '../test-utils.js';
 
 describe('header', () => {
@@ -15,4 +15,4 @@ describe('header', () => {
     fireEvent.click(screen.queryByTestId('toogle-menu-icon'));
     expect(screen.queryByTestId('right-section').className.includes('col-sm-11')).toBeTruthy();
   });
-})
+});
