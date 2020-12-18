@@ -1,6 +1,7 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { getValidationResultsInfo } from '../redux/selectors.js';
 
 const useStyle = createUseStyles({
@@ -13,7 +14,7 @@ const useStyle = createUseStyles({
   }
 });
 
-const ValidatorResults = ({ validationResultsInfo, onResultClick }) => {
+const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
   if (validationResultsInfo.length === 0) return null;
 
   const classes = useStyle();
@@ -41,6 +42,18 @@ const ValidatorResults = ({ validationResultsInfo, onResultClick }) => {
     </>
 }
 
+ValidationResults.propTypes = {
+  validationResultsInfo: PropTypes.arrayOf(PropTypes.exact({
+    character: PropTypes.number.isRequired,
+    fingerprint: PropTypes.string.isRequired,
+    line: PropTypes.number.isRequired,
+    message: PropTypes.string.isRequired,
+    severity: PropTypes.number.isRequired,
+  })),
+
+  onResultClick: PropTypes.func.isRequired,
+}
+
 export default connect(state => ({
     validationResultsInfo: getValidationResultsInfo(state),
-  }))(ValidatorResults);
+  }))(ValidationResults);
