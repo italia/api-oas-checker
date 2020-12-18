@@ -35,13 +35,13 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
     'icon-primary': isMenuDisplayed
   }, 'ml-4', classes.icon);
 
-  return <header>
+  return <header data-testid='header'>
     <div className="container-fluid p-0 user-select-none">
         <div className={`row no-gutters bg-primary text-white`}>
           <div className={leftSection}>
-            <Icon onClick={toogleMenu} role='button' className={iconClassNames} icon="it-burger"/>
+            <Icon onClick={toogleMenu} role='button' className={iconClassNames} icon="it-burger" data-testid={'toogle-menu-icon'}/>
           </div>
-          <div className={rightSection}>
+          <div data-testid='right-section' className={rightSection}>
             <img className="ml-4 mr-2" src='it.svg' alt='it logo' />
             <img className="mx-2" src='loghetto.svg' alt='checker logo' />
             <h5 className="m-0">Italian OpenAPI Validation Checker</h5>

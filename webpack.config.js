@@ -8,7 +8,7 @@ const srcPath = path.resolve(__dirname, 'src');
 const buildPath = path.resolve(__dirname, 'dist');
 
 module.exports = {
-  entry: `${srcPath}/App.js`,
+  entry: `${srcPath}/index.js`,
   devtool: 'source-map',
   devServer: {
     contentBase: buildPath,
