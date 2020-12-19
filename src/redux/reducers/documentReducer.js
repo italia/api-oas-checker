@@ -1,8 +1,8 @@
 import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_TEXT } from '../actionTypes.js';
 
 const initialState = {
+  focusLine: null,
   text: '',
-  focusDocumentLine: null,
 };
 
 export default function (state = initialState, action) {
@@ -15,7 +15,7 @@ export default function (state = initialState, action) {
     case FOCUS_DOCUMENT_LINE:
       return {
         ...state,
-        focusDocumentLine: action.line,
+        focusLine: action.line,
       };
     default:
       return state;

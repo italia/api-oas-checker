@@ -46,3 +46,5 @@ export const getHighlightLines = (state) => {
     severity: r.severity,
   }));
 };
+
+export const getLineToFocus = (state) => state.documentState.focusLine;
