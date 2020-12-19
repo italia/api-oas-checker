@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import cx from 'classnames';
 import { Document, Parsers } from '@stoplight/spectral';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
@@ -30,24 +30,11 @@ const ValidationController = ({
   );
 
   const handleValidation = useCallback(async () => {
-    setValidationInProgress(true);
+    setValidationInProgress();
     const document = new Document(documentText, Parsers.Yaml);
     const spectral = await getSpectral();
     const results = await spectral.run(document);
-    // const newDecorations = [];
-    // for (const result of results) {
-    //   newDecorations.push({
-    //     range: new monaco.Range(result.range.start.line, 1, result.range.end.line, 1),
-    //     options: {
-    //       isWholeLine: true,
-    //       className: classes.editorHighlightLine,
-    //       glyphMarginClassName: classes.editorMarginHighlightSev1,
-    //     },
-    //   });
-    // }
-    // decoration.current = editor.current.deltaDecorations([], newDecorations);
     setValidationResults(results);
-    setValidationInProgress(false);
   }, [documentText]);
 
   const onValidationButtonClick = isValidationInProgress ? Function.prototype : handleValidation;
@@ -84,7 +71,10 @@ const ValidationController = ({
 };
 
 ValidationController.propTypes = {
-  // isValidationInProgress: PropTypes.bool.isRequired,
+  isValidationInProgress: PropTypes.bool.isRequired,
+  documentText: PropTypes.string.isRequired,
+  setValidationInProgress: PropTypes.func.isRequired,
+  setValidationResults: PropTypes.func.isRequired,
 };
 
 export default connect(
