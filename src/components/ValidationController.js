@@ -1,10 +1,13 @@
-import React from 'react';
+import React, { useState, useCallback } from 'react';
 import cx from 'classnames';
+import { Document, Parsers } from '@stoplight/spectral';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isValidationInProgress } from '../redux/selectors.js';
+import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
+import { getSpectral } from '../spectral.js';
+import { setValidationInProgress, setValidationResults } from '../redux/actions.js';
 
 const useStyles = createUseStyles({
   validatorIconSize: {
@@ -12,7 +15,12 @@ const useStyles = createUseStyles({
   },
 });
 
-const ValidationController = ({ isValidationInProgress, onValidate }) => {
+const ValidationController = ({
+  isValidationInProgress,
+  documentText,
+  setValidationResults,
+  setValidationInProgress,
+}) => {
   const classes = useStyles();
   const formGroupButtonValidateCx = cx(
     {
@@ -21,7 +29,28 @@ const ValidationController = ({ isValidationInProgress, onValidate }) => {
     'm-3'
   );
 
-  const onValidationButtonClick = isValidationInProgress ? Function.prototype : onValidate;
+  const handleValidation = useCallback(async () => {
+    setValidationInProgress(true);
+    const document = new Document(documentText, Parsers.Yaml);
+    const spectral = await getSpectral();
+    const results = await spectral.run(document);
+    // const newDecorations = [];
+    // for (const result of results) {
+    //   newDecorations.push({
+    //     range: new monaco.Range(result.range.start.line, 1, result.range.end.line, 1),
+    //     options: {
+    //       isWholeLine: true,
+    //       className: classes.editorHighlightLine,
+    //       glyphMarginClassName: classes.editorMarginHighlightSev1,
+    //     },
+    //   });
+    // }
+    // decoration.current = editor.current.deltaDecorations([], newDecorations);
+    setValidationResults(results);
+    setValidationInProgress(false);
+  }, [documentText]);
+
+  const onValidationButtonClick = isValidationInProgress ? Function.prototype : handleValidation;
 
   return (
     <div className="d-flex align-items-center">
@@ -55,8 +84,16 @@ const ValidationController = ({ isValidationInProgress, onValidate }) => {
 };
 
 ValidationController.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  onValidate: PropTypes.func.isRequired,
+  // isValidationInProgress: PropTypes.bool.isRequired,
 };
 
-export default connect((state) => ({ isValidationInProgress: isValidationInProgress(state) }))(ValidationController);
+export default connect(
+  (state) => ({
+    isValidationInProgress: isValidationInProgress(state),
+    documentText: getDocumentText(state),
+  }),
+  {
+    setValidationResults,
+    setValidationInProgress,
+  }
+)(ValidationController);
