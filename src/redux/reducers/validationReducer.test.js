@@ -13,10 +13,10 @@ describe('validation reducer', () => {
     expect(
       validationReducer([], {
         type: types.SET_VALIDATION_IN_PROGRESS,
-        inProgress: false,
       })
     ).toEqual({
-      inProgress: false,
+      results: null,
+      inProgress: true,
     });
   });
 

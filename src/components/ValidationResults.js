@@ -10,7 +10,7 @@ const useStyle = createUseStyles({
   enableScrollResults: { height: 'calc(100vh - 298px)', overflow: 'scroll' },
 });
 
-const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
+const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
   if (validationResultsInfo.length === 0) return null;
 
   const classes = useStyle();
@@ -29,7 +29,7 @@ const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
             className="row py-3"
             role="button"
             key={r.fingerprint}
-            onClick={() => focusDocumentLine({ line: r.line, character: r.character })}
+            onClick={() => onResultClick({ line: r.line, character: r.character })}
           >
             <div className="col-2 text-center">{r.severity}</div>
             <div className="col-2 text-center">{r.line}</div>
@@ -51,7 +51,7 @@ ValidationResults.propTypes = {
       severity: PropTypes.number.isRequired,
     })
   ),
-  focusDocumentLine: PropTypes.func.isRequired,
+  onResultClick: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -59,6 +59,6 @@ export default connect(
     validationResultsInfo: getValidationResultsInfo(state),
   }),
   {
-    focusDocumentLine,
+    onResultClick: focusDocumentLine,
   }
 )(ValidationResults);
