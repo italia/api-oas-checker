@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
@@ -22,35 +22,6 @@ const useStyles = createUseStyles({
 
 const Main = ({ isMenuDisplayed }) => {
   const classes = useStyles();
-
-  // const handleValidation = useCallback(async () => {
-  // setValidationInProgress(true);
-  // editor.current.deltaDecorations(decoration.current, []);
-  // const text = editor.current.getModel().getValue();
-  // const document = new Document(text, Parsers.Yaml);
-  // const spectral = await getSpectral();
-  // const results = await spectral.run(document);
-  // const newDecorations = [];
-  // for (const result of results) {
-  //   newDecorations.push({
-  //     range: new monaco.Range(result.range.start.line, 1, result.range.end.line, 1),
-  //     options: {
-  //       isWholeLine: true,
-  //       className: classes.editorHighlightLine,
-  //       glyphMarginClassName: classes.editorMarginHighlightSev1,
-  //     },
-  //   });
-  // }
-  // decoration.current = editor.current.deltaDecorations([], newDecorations);
-  // setValidationResults(results);
-  // setValidationInProgress(false);
-  // }, []);
-
-  // const revealLine = useCallback(({ line, character }) => {
-  //   editor.current.revealLineInCenter(line);
-  //   editor.current.setPosition({ lineNumber: line, column: character });
-  //   editor.current.focus();
-  // }, []);
 
   const sideSection = cx(
     {

@@ -29,7 +29,7 @@ const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
             className="row py-3"
             role="button"
             key={r.fingerprint}
-            onClick={() => focusDocumentLine(r.line)}
+            onClick={() => focusDocumentLine({ line: r.line, character: r.character })}
           >
             <div className="col-2 text-center">{r.severity}</div>
             <div className="col-2 text-center">{r.line}</div>
@@ -51,6 +51,7 @@ ValidationResults.propTypes = {
       severity: PropTypes.number.isRequired,
     })
   ),
+  focusDocumentLine: PropTypes.func.isRequired,
 };
 
 export default connect(

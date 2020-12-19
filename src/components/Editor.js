@@ -6,6 +6,7 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
+import { getHighlightLines } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -20,11 +21,10 @@ const useStyles = createUseStyles({
   },
 });
 
-const Editor = ({ results, setDocumentText, focusDocumentLine }) => {
+const Editor = ({ highlightLines, setDocumentText, focusDocumentLine }) => {
   const editorEl = useRef(null);
   const editor = useRef({});
   const decoration = useRef([]);
-  decoration.current = [];
   const classes = useStyles();
 
   useEffect(() => {
@@ -53,91 +53,60 @@ const Editor = ({ results, setDocumentText, focusDocumentLine }) => {
       });
     };
     initMonaco();
-    // return () => editorRef.current.getModels().forEach(model => model.dispose());
   }, []);
 
   useEffect(() => {
-    // TODO: here there is a performance issue
-    const highlightIssues = () => {
-      if (results) {
-        // editor.current.deltaDecorations(decoration.current, []);
-        // const newDecorations = [];
-        // for (const result of results) {
-        //   newDecorations.push({
-        //     range: new monaco.Range(result.range.start.line, 1, result.range.end.line, 1),
-        //     options: {
-        //       isWholeLine: true,
-        //       className: classes.editorHighlightLine,
-        //       glyphMarginClassName: classes.editorMarginHighlightSev1,
-        //     },
-        //   });
-        // }
-        // decoration.current = editor.current.deltaDecorations([], newDecorations);
-      }
-    };
-    highlightIssues();
-  }, [results]);
+    if (highlightLines.length === 0) return;
+
+    // TODO: here there is a performance issue.
+    // Highlight issues
+    editor.current.deltaDecorations(decoration.current, []);
+    const newDecorations = [];
+    for (const line of highlightLines) {
+      newDecorations.push({
+        range: new monaco.Range(line.start, 1, line.end, 1),
+        options: {
+          isWholeLine: true,
+          className: classes.editorHighlightLine,
+          glyphMarginClassName: classes.editorMarginHighlightSev1, // TODO: change based on severity
+        },
+      });
+    }
+    decoration.current = editor.current.deltaDecorations([], newDecorations);
+  }, [highlightLines]);
 
   useEffect(() => {
-    const revealLine = () => {
-      if (focusDocumentLine) {
-        editor.current.revealLineInCenter(focusDocumentLine);
-        editor.current.setPosition({ lineNumber: focusDocumentLine, column: 0 });
-        editor.current.focus();
-      }
-    };
-    revealLine();
+    if (!focusDocumentLine) return;
+    // Reveal line
+    editor.current.revealLineInCenter(focusDocumentLine.line);
+    editor.current.setPosition({ lineNumber: focusDocumentLine.line, column: focusDocumentLine.character });
+    editor.current.focus();
   }, [focusDocumentLine]);
 
   return <div ref={editorEl} className={classes.editor}></div>;
 };
 
-// Editor.propTypes = {
-//   onChange: PropTypes.func.isRequired,
-// };
+Editor.propTypes = {
+  focusDocumentLine: PropTypes.shape({
+    line: PropTypes.number.isRequired,
+    character: PropTypes.number.isRequired,
+  }),
+  highlightLines: PropTypes.arrayOf(
+    PropTypes.exact({
+      start: PropTypes.number.isRequired,
+      end: PropTypes.number.isRequired,
+      severity: PropTypes.number.isRequired,
+    })
+  ),
+  setDocumentText: PropTypes.func.isRequired,
+};
 
 export default connect(
   (state) => ({
-    results: state.validationState.results,
+    highlightLines: getHighlightLines(state),
     focusDocumentLine: state.documentState.focusDocumentLine,
   }),
   {
     setDocumentText,
   }
 )(Editor);
-
-// const Editor = React.forwardRef((props, editorRef) => {
-//   const editorEl = useRef(null);
-//   const classes = useStyles();
-//
-//   useEffect(() => {
-//     const initMonaco = async () => {
-//       const { data: yaml } = await axios.get('example.yaml');
-//       editorRef.current = monaco.editor.create(editorEl.current, {
-//         value: [yaml].join('\n'),
-//         language: 'yaml',
-//         glyphMargin: true,
-//         theme: 'vs-dark',
-//         automaticLayout: true,
-//       });
-//       editorRef.current.onDidChangeModelContent(debounce((e) => props.onChange(), 1000));
-//       editorRef.current.changeViewZones((accessor) => {
-//         accessor.addZone({
-//           afterLineNumber: 0,
-//           heightInPx: 20,
-//           domNode: document.createElement('span'),
-//         });
-//       });
-//     };
-//     initMonaco();
-//     // return () => editorRef.current.getModels().forEach(model => model.dispose());
-//   }, []);
-//
-//   return (
-//     <>
-//       <div ref={editorEl} className={classes.editor}></div>
-//     </>
-//   );
-// });
-//
-// export default Editor;
