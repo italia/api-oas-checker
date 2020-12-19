@@ -6,7 +6,7 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getHighlightLines } from '../redux/selectors.js';
+import { getHighlightLines, getLineToFocus } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -21,7 +21,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const Editor = ({ highlightLines, setDocumentText, focusDocumentLine }) => {
+const Editor = ({ highlightLines, setDocumentText, focusLine }) => {
   const editorEl = useRef(null);
   const editor = useRef({});
   const decoration = useRef([]);
@@ -76,18 +76,18 @@ const Editor = ({ highlightLines, setDocumentText, focusDocumentLine }) => {
   }, [highlightLines]);
 
   useEffect(() => {
-    if (!focusDocumentLine) return;
+    if (!focusLine) return;
     // Reveal line
-    editor.current.revealLineInCenter(focusDocumentLine.line);
-    editor.current.setPosition({ lineNumber: focusDocumentLine.line, column: focusDocumentLine.character });
+    editor.current.revealLineInCenter(focusLine.line);
+    editor.current.setPosition({ lineNumber: focusLine.line, column: focusLine.character });
     editor.current.focus();
-  }, [focusDocumentLine]);
+  }, [focusLine]);
 
   return <div ref={editorEl} className={classes.editor}></div>;
 };
 
 Editor.propTypes = {
-  focusDocumentLine: PropTypes.shape({
+  focusLine: PropTypes.shape({
     line: PropTypes.number.isRequired,
     character: PropTypes.number.isRequired,
   }),
@@ -104,7 +104,7 @@ Editor.propTypes = {
 export default connect(
   (state) => ({
     highlightLines: getHighlightLines(state),
-    focusDocumentLine: state.documentState.focusDocumentLine,
+    focusLine: getLineToFocus(state),
   }),
   {
     setDocumentText,
