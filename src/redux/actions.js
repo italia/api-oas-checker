@@ -15,20 +15,16 @@ export const setValidationResults = (results) => ({
   results,
 });
 
-export const setValidationInProgress = (inProgress) => ({
+export const setValidationInProgress = () => ({
   type: SET_VALIDATION_IN_PROGRESS,
-  inProgress,
 });
 
-export const setDocumentText = (text) => {
-  return {
-    type: SET_DOCUMENT_TEXT,
-    text,
-  };
-};
+export const setDocumentText = (text) => ({
+  type: SET_DOCUMENT_TEXT,
+  text,
+});
 
 export const focusDocumentLine = (line) => {
-  console.log(line);
   return {
     type: FOCUS_DOCUMENT_LINE,
     line,

@@ -1,5 +1,5 @@
 export const getValidationSummary = (state) => {
-  if (state.validationState.inProgress || state.validationState.results === null) {
+  if (isValidationInProgress(state) || getValidationResults(state) === null) {
     return null;
   }
 
@@ -11,9 +11,13 @@ export const getValidationSummary = (state) => {
   return summary;
 };
 
+export const getValidationResults = (state) => state.validationState.results;
+
+export const isValidationInProgress = (state) => state.validationState.inProgress;
+
 export const getValidationResultsInfo = (state) => {
-  if (state.validationState.inProgress || state.validationState.results === null) {
-    return [];
+  if (isValidationInProgress(state) || getValidationResults(state) === null) {
+    return []; // TODO: is this correct?
   }
 
   const resultsInfo = state.validationState.results.map((r) => ({
@@ -27,8 +31,18 @@ export const getValidationResultsInfo = (state) => {
   return resultsInfo;
 };
 
-export const isValidationInProgress = (state) => state.validationState.inProgress;
-
 export const isMenuDisplayed = (state) => state.menuState.isMenuDisplayed;
 
 export const getDocumentText = (state) => state.documentState.text;
+
+export const getHighlightLines = (state) => {
+  if (isValidationInProgress(state) || getValidationResults(state) === null) {
+    return []; // TODO: is this correct?
+  }
+  const results = getValidationResults(state);
+  return results.map((r) => ({
+    start: r.range.start.line,
+    end: r.range.end.line,
+    severity: r.severity,
+  }));
+};

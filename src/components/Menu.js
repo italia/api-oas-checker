@@ -11,6 +11,7 @@ const useStyles = createUseStyles({
   },
 });
 
+// eslint-disable-next-line no-unused-vars
 const Menu = ({ disabled, documentText }) => {
   const classes = useStyles();
   const buttonCx = `${classes.button} py-2 px-3`;
@@ -58,6 +59,7 @@ const Menu = ({ disabled, documentText }) => {
 
 Menu.propTypes = {
   disabled: PropTypes.bool.isRequired,
+  documentText: PropTypes.string.isRequired,
 };
 
 export default connect((state) => ({
