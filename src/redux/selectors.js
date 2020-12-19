@@ -30,3 +30,5 @@ export const getValidationResultsInfo = (state) => {
 export const isValidationInProgress = (state) => state.validationState.inProgress;
 
 export const isMenuDisplayed = (state) => state.menuState.isMenuDisplayed;
+
+export const getDocumentText = (state) => state.documentState.text;

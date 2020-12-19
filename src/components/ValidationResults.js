@@ -3,13 +3,14 @@ import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getValidationResultsInfo } from '../redux/selectors.js';
+import { focusDocumentLine } from '../redux/actions.js';
 
 const useStyle = createUseStyles({
   breakWords: { wordBreak: 'break-all' },
   enableScrollResults: { height: 'calc(100vh - 298px)', overflow: 'scroll' },
 });
 
-const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
+const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
   if (validationResultsInfo.length === 0) return null;
 
   const classes = useStyle();
@@ -28,7 +29,7 @@ const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
             className="row py-3"
             role="button"
             key={r.fingerprint}
-            onClick={() => onResultClick({ line: r.line, character: r.character })}
+            onClick={() => focusDocumentLine(r.line)}
           >
             <div className="col-2 text-center">{r.severity}</div>
             <div className="col-2 text-center">{r.line}</div>
@@ -50,10 +51,13 @@ ValidationResults.propTypes = {
       severity: PropTypes.number.isRequired,
     })
   ),
-
-  onResultClick: PropTypes.func.isRequired,
 };
 
-export default connect((state) => ({
-  validationResultsInfo: getValidationResultsInfo(state),
-}))(ValidationResults);
+export default connect(
+  (state) => ({
+    validationResultsInfo: getValidationResultsInfo(state),
+  }),
+  {
+    focusDocumentLine,
+  }
+)(ValidationResults);

@@ -2,7 +2,7 @@ import React from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { isValidationInProgress } from '../redux/selectors.js';
+import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { createUseStyles } from 'react-jss';
 
 const useStyles = createUseStyles({
@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const Menu = ({ disabled }) => {
+const Menu = ({ disabled, documentText }) => {
   const classes = useStyles();
   const buttonCx = `${classes.button} py-2 px-3`;
   return (
@@ -60,4 +60,7 @@ Menu.propTypes = {
   disabled: PropTypes.bool.isRequired,
 };
 
-export default connect((state) => ({ disabled: isValidationInProgress(state) }))(Menu);
+export default connect((state) => ({
+  disabled: isValidationInProgress(state),
+  documentText: getDocumentText(state),
+}))(Menu);
