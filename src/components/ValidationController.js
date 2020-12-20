@@ -35,7 +35,7 @@ const ValidationController = ({
     const spectral = await getSpectral();
     const results = await spectral.run(document);
     setValidationResults(results);
-  }, [documentText]);
+  }, [documentText, setValidationInProgress, setValidationResults]);
 
   const onValidationButtonClick = isValidationInProgress ? Function.prototype : handleValidation;
 

@@ -53,7 +53,7 @@ const Editor = ({ highlightLines, setDocumentText, focusLine }) => {
       });
     };
     initMonaco();
-  }, []);
+  }, [setDocumentText]);
 
   useEffect(() => {
     if (highlightLines.length === 0) return;
@@ -73,7 +73,7 @@ const Editor = ({ highlightLines, setDocumentText, focusLine }) => {
       });
     }
     decoration.current = editor.current.deltaDecorations([], newDecorations);
-  }, [highlightLines]);
+  }, [highlightLines, classes.editorHighlightLine, classes.editorMarginHighlightSev1]);
 
   useEffect(() => {
     if (!focusLine) return;
