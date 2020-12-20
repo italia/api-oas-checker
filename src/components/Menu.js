@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { createUseStyles } from 'react-jss';
+import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
+import { setDocumentUrl } from '../redux/actions.js';
 
 const useStyles = createUseStyles({
   button: {
@@ -12,9 +13,14 @@ const useStyles = createUseStyles({
 });
 
 // eslint-disable-next-line no-unused-vars
-const Menu = ({ disabled, documentText }) => {
+const Menu = ({ disabled, documentText, setDocumentUrl }) => {
   const classes = useStyles();
   const buttonCx = `${classes.button} py-2 px-3`;
+
+  useEffect(() => {
+    setDocumentUrl('example.yaml'); // TODO: put this in the initial state
+  }, [setDocumentUrl]);
+
   return (
     <>
       <div className="border-top" data-testid="menu">
@@ -59,10 +65,16 @@ const Menu = ({ disabled, documentText }) => {
 
 Menu.propTypes = {
   disabled: PropTypes.bool.isRequired,
-  documentText: PropTypes.string.isRequired,
+  documentText: PropTypes.string,
+  setDocumentUrl: PropTypes.func.isRequired,
 };
 
-export default connect((state) => ({
-  disabled: isValidationInProgress(state),
-  documentText: getDocumentText(state),
-}))(Menu);
+export default connect(
+  (state) => ({
+    disabled: isValidationInProgress(state),
+    documentText: getDocumentText(state),
+  }),
+  {
+    setDocumentUrl,
+  }
+)(Menu);
