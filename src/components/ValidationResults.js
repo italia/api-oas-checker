@@ -13,7 +13,7 @@ const useStyle = createUseStyles({
 const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
   const classes = useStyle();
 
-  if (validationResultsInfo.length === 0) return null;
+  if (validationResultsInfo === null) return null;
 
   return (
     <>

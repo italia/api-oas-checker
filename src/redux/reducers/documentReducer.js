@@ -1,8 +1,9 @@
-import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_TEXT } from '../actionTypes.js';
+import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_URL, SET_DOCUMENT_TEXT } from '../actionTypes.js';
 
 const initialState = {
   focusLine: null,
-  text: '',
+  text: null,
+  url: null,
 };
 
 export default function (state = initialState, action) {
@@ -16,6 +17,11 @@ export default function (state = initialState, action) {
       return {
         ...state,
         focusLine: action.line,
+      };
+    case SET_DOCUMENT_URL:
+      return {
+        ...state,
+        url: action.url,
       };
     default:
       return state;

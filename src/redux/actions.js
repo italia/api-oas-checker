@@ -4,6 +4,7 @@ import {
   SET_VALIDATION_IN_PROGRESS,
   SET_DOCUMENT_TEXT,
   FOCUS_DOCUMENT_LINE,
+  SET_DOCUMENT_URL,
 } from './actionTypes.js';
 
 export const toogleMenu = () => ({
@@ -24,9 +25,12 @@ export const setDocumentText = (text) => ({
   text,
 });
 
-export const focusDocumentLine = (line) => {
-  return {
-    type: FOCUS_DOCUMENT_LINE,
-    line,
-  };
-};
+export const focusDocumentLine = (line) => ({
+  type: FOCUS_DOCUMENT_LINE,
+  line,
+});
+
+export const setDocumentUrl = (url) => ({
+  type: SET_DOCUMENT_URL,
+  url,
+});

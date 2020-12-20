@@ -72,7 +72,7 @@ const ValidationController = ({
 
 ValidationController.propTypes = {
   isValidationInProgress: PropTypes.bool.isRequired,
-  documentText: PropTypes.string.isRequired,
+  documentText: PropTypes.string,
   setValidationInProgress: PropTypes.func.isRequired,
   setValidationResults: PropTypes.func.isRequired,
 };
