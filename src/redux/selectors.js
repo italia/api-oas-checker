@@ -17,7 +17,7 @@ export const isValidationInProgress = (state) => state.validationState.inProgres
 
 export const getValidationResultsInfo = (state) => {
   if (isValidationInProgress(state) || getValidationResults(state) === null) {
-    return []; // TODO: is this correct?
+    return null;
   }
 
   const resultsInfo = state.validationState.results.map((r) => ({
@@ -34,10 +34,11 @@ export const getValidationResultsInfo = (state) => {
 export const isMenuDisplayed = (state) => state.menuState.isMenuDisplayed;
 
 export const getDocumentText = (state) => state.documentState.text;
+export const getDocumentUrl = (state) => state.documentState.url;
 
 export const getHighlightLines = (state) => {
   if (isValidationInProgress(state) || getValidationResults(state) === null) {
-    return []; // TODO: is this correct?
+    return null;
   }
   const results = getValidationResults(state);
   return results.map((r) => ({

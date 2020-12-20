@@ -6,7 +6,7 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getHighlightLines, getLineToFocus } from '../redux/selectors.js';
+import { getDocumentUrl, getHighlightLines, getLineToFocus } from '../redux/selectors.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -21,42 +21,51 @@ const useStyles = createUseStyles({
   },
 });
 
-const Editor = ({ highlightLines, setDocumentText, focusLine }) => {
+const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => {
   const editorEl = useRef(null);
   const editor = useRef({});
   const decoration = useRef([]);
   const classes = useStyles();
 
   useEffect(() => {
-    const initMonaco = async () => {
-      const { data: text } = await axios.get('example.yaml');
-      setDocumentText(text);
-      editor.current = monaco.editor.create(editorEl.current, {
-        value: [text].join('\n'),
-        language: 'yaml',
-        glyphMargin: true,
-        theme: 'vs-dark',
-        automaticLayout: true,
+    // Init Monaco
+    editor.current = monaco.editor.create(editorEl.current, {
+      value: '',
+      language: 'yaml',
+      glyphMargin: true,
+      theme: 'vs-dark',
+      automaticLayout: true,
+    });
+    editor.current.onDidChangeModelContent(
+      debounce(() => {
+        const text = editor.current.getModel().getValue();
+        setDocumentText(text);
+      }, 300)
+    );
+    // Add some space on top of the editor
+    editor.current.changeViewZones((accessor) => {
+      accessor.addZone({
+        afterLineNumber: 0,
+        heightInPx: 20,
+        domNode: document.createElement('span'),
       });
-      editor.current.onDidChangeModelContent(
-        debounce(() => {
-          const text = editor.current.getModel().getValue();
-          setDocumentText(text);
-        }, 300)
-      );
-      editor.current.changeViewZones((accessor) => {
-        accessor.addZone({
-          afterLineNumber: 0,
-          heightInPx: 20,
-          domNode: document.createElement('span'),
-        });
-      });
-    };
-    initMonaco();
+    });
   }, [setDocumentText]);
 
   useEffect(() => {
-    if (highlightLines.length === 0) return;
+    if (!documentUrl) return null;
+
+    const loadDocumentFromUrl = async () => {
+      const { data: text } = await axios.get(documentUrl);
+      editor.current.getModel().setValue(text);
+      setDocumentText(text);
+    };
+
+    loadDocumentFromUrl();
+  }, [documentUrl, setDocumentText]);
+
+  useEffect(() => {
+    if (highlightLines === null) return;
 
     // TODO: here there is a performance issue.
     // Highlight issues
@@ -91,6 +100,7 @@ Editor.propTypes = {
     line: PropTypes.number.isRequired,
     character: PropTypes.number.isRequired,
   }),
+  documentUrl: PropTypes.string,
   highlightLines: PropTypes.arrayOf(
     PropTypes.exact({
       start: PropTypes.number.isRequired,
@@ -105,6 +115,7 @@ export default connect(
   (state) => ({
     highlightLines: getHighlightLines(state),
     focusLine: getLineToFocus(state),
+    documentUrl: getDocumentUrl(state),
   }),
   {
     setDocumentText,
