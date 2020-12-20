@@ -11,9 +11,9 @@ const useStyle = createUseStyles({
 });
 
 const ValidationResults = ({ validationResultsInfo, onResultClick }) => {
-  if (validationResultsInfo.length === 0) return null;
-
   const classes = useStyle();
+
+  if (validationResultsInfo.length === 0) return null;
 
   return (
     <>
