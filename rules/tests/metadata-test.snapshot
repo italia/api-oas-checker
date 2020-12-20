@@ -2,12 +2,12 @@ OpenAPI 3.x detected
 
 /code/rules/tests/metadata-test.yml
   3:5   error  servers-description  Server #/servers/0 must have a description.
-  9:10  error  servers-use-https    Non-sandbox url  http://ko.example must match the pattern '^https://.*'. Add `x-sandbox: true` to declare the server as a sandbox.
- 11:10  error  servers-use-https    Non-sandbox url  http://ko.sandbox.examle must match the pattern '^https://.*'. Add `x-sandbox: true` to declare the server as a sandbox.
+  9:10  error  servers-use-https    Non-sandbox url  http://ko.example must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.
+ 11:10  error  servers-use-https    Non-sandbox url  http://ko.sandbox.examle must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.
   14:6  error  has-contact          API MUST reference a contact, either url or email in #/info/contact
-  14:6  error  has-termsOfService   API MUST reference the URL of the Terms of Service in #/info/termsOfService
-  14:6  error  has-x-api-id         API must have an unique identifier in x-api-id in #/info/x-api-id
-  14:6  error  has-x-summary        API must have an one-liner summary field in #/info/x-summary
+  14:6  error  has-termsOfService   API MUST reference the URL of the Terms of Service  in `#/info/termsOfService`
+  14:6  error  has-x-api-id         API must have an unique identifier in x-api-id in #/info/x-api-id.
+  14:6  error  has-x-summary        API MUST have an one-liner #/info/summary field containing a brief description.
  17:12  error  use-semver           Specs should follow semantic versioning. ko.no_semver is not a valid version.
 See https://semver.org/#semantic-versioning-specification-semver
 
