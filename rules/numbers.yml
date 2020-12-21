@@ -3,7 +3,14 @@
 #
 rules:
   number-format: &number-format
-    description: Schema of type number or integer must specify a format.
+    tags:
+    - it
+    - schema
+    description: |-
+      Schema of type number or integer must specify a format
+      to express the associated datatype, eg. `int32`, `int64`, ...
+
+      You can express similar requirements using the `minimum` and `maximum` properties.
     message: >-
       Schema of type number or integer must specify a format. {{path}}
     formats:
@@ -15,13 +22,19 @@ rules:
     then:
       field: format
       function: truthy
+  # Reuse the number-format description and message.
   integer-format:
     <<: *number-format
     given: >
       $.[?(@.type=="integer")]
 
-  allowed-integer-format:
-    description: Integer format is not valid.
+  allowed-integer-format: &allowed-integer-format
+    tags:
+    - it
+    - schema
+    description: |-
+      To improve interoperability, integer and number formats are constrained
+      to a shared subset.
     message: >-
       Type format is "{{value}}", expected one of [int32, int64]. {{path}}
     formats:
@@ -38,13 +51,9 @@ rules:
         - int32
         - int64
   allowed-number-format:
-    description: Number format is not valid.
+    <<: *allowed-integer-format
     message: >-
       Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
-    formats:
-    - oas3
-    severity: hint
-    recommended: true
     given: >
       $.[?(@.type=="number")]
     then:
