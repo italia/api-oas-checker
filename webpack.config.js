@@ -14,6 +14,7 @@ module.exports = {
     contentBase: buildPath,
     open: true,
     compress: true,
+    hot: true,
     port: 3000,
     host: '0.0.0.0', // To expose contents via docker
   },
@@ -53,4 +54,7 @@ module.exports = {
       fs: false,
     },
   },
+  // https://github.com/webpack/webpack-dev-server/issues/2758#issuecomment-706840237
+  // https://webpack.js.org/configuration/target/
+  target: process.env.NODE_ENV === 'production' ? 'browserslist' : 'web',
 };
