@@ -1,8 +1,8 @@
 rules:
   servers-description:
-    tags:
-    - metadata
-    - it
+    x-tags:
+      - metadata
+      - it
     description: |-
       Servers must have a description.
     message: >-
@@ -15,8 +15,8 @@ rules:
       function: truthy
 
   servers-use-https:
-    tags:
-    - security
+    x-tags:
+      - security
     description: |-
       Servers must use https to ensure the origin of the responses
       and protect the integrity and the  confidentiality of the communication.
@@ -37,9 +37,9 @@ rules:
         match: ^https://.*
 
   has-x-summary:
-    tags:
-    - it
-    - metadata
+    x-tags:
+      - it
+      - metadata
     message: >-
       API MUST have an one-liner #/info/summary field
       containing a brief description.
@@ -61,8 +61,8 @@ rules:
       function: truthy
 
   has-termsOfService:
-    tags:
-    - metadata
+    x-tags:
+      - metadata
     description: >-
       API MUST reference the URL of the Terms of Service 
       in `#/info/termsOfService`
@@ -77,8 +77,8 @@ rules:
       function: truthy
 
   has-contact:
-    tags:
-    - metadata
+    x-tags:
+      - metadata
     description: >-
       API MUST reference a contact, either url or email in #/info/contact
     given: $
@@ -92,9 +92,9 @@ rules:
       function: truthy
 
   has-x-api-id:
-    tags:
-    - it
-    - metadata
+    x-tags:
+      - it
+      - metadata
     message: >-
       API must have an unique identifier in x-api-id in #/info/x-api-id.
     description: |-
