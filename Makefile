@@ -65,10 +65,9 @@ clean:
 #
 # Preparation goals
 #
-setup: package.json
+setup: package-lock.json
 	mkdir -p bundle
-	npm install .
-
+	npm ci
 
 test:
 	bash test-ruleset.sh rules/ all
