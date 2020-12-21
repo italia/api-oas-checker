@@ -24,6 +24,9 @@ const useStyle = createUseStyles({
       borderColor: (resultInfo) => (resultInfo.severity === 1 ? 'var(--danger)' : 'var(--warning)'),
       backgroundColor: (resultInfo) => (resultInfo.severity === 1 ? 'var(--danger-hover)' : 'var(--warning-hover)'),
     },
+    '&:hover $warning': {
+      border: '0px',
+    },
   },
   error: {
     extend: type,
@@ -31,6 +34,7 @@ const useStyle = createUseStyles({
   },
   warning: {
     extend: type,
+    border: '1px solid var(--warning-text-dark)',
     backgroundColor: 'var(--warning)',
   },
 });
