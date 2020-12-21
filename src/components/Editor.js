@@ -40,7 +40,7 @@ const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => 
       debounce(() => {
         const text = editor.current.getModel().getValue();
         setDocumentText(text);
-      }, 300)
+      }, 500)
     );
     // Add some space on top of the editor
     editor.current.changeViewZones((accessor) => {
