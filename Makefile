@@ -12,34 +12,20 @@ else
 	REPO_ORIGIN := $(CIRCLE_REPOSITORY_URL)
 endif
 
-all: setup bundle
+all: setup test
 
 # Create the web pages in bundle/
-bundle: copy-modules rules index.html copy_public bundle/out.js
-
-bundle/out.js: setup public/js/index.js package.json
-	npx browserify public/js/index.js --outfile bundle/out.js --standalone api_oas_checker
+bundle: rules dist 
 
 gh-pages: bundle rules
-	rm css js asset svg -fr
+	rm dist -fr
 	git clone $(REPO_ORIGIN) $(TMPDIR) -b gh-pages
-	cp -r bundle/* $(TMPDIR)
+	cp -r dist/* $(TMPDIR)
 	git -C $(TMPDIR) add .
 	git -C $(TMPDIR) -c user.name="gh-pages bot" -c user.email="gh-bot@example.it" \
 		commit -m "Script updating gh-pages from $(shell git rev-parse --short HEAD). [ci skip]"
 	git -C $(TMPDIR) push -q origin gh-pages
 	rm $(TMPDIR) -fr
-
-copy-modules: setup
-	cp -r node_modules/bootstrap-italia/dist/* bundle/
-	cp node_modules/codemirror/lib/*.css node_modules/codemirror/theme/darcula.css bundle/css/
-
-copy_public:
-	cp public/js/* bundle/js/
-	cp public/css/* bundle/css/
-	cp -r public/icons bundle/icons/
-	cp index.html bundle/
-	cp ${RULE_FILES} bundle/
 
 # Merge all rules into spectral.yml
 rules: setup $(RULE_FILES)
@@ -60,16 +46,18 @@ spectral-full.yml: spectral.yml spectral-security.yml
 
 clean:
 	# Removing compiled bundle, node_modules and various rule profiles.
-	rm -rf bundle node_modules $(RULE_FILES)
+	rm -rf dist node_modules $(RULE_FILES)
 
 #
 # Preparation goals
 #
-setup: package-lock.json
-	mkdir -p bundle
-	npm ci
+setup: package.json yarn.lock
+	yarn
+	yarn build
 
-test:
+
+test: setup
 	bash test-ruleset.sh rules/ all
 	bash test-ruleset.sh security/ all
+	yarn test
 

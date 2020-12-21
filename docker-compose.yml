@@ -1,7 +1,7 @@
 version: '3.0'
 services:
   dev: &base
-    image: node
+    image: node:14
     user: $UID:$GID
     volumes:
     - .:/code
@@ -21,7 +21,7 @@ services:
     - test
 
   build:
-    image: node
+    image: node:14
     user: $UID:$GID
     working_dir: /code
     volumes:
