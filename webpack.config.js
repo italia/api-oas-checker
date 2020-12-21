@@ -15,15 +15,19 @@ module.exports = {
     open: true,
     compress: true,
     port: 3000,
-    host: '0.0.0.0' // To expose contents via docker
+    host: '0.0.0.0', // To expose contents via docker
   },
   mode: 'development',
   module: {
     rules: [
       { test: /\.js$/, use: ['babel-loader'], exclude: /node_modules/ },
       { test: /\.css$/, use: ['style-loader', 'css-loader'] },
-      { test: /\.(woff(2)?|ico|png|jpg|jpeg|svg|ttf)$/i, type: 'asset', generator: { filename: '[name].[contenthash][ext]' }},
-    ]
+      {
+        test: /\.(woff(2)?|ico|png|jpg|jpeg|svg|ttf)$/i,
+        type: 'asset',
+        generator: { filename: '[name].[contenthash][ext]' },
+      },
+    ],
   },
   output: {
     filename: '[contenthash].js', // TODO: [name] is too long for monaco files and gh pages blocks js scripts
@@ -38,17 +42,15 @@ module.exports = {
       filename: 'index.html',
     }),
     new CopyWebpackPlugin({
-      patterns: [
-        { from: 'public_new_ui', to: '.' },
-      ],
+      patterns: [{ from: 'public_new_ui', to: '.' }],
     }),
-    new MonacoWebpackPlugin()
+    new MonacoWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.json'],
     fallback: {
-      'vm': false,
-      'fs': false
-    }
-  }
-}
+      vm: false,
+      fs: false,
+    },
+  },
+};
