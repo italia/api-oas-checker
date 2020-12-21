@@ -20,7 +20,7 @@ const downloadFile = (content, fileName, contentType) => {
   anchorElement.click();
 };
 
-const Menu = ({ disabled, documentText, validationResults, setDocumentUrl }) => {
+const Menu = ({ isValidationInProgress, documentText, validationResults, setDocumentUrl }) => {
   const classes = useStyles();
   const buttonCx = `${classes.button} py-2 px-3`;
 
@@ -36,11 +36,19 @@ const Menu = ({ disabled, documentText, validationResults, setDocumentUrl }) => 
     downloadFile(JSON.stringify(validationResults, null, 2), `oas-results-${new Date().toISOString()}.json`, 'json');
   }, [validationResults]);
 
+  // TODO: refactor this
   return (
     <>
       <div className="border-top" data-testid="menu">
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button" onClick={saveFile}>
+          <Button
+            className={buttonCx}
+            color="primary"
+            disabled={isValidationInProgress || documentText === ''}
+            icon
+            tag="button"
+            onClick={saveFile}
+          >
             Save file
           </Button>
         </FormGroup>
@@ -48,7 +56,7 @@ const Menu = ({ disabled, documentText, validationResults, setDocumentUrl }) => 
           <Button
             className={buttonCx}
             color="primary"
-            disabled={disabled}
+            disabled={isValidationInProgress || validationResults === null || validationResults.length === 0}
             icon
             tag="button"
             onClick={exportValidationResults}
@@ -59,24 +67,24 @@ const Menu = ({ disabled, documentText, validationResults, setDocumentUrl }) => 
       </div>
       <div className="border-top">
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button">
+          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
             Upload file
           </Button>
         </FormGroup>
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button">
+          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
             From url
           </Button>
         </FormGroup>
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button">
+          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
             Template
           </Button>
         </FormGroup>
       </div>
       <div className="border-top">
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button">
+          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
             Settings
           </Button>
         </FormGroup>
@@ -86,7 +94,7 @@ const Menu = ({ disabled, documentText, validationResults, setDocumentUrl }) => 
 };
 
 Menu.propTypes = {
-  disabled: PropTypes.bool.isRequired,
+  isValidationInProgress: PropTypes.bool.isRequired,
   documentText: PropTypes.string,
   validationResults: PropTypes.array,
   setDocumentUrl: PropTypes.func.isRequired,
@@ -94,7 +102,7 @@ Menu.propTypes = {
 
 export default connect(
   (state) => ({
-    disabled: isValidationInProgress(state),
+    isValidationInProgress: isValidationInProgress(state),
     documentText: getDocumentText(state),
     validationResults: getValidationResults(state),
   }),
