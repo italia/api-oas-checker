@@ -13,14 +13,16 @@ const type = {
 const useStyle = createUseStyles({
   resultMessage: {
     composes: 'pr-4',
+    fontSize: '0.9rem',
     wordBreak: 'break-all',
   },
   resultItem: {
-    composes: 'row py-3 no-gutters',
+    composes: 'row py-2 no-gutters',
     borderLeft: '8px solid var(--white)',
     borderRight: '8px solid var(--white)',
     '&:hover': {
       borderColor: (resultInfo) => (resultInfo.severity === 1 ? 'var(--danger)' : 'var(--warning)'),
+      backgroundColor: (resultInfo) => (resultInfo.severity === 1 ? 'var(--danger-hover)' : 'var(--warning-hover)'),
     },
   },
   error: {
@@ -47,7 +49,7 @@ const ValidationResultItem = ({ resultInfo, onResultClick }) => {
       role="button"
       onClick={handleOnResultClick}
     >
-      <div className={`col-2 text-center`}>
+      <div className="col-1 text-center">
         <div
           className={cx({
             [classes.error]: resultInfo.severity === 1,
@@ -55,8 +57,8 @@ const ValidationResultItem = ({ resultInfo, onResultClick }) => {
           })}
         ></div>
       </div>
-      <div className="col-2 text-center">{resultInfo.line}</div>
-      <div className={`col-8 ${classes.resultMessage}`}>{resultInfo.message}</div>
+      <div className="col-1 text-center">{resultInfo.line}</div>
+      <div className={`col-10 ${classes.resultMessage}`}>{resultInfo.message}</div>
     </div>
   );
 };
