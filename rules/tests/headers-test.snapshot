@@ -7,11 +7,11 @@ OpenAPI 3.x detected
  15:20    error  no-forbidden-headers   must not match the pattern '/^(accept|content-type|authorization)$/i' in #/paths/~1ko-no-redundant-headers/get/responses/default/headers/Accept [object Object]
  16:27    error  no-forbidden-headers   must not match the pattern '/^(accept|content-type|authorization)$/i' in #/paths/~1ko-no-redundant-headers/get/responses/default/headers/Authorization [object Object]
  17:26    error  no-forbidden-headers   must not match the pattern '/^(accept|content-type|authorization)$/i' in #/paths/~1ko-no-redundant-headers/get/responses/default/headers/Content-Type [object Object]
- 33:15  warning  no-x-headers-request   HTTP header 'X-Header' SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/parameters/0/name
- 35:15  warning  no-x-headers-request   HTTP header 'x-header' SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/parameters/1/name
- 41:31  warning  no-x-headers-response  HTTP response header SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/get/responses/200/headers/X-Response-Header
- 43:27  warning  no-x-headers-response  HTTP response header SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/get/responses/200/headers/x-response-ko
- 45:22  warning  no-x-headers-response  HTTP response header SHOULD NOT include 'X-' prefix in #/paths/~1ko-no-x-header/get/responses/200/headers/x-bloath
+ 33:15  warning  no-x-headers-request   HTTP header 'X-Header' SHOULD NOT start with 'X-' in #/paths/~1ko-no-x-header/parameters/0/name
+ 35:15  warning  no-x-headers-request   HTTP header 'x-header' SHOULD NOT start with 'X-' in #/paths/~1ko-no-x-header/parameters/1/name
+ 41:31  warning  no-x-headers-response  HTTP response header SHOULD NOT start with 'X-' in #/paths/~1ko-no-x-header/get/responses/200/headers/X-Response-Header
+ 43:27  warning  no-x-headers-response  HTTP response header SHOULD NOT start with 'X-' in #/paths/~1ko-no-x-header/get/responses/200/headers/x-response-ko
+ 45:22  warning  no-x-headers-response  HTTP response header SHOULD NOT start with 'X-' in #/paths/~1ko-no-x-header/get/responses/200/headers/x-bloath
 
 ✖ 11 problems (6 errors, 5 warnings, 0 infos, 0 hints)
 
