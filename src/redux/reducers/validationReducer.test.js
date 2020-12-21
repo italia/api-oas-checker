@@ -1,15 +1,15 @@
 import validationReducer from './validationReducer.js';
 import * as types from '../actionTypes.js';
 
-describe('validation reducer', () => {
-  it('should return the initial state', () => {
+describe('validationReducer', () => {
+  it('returns the initial state', () => {
     expect(validationReducer(undefined, {})).toEqual({
       results: null,
       inProgress: false,
     });
   });
 
-  it('should handle SET_VALIDATION_IN_PROGRESS', () => {
+  it('handles SET_VALIDATION_IN_PROGRESS', () => {
     expect(
       validationReducer([], {
         type: types.SET_VALIDATION_IN_PROGRESS,
@@ -20,7 +20,7 @@ describe('validation reducer', () => {
     });
   });
 
-  it('should handle SET_VALIDATION_RESULTS', () => {
+  it('handles SET_VALIDATION_RESULTS', () => {
     expect(
       validationReducer(
         { results: [], inProgress: false },
