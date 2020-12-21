@@ -10,8 +10,14 @@ import { getSpectral } from '../spectral.js';
 import { setValidationInProgress, setValidationResults } from '../redux/actions.js';
 
 const useStyles = createUseStyles({
-  validatorIconSize: {
+  '@keyframes rotation': {
+    from: { transform: 'rotate(0deg)' },
+    to: { transform: 'rotate(360deg)' },
+  },
+  validatorIcon: {
+    composes: 'ml-3',
     fontSize: '1.5rem',
+    animation: (isValidationInProgress) => isValidationInProgress && '$rotation 2s infinite',
   },
 });
 
@@ -28,7 +34,7 @@ const ValidationController = ({
     },
     'm-3'
   );
-  const classes = useStyles();
+  const classes = useStyles(isValidationInProgress);
 
   const handleValidation = useCallback(async () => {
     setValidationInProgress();
@@ -70,7 +76,7 @@ const ValidationController = ({
           onClick={isValidationInProgress ? Function.prototype : handleValidation}
         >
           {isValidationInProgress ? 'Please wait...' : 'Validate'}
-          <Icon className={`ml-3 ${classes.validatorIconSize}`} color="white" icon="it-refresh" />
+          <Icon className={classes.validatorIcon} color="white" icon="it-refresh" />
         </Button>
       </FormGroup>
 

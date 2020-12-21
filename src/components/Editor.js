@@ -13,11 +13,14 @@ const useStyles = createUseStyles({
     height: 'calc(100vh - 80px)',
     overflow: 'auto',
   },
-  editorMarginHighlightSev1: {
-    background: 'var(--danger)',
+  editorMarginError: {
+    backgroundColor: 'var(--danger)',
+  },
+  editorMarginWarning: {
+    backgroundColor: 'var(--warning)',
   },
   editorHighlightLine: {
-    background: 'var(--primary)',
+    backgroundColor: 'var(--primary)',
   },
 });
 
@@ -77,12 +80,12 @@ const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => 
         options: {
           isWholeLine: true,
           className: classes.editorHighlightLine,
-          glyphMarginClassName: classes.editorMarginHighlightSev1, // TODO: change based on severity
+          glyphMarginClassName: line.severity === 1 ? classes.editorMarginError : classes.editorMarginWarning, // TODO: this check is too much duplicated
         },
       });
     }
     decoration.current = editor.current.deltaDecorations([], newDecorations);
-  }, [highlightLines, classes.editorHighlightLine, classes.editorMarginHighlightSev1]);
+  }, [highlightLines, classes.editorHighlightLine, classes.editorMarginError, classes.editorMarginWarning]);
 
   useEffect(() => {
     if (!focusLine) return;
