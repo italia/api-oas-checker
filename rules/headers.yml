@@ -1,5 +1,7 @@
 rules:
   no-forbidden-headers:
+    x-tags:
+    - standards
     description: |-
       OAS do not allow using the following HTTP headers in a specification
       file: Authorization, Content-Type and Accept.
@@ -17,6 +19,8 @@ rules:
           /^(accept|content-type|authorization)$/i
 
   no-x-headers-request: &no-x-headers
+    x-tags:
+    - standards
     description: |-
       'HTTP' headers SHOULD NOT start with 'X-' [RFC6648](https://tools.ietf.org/html/rfc6648).
     severity: warn

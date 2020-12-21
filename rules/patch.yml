@@ -1,10 +1,16 @@
 rules:
   patch-media-type:
+    x-tags:
+    - standards
     description: |-
-      application/json is not an appropriate media-type for PATCH.
+      The PATCH specification explicits that the request body contains
+      a "patch document" describing the changes to be applied
+      to the target resource.
+
+      To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)
+      explains that application/json is not an appropriate media-type for PATCH.
     message: >-
       application/json is not an appropriate media-type for PATCH. {{path}}
-      See https://www.rfc-editor.org/errata/eid3169
     formats:
     - oas3
     severity: error

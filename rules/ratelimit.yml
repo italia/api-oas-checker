@@ -1,7 +1,11 @@
 rules:
   missing-retry-after:
     description: |-
-      APIs should use Retry-After on 429 and 503 responses.
+      When a client is either:
+      * throttled out with a 429 status code;
+      * warned about a temporary server issue with a 503 status code;
+      the server should explicitly communicate how long to wait
+      before issuing further requests using the Retry-After header.
     message: >-
       Missing ratelimit header: {{property}} in {{path}}
     formats:
@@ -14,6 +18,8 @@ rules:
       field: Retry-After
       function: truthy
   missing-ratelimit:
+    x-tags:
+    - it
     description: |-
       APIs should use ratelimit headers at least on successful responses.
     message: >-

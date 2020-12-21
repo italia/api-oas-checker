@@ -3,6 +3,9 @@
 #
 rules:
   number-format: &number-format
+    x-tags:
+    - "it"
+    - "RAC_REST_FORMAT_004"
     description: |-
       Schema of type number or integer must specify a format
       to express the associated datatype, eg. `int32`, `int64`, ...
@@ -28,6 +31,9 @@ rules:
       $.[?(@.type=="integer")]
 
   allowed-integer-format: &allowed-integer-format
+    x-tags:
+    - "it"
+    - "RAC_REST_FORMAT_004"
     description: |-
       To improve interoperability, integer and number formats are constrained
       to a shared subset.
