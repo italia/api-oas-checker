@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { fireEvent, render, screen } from '../test-utils.js';
+import { render, screen } from '../test-utils.js';
 import ValidationResults from './ValidationResults.js';
 import validationResultsMock from '../mocks/validationResultsMock.js';
 
-describe('validation results', () => {
+describe('ValidationResults', () => {
   it(`doesn't render nothing on init`, () => {
     render(<ValidationResults />);
     expect(screen.queryByTestId('validation-results-header')).toBeNull();
@@ -20,19 +20,5 @@ describe('validation results', () => {
       },
     });
     expect(screen.queryAllByTestId('validation-result-entry').length).toBe(3);
-  });
-
-  // TODO Mock redux dispatch
-  xit('calls on result click function', () => {
-    const onResultClick = jest.fn();
-    render(<ValidationResults onResultClick={onResultClick} />, {
-      initialState: {
-        validationState: {
-          results: validationResultsMock,
-        },
-      },
-    });
-    fireEvent.click(screen.queryAllByTestId('validation-result-entry')[0]);
-    expect(onResultClick).toHaveBeenCalledTimes(1);
   });
 });

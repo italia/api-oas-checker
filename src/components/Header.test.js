@@ -3,8 +3,8 @@ import React from 'react';
 import Header from './Header.js';
 import { render, screen, fireEvent } from '../test-utils.js';
 
-describe('header', () => {
-  it('renders Header', () => {
+describe('Header', () => {
+  it('renders an header', () => {
     render(<Header />);
     expect(screen.queryByTestId('header')).toBeTruthy();
   });

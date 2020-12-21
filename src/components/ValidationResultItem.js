@@ -62,13 +62,12 @@ const ValidationResultItem = ({ resultInfo, onResultClick }) => {
 };
 
 ValidationResultItem.propTypes = {
-  resultInfo: PropTypes.exact({
-    fingerprint: PropTypes.string.isRequired,
+  resultInfo: PropTypes.shape({
     character: PropTypes.number.isRequired,
     line: PropTypes.number.isRequired,
     message: PropTypes.string.isRequired,
     severity: PropTypes.number.isRequired,
-  }),
+  }).isRequired,
   onResultClick: PropTypes.func.isRequired,
 };
 

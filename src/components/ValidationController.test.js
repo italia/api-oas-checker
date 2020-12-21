@@ -3,7 +3,7 @@ import React from 'react';
 import { render, screen, fireEvent } from '../test-utils.js';
 import ValidationController from './ValidationController.js';
 
-describe('validation controller', () => {
+describe('ValidationController', () => {
   // TODO mock redux dispatch
   xit('calls on validate function', () => {
     const onValidateMock = jest.fn();
@@ -12,7 +12,7 @@ describe('validation controller', () => {
     expect(onValidateMock).toHaveBeenCalledTimes(1);
   });
 
-  it('display please wait', () => {
+  it('displays please wait', () => {
     render(<ValidationController />, {
       initialState: {
         validationState: {
@@ -20,7 +20,7 @@ describe('validation controller', () => {
         },
       },
     });
-    expect(screen.queryByTestId('validation-button').textContent.includes('Please wait')).toBeTruthy();
+    expect(screen.getByText(/please wait/i)).toBeTruthy();
     expect(screen.queryByTestId('auto-refresh')).toBeNull();
   });
 });

@@ -4,8 +4,8 @@ import { render, screen } from '../test-utils.js';
 import ValidationSummary from './ValidationSummary.js';
 import validationResultsMock from '../mocks/validationResultsMock.js';
 
-describe('validation summary', () => {
-  it('renders ValidationSummary', () => {
+describe('ValidationSummary', () => {
+  it('renders a validation summary', () => {
     render(<ValidationSummary />, {
       initialState: {
         validationState: {

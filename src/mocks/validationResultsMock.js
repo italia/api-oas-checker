@@ -2,8 +2,7 @@ export default [
   {
     fingerprint: '1acv',
     code: 'string-maxlength',
-    message:
-      'Strings (non enum) must specify a maximum length. #/components/parameters/codBanca/schema `schema.maxLength` property should be defined',
+    message: 'Test message 1',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 1,
     range: {
@@ -14,8 +13,7 @@ export default [
   {
     fingerprint: '1kijn',
     code: 'string-maxlength',
-    message:
-      'Strings (non enum) must specify a maximum length. #/components/parameters/codBanca/schema `schema.maxLength` property should be defined',
+    message: 'Test message 2',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 3,
     range: {
@@ -26,8 +24,7 @@ export default [
   {
     fingerprint: '5tgfhbb',
     code: 'string-maxlength',
-    message:
-      'Strings (non enum) must specify a maximum length. #/components/parameters/codBanca/schema `schema.maxLength` property should be defined',
+    message: 'Test message 3',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 3,
     range: {
