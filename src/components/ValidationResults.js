@@ -23,9 +23,9 @@ const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
   return (
     <>
       <div className={classes.headerResults} data-testid="validation-results-header">
-        <div className="col-2 text-center">Type</div>
-        <div className="col-2 text-center">Line</div>
-        <div className="col-8">Message</div>
+        <div className="col-1 text-center">Type</div>
+        <div className="col-1 text-center">Line</div>
+        <div className="col-10">Message</div>
       </div>
       <div className={classes.enableScrollResults}>
         {validationResultsInfo.map((r) => (
