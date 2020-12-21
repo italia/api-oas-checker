@@ -8,7 +8,8 @@ import { setDocumentUrl } from '../redux/actions.js';
 
 const useStyles = createUseStyles({
   button: {
-    whiteSpace: 'nowrap', // required for better menu animation
+    composes: 'py-2 px-3',
+    whiteSpace: 'nowrap', // required for a better menu animation
   },
 });
 
@@ -22,7 +23,6 @@ const downloadFile = (content, fileName, contentType) => {
 
 const Menu = ({ isValidationInProgress, documentText, validationResults, setDocumentUrl }) => {
   const classes = useStyles();
-  const buttonCx = `${classes.button} py-2 px-3`;
 
   useEffect(() => {
     setDocumentUrl('example.yaml'); // TODO: put this in the initial state
@@ -42,7 +42,7 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
       <div className="border-top" data-testid="menu">
         <FormGroup className="m-4" tag="div">
           <Button
-            className={buttonCx}
+            className={classes.button}
             color="primary"
             disabled={isValidationInProgress || documentText === ''}
             icon
@@ -54,7 +54,7 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
         </FormGroup>
         <FormGroup className="m-4" tag="div">
           <Button
-            className={buttonCx}
+            className={classes.button}
             color="primary"
             disabled={isValidationInProgress || validationResults === null || validationResults.length === 0}
             icon
@@ -67,24 +67,24 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
       </div>
       <div className="border-top">
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
+          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
             Upload file
           </Button>
         </FormGroup>
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
+          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
             From url
           </Button>
         </FormGroup>
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
+          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
             Template
           </Button>
         </FormGroup>
       </div>
       <div className="border-top">
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={isValidationInProgress} icon tag="button">
+          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
             Settings
           </Button>
         </FormGroup>
