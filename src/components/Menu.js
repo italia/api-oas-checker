@@ -1,9 +1,9 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
-import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
+import { getDocumentText, getValidationResults, isValidationInProgress } from '../redux/selectors.js';
 import { setDocumentUrl } from '../redux/actions.js';
 
 const useStyles = createUseStyles({
@@ -12,8 +12,15 @@ const useStyles = createUseStyles({
   },
 });
 
-// eslint-disable-next-line no-unused-vars
-const Menu = ({ disabled, documentText, setDocumentUrl }) => {
+const downloadFile = (content, fileName, contentType) => {
+  const anchorElement = document.createElement('a');
+  const file = new Blob([content], { type: contentType });
+  anchorElement.href = URL.createObjectURL(file);
+  anchorElement.download = fileName;
+  anchorElement.click();
+};
+
+const Menu = ({ disabled, documentText, validationResults, setDocumentUrl }) => {
   const classes = useStyles();
   const buttonCx = `${classes.button} py-2 px-3`;
 
@@ -21,16 +28,31 @@ const Menu = ({ disabled, documentText, setDocumentUrl }) => {
     setDocumentUrl('example.yaml'); // TODO: put this in the initial state
   }, [setDocumentUrl]);
 
+  const saveFile = useCallback(() => {
+    downloadFile(documentText, `api-spec-${new Date().toISOString()}.yaml`, 'yaml');
+  }, [documentText]);
+
+  const exportValidationResults = useCallback(() => {
+    downloadFile(JSON.stringify(validationResults, null, 2), `oas-results-${new Date().toISOString()}.json`, 'json');
+  }, [validationResults]);
+
   return (
     <>
       <div className="border-top" data-testid="menu">
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button">
-            Save results
+          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button" onClick={saveFile}>
+            Save file
           </Button>
         </FormGroup>
         <FormGroup className="m-4" tag="div">
-          <Button className={buttonCx} color="primary" disabled={disabled} icon tag="button">
+          <Button
+            className={buttonCx}
+            color="primary"
+            disabled={disabled}
+            icon
+            tag="button"
+            onClick={exportValidationResults}
+          >
             Export results
           </Button>
         </FormGroup>
@@ -66,6 +88,7 @@ const Menu = ({ disabled, documentText, setDocumentUrl }) => {
 Menu.propTypes = {
   disabled: PropTypes.bool.isRequired,
   documentText: PropTypes.string,
+  validationResults: PropTypes.array,
   setDocumentUrl: PropTypes.func.isRequired,
 };
 
@@ -73,6 +96,7 @@ export default connect(
   (state) => ({
     disabled: isValidationInProgress(state),
     documentText: getDocumentText(state),
+    validationResults: getValidationResults(state),
   }),
   {
     setDocumentUrl,
