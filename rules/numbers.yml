@@ -3,14 +3,13 @@
 #
 rules:
   number-format: &number-format
-    tags:
-    - it
-    - schema
     description: |-
       Schema of type number or integer must specify a format
       to express the associated datatype, eg. `int32`, `int64`, ...
 
       You can express similar requirements using the `minimum` and `maximum` properties.
+
+      See recommendation RAC_REST_FORMAT_004.
     message: >-
       Schema of type number or integer must specify a format. {{path}}
     formats:
@@ -29,12 +28,11 @@ rules:
       $.[?(@.type=="integer")]
 
   allowed-integer-format: &allowed-integer-format
-    tags:
-    - it
-    - schema
     description: |-
       To improve interoperability, integer and number formats are constrained
       to a shared subset.
+
+      See recommendation RAC_REST_FORMAT_004.
     message: >-
       Type format is "{{value}}", expected one of [int32, int64]. {{path}}
     formats:

@@ -28,16 +28,7 @@ rules:
         separator:
           char: '-'
   response-headers-pascal-case:
-    description: |
-      Headers should be pascal-case.
+    <<: *request-headers-pascal-case
     message: 'Header {{error}}: {{path}}'
-    severity: hint
-    recommended: true
     given:
     - $.[responses][*].headers.*~
-    then:
-      function: casing
-      functionOptions:
-        type: pascal
-        separator:
-          char: '-'
