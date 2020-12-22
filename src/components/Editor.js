@@ -77,7 +77,7 @@ const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => 
     const newDecorations = [];
     for (const line of highlightLines) {
       newDecorations.push({
-        range: new monaco.Range(line.start, 1, line.end, 1),
+        range: new monaco.Range(line.start, 1, line.start, 1),
         options: {
           isWholeLine: true,
           className: classes.editorHighlightLine,
