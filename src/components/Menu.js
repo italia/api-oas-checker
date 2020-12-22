@@ -7,8 +7,12 @@ import { getDocumentText, getValidationResults, isValidationInProgress } from '.
 import { setDocumentUrl } from '../redux/actions.js';
 
 const useStyles = createUseStyles({
+  formGroup: {
+    composes: 'm-4 pl-3',
+  },
   button: {
     composes: 'py-2 px-3',
+    width: '100%',
     whiteSpace: 'nowrap', // required for a better menu animation
   },
 });
@@ -40,24 +44,24 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
   return (
     <>
       <div className="border-top" data-testid="menu">
-        <FormGroup className="m-4" tag="div">
+        <FormGroup className={classes.formGroup} tag="div">
           <Button
             className={classes.button}
             color="primary"
             disabled={isValidationInProgress || documentText === ''}
-            icon
+            icon={false}
             tag="button"
             onClick={saveFile}
           >
             Save file
           </Button>
         </FormGroup>
-        <FormGroup className="m-4" tag="div">
+        <FormGroup className={classes.formGroup} tag="div">
           <Button
             className={classes.button}
             color="primary"
             disabled={isValidationInProgress || validationResults === null || validationResults.length === 0}
-            icon
+            icon={false}
             tag="button"
             onClick={exportValidationResults}
           >
@@ -66,25 +70,49 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
         </FormGroup>
       </div>
       <div className="border-top">
-        <FormGroup className="m-4" tag="div">
-          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
+        <FormGroup className={classes.formGroup} tag="div">
+          <Button
+            className={classes.button}
+            color="primary"
+            disabled={isValidationInProgress}
+            icon={false}
+            tag="button"
+          >
             Upload file
           </Button>
         </FormGroup>
-        <FormGroup className="m-4" tag="div">
-          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
+        <FormGroup className={classes.formGroup} tag="div">
+          <Button
+            className={classes.button}
+            color="primary"
+            disabled={isValidationInProgress}
+            icon={false}
+            tag="button"
+          >
             From url
           </Button>
         </FormGroup>
-        <FormGroup className="m-4" tag="div">
-          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
+        <FormGroup className={classes.formGroup} tag="div">
+          <Button
+            className={classes.button}
+            color="primary"
+            disabled={isValidationInProgress}
+            icon={false}
+            tag="button"
+          >
             Template
           </Button>
         </FormGroup>
       </div>
       <div className="border-top">
-        <FormGroup className="m-4" tag="div">
-          <Button className={classes.button} color="primary" disabled={isValidationInProgress} icon tag="button">
+        <FormGroup className={classes.formGroup} tag="div">
+          <Button
+            className={classes.button}
+            color="primary"
+            disabled={isValidationInProgress}
+            icon={false}
+            tag="button"
+          >
             Settings
           </Button>
         </FormGroup>
