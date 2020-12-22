@@ -1,43 +1,24 @@
-import React, { useCallback, useReducer } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Button, Input } from 'design-react-kit';
 import Dialog from './Dialog.js';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setDocumentUrl } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
-
-const initialState = {
-  isDialogOpen: false,
-  url: null,
-};
-
-// TODO: remove duplicate code
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'openDialog':
-      return { ...state, isDialogOpen: true };
-    case 'closeDialog':
-      return { ...state, isDialogOpen: false };
-    case 'setUrl':
-      return { ...state, url: action.url };
-    default:
-      return state;
-  }
-};
+import useDialogView from './useDialogView.js';
 
 const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [isDialogOpen, closeDialog, openDialog] = useDialogView();
+  const [url, setUrl] = useState(null);
 
-  const closeDialog = useCallback(() => {
-    dispatch({ type: 'closeDialog' });
-  }, [dispatch]);
-  const openDialog = useCallback(() => {
-    dispatch({ type: 'openDialog' });
-  }, [dispatch]);
   const handleConfirmAction = useCallback(() => {
-    setDocumentUrl(state.url);
+    setDocumentUrl(url);
     closeDialog();
-  }, [state.url, setDocumentUrl]);
+  }, [url, setDocumentUrl]);
+
+  const handleOnChange = useCallback((e) => {
+    setUrl(e.target.value);
+  }, []);
 
   return (
     <>
@@ -53,18 +34,11 @@ const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl }
       </Button>
 
       <Dialog
-        isOpen={state.isDialogOpen}
+        isOpen={isDialogOpen}
         title="Load from url"
         labelCloseAction="Close"
         labelConfirmAction="Load url"
-        renderBody={() => (
-          <Input
-            label="Url"
-            type="text"
-            value={state.url}
-            onChange={(e) => dispatch({ type: 'setUrl', url: e.target.value })}
-          />
-        )}
+        renderBody={() => <Input label="Url" type="text" value={url} onChange={handleOnChange} />}
         onCloseAction={closeDialog}
         onConfirmAction={handleConfirmAction}
       />
