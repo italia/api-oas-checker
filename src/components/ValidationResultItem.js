@@ -2,6 +2,7 @@ import React, { useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import { ERROR, getResultType, WARNING } from '../utils.js';
 
 const type = {
   height: '16px',
@@ -21,8 +22,9 @@ const useStyle = createUseStyles({
     borderLeft: '8px solid var(--white)',
     borderRight: '8px solid var(--white)',
     '&:hover': {
-      borderColor: (resultInfo) => (resultInfo.severity === 1 ? 'var(--danger)' : 'var(--warning)'),
-      backgroundColor: (resultInfo) => (resultInfo.severity === 1 ? 'var(--danger-hover)' : 'var(--warning-hover)'),
+      borderColor: (resultInfo) => (getResultType(resultInfo.severity) === ERROR ? 'var(--danger)' : 'var(--warning)'),
+      backgroundColor: (resultInfo) =>
+        getResultType(resultInfo.severity) === WARNING ? 'var(--danger-hover)' : 'var(--warning-hover)',
     },
     '&:hover $warning': {
       border: '0px',
@@ -56,8 +58,8 @@ const ValidationResultItem = ({ resultInfo, onResultClick }) => {
       <div className="col-1 text-center">
         <div
           className={cx({
-            [classes.error]: resultInfo.severity === 1,
-            [classes.warning]: resultInfo.severity !== 1,
+            [classes.error]: getResultType(resultInfo.severity) === ERROR,
+            [classes.warning]: getResultType(resultInfo.severity) === WARNING,
           })}
         ></div>
       </div>
