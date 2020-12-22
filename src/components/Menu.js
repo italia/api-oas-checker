@@ -1,10 +1,12 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { getDocumentText, getValidationResults, isValidationInProgress } from '../redux/selectors.js';
-import { setDocumentUrl } from '../redux/actions.js';
+import LoadFromUrlButton from './LoadFromUrlButton.js';
+import SettingsButton from './SettingsButton.js';
+import { downloadFile } from '../utils.js';
 
 const useStyles = createUseStyles({
   formGroup: {
@@ -17,21 +19,10 @@ const useStyles = createUseStyles({
   },
 });
 
-const downloadFile = (content, fileName, contentType) => {
-  const anchorElement = document.createElement('a');
-  const file = new Blob([content], { type: contentType });
-  anchorElement.href = URL.createObjectURL(file);
-  anchorElement.download = fileName;
-  anchorElement.click();
-};
-
-const Menu = ({ isValidationInProgress, documentText, validationResults, setDocumentUrl }) => {
+const Menu = ({ isValidationInProgress, documentText, validationResults }) => {
   const classes = useStyles();
 
-  useEffect(() => {
-    setDocumentUrl('example.yaml'); // TODO: put this in the initial state
-  }, [setDocumentUrl]);
-
+  // TODO: refactor this. Split in different components
   const saveFile = useCallback(() => {
     downloadFile(documentText, `api-spec-${new Date().toISOString()}.yaml`, 'yaml');
   }, [documentText]);
@@ -40,7 +31,6 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
     downloadFile(JSON.stringify(validationResults, null, 2), `oas-results-${new Date().toISOString()}.json`, 'json');
   }, [validationResults]);
 
-  // TODO: refactor this
   return (
     <>
       <div className="border-top" data-testid="menu">
@@ -82,15 +72,7 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
           </Button>
         </FormGroup>
         <FormGroup className={classes.formGroup} tag="div">
-          <Button
-            className={classes.button}
-            color="primary"
-            disabled={isValidationInProgress}
-            icon={false}
-            tag="button"
-          >
-            From url
-          </Button>
+          <LoadFromUrlButton className={classes.button} />
         </FormGroup>
         <FormGroup className={classes.formGroup} tag="div">
           <Button
@@ -106,15 +88,7 @@ const Menu = ({ isValidationInProgress, documentText, validationResults, setDocu
       </div>
       <div className="border-top">
         <FormGroup className={classes.formGroup} tag="div">
-          <Button
-            className={classes.button}
-            color="primary"
-            disabled={isValidationInProgress}
-            icon={false}
-            tag="button"
-          >
-            Settings
-          </Button>
+          <SettingsButton className={classes.button} />
         </FormGroup>
       </div>
     </>
@@ -125,16 +99,10 @@ Menu.propTypes = {
   isValidationInProgress: PropTypes.bool.isRequired,
   documentText: PropTypes.string,
   validationResults: PropTypes.array,
-  setDocumentUrl: PropTypes.func.isRequired,
 };
 
-export default connect(
-  (state) => ({
-    isValidationInProgress: isValidationInProgress(state),
-    documentText: getDocumentText(state),
-    validationResults: getValidationResults(state),
-  }),
-  {
-    setDocumentUrl,
-  }
-)(Menu);
+export default connect((state) => ({
+  isValidationInProgress: isValidationInProgress(state),
+  documentText: getDocumentText(state),
+  validationResults: getValidationResults(state),
+}))(Menu);

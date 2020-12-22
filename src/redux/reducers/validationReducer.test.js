@@ -1,11 +1,13 @@
 import validationReducer from './validationReducer.js';
 import * as types from '../actionTypes.js';
+import { DEFAULT_RULESET } from '../../utils.js';
 
 describe('validationReducer', () => {
   it('returns the initial state', () => {
     expect(validationReducer(undefined, {})).toEqual({
       results: null,
       inProgress: false,
+      ruleset: DEFAULT_RULESET,
     });
   });
 

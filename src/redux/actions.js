@@ -5,6 +5,7 @@ import {
   SET_DOCUMENT_TEXT,
   FOCUS_DOCUMENT_LINE,
   SET_DOCUMENT_URL,
+  SET_RULESET,
 } from './actionTypes.js';
 
 export const toogleMenu = () => ({
@@ -18,6 +19,11 @@ export const setValidationResults = (results) => ({
 
 export const setValidationInProgress = () => ({
   type: SET_VALIDATION_IN_PROGRESS,
+});
+
+export const setRuleset = (ruleset) => ({
+  type: SET_RULESET,
+  ruleset,
 });
 
 export const setDocumentText = (text) => ({

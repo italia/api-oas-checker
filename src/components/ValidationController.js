@@ -5,9 +5,10 @@ import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
-import { getSpectral } from '../spectral.js';
+import { getDocumentText, isValidationInProgress, getRuleset } from '../redux/selectors.js';
+import { getSpectralEngine } from '../spectral.js';
 import { setValidationInProgress, setValidationResults } from '../redux/actions.js';
+import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
 
 const useStyles = createUseStyles({
   '@keyframes rotation': {
@@ -22,8 +23,9 @@ const useStyles = createUseStyles({
 });
 
 const ValidationController = ({
-  isValidationInProgress,
   documentText,
+  isValidationInProgress,
+  ruleset,
   setValidationResults,
   setValidationInProgress,
 }) => {
@@ -39,10 +41,15 @@ const ValidationController = ({
   const handleValidation = useCallback(async () => {
     setValidationInProgress();
     const document = new Document(documentText, Parsers.Yaml);
-    const spectral = await getSpectral();
-    const results = await spectral.run(document);
-    setValidationResults(results);
-  }, [documentText, setValidationInProgress, setValidationResults]);
+    const spectral = await getSpectralEngine(ruleset);
+
+    // We need a timeout otherwise spectral will consume all the available cpu and the ui rendering will be blocked
+    // TODO: we need a web worker
+    setTimeout(async () => {
+      const results = await spectral.run(document);
+      setValidationResults(results);
+    }, 100);
+  }, [documentText, setValidationInProgress, setValidationResults, ruleset]);
 
   const [autoRefresh, setAutoRefresh] = useState(false);
 
@@ -98,14 +105,16 @@ const ValidationController = ({
 ValidationController.propTypes = {
   isValidationInProgress: PropTypes.bool.isRequired,
   documentText: PropTypes.string,
+  ruleset: PropTypes.oneOf([RULESET_ITALIAN, RULESET_BEST_PRACTICES, RULESET_SECURITY, RULESET_ITALIAN_PLUS_SECURITY]),
   setValidationInProgress: PropTypes.func.isRequired,
   setValidationResults: PropTypes.func.isRequired,
 };
 
 export default connect(
   (state) => ({
-    isValidationInProgress: isValidationInProgress(state),
     documentText: getDocumentText(state),
+    isValidationInProgress: isValidationInProgress(state),
+    ruleset: getRuleset(state),
   }),
   {
     setValidationResults,
