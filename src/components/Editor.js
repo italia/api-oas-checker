@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getHighlightLines, getLineToFocus } from '../redux/selectors.js';
+import { ERROR, getResultType } from '../utils.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -80,7 +81,8 @@ const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => 
         options: {
           isWholeLine: true,
           className: classes.editorHighlightLine,
-          glyphMarginClassName: line.severity === 1 ? classes.editorMarginError : classes.editorMarginWarning, // TODO: this check is too much duplicated
+          glyphMarginClassName:
+            getResultType(line.severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
         },
       });
     }

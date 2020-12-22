@@ -1,11 +1,13 @@
+import { ERROR, getResultType, WARNING } from '../utils.js';
+
 export const getValidationSummary = (state) => {
   if (isValidationInProgress(state) || getValidationResults(state) === null) {
     return null;
   }
 
   const summary = {
-    errors: state.validationState.results.filter((r) => r.severity === 1).length,
-    warnings: state.validationState.results.filter((r) => r.severity !== 1).length,
+    errors: state.validationState.results.filter((r) => getResultType(r.severity) === ERROR).length,
+    warnings: state.validationState.results.filter((r) => getResultType(r.severity) === WARNING).length,
   };
 
   return summary;
