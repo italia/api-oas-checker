@@ -1,4 +1,4 @@
-import React, { useReducer, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { Button, FormGroup } from 'design-react-kit';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
@@ -6,31 +6,11 @@ import Dialog from './Dialog.js';
 import { isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { setRuleset } from '../redux/actions.js';
 import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
-
-const initialState = {
-  isDialogOpen: false,
-};
-
-// TODO: this should be replace with a custom hook!
-const reducer = (state, action) => {
-  switch (action.type) {
-    case 'openDialog':
-      return { ...state, isDialogOpen: true };
-    case 'closeDialog':
-      return { ...state, isDialogOpen: false };
-    default:
-      return state;
-  }
-};
+import useDialogView from './useDialogView.js';
 
 const SettingsButton = ({ isValidationInProgress, className, ruleset, setRuleset }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  const closeDialog = useCallback(() => {
-    dispatch({ type: 'closeDialog' });
-  }, [dispatch]);
-  const openDialog = useCallback(() => {
-    dispatch({ type: 'openDialog' });
-  }, [dispatch]);
+  const [isDialogOpen, closeDialog, openDialog] = useDialogView();
+
   const renderBodyDialog = useCallback(
     () => (
       <FormGroup tag="div">
@@ -62,7 +42,7 @@ const SettingsButton = ({ isValidationInProgress, className, ruleset, setRuleset
       </Button>
 
       <Dialog
-        isOpen={state.isDialogOpen}
+        isOpen={isDialogOpen}
         title="Settings"
         labelCloseAction="Close"
         labelConfirmAction="Save"
