@@ -1,10 +1,14 @@
 import { isOpenApiv3, Spectral } from '@stoplight/spectral';
 
-const init = async () => {
-  const spectral = new Spectral();
-  spectral.registerFormat('oas3', isOpenApiv3);
-  await spectral.loadRuleset(`${location.href}ruleset-extra-security.yaml`); // TODO: this must be dynamic
+const spectral = new Spectral();
+spectral.registerFormat('oas3', isOpenApiv3);
+let currentRuleset = null;
+
+export const getSpectralEngine = async (ruleset) => {
+  console.log('ruleset', ruleset);
+  if (ruleset !== currentRuleset) {
+    await spectral.loadRuleset(`${location.href}${ruleset}`);
+    currentRuleset = ruleset;
+  }
   return spectral;
 };
-
-export const getSpectral = init;

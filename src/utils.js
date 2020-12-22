@@ -1,3 +1,18 @@
 export const ERROR = 'error';
 export const WARNING = 'warning';
+export const DEFAULT_DOCUMENT_URL = 'example.yaml';
+export const RULESET_ITALIAN = 'ruleset-italian.yaml';
+export const RULESET_BEST_PRACTICES = 'ruleset-best-practices.yaml';
+export const RULESET_SECURITY = 'ruleset-security.yaml';
+export const RULESET_ITALIAN_PLUS_SECURITY = 'ruleset-italian-plus-security.yaml';
+export const DEFAULT_RULESET = RULESET_ITALIAN_PLUS_SECURITY;
+
 export const getResultType = (severity) => (severity === 0 ? ERROR : WARNING);
+
+export const downloadFile = (content, fileName, contentType) => {
+  const anchorElement = document.createElement('a');
+  const file = new Blob([content], { type: contentType });
+  anchorElement.href = URL.createObjectURL(file);
+  anchorElement.download = fileName;
+  anchorElement.click();
+};

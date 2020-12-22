@@ -17,6 +17,8 @@ export const getValidationResults = (state) => state.validationState.results;
 
 export const isValidationInProgress = (state) => state.validationState.inProgress;
 
+export const getRuleset = (state) => state.validationState.ruleset;
+
 export const getValidationResultsInfo = (state) => {
   if (isValidationInProgress(state) || getValidationResults(state) === null) {
     return null;
