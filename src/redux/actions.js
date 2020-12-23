@@ -17,6 +17,10 @@ export const setValidationResults = (results) => ({
   results,
 });
 
+export const resetValidationResults = () => {
+  return setValidationResults(null);
+};
+
 export const setValidationInProgress = () => ({
   type: SET_VALIDATION_IN_PROGRESS,
 });

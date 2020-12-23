@@ -7,6 +7,7 @@ import { getDocumentText, getValidationResults, isValidationInProgress } from '.
 import LoadFromUrlButton from './LoadFromUrlButton.js';
 import SettingsButton from './SettingsButton.js';
 import { downloadFile } from '../utils.js';
+import UploadFileButton from './UploadFileButton.js';
 
 const useStyles = createUseStyles({
   formGroup: {
@@ -60,17 +61,9 @@ const Menu = ({ isValidationInProgress, documentText, validationResults }) => {
         </FormGroup>
       </div>
       <div className="border-top">
-        <FormGroup className={classes.formGroup} tag="div">
-          <Button
-            className={classes.button}
-            color="primary"
-            disabled={isValidationInProgress}
-            icon={false}
-            tag="button"
-          >
-            Upload file
-          </Button>
-        </FormGroup>
+        <div className={classes.formGroup} tag="div">
+          <UploadFileButton className={`btn btn-primary ${classes.button} mb-0`} />
+        </div>
         <FormGroup className={classes.formGroup} tag="div">
           <LoadFromUrlButton className={classes.button} />
         </FormGroup>

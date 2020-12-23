@@ -3,16 +3,17 @@ import { Button, Input } from 'design-react-kit';
 import Dialog from './Dialog.js';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setDocumentUrl } from '../redux/actions.js';
+import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 import useDialogView from './useDialogView.js';
 
-const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl }) => {
+const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl, resetValidationResults }) => {
   const [isDialogOpen, closeDialog, openDialog] = useDialogView();
   const [url, setUrl] = useState(null);
 
   const handleConfirmAction = useCallback(() => {
     setDocumentUrl(url);
+    resetValidationResults();
     closeDialog();
   }, [url, setDocumentUrl]);
 
@@ -50,6 +51,7 @@ LoadFromUrlButton.propTypes = {
   className: PropTypes.string.isRequired,
   isValidationInProgress: PropTypes.bool.isRequired,
   setDocumentUrl: PropTypes.func.isRequired,
+  resetValidationResults: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -58,5 +60,6 @@ export default connect(
   }),
   {
     setDocumentUrl,
+    resetValidationResults,
   }
 )(LoadFromUrlButton);
