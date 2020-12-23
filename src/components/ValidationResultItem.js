@@ -2,7 +2,10 @@ import React, { useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ERROR, getResultType, WARNING } from '../utils.js';
+import { ERROR, getResultType, getValidationResultItemPropTypes, WARNING } from '../utils.js';
+import { connect } from 'react-redux';
+import { getValidationResults } from '../redux/selectors.js';
+import { focusDocumentLine } from '../redux/actions.js';
 
 const type = {
   height: '16px',
@@ -22,9 +25,9 @@ const useStyle = createUseStyles({
     borderLeft: '8px solid var(--white)',
     borderRight: '8px solid var(--white)',
     '&:hover': {
-      borderColor: (resultInfo) => (getResultType(resultInfo.severity) === ERROR ? 'var(--danger)' : 'var(--warning)'),
-      backgroundColor: (resultInfo) =>
-        getResultType(resultInfo.severity) === WARNING ? 'var(--danger-hover)' : 'var(--warning-hover)',
+      borderColor: (resultItem) => (getResultType(resultItem.severity) === ERROR ? 'var(--danger)' : 'var(--warning)'),
+      backgroundColor: (resultItem) =>
+        getResultType(resultItem.severity) === WARNING ? 'var(--danger-hover)' : 'var(--warning-hover)',
     },
     '&:hover $warning': {
       border: '0px',
@@ -41,12 +44,19 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResultItem = ({ resultInfo, onResultClick }) => {
-  const classes = useStyle(resultInfo);
+const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
+  const classes = useStyle(resultItem);
+
+  const resultInfo = {
+    severity: resultItem.severity,
+    line: resultItem.range.start.line,
+    character: resultItem.range.start.character,
+    message: resultItem.message,
+  };
 
   const handleOnResultClick = useCallback(() => {
-    onResultClick({ line: resultInfo.line, character: resultInfo.character });
-  }, [resultInfo]);
+    focusDocumentLine({ line: resultInfo.line, character: resultInfo.character });
+  }, [resultInfo, focusDocumentLine]);
 
   return (
     <div
@@ -70,13 +80,15 @@ const ValidationResultItem = ({ resultInfo, onResultClick }) => {
 };
 
 ValidationResultItem.propTypes = {
-  resultInfo: PropTypes.shape({
-    character: PropTypes.number.isRequired,
-    line: PropTypes.number.isRequired,
-    message: PropTypes.string.isRequired,
-    severity: PropTypes.number.isRequired,
-  }).isRequired,
-  onResultClick: PropTypes.func.isRequired,
+  resultItem: getValidationResultItemPropTypes(),
+  focusDocumentLine: PropTypes.func.isRequired,
 };
 
-export default ValidationResultItem;
+export default connect(
+  (state) => ({
+    validationResults: getValidationResults(state),
+  }),
+  {
+    focusDocumentLine,
+  }
+)(ValidationResultItem);

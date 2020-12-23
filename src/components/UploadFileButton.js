@@ -1,20 +1,23 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { setDocumentUrl, setValidationResults, resetValidationResults } from '../redux/actions.js';
+import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 import cx from 'classnames';
 
-const UploadFileButton = ({ isValidationInProgress, className, setDocumentUrl, resetValidationResults }) => {
-  const loadFile = useCallback((e) => {
-    const file = e.target.files[0];
-    const reader = new FileReader();
-    reader.onload = (loadedEvent) => {
-      setDocumentUrl(loadedEvent.target.result);
-      resetValidationResults();
-    };
-    reader.readAsDataURL(file);
-  }, []);
+const UploadFileButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
+  const loadFile = useCallback(
+    (e) => {
+      const file = e.target.files[0];
+      const reader = new FileReader();
+      reader.onload = (loadedEvent) => {
+        setDocumentUrl(loadedEvent.target.result);
+        resetValidationResults();
+      };
+      reader.readAsDataURL(file);
+    },
+    [setDocumentUrl, resetValidationResults]
+  );
 
   const labelAsButton = cx(
     {
@@ -31,10 +34,9 @@ const UploadFileButton = ({ isValidationInProgress, className, setDocumentUrl, r
 };
 
 UploadFileButton.propTypes = {
-  className: PropTypes.string.isRequired,
   isValidationInProgress: PropTypes.bool.isRequired,
   setDocumentUrl: PropTypes.func.isRequired,
-  setValidationResults: PropTypes.func.isRequired,
+  resetValidationResults: PropTypes.func.isRequired,
 };
 
 export default connect(
@@ -43,7 +45,6 @@ export default connect(
   }),
   {
     setDocumentUrl,
-    setValidationResults,
     resetValidationResults,
   }
 )(UploadFileButton);

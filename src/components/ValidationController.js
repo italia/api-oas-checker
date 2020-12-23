@@ -1,5 +1,4 @@
 import React, { useCallback, useState, useEffect, useRef } from 'react';
-import cx from 'classnames';
 import { Document, Parsers } from '@stoplight/spectral';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
@@ -20,6 +19,10 @@ const useStyles = createUseStyles({
     fontSize: '1.5rem',
     animation: (isValidationInProgress) => isValidationInProgress && '$rotation 2s infinite',
   },
+  formGroupButtonValidate: {
+    composes: 'm-3',
+    flexGrow: (isValidationInProgress) => isValidationInProgress && 1,
+  },
 });
 
 const ValidationController = ({
@@ -30,12 +33,6 @@ const ValidationController = ({
   setValidationInProgress,
 }) => {
   const previousDocumentText = useRef();
-  const formGroupButtonValidateCx = cx(
-    {
-      'flex-grow-1': isValidationInProgress,
-    },
-    'm-3'
-  );
   const classes = useStyles(isValidationInProgress);
 
   const handleValidation = useCallback(async () => {
@@ -73,7 +70,7 @@ const ValidationController = ({
 
   return (
     <div className="d-flex align-items-center">
-      <FormGroup className={formGroupButtonValidateCx} tag="div">
+      <FormGroup className={classes.formGroupButtonValidate} tag="div">
         <Button
           data-testid="validation-button"
           className="w-100 py-2 px-3"

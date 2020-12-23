@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { Button, FormGroup } from 'design-react-kit';
+import { Button } from 'design-react-kit';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Dialog from './Dialog.js';
@@ -13,19 +13,17 @@ const SettingsButton = ({ isValidationInProgress, ruleset, setRuleset }) => {
 
   const renderBodyDialog = useCallback(
     () => (
-      <FormGroup tag="div">
-        <div className="bootstrap-select-wrapper">
-          <label>Profile</label>
-          <select className="bootstrap-select" value={ruleset} onChange={(e) => setRuleset(e.target.value)}>
-            <option value={RULESET_ITALIAN}>Italian API Guidelines</option>
-            <option value={RULESET_BEST_PRACTICES}>Best Practices Only</option>
-            <option value={RULESET_SECURITY}>Extra Security Checks</option>
-            <option value={RULESET_ITALIAN_PLUS_SECURITY}>Italian API Guidelines + Extra Security Checks</option>
-          </select>
-        </div>
-      </FormGroup>
+      <div className="bootstrap-select-wrapper mb-4">
+        <label>Profile</label>
+        <select className="bootstrap-select" value={ruleset} onChange={(e) => setRuleset(e.target.value)}>
+          <option value={RULESET_ITALIAN}>Italian API Guidelines</option>
+          <option value={RULESET_BEST_PRACTICES}>Best Practices Only</option>
+          <option value={RULESET_SECURITY}>Extra Security Checks</option>
+          <option value={RULESET_ITALIAN_PLUS_SECURITY}>Italian API Guidelines + Extra Security Checks</option>
+        </select>
+      </div>
     ),
-    [ruleset, setRuleset, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY, RULESET_BEST_PRACTICES, RULESET_ITALIAN]
+    [ruleset, setRuleset]
   );
 
   return (
