@@ -11,7 +11,7 @@ cd "$BASEDIR" || {
 
 RULES=$(echo *.yml | sed -e 's/.yml\b//g')
 RULES_REGEXP="${RULES// /|}"
-echo >&2 "$RULES"
+echo >&2 "available rules: $RULES"
 
 case "$1" in
 
@@ -46,6 +46,8 @@ case "$1" in
             echo "Unexpected test result"
             exit 1
         fi
+        echo "Ok"
+        exit 0
     ;;
     *)
         echo >&2 "Please specify a rule in: $RULES"

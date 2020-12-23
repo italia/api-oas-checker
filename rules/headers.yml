@@ -1,7 +1,11 @@
 rules:
   no-forbidden-headers:
+    x-tags:
+    - standards
     description: |-
-      OAS do not allow using Authorization, Content-Type and Accept in the spec.
+      OAS do not allow using the following HTTP headers in a specification
+      file: Authorization, Content-Type and Accept.
+      You MUST use the associate functionalities provided by OAS, instead.
     message: |-
       {{error}} in {{path}} {{value}}
     severity: error
@@ -15,12 +19,15 @@ rules:
           /^(accept|content-type|authorization)$/i
 
   no-x-headers-request: &no-x-headers
-    description: "All 'HTTP' headers SHOULD NOT include 'X-' headers (https://tools.ietf.org/html/rfc6648)."
+    x-tags:
+    - standards
+    description: |-
+      'HTTP' headers SHOULD NOT start with 'X-' [RFC6648](https://tools.ietf.org/html/rfc6648).
     severity: warn
     given:
       - "$..parameters[?(@.in == 'header')].name"
     message: |-
-      HTTP header '{{value}}' SHOULD NOT include 'X-' prefix in {{path}}
+      HTTP header '{{value}}' SHOULD NOT start with 'X-' in {{path}}
     recommended: true
     type: style
     then:
@@ -30,14 +37,11 @@ rules:
         match: >-
           /^([^x]|.[^-])|RateLimit-/i
   no-x-headers-response:
-    description: "All 'HTTP' headers SHOULD NOT include 'X-' headers (https://tools.ietf.org/html/rfc6648)."
-    severity: warn
+    <<: *no-x-headers
     given:
       - $.[responses][*].headers.*~
     message: |-
-      HTTP response header SHOULD NOT include 'X-' prefix in {{path}}
-    recommended: true
-    type: style
+      HTTP response header SHOULD NOT start with 'X-' in {{path}}
     then:
       function: pattern
       functionOptions:
