@@ -20,18 +20,18 @@ export const downloadFile = (content, fileName, contentType) => {
   anchorElement.click();
 };
 
-export const getValidationResultsPropTypes = () =>
-  PropTypes.arrayOf(
-    PropTypes.shape({
-      fingerprint: PropTypes.string.isRequired,
-      range: PropTypes.exact({
-        start: PropTypes.object,
-        end: PropTypes.shape({
-          line: PropTypes.number.isRequired,
-          character: PropTypes.number.isRequired,
-        }),
+export const getValidationResultsPropTypes = () => PropTypes.arrayOf(getValidationResultItemPropTypes());
+
+export const getValidationResultItemPropTypes = () =>
+  PropTypes.shape({
+    fingerprint: PropTypes.string.isRequired,
+    range: PropTypes.exact({
+      start: PropTypes.object,
+      end: PropTypes.shape({
+        line: PropTypes.number.isRequired,
+        character: PropTypes.number.isRequired,
       }),
-      message: PropTypes.string.isRequired,
-      severity: PropTypes.number.isRequired,
-    })
-  );
+    }),
+    message: PropTypes.string.isRequired,
+    severity: PropTypes.number.isRequired,
+  });

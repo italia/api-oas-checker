@@ -15,7 +15,7 @@ const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValida
     setDocumentUrl(url);
     resetValidationResults();
     closeDialog();
-  }, [url, setDocumentUrl]);
+  }, [url, setDocumentUrl, resetValidationResults, closeDialog]);
 
   const handleOnChange = useCallback((e) => {
     setUrl(e.target.value);

@@ -1,9 +1,7 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 import { getValidationResults } from '../redux/selectors.js';
-import { focusDocumentLine } from '../redux/actions.js';
 import ValidationResultItem from './ValidationResultItem.js';
 import { getValidationResultsPropTypes } from '../utils.js';
 
@@ -16,18 +14,10 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResults = ({ validationResults, focusDocumentLine }) => {
+const ValidationResults = ({ validationResults }) => {
   const classes = useStyle();
 
   if (validationResults === null) return null;
-
-  const resultsInfo = validationResults.map((r) => ({
-    fingerprint: r.fingerprint,
-    severity: r.severity,
-    line: r.range.start.line,
-    character: r.range.start.character,
-    message: r.message,
-  }));
 
   return (
     <>
@@ -37,8 +27,8 @@ const ValidationResults = ({ validationResults, focusDocumentLine }) => {
         <div className="col-10">Message</div>
       </div>
       <div className={classes.enableScrollResults}>
-        {resultsInfo.map((r) => (
-          <ValidationResultItem key={r.fingerprint} onResultClick={focusDocumentLine} resultInfo={r} />
+        {validationResults.map((r) => (
+          <ValidationResultItem key={r.fingerprint} resultItem={r} />
         ))}
       </div>
     </>
@@ -47,14 +37,8 @@ const ValidationResults = ({ validationResults, focusDocumentLine }) => {
 
 ValidationResults.propTypes = {
   validationResults: getValidationResultsPropTypes(),
-  focusDocumentLine: PropTypes.func.isRequired,
 };
 
-export default connect(
-  (state) => ({
-    validationResults: getValidationResults(state),
-  }),
-  {
-    focusDocumentLine, // TODO: move in the child component???
-  }
-)(ValidationResults);
+export default connect((state) => ({
+  validationResults: getValidationResults(state),
+}))(ValidationResults);
