@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useMemo, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -47,12 +47,15 @@ const useStyle = createUseStyles({
 const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
   const classes = useStyle(resultItem);
 
-  const resultInfo = {
-    severity: resultItem.severity,
-    line: getResultLine(resultItem),
-    character: resultItem.range.start.character,
-    message: resultItem.message,
-  };
+  const resultInfo = useMemo(
+    () => ({
+      severity: resultItem.severity,
+      line: getResultLine(resultItem),
+      character: resultItem.range.start.character,
+      message: resultItem.message,
+    }),
+    [resultItem]
+  );
 
   const handleOnResultClick = useCallback(() => {
     focusDocumentLine({ line: resultInfo.line, character: resultInfo.character });
