@@ -1,6 +1,5 @@
 export default [
   {
-    fingerprint: '1acv',
     code: 'string-maxlength',
     message: 'Test message 1',
     path: ['components', 'parameters', 'codBanca', 'schema'],
@@ -11,7 +10,6 @@ export default [
     },
   },
   {
-    fingerprint: '1kijn',
     code: 'string-maxlength',
     message: 'Test message 2',
     path: ['components', 'parameters', 'codBanca', 'schema'],
@@ -22,7 +20,6 @@ export default [
     },
   },
   {
-    fingerprint: '5tgfhbb',
     code: 'string-maxlength',
     message: 'Test message 3',
     path: ['components', 'parameters', 'codBanca', 'schema'],
