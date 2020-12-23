@@ -5,7 +5,6 @@ spectral.registerFormat('oas3', isOpenApiv3);
 let currentRuleset = null;
 
 export const getSpectralEngine = async (ruleset) => {
-  console.log('ruleset', ruleset);
   if (ruleset !== currentRuleset) {
     await spectral.loadRuleset(`${location.href}${ruleset}`);
     currentRuleset = ruleset;
