@@ -7,8 +7,12 @@ extends: spectral:oas
 
 rules:
   paths-kebab-case:
+    x-tags:
+      - it
     description: |
       Paths should be kebab-case.
+
+      See Italian Reccomendation RAC_REST_NAME_002.
     message: "{{property}} is not kebab-case: {{error}}"
     severity: warn
     recommended: true
@@ -18,35 +22,44 @@ rules:
       functionOptions:
         match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
   request-headers-pascal-case:
+    x-tags:
+      &a1
+      - it
     description: |
       Headers should be pascal-case.
+
+      See Italian Reccomendation RAC_REST_NAME_003.
     message: "{{value}} {{error}} in {{path}}"
     severity: hint
     recommended: true
     given:
       - $.[parameters][?(@.in=="header")].name
     then:
+      &a2
       function: casing
       functionOptions:
         type: pascal
         separator:
           char: "-"
   response-headers-pascal-case:
+    x-tags: *a1
     description: |
       Headers should be pascal-case.
+
+      See Italian Reccomendation RAC_REST_NAME_003.
     message: "Header {{error}}: {{path}}"
     severity: hint
     recommended: true
     given:
       - $.[responses][*].headers.*~
-    then:
-      function: casing
-      functionOptions:
-        type: pascal
-        separator:
-          char: "-"
+    then: *a2
   no-forbidden-headers:
-    description: OAS do not allow using Authorization, Content-Type and Accept in the spec.
+    x-tags:
+      - standards
+    description: |-
+      OAS do not allow using the following HTTP headers in a specification
+      file: Authorization, Content-Type and Accept.
+      You MUST use the associate functionalities provided by OAS, instead.
     message: "{{error}} in {{path}} {{value}}"
     severity: error
     given:
@@ -57,12 +70,14 @@ rules:
       functionOptions:
         notMatch: /^(accept|content-type|authorization)$/i
   no-x-headers-request:
-    description: All 'HTTP' headers SHOULD NOT include 'X-' headers
-      (https://tools.ietf.org/html/rfc6648).
+    x-tags:
+      - standards
+    description: "'HTTP' headers SHOULD NOT start with 'X-'
+      [RFC6648](https://tools.ietf.org/html/rfc6648)."
     severity: warn
     given:
       - $..parameters[?(@.in == 'header')].name
-    message: HTTP header '{{value}}' SHOULD NOT include 'X-' prefix in {{path}}
+    message: HTTP header '{{value}}' SHOULD NOT start with 'X-' in {{path}}
     recommended: true
     type: style
     then:
@@ -70,12 +85,14 @@ rules:
       functionOptions:
         match: /^([^x]|.[^-])|RateLimit-/i
   no-x-headers-response:
-    description: All 'HTTP' headers SHOULD NOT include 'X-' headers
-      (https://tools.ietf.org/html/rfc6648).
+    x-tags:
+      - standards
+    description: "'HTTP' headers SHOULD NOT start with 'X-'
+      [RFC6648](https://tools.ietf.org/html/rfc6648)."
     severity: warn
     given:
       - $.[responses][*].headers.*~
-    message: HTTP response header SHOULD NOT include 'X-' prefix in {{path}}
+    message: HTTP response header SHOULD NOT start with 'X-' in {{path}}
     recommended: true
     type: style
     then:
@@ -83,6 +100,9 @@ rules:
       functionOptions:
         match: /^([^x]|.[^-])|RateLimit-/i
   servers-description:
+    x-tags:
+      - metadata
+      - it
     description: Servers must have a description.
     message: Server {{path}} must have a description.
     given: $.servers[*]
@@ -92,9 +112,16 @@ rules:
       field: description
       function: truthy
   servers-use-https:
-    description: Servers must use https
-    message: "Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to declare
-      the server as a sandbox."
+    x-tags:
+      - security
+    description: |-
+      Servers must use https to ensure the origin of the responses
+      and protect the integrity and the  confidentiality of the communication.
+
+      You can use `http://` only on sandboxes environment.
+      Use `x-sandbox: true` to skip this kind of check.
+    message: "Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip
+      this check on a specific server."
     given: $.servers[?(@["x-sandbox"] != true)]
     severity: error
     recommended: true
@@ -104,7 +131,17 @@ rules:
       functionOptions:
         match: ^https://.*
   has-x-summary:
-    description: "API must have an one-liner summary field in #/info/x-summary"
+    x-tags:
+      - it
+      - metadata
+    message: "API MUST have an one-liner #/info/summary field containing a brief
+      description."
+    description: >-
+      The `#/info/x-summary` can be used to specify a brief, one-liner
+      description of your API: this is very useful for catalog purposes (eg.
+      this can be shown as your API subtitle in catalogs and developer portals).
+
+      In OAS3.1 you can use the standard `#/info/summary` field.
     given: $
     severity: error
     recommended: true
@@ -115,8 +152,10 @@ rules:
       field: info.x-summary
       function: truthy
   has-termsOfService:
-    description: "API MUST reference the URL of the Terms of Service in
-      #/info/termsOfService"
+    x-tags:
+      - metadata
+    description: API MUST reference the URL of the Terms of Service  in
+      `#/info/termsOfService`
     given: $
     severity: error
     recommended: true
@@ -127,6 +166,8 @@ rules:
       field: info.termsOfService
       function: truthy
   has-contact:
+    x-tags:
+      - metadata
     description: "API MUST reference a contact, either url or email in #/info/contact"
     given: $
     severity: error
@@ -138,7 +179,13 @@ rules:
       field: info.contact
       function: truthy
   has-x-api-id:
-    description: "API must have an unique identifier in x-api-id in #/info/x-api-id"
+    x-tags:
+      - it
+      - metadata
+    message: "API must have an unique identifier in x-api-id in #/info/x-api-id."
+    description: |-
+      The #/info/x-api-id field can be used to associate an identifier
+      to an API. This is useful to track an API even when its name changes.
     given: $
     severity: error
     recommended: true
@@ -158,7 +205,19 @@ rules:
       functionOptions:
         match: ^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?
   number-format:
-    description: Schema of type number or integer must specify a format.
+    x-tags:
+      - it
+      - RAC_REST_FORMAT_004
+    description: >-
+      Schema of type number or integer must specify a format
+
+      to express the associated datatype, eg. `int32`, `int64`, ...
+
+
+      You can express similar requirements using the `minimum` and `maximum` properties.
+
+
+      See recommendation RAC_REST_FORMAT_004.
     message: Schema of type number or integer must specify a format. {{path}}
     formats:
       - oas3
@@ -169,7 +228,19 @@ rules:
       field: format
       function: truthy
   integer-format:
-    description: Schema of type number or integer must specify a format.
+    x-tags:
+      - it
+      - RAC_REST_FORMAT_004
+    description: >-
+      Schema of type number or integer must specify a format
+
+      to express the associated datatype, eg. `int32`, `int64`, ...
+
+
+      You can express similar requirements using the `minimum` and `maximum` properties.
+
+
+      See recommendation RAC_REST_FORMAT_004.
     message: Schema of type number or integer must specify a format. {{path}}
     formats:
       - oas3
@@ -181,7 +252,14 @@ rules:
       field: format
       function: truthy
   allowed-integer-format:
-    description: Integer format is not valid.
+    x-tags:
+      - it
+      - RAC_REST_FORMAT_004
+    description: |-
+      To improve interoperability, integer and number formats are constrained
+      to a shared subset.
+
+      See recommendation RAC_REST_FORMAT_004.
     message: Type format is "{{value}}", expected one of [int32, int64]. {{path}}
     formats:
       - oas3
@@ -197,7 +275,14 @@ rules:
           - int32
           - int64
   allowed-number-format:
-    description: Number format is not valid.
+    x-tags:
+      - it
+      - RAC_REST_FORMAT_004
+    description: |-
+      To improve interoperability, integer and number formats are constrained
+      to a shared subset.
+
+      See recommendation RAC_REST_FORMAT_004.
     message: Type format is "{{value}}", expected one of [decimal32, decimal64,
       decimal128, float, double]. {{path}}
     formats:
@@ -229,9 +314,20 @@ rules:
       field: swagger
       function: falsy
   patch-media-type:
-    description: application/json is not an appropriate media-type for PATCH.
+    x-tags:
+      - standards
+    description: >-
+      The PATCH specification explicits that the request body contains
+
+      a "patch document" describing the changes to be applied
+
+      to the target resource.
+
+
+      To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)
+
+      explains that application/json is not an appropriate media-type for PATCH.
     message: application/json is not an appropriate media-type for PATCH. {{path}}
-      See https://www.rfc-editor.org/errata/eid3169
     formats:
       - oas3
     severity: error
@@ -241,6 +337,8 @@ rules:
       field: application/json
       function: falsy
   paths-status:
+    x-tags:
+      - it
     description: The "/status" path used to health-check the API must be defined.
     message: The "/status" path used to health-check the API must be defined. {{error}}
     severity: error
@@ -250,6 +348,8 @@ rules:
       field: paths./status.get.responses.200
       function: truthy
   paths-status-return-problem:
+    x-tags:
+      - it
     description: '"/status" must return a Problem object.'
     message: "{{error}}"
     severity: error
@@ -262,6 +362,8 @@ rules:
           - application/problem+xml
           - application/problem+json
   paths-status-problem-schema:
+    x-tags:
+      - it
     description: '"/status" schema is not a Problem object.'
     message: "{{error}} {{path}}"
     severity: warn
@@ -331,7 +433,12 @@ rules:
       functionOptions:
         notMatch: message|code|msg
   missing-retry-after:
-    description: APIs should use Retry-After on 429 and 503 responses.
+    description: |-
+      When a client is either:
+      * throttled out with a 429 status code;
+      * warned about a temporary server issue with a 503 status code;
+      the server should explicitly communicate how long to wait
+      before issuing further requests using the Retry-After header.
     message: "Missing ratelimit header: {{property}} in {{path}}"
     formats:
       - oas3
@@ -342,6 +449,8 @@ rules:
       field: Retry-After
       function: truthy
   missing-ratelimit:
+    x-tags:
+      - it
     description: APIs should use ratelimit headers at least on successful responses.
     message: Missing ratelimit headers. {{property}} {{error}} {{path}}
     formats:
