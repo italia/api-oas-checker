@@ -7,7 +7,7 @@ import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 import useDialogView from './useDialogView.js';
 
-const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl, resetValidationResults }) => {
+const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
   const [isDialogOpen, closeDialog, openDialog] = useDialogView();
   const [url, setUrl] = useState(null);
 
@@ -23,14 +23,7 @@ const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl, 
 
   return (
     <>
-      <Button
-        className={className}
-        onClick={openDialog}
-        color="primary"
-        disabled={isValidationInProgress}
-        icon={false}
-        tag="button"
-      >
+      <Button onClick={openDialog} color="primary" disabled={isValidationInProgress} icon={false} tag="button">
         From url
       </Button>
 
@@ -48,7 +41,6 @@ const LoadFromUrlButton = ({ isValidationInProgress, className, setDocumentUrl, 
 };
 
 LoadFromUrlButton.propTypes = {
-  className: PropTypes.string.isRequired,
   isValidationInProgress: PropTypes.bool.isRequired,
   setDocumentUrl: PropTypes.func.isRequired,
   resetValidationResults: PropTypes.func.isRequired,

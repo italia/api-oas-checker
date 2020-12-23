@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 export const ERROR = 'error';
 export const WARNING = 'warning';
 export const DEFAULT_DOCUMENT_URL = 'example.yaml';
+export const TEMPLATE_DOCUMENT_URL = 'template.yaml';
 export const RULESET_ITALIAN = 'ruleset-italian.yaml';
 export const RULESET_BEST_PRACTICES = 'ruleset-best-practices.yaml';
 export const RULESET_SECURITY = 'ruleset-security.yaml';

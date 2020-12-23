@@ -69,7 +69,10 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
   }, [documentUrl, setDocumentText]);
 
   useEffect(() => {
-    if (validationResults === null) return;
+    if (validationResults === null) {
+      decoration.current = editor.current.deltaDecorations(decoration.current, []);
+      return;
+    }
 
     const highlightLines = validationResults.map((r) => ({
       start: r.range.start.line,

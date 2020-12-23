@@ -8,7 +8,7 @@ import { setRuleset } from '../redux/actions.js';
 import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
 import useDialogView from './useDialogView.js';
 
-const SettingsButton = ({ isValidationInProgress, className, ruleset, setRuleset }) => {
+const SettingsButton = ({ isValidationInProgress, ruleset, setRuleset }) => {
   const [isDialogOpen, closeDialog, openDialog] = useDialogView();
 
   const renderBodyDialog = useCallback(
@@ -30,14 +30,7 @@ const SettingsButton = ({ isValidationInProgress, className, ruleset, setRuleset
 
   return (
     <>
-      <Button
-        className={className}
-        onClick={openDialog}
-        color="primary"
-        disabled={isValidationInProgress}
-        icon={false}
-        tag="button"
-      >
+      <Button onClick={openDialog} color="primary" disabled={isValidationInProgress} icon={false} tag="button">
         Settings
       </Button>
 
@@ -54,7 +47,6 @@ const SettingsButton = ({ isValidationInProgress, className, ruleset, setRuleset
 };
 
 SettingsButton.propTypes = {
-  className: PropTypes.string.isRequired,
   isValidationInProgress: PropTypes.bool.isRequired,
   ruleset: PropTypes.string.isRequired,
   setRuleset: PropTypes.func.isRequired,
