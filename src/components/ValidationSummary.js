@@ -1,9 +1,9 @@
 import React from 'react';
 import { Badge } from 'design-react-kit';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { getValidationSummary } from '../redux/selectors.js';
+import { getValidationResults } from '../redux/selectors.js';
 import { createUseStyles } from 'react-jss';
+import { ERROR, getResultType, getValidationResultsPropTypes, WARNING } from '../utils.js';
 const useStyles = createUseStyles({
   error: {
     backgroundColor: 'var(--danger)',
@@ -14,9 +14,15 @@ const useStyles = createUseStyles({
   },
 });
 
-const ValidationSummary = ({ summary }) => {
+const ValidationSummary = ({ validationResults }) => {
   const classes = useStyles();
-  if (summary === null) return null;
+
+  if (validationResults === null) return null;
+
+  const summary = {
+    errors: validationResults.filter((r) => getResultType(r.severity) === ERROR).length,
+    warnings: validationResults.filter((r) => getResultType(r.severity) === WARNING).length,
+  };
 
   return (
     <div className="d-flex p-3 bg-primary">
@@ -35,12 +41,9 @@ const ValidationSummary = ({ summary }) => {
 };
 
 ValidationSummary.propTypes = {
-  summary: PropTypes.exact({
-    errors: PropTypes.number.isRequired,
-    warnings: PropTypes.number.isRequired,
-  }),
+  validationResults: getValidationResultsPropTypes(),
 };
 
 export default connect((state) => ({
-  summary: getValidationSummary(state),
+  validationResults: getValidationResults(state),
 }))(ValidationSummary);

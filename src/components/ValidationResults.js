@@ -2,9 +2,10 @@ import React from 'react';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getValidationResultsInfo } from '../redux/selectors.js';
+import { getValidationResults } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
 import ValidationResultItem from './ValidationResultItem.js';
+import { getValidationResultsPropTypes } from '../utils.js';
 
 const useStyle = createUseStyles({
   enableScrollResults: { height: 'calc(100vh - 298px)', overflow: 'scroll' },
@@ -15,10 +16,18 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
+const ValidationResults = ({ validationResults, focusDocumentLine }) => {
   const classes = useStyle();
 
-  if (validationResultsInfo === null) return null;
+  if (validationResults === null) return null;
+
+  const resultsInfo = validationResults.map((r) => ({
+    fingerprint: r.fingerprint,
+    severity: r.severity,
+    line: r.range.start.line,
+    character: r.range.start.character,
+    message: r.message,
+  }));
 
   return (
     <>
@@ -28,7 +37,7 @@ const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
         <div className="col-10">Message</div>
       </div>
       <div className={classes.enableScrollResults}>
-        {validationResultsInfo.map((r) => (
+        {resultsInfo.map((r) => (
           <ValidationResultItem key={r.fingerprint} onResultClick={focusDocumentLine} resultInfo={r} />
         ))}
       </div>
@@ -37,21 +46,13 @@ const ValidationResults = ({ validationResultsInfo, focusDocumentLine }) => {
 };
 
 ValidationResults.propTypes = {
-  validationResultsInfo: PropTypes.arrayOf(
-    PropTypes.exact({
-      character: PropTypes.number.isRequired,
-      fingerprint: PropTypes.string.isRequired,
-      line: PropTypes.number.isRequired,
-      message: PropTypes.string.isRequired,
-      severity: PropTypes.number.isRequired,
-    })
-  ),
+  validationResults: getValidationResultsPropTypes(),
   focusDocumentLine: PropTypes.func.isRequired,
 };
 
 export default connect(
   (state) => ({
-    validationResultsInfo: getValidationResultsInfo(state),
+    validationResults: getValidationResults(state),
   }),
   {
     focusDocumentLine, // TODO: move in the child component???

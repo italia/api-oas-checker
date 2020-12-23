@@ -6,8 +6,8 @@ import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getDocumentUrl, getHighlightLines, getLineToFocus } from '../redux/selectors.js';
-import { ERROR, getResultType } from '../utils.js';
+import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
+import { ERROR, getResultType, getValidationResultsPropTypes } from '../utils.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -25,7 +25,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => {
+const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) => {
   const editorEl = useRef(null);
   const editor = useRef({});
   const decoration = useRef([]);
@@ -69,7 +69,13 @@ const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => 
   }, [documentUrl, setDocumentText]);
 
   useEffect(() => {
-    if (highlightLines === null) return;
+    if (validationResults === null) return;
+
+    const highlightLines = validationResults.map((r) => ({
+      start: r.range.start.line,
+      end: r.range.end.line,
+      severity: r.severity,
+    }));
 
     // TODO: here there is a performance issue.
     // Highlight issues
@@ -87,7 +93,7 @@ const Editor = ({ highlightLines, focusLine, documentUrl, setDocumentText }) => 
       });
     }
     decoration.current = editor.current.deltaDecorations([], newDecorations);
-  }, [highlightLines, classes.editorHighlightLine, classes.editorMarginError, classes.editorMarginWarning]);
+  }, [validationResults, classes.editorHighlightLine, classes.editorMarginError, classes.editorMarginWarning]);
 
   useEffect(() => {
     if (!focusLine) return;
@@ -106,19 +112,13 @@ Editor.propTypes = {
     character: PropTypes.number.isRequired,
   }),
   documentUrl: PropTypes.string,
-  highlightLines: PropTypes.arrayOf(
-    PropTypes.exact({
-      start: PropTypes.number.isRequired,
-      end: PropTypes.number.isRequired,
-      severity: PropTypes.number.isRequired,
-    })
-  ),
   setDocumentText: PropTypes.func.isRequired,
+  validationResults: getValidationResultsPropTypes(),
 };
 
 export default connect(
   (state) => ({
-    highlightLines: getHighlightLines(state),
+    validationResults: getValidationResults(state),
     focusLine: getLineToFocus(state),
     documentUrl: getDocumentUrl(state),
   }),
