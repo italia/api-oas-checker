@@ -11,6 +11,18 @@ describe('ValidationResults', () => {
     expect(screen.queryAllByTestId('validation-results-entry').length).toBe(0);
   });
 
+  it(`doesn't render nothing on zero problems`, () => {
+    render(<ValidationResults />, {
+      initialState: {
+        validationState: {
+          results: [],
+        },
+      },
+    });
+    expect(screen.queryByTestId('validation-results-header')).toBeNull();
+    expect(screen.queryAllByTestId('validation-results-entry').length).toBe(0);
+  });
+
   it(`renders results on validation end`, () => {
     render(<ValidationResults />, {
       initialState: {

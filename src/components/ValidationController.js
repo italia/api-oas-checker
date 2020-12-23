@@ -1,11 +1,11 @@
+import SpectralWorker from 'worker-loader!../spectral_worker.js';
+
 import React, { useCallback, useState, useEffect, useRef } from 'react';
-import { Document, Parsers } from '@stoplight/spectral';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDocumentText, isValidationInProgress, getRuleset } from '../redux/selectors.js';
-import { getSpectralEngine } from '../spectral.js';
 import { setValidationInProgress, setValidationResults } from '../redux/actions.js';
 import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
 
@@ -25,6 +25,8 @@ const useStyles = createUseStyles({
   },
 });
 
+const spectralWorker = new SpectralWorker();
+
 const ValidationController = ({
   documentText,
   isValidationInProgress,
@@ -35,28 +37,19 @@ const ValidationController = ({
   const previousDocumentText = useRef();
   const classes = useStyles(isValidationInProgress);
 
-  const handleValidation = useCallback(async () => {
+  const handleValidation = useCallback(() => {
     setValidationInProgress();
-    const document = new Document(documentText, Parsers.Yaml);
-    const spectral = await getSpectralEngine(ruleset);
-
-    // We need a timeout otherwise spectral will consume all the available cpu and the ui rendering will be blocked
-    // TODO: we need a web worker
-    setTimeout(async () => {
-      const results = await spectral.run(document);
-      setValidationResults(results);
-    }, 100);
+    spectralWorker.postMessage({ documentText, ruleset });
+    spectralWorker.onmessage = (event) => {
+      setValidationResults(event.data);
+    };
   }, [documentText, setValidationInProgress, setValidationResults, ruleset]);
 
   const [autoRefresh, setAutoRefresh] = useState(false);
 
   useEffect(() => {
     if (!autoRefresh || previousDocumentText.current === documentText) return;
-
-    const triggerValidation = async () => {
-      await handleValidation();
-    };
-    triggerValidation();
+    handleValidation();
   }, [documentText, autoRefresh, handleValidation]);
 
   // Get previous text prop to handle correctly auto-refresh

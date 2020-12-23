@@ -4,5 +4,6 @@ module.exports = {
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js',
+    '^worker-loader.+$': '<rootDir>/src/mocks/workerMock.js',
   },
 };

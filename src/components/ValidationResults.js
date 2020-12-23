@@ -17,7 +17,7 @@ const useStyle = createUseStyles({
 const ValidationResults = ({ validationResults }) => {
   const classes = useStyle();
 
-  if (validationResults === null) return null;
+  if (validationResults === null || validationResults.length === 0) return null;
 
   return (
     <>
@@ -27,8 +27,14 @@ const ValidationResults = ({ validationResults }) => {
         <div className="col-10">Message</div>
       </div>
       <div className={classes.enableScrollResults}>
+        {/* TODO: find a best option for the key param */}
         {validationResults.map((r) => (
-          <ValidationResultItem key={r.fingerprint} resultItem={r} />
+          <ValidationResultItem
+            key={`${r.code}-${r.range.start.line}-${r.range.end.line}-${r.range.start.character}-${
+              r.range.end.character
+            }-${r.message}-${r.path.join()}`}
+            resultItem={r}
+          />
         ))}
       </div>
     </>
