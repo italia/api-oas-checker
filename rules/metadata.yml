@@ -1,6 +1,10 @@
 rules:
   servers-description:
-    description: Servers must have a description.
+    x-tags:
+      - metadata
+      - it
+    description: |-
+      Servers must have a description.
     message: >-
       Server {{path}} must have a description.
     given: $.servers[*]
@@ -11,9 +15,17 @@ rules:
       function: truthy
 
   servers-use-https:
-    description: Servers must use https
+    x-tags:
+      - security
+    description: |-
+      Servers must use https to ensure the origin of the responses
+      and protect the integrity and the  confidentiality of the communication.
+
+      You can use `http://` only on sandboxes environment.
+      Use `x-sandbox: true` to skip this kind of check.
     message: >-
-      Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to declare the server as a sandbox.
+      Non-sandbox url  {{value}} {{error}}.
+      Add `x-sandbox: true` to skip this check on a specific server.
     given: >-
       $.servers[?(@["x-sandbox"] != true)]
     severity: error
@@ -25,8 +37,19 @@ rules:
         match: ^https://.*
 
   has-x-summary:
+    x-tags:
+      - it
+      - metadata
+    message: >-
+      API MUST have an one-liner #/info/summary field
+      containing a brief description.
     description: >-
-      API must have an one-liner summary field in #/info/x-summary
+      The `#/info/x-summary` can be used to specify a brief, one-liner
+      description of your API: this is very useful for catalog purposes
+      (eg. this can be shown as your API subtitle in catalogs and developer
+      portals).
+
+      In OAS3.1 you can use the standard `#/info/summary` field.
     given: $
     severity: error
     recommended: true
@@ -38,8 +61,11 @@ rules:
       function: truthy
 
   has-termsOfService:
+    x-tags:
+      - metadata
     description: >-
-      API MUST reference the URL of the Terms of Service in #/info/termsOfService
+      API MUST reference the URL of the Terms of Service 
+      in `#/info/termsOfService`
     given: $
     severity: error
     recommended: true
@@ -51,6 +77,8 @@ rules:
       function: truthy
 
   has-contact:
+    x-tags:
+      - metadata
     description: >-
       API MUST reference a contact, either url or email in #/info/contact
     given: $
@@ -64,8 +92,14 @@ rules:
       function: truthy
 
   has-x-api-id:
-    description: >-
-      API must have an unique identifier in x-api-id in #/info/x-api-id
+    x-tags:
+      - it
+      - metadata
+    message: >-
+      API must have an unique identifier in x-api-id in #/info/x-api-id.
+    description: |-
+      The #/info/x-api-id field can be used to associate an identifier
+      to an API. This is useful to track an API even when its name changes.
     given: $
     severity: error
     recommended: true

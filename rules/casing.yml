@@ -1,7 +1,11 @@
 rules:
   paths-kebab-case:
+    x-tags:
+    - it
     description: |
       Paths should be kebab-case.
+
+      See Italian Reccomendation RAC_REST_NAME_002.
     message: '{{property}} is not kebab-case: {{error}}'
     severity: warn
     recommended: true
@@ -13,9 +17,13 @@ rules:
       functionOptions:
         match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
 
-  request-headers-pascal-case:
+  request-headers-pascal-case: &request-headers-pascal-case
+    x-tags:
+    - it
     description: |
       Headers should be pascal-case.
+
+      See Italian Reccomendation RAC_REST_NAME_003.
     message: '{{value}} {{error}} in {{path}}'
     severity: hint
     recommended: true
@@ -28,16 +36,7 @@ rules:
         separator:
           char: '-'
   response-headers-pascal-case:
-    description: |
-      Headers should be pascal-case.
+    <<: *request-headers-pascal-case
     message: 'Header {{error}}: {{path}}'
-    severity: hint
-    recommended: true
     given:
     - $.[responses][*].headers.*~
-    then:
-      function: casing
-      functionOptions:
-        type: pascal
-        separator:
-          char: '-'
