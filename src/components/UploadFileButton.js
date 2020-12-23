@@ -20,15 +20,13 @@ const UploadFileButton = ({ isValidationInProgress, className, setDocumentUrl, r
     {
       disabled: isValidationInProgress,
     },
-    ['btn', 'btn-primary', `${className}`]
+    ['btn', 'btn-primary']
   );
 
   return (
-    <>
-      <label role="button" className={labelAsButton}>
-        Upload file <input type="file" hidden onChange={loadFile} />
-      </label>
-    </>
+    <label role="button" className={labelAsButton}>
+      Upload file <input type="file" hidden onChange={loadFile} />
+    </label>
   );
 };
 
