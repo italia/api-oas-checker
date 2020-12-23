@@ -35,3 +35,5 @@ export const getValidationResultItemPropTypes = () =>
     message: PropTypes.string.isRequired,
     severity: PropTypes.number.isRequired,
   });
+
+export const getResultLine = (result) => result.range.start.line + 1;

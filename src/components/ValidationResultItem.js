@@ -2,7 +2,7 @@ import React, { useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ERROR, getResultType, getValidationResultItemPropTypes, WARNING } from '../utils.js';
+import { ERROR, getResultLine, getResultType, getValidationResultItemPropTypes, WARNING } from '../utils.js';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
@@ -49,7 +49,7 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
 
   const resultInfo = {
     severity: resultItem.severity,
-    line: resultItem.range.start.line,
+    line: getResultLine(resultItem),
     character: resultItem.range.start.character,
     message: resultItem.message,
   };

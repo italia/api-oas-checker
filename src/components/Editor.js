@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR, getResultType, getValidationResultsPropTypes } from '../utils.js';
+import { ERROR, getResultLine, getResultType, getValidationResultsPropTypes } from '../utils.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -75,8 +75,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
     }
 
     const highlightLines = validationResults.map((r) => ({
-      start: r.range.start.line,
-      end: r.range.end.line,
+      start: getResultLine(r),
       severity: r.severity,
     }));
 
@@ -89,7 +88,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
         range: new monaco.Range(line.start, 1, line.start, 1),
         options: {
           isWholeLine: true,
-          className: classes.editorHighlightLine,
+          // className: classes.editorHighlightLine,
           glyphMarginClassName:
             getResultType(line.severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
         },
