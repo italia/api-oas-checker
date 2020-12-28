@@ -57,11 +57,17 @@ module.exports = {
     path: buildPath,
     publicPath: '',
   },
+  performance: {
+    hints: false,
+  },
   plugins: [
     // Removes/cleans build folders and unused assets when rebuilding
     new CleanWebpackPlugin(),
     new CopyWebpackPlugin({
-      patterns: [{ from: 'public_new_ui', to: '.' }],
+      patterns: [
+        { from: 'public', to: '.' },
+        { from: 'spectral*.yml', to: '.' },
+      ],
     }),
     new HtmlWebpackPlugin({
       template: `${srcPath}/index.html`,

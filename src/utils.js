@@ -5,10 +5,10 @@ export const WARNING = 'warning';
 export const DEFAULT_DOCUMENT_URL = 'example.yaml';
 export const TEMPLATE_DOCUMENT_URL =
   'https://raw.githubusercontent.com/teamdigitale/api-starter-kit/master/openapi/simple.yaml.src';
-export const RULESET_ITALIAN = 'ruleset-italian.yaml';
-export const RULESET_BEST_PRACTICES = 'ruleset-best-practices.yaml';
-export const RULESET_SECURITY = 'ruleset-security.yaml';
-export const RULESET_ITALIAN_PLUS_SECURITY = 'ruleset-italian-plus-security.yaml';
+export const RULESET_ITALIAN = 'spectral.yml';
+export const RULESET_BEST_PRACTICES = 'spectral-generic.yml';
+export const RULESET_SECURITY = 'spectral-security.yml';
+export const RULESET_ITALIAN_PLUS_SECURITY = 'spectral-full.yml';
 export const DEFAULT_RULESET = RULESET_ITALIAN;
 
 export const getResultType = (severity) => (severity === 0 ? ERROR : WARNING);

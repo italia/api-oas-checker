@@ -4,7 +4,6 @@
 #
 TMPDIR := $(shell mktemp  -u /tmp/fooXXXXXX)
 RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml
-# $(shell git config --get remote.origin.url)
 
 ifndef CIRCLE_REPOSITORY_URL
 	REPO_ORIGIN := "."
@@ -12,11 +11,45 @@ else
 	REPO_ORIGIN := $(CIRCLE_REPOSITORY_URL)
 endif
 
-all: setup test
+# Clean artifacts from the previous build
+# Install node dependencies
+# Generate spectral ruleset
+# Build js bundle
+# Run test suite
+all: clean install rules build test-ui
 
-# Create the web pages in bundle/
-bundle: rules dist 
+clean:
+	# Removing compiled bundle, node_modules and various rule profiles.
+	rm -rf node_modules $(RULE_FILES)
 
+install: yarn.lock
+	yarn install --frozen-lockfile
+
+# Generate ruleset
+rules: install $(RULE_FILES)
+spectral.yml: ./rules/
+	cat ./rules/rules-template.yml.template > $@
+	./rules/merge-yaml rules/*.yml >> $@
+spectral-generic.yml: ./rules/  spectral.yml
+	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
+spectral-security.yml: ./rules/  ./security/
+	cat ./rules/rules-template.yml.template > $@
+	./rules/merge-yaml security/*.yml >> $@
+spectral-full.yml: spectral.yml spectral-security.yml
+	./rules/merge-yaml spectral.yml spectral-security.yml > $@
+
+build: install rules
+	yarn bundle
+
+test-ui: install
+	yarn eslint
+	yarn test
+
+test:
+	bash test-ruleset.sh rules/ all
+	bash test-ruleset.sh security/ all
+
+# TODO remove and use https://www.npmjs.com/package/gh-pages
 gh-pages: bundle rules
 	rm dist -fr
 	git clone $(REPO_ORIGIN) $(TMPDIR) -b gh-pages
@@ -26,38 +59,3 @@ gh-pages: bundle rules
 		commit -m "Script updating gh-pages from $(shell git rev-parse --short HEAD). [ci skip]"
 	git -C $(TMPDIR) push -q origin gh-pages
 	rm $(TMPDIR) -fr
-
-# Merge all rules into spectral.yml
-rules: setup $(RULE_FILES)
-
-spectral.yml: ./rules/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml rules/*.yml >> $@
-
-spectral-generic.yml: ./rules/  spectral.yml
-	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
-
-spectral-security.yml: ./rules/  ./security/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml security/*.yml >> $@
-
-spectral-full.yml: spectral.yml spectral-security.yml
-	./rules/merge-yaml spectral.yml spectral-security.yml > $@
-
-clean:
-	# Removing compiled bundle, node_modules and various rule profiles.
-	rm -rf dist node_modules $(RULE_FILES)
-
-#
-# Preparation goals
-#
-setup: package.json yarn.lock
-	yarn
-	yarn build
-
-
-test: setup
-	bash test-ruleset.sh rules/ all
-	bash test-ruleset.sh security/ all
-	yarn test
-
