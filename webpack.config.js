@@ -3,13 +3,34 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const srcPath = path.resolve(__dirname, 'src');
 const buildPath = path.resolve(__dirname, 'dist');
+const isProduction = process.env.NODE_ENV === 'production';
+const optimization = isProduction
+  ? {
+      minimizer: [
+        // `...` is the webpack@5 syntax to extend existing minimizers (i.e. `terser-webpack-plugin`)
+        `...`,
+        new CssMinimizerPlugin(),
+      ],
+      splitChunks: {
+        cacheGroups: {
+          vendor: {
+            test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/, // monaco-editor has a huge bundle size
+            name: 'vendor',
+            chunks: 'all',
+          },
+        },
+      },
+    }
+  : {};
 
 module.exports = {
   entry: `${srcPath}/index.js`,
-  devtool: 'source-map',
+  devtool: isProduction ? false : 'source-map',
   devServer: {
     contentBase: buildPath,
     open: true,
@@ -18,11 +39,11 @@ module.exports = {
     port: 3000,
     host: '0.0.0.0', // To expose contents via docker
   },
-  mode: 'development',
+  mode: isProduction ? 'production' : 'development',
   module: {
     rules: [
       { test: /\.js$/, use: ['babel-loader'], exclude: /node_modules/ },
-      { test: /\.css$/, use: ['style-loader', 'css-loader'] },
+      { test: /\.css$/, use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'] },
       {
         test: /\.(woff(2)?|ico|png|jpg|jpeg|svg|ttf)$/i,
         type: 'asset',
@@ -30,6 +51,7 @@ module.exports = {
       },
     ],
   },
+  optimization,
   output: {
     filename: '[contenthash].js', // TODO: [name] is too long for monaco files and gh pages blocks js scripts
     path: buildPath,
@@ -38,14 +60,23 @@ module.exports = {
   plugins: [
     // Removes/cleans build folders and unused assets when rebuilding
     new CleanWebpackPlugin(),
+    new CopyWebpackPlugin({
+      patterns: [{ from: 'public_new_ui', to: '.' }],
+    }),
     new HtmlWebpackPlugin({
       template: `${srcPath}/index.html`,
       filename: 'index.html',
     }),
-    new CopyWebpackPlugin({
-      patterns: [{ from: 'public_new_ui', to: '.' }],
+    // Extracts CSS into separate files
+    new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
+    // new MonacoWebpackPlugin({
+    //   languages: ['yaml'],
+    //   features: [],
+    // }),
+
+    new MonacoWebpackPlugin({
+      languages: ['yaml'],
     }),
-    new MonacoWebpackPlugin(),
   ],
   resolve: {
     extensions: ['.js', '.json'],
@@ -56,5 +87,5 @@ module.exports = {
   },
   // https://github.com/webpack/webpack-dev-server/issues/2758#issuecomment-706840237
   // https://webpack.js.org/configuration/target/
-  target: process.env.NODE_ENV === 'production' ? 'browserslist' : 'web',
+  target: isProduction ? 'browserslist' : 'web',
 };

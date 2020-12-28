@@ -1,14 +1,16 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import { connect } from 'react-redux';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import Menu from './Menu.js';
-import Editor from './Editor.js';
 import ValidationController from './ValidationController.js';
 import ValidationSummary from './ValidationSummary.js';
 import ValidationResults from './ValidationResults.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
+
+// Lazy load editor to gain some ms on the fcp
+const Editor = React.lazy(() => import('./Editor.js'));
 
 const useStyles = createUseStyles({
   animate: {
@@ -46,7 +48,9 @@ const Main = ({ isMenuDisplayed }) => {
           <Menu />
         </aside>
         <section className={mainSection}>
-          <Editor />
+          <Suspense fallback={null}>
+            <Editor />
+          </Suspense>
         </section>
         <section className="col-md-4">
           <ValidationController />
