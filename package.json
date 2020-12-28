@@ -18,8 +18,7 @@
     "redux": "^4.0.5",
     "typeface-lora": "^1.1.13",
     "typeface-roboto-mono": "^1.1.13",
-    "typeface-titillium-web": "^1.1.13",
-    "yaml": "^1.7.2"
+    "typeface-titillium-web": "^1.1.13"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
