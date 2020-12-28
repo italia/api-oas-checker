@@ -13,13 +13,11 @@ const useStyles = createUseStyles({
     '& button': {
       padding: '8px 16px',
       width: '100%',
-      whiteSpace: 'nowrap', // required for a better menu animation
     },
     // TODO: remove duplication
     '& label': {
       padding: '8px 16px',
       width: '100%',
-      whiteSpace: 'nowrap', // required for a better menu animation
       marginBottom: 0,
     },
   },

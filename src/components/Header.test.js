@@ -11,8 +11,8 @@ describe('Header', () => {
 
   it('toggles menu', () => {
     render(<Header />);
-    expect(screen.queryByTestId('right-section').className.includes('col-sm-10')).toBeTruthy();
+    expect(screen.queryByTestId('right-section').className.includes('col-lg-10')).toBeTruthy();
     fireEvent.click(screen.queryByTestId('toogle-menu-icon'));
-    expect(screen.queryByTestId('right-section').className.includes('col-sm-11')).toBeTruthy();
+    expect(screen.queryByTestId('right-section').className.includes('col-lg-11')).toBeTruthy();
   });
 });
