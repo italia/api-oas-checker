@@ -28,7 +28,7 @@ const Main = ({ isMenuDisplayed }) => {
 
   const sideSection = cx(
     {
-      'col-lg-2 col-xxl-1': isMenuDisplayed,
+      'col-md-2 col-xxl-1': isMenuDisplayed,
       [classes['col-0']]: !isMenuDisplayed,
     },
     classes.animate
@@ -36,8 +36,8 @@ const Main = ({ isMenuDisplayed }) => {
 
   const mainSection = cx(
     {
-      'col-lg-6 col-xxl-7': isMenuDisplayed,
-      'col-lg-8': !isMenuDisplayed,
+      'col-md-6 col-xxl-7': isMenuDisplayed,
+      'col-md-8': !isMenuDisplayed,
     },
     classes.animate
   );
@@ -59,7 +59,7 @@ const Main = ({ isMenuDisplayed }) => {
             <Editor />
           </Suspense>
         </section>
-        <section className="col-xl-4">
+        <section className="col-md-4">
           <ValidationController />
           <ValidationSummary />
           <ValidationResults />
