@@ -9,7 +9,7 @@ import useDialogView from './useDialogView.js';
 
 const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
   const [isDialogOpen, closeDialog, openDialog] = useDialogView();
-  const [url, setUrl] = useState(null);
+  const [url, setUrl] = useState('');
 
   const handleConfirmAction = useCallback(() => {
     setDocumentUrl(url);
