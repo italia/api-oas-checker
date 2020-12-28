@@ -50,7 +50,7 @@ test:
 	bash test-ruleset.sh security/ all
 
 # TODO remove and use https://www.npmjs.com/package/gh-pages
-gh-pages: bundle rules
+gh-pages: build rules
 	rm dist -fr
 	git clone $(REPO_ORIGIN) $(TMPDIR) -b gh-pages
 	cp -r dist/* $(TMPDIR)
