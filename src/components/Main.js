@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
+import { Spinner } from 'design-react-kit';
 import Menu from './Menu.js';
 import ValidationController from './ValidationController.js';
 import ValidationSummary from './ValidationSummary.js';
@@ -48,7 +49,13 @@ const Main = ({ isMenuDisplayed }) => {
           <Menu />
         </aside>
         <section className={mainSection}>
-          <Suspense fallback={null}>
+          <Suspense
+            fallback={
+              <div className="d-flex h-100 align-items-center justify-content-center">
+                <Spinner active double small={false} tag="span" />
+              </div>
+            }
+          >
             <Editor />
           </Suspense>
         </section>
