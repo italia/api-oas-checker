@@ -1,0 +1,20 @@
+// We need breakpoints customization to better render the editor and menu on big monitors
+$grid-breakpoints: (
+        xs: 0,
+        sm: 576px,
+        md: 768px,
+        lg: 992px,
+        xl: 1200px,
+        xxl: 2048px
+);
+
+$danger: #db0026;
+$warning: #ffB600;
+
+:root {
+  --danger-hover: #fdf2f4;
+  --warning-text-dark: #33485c;
+  --warning-hover: #ffb6000d;
+};
+
+@import "../node_modules/bootstrap-italia/src/scss/bootstrap-italia";

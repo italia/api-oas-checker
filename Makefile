@@ -19,14 +19,14 @@ endif
 all: clean install rules build test-ui
 
 clean:
-	rm -rf node_modules
 	rm -f $(RULE_FILES)
 
 install: yarn.lock
+	rm -rf node_modules
 	yarn install --frozen-lockfile
 
 # Generate ruleset
-rules: clean install $(RULE_FILES)
+rules: clean $(RULE_FILES)
 
 spectral.yml: ./rules/
 	cat ./rules/rules-template.yml.template > $@
@@ -40,7 +40,8 @@ spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
 
 build: install rules
-	yarn bundle
+	yarn build-css
+	yarn build-js
 
 test-ui: install
 	yarn eslint
@@ -49,6 +50,9 @@ test-ui: install
 test:
 	bash test-ruleset.sh rules/ all
 	bash test-ruleset.sh security/ all
+
+start: rules build-css
+	webpack serve
 
 # TODO remove and use https://www.npmjs.com/package/gh-pages
 gh-pages: build rules
