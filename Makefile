@@ -19,14 +19,15 @@ endif
 all: clean install rules build test-ui
 
 clean:
-	# Removing compiled bundle, node_modules and various rule profiles.
-	rm -rf node_modules $(RULE_FILES)
+	rm -rf node_modules
+	rm -f $(RULE_FILES)
 
 install: yarn.lock
 	yarn install --frozen-lockfile
 
 # Generate ruleset
-rules: install $(RULE_FILES)
+rules: clean install $(RULE_FILES)
+
 spectral.yml: ./rules/
 	cat ./rules/rules-template.yml.template > $@
 	./rules/merge-yaml rules/*.yml >> $@
