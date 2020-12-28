@@ -13,6 +13,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         text: action.text,
+        url: null, // Invalidate document url in order to allow the reload of the same url if the text has been changed
       };
     case FOCUS_DOCUMENT_LINE:
       return {
