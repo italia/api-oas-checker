@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react';
 import axios from 'axios';
-import * as monaco from 'monaco-editor';
+import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
