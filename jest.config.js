@@ -1,4 +1,8 @@
 module.exports = {
+  globals: {
+    REPO_URL: 'https://localhost',
+    VERSION: '1.0.0',
+  },
   transformIgnorePatterns: ['/node_modules/(?!monaco-editor)/'],
   //ignore css imported in components
   moduleNameMapper: {

@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Badge, Icon } from 'design-react-kit';
+import { Icon } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import cx from 'classnames';
 import { toogleMenu } from '../redux/actions.js';
@@ -9,6 +9,7 @@ import PropTypes from 'prop-types';
 
 const useStyles = createUseStyles({
   version: {
+    composes: 'mr-1 m-2 badge badge-pill',
     backgroundColor: 'var(--white)',
     color: 'var(--primary)',
   },
@@ -17,6 +18,17 @@ const useStyles = createUseStyles({
   },
   animate: {
     transition: '0.3s ease-in-out',
+  },
+  anchor: {
+    composes: 'm-0 ml-auto',
+    color: 'var(--white)',
+    fontSize: '0.8rem',
+    '&:hover': {
+      color: 'var(--white)',
+    },
+    '&:focus': {
+      boxShadow: 'none',
+    },
   },
 });
 
@@ -71,12 +83,15 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
           <div data-testid="right-section" className={rightSection}>
             <img className="ml-4 mr-2" src="it.svg" alt="it logo" />
             <img className="mx-2" src="loghetto.svg" alt="checker logo" />
-            <h5 className="m-0">Italian OpenAPI Validation Checker</h5>
-            <Badge className={`mr-1 m-2 ${classes.version}`} color={'primary'} pill href="#" tag="span">
-              {/*TODO: webpack plugin provider. Get info from the package json*/}
-              Beta 0.2
-            </Badge>
-            <h6 className="m-0 ml-auto">Info + Repo</h6>
+            <span className="m-0 font-weight-semibold">Italian OpenAPI Validation Checker</span>
+            <span href="#" className={classes.version}>
+              {/* eslint-disable-next-line no-undef */}
+              Beta {VERSION}
+            </span>
+            {/* eslint-disable-next-line no-undef */}
+            <a className={classes.anchor} href={REPO_URL}>
+              Info + Repo
+            </a>
             <Icon color="white" className="p-2" icon="it-github" size="lg" />
           </div>
         </div>
