@@ -1,4 +1,4 @@
-import { getSpectralEngine } from './spectral.js';
+import { getSpectralEngine } from './spectral_engine.js';
 import { Document, Parsers } from '@stoplight/spectral';
 
 onmessage = async (e) => {

@@ -10,7 +10,7 @@ import {
   getValidationResultItemPropTypes,
   getValidationResultLine,
   getValidationResultType,
-} from '../spectral_utils.js';
+} from '../spectral/spectral_utils.js';
 
 const type = {
   height: '16px',
