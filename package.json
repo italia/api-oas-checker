@@ -47,6 +47,7 @@
     "monaco-editor-webpack-plugin": "^2.0.0",
     "node-sass": "^5.0.0",
     "prettier": "^2.2.1",
+    "sass-loader": "^10.1.0",
     "style-loader": "^2.0.0",
     "webpack": "^5.11.0",
     "webpack-bundle-analyzer": "^4.2.0",
@@ -63,9 +64,8 @@
   "repository": "italia/api-oas-checker",
   "scripts": {
     "eslint": "eslint src --fix",
-    "start": "make rules && yarn build-css && webpack serve",
+    "start": "make rules && webpack serve",
     "build": "make all",
-    "build-css": "node-sass scss/bootstrap-italia-custom.scss src/bootstrap-italia-custom.min.css --output-style compressed",
     "build-js": "NODE_ENV=production webpack",
     "bundle-analyze": "NODE_ENV=production webpack --analyze",
     "test": "jest"
