@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import 'typeface-titillium-web';
 import 'typeface-roboto-mono';
 import 'typeface-lora';
-import './bootstrap-italia-custom.min.css';
+import './scss/bootstrap-italia-custom.scss';
 import { Provider } from 'react-redux';
 import store from './redux/store.js';
 import App from './App.js';

@@ -43,7 +43,10 @@ module.exports = {
   module: {
     rules: [
       { test: /\.js$/, use: ['babel-loader'], exclude: /node_modules/ },
-      { test: /\.css$/, use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader'] },
+      {
+        test: /\.(s)?css$/,
+        use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'sass-loader'],
+      },
       {
         test: /\.(woff(2)?|ico|png|jpg|jpeg|svg|ttf)$/i,
         type: 'asset',
@@ -58,7 +61,8 @@ module.exports = {
     publicPath: '',
   },
   performance: {
-    hints: false,
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000,
   },
   plugins: [
     // Removes/cleans build folders and unused assets when rebuilding
@@ -75,10 +79,6 @@ module.exports = {
     }),
     // Extracts CSS into separate files
     new MiniCssExtractPlugin({ filename: '[name].[contenthash].css' }),
-    // new MonacoWebpackPlugin({
-    //   languages: ['yaml'],
-    //   features: [],
-    // }),
 
     new MonacoWebpackPlugin({
       languages: ['yaml'],

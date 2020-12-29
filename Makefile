@@ -40,7 +40,6 @@ spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
 
 build: install rules
-	yarn build-css
 	yarn build-js
 
 test-ui: install
@@ -51,11 +50,8 @@ test:
 	bash test-ruleset.sh rules/ all
 	bash test-ruleset.sh security/ all
 
-start: rules build-css
-	webpack serve
-
 # TODO remove and use https://www.npmjs.com/package/gh-pages
-gh-pages: build rules
+gh-pages: rules build
 	rm dist -fr
 	git clone $(REPO_ORIGIN) $(TMPDIR) -b gh-pages
 	cp -r dist/* $(TMPDIR)
