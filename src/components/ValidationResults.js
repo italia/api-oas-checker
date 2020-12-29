@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import ValidationResultItem from './ValidationResultItem.js';
-import { getValidationResultsPropTypes } from '../spectral_utils.js';
+import { getValidationResultsPropTypes, getValidationResultKey } from '../spectral_utils.js';
 
 const useStyle = createUseStyles({
   enableScrollResults: { height: 'calc(100vh - 298px)', overflow: 'scroll' },
@@ -27,14 +27,8 @@ const ValidationResults = ({ validationResults }) => {
         <div className="col-10">Message</div>
       </div>
       <div className={classes.enableScrollResults}>
-        {/* TODO: find a best option for the key param */}
         {validationResults.map((r) => (
-          <ValidationResultItem
-            key={`${r.code}-${r.range.start.line}-${r.range.end.line}-${r.range.start.character}-${
-              r.range.end.character
-            }-${r.message}-${r.path.join()}`}
-            resultItem={r}
-          />
+          <ValidationResultItem key={getValidationResultKey(r)} resultItem={r} />
         ))}
       </div>
     </>
