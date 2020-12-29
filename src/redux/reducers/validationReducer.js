@@ -18,7 +18,7 @@ export default function (state = initialState, action) {
     case SET_VALIDATION_IN_PROGRESS:
       return {
         ...state,
-        results: null, // TODO: check this
+        results: null,
         inProgress: true,
       };
     case SET_RULESET:
