@@ -6,7 +6,7 @@ import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDocumentText, isValidationInProgress, getRuleset } from '../redux/selectors.js';
-import { setValidationInProgress, setValidationResults } from '../redux/actions.js';
+import { resetValidationResults, setValidationInProgress, setValidationResults } from '../redux/actions.js';
 import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
 import { getUniqueValidationResults } from '../spectral_utils.js';
 
@@ -32,6 +32,7 @@ const ValidationController = ({
   documentText,
   isValidationInProgress,
   ruleset,
+  resetValidationResults,
   setValidationResults,
   setValidationInProgress,
 }) => {
@@ -42,10 +43,18 @@ const ValidationController = ({
     setValidationInProgress();
     spectralWorker.postMessage({ documentText, ruleset });
     spectralWorker.onmessage = (event) => {
+      if (event.data.error) {
+        console.error(event.data.error);
+        alert(`Error during validation
+        
+${event.data.error}`);
+        resetValidationResults();
+        return;
+      }
       const uniqueResults = getUniqueValidationResults(event.data);
       setValidationResults(uniqueResults);
     };
-  }, [documentText, setValidationInProgress, setValidationResults, ruleset]);
+  }, [documentText, resetValidationResults, setValidationInProgress, setValidationResults, ruleset]);
 
   const [autoRefresh, setAutoRefresh] = useState(false);
 
@@ -98,6 +107,7 @@ ValidationController.propTypes = {
   isValidationInProgress: PropTypes.bool.isRequired,
   documentText: PropTypes.string,
   ruleset: PropTypes.oneOf([RULESET_ITALIAN, RULESET_BEST_PRACTICES, RULESET_SECURITY, RULESET_ITALIAN_PLUS_SECURITY]),
+  resetValidationResults: PropTypes.func.isRequired,
   setValidationInProgress: PropTypes.func.isRequired,
   setValidationResults: PropTypes.func.isRequired,
 };
@@ -109,6 +119,7 @@ export default connect(
     ruleset: getRuleset(state),
   }),
   {
+    resetValidationResults,
     setValidationResults,
     setValidationInProgress,
   }

@@ -61,9 +61,14 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
     if (!documentUrl) return null;
 
     const loadDocumentFromUrl = async () => {
-      const { data: text } = await axios.get(documentUrl);
-      editor.current.getModel().setValue(text);
-      setDocumentText(text);
+      try {
+        const { data: text } = await axios.get(documentUrl);
+        editor.current.getModel().setValue(text);
+        setDocumentText(text);
+      } catch (e) {
+        console.error(e);
+        alert(e.message);
+      }
     };
 
     loadDocumentFromUrl();
