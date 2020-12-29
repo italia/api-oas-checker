@@ -2,7 +2,13 @@ import React, { useMemo, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ERROR, getResultLine, getResultType, getValidationResultItemPropTypes, WARNING } from '../utils.js';
+import {
+  ERROR,
+  getValidationResultLine,
+  getValidationResultType,
+  getValidationResultItemPropTypes,
+  WARNING,
+} from '../utils.js';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
@@ -25,9 +31,10 @@ const useStyle = createUseStyles({
     borderLeft: '8px solid var(--white)',
     borderRight: '8px solid var(--white)',
     '&:hover': {
-      borderColor: (resultItem) => (getResultType(resultItem.severity) === ERROR ? 'var(--danger)' : 'var(--warning)'),
+      borderColor: (resultItem) =>
+        getValidationResultType(resultItem.severity) === ERROR ? 'var(--danger)' : 'var(--warning)',
       backgroundColor: (resultItem) =>
-        getResultType(resultItem.severity) === WARNING ? 'var(--warning-hover)' : 'var(--danger-hover)',
+        getValidationResultType(resultItem.severity) === WARNING ? 'var(--warning-hover)' : 'var(--danger-hover)',
     },
     '&:hover $warning': {
       border: '0px',
@@ -50,7 +57,7 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
   const resultInfo = useMemo(
     () => ({
       severity: resultItem.severity,
-      line: getResultLine(resultItem),
+      line: getValidationResultLine(resultItem),
       character: resultItem.range.start.character,
       message: resultItem.message,
     }),
@@ -71,8 +78,8 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
       <div className="col-1 text-center">
         <div
           className={cx({
-            [classes.error]: getResultType(resultInfo.severity) === ERROR,
-            [classes.warning]: getResultType(resultInfo.severity) === WARNING,
+            [classes.error]: getValidationResultType(resultInfo.severity) === ERROR,
+            [classes.warning]: getValidationResultType(resultInfo.severity) === WARNING,
           })}
         ></div>
       </div>

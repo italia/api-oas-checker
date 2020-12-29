@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR, getResultType, getSeverityByLineMap, getValidationResultsPropTypes } from '../utils.js';
+import { ERROR, getValidationResultType, getSeverityByLineMap, getValidationResultsPropTypes } from '../utils.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -84,7 +84,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
         range: new monaco.Range(Number(line), 1, Number(line), 1),
         options: {
           glyphMarginClassName:
-            getResultType(severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
+            getValidationResultType(severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
         },
       });
     }

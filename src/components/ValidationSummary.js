@@ -3,7 +3,7 @@ import { Badge } from 'design-react-kit';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { createUseStyles } from 'react-jss';
-import { ERROR, getResultType, getValidationResultsPropTypes, WARNING } from '../utils.js';
+import { ERROR, getValidationResultType, getValidationResultsPropTypes, WARNING } from '../utils.js';
 const useStyles = createUseStyles({
   error: {
     backgroundColor: 'var(--danger)',
@@ -20,8 +20,8 @@ const ValidationSummary = ({ validationResults }) => {
   if (validationResults === null) return null;
 
   const summary = {
-    errors: validationResults.filter((r) => getResultType(r.severity) === ERROR).length,
-    warnings: validationResults.filter((r) => getResultType(r.severity) === WARNING).length,
+    errors: validationResults.filter((r) => getValidationResultType(r.severity) === ERROR).length,
+    warnings: validationResults.filter((r) => getValidationResultType(r.severity) === WARNING).length,
   };
 
   return (
