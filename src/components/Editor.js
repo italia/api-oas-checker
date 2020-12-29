@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR, getResultLine, getResultType, getValidationResultsPropTypes } from '../utils.js';
+import { ERROR, getResultType, getSeverityByLineMap, getValidationResultsPropTypes } from '../utils.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -74,23 +74,17 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
       return;
     }
 
-    const highlightLines = validationResults.map((r) => ({
-      start: getResultLine(r),
-      severity: r.severity,
-    }));
+    const lineSeverityMap = getSeverityByLineMap(validationResults);
 
-    // TODO: here there is a performance issue.
     // Highlight issues
     editor.current.deltaDecorations(decoration.current, []);
     const newDecorations = [];
-    for (const line of highlightLines) {
+    for (const [line, severity] of lineSeverityMap.entries()) {
       newDecorations.push({
-        range: new monaco.Range(line.start, 1, line.start, 1),
+        range: new monaco.Range(Number(line), 1, Number(line), 1),
         options: {
-          isWholeLine: true,
-          // className: classes.editorHighlightLine,
           glyphMarginClassName:
-            getResultType(line.severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
+            getResultType(severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
         },
       });
     }
