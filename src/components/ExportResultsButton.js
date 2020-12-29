@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getValidationResults, isValidationInProgress } from '../redux/selectors.js';
+import { getRawValidationResults, isValidationInProgress } from '../redux/selectors.js';
 import { Button } from 'design-react-kit';
 import { downloadFile } from '../utils.js';
 import { getValidationResultsPropTypes } from '../spectral_utils.js';
@@ -30,5 +30,5 @@ ExportResultsButton.propTypes = {
 
 export default connect((state) => ({
   isValidationInProgress: isValidationInProgress(state),
-  validationResults: getValidationResults(state),
+  validationResults: getRawValidationResults(state),
 }))(ExportResultsButton);

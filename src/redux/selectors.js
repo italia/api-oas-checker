@@ -1,4 +1,5 @@
 export const getValidationResults = (state) => state.validationState.results;
+export const getRawValidationResults = (state) => state.validationState.rawResults;
 
 export const isValidationInProgress = (state) => state.validationState.inProgress;
 

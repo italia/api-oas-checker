@@ -1,8 +1,10 @@
 import { SET_VALIDATION_RESULTS, SET_VALIDATION_IN_PROGRESS, SET_RULESET } from '../actionTypes.js';
 import { DEFAULT_RULESET } from '../../utils.js';
+import { getUniqueValidationResults } from '../../spectral_utils.js';
 
 const initialState = {
-  results: null, // null to explicitly declare that the results are not available
+  results: null, // null to explicitly declare that the results are not available ([] -> when there are no errors)
+  rawResults: null, // https://github.com/italia/api-oas-checker/issues/79
   inProgress: false,
   ruleset: DEFAULT_RULESET,
 };
@@ -13,13 +15,15 @@ export default function (state = initialState, action) {
       return {
         ...state,
         inProgress: false,
-        results: action.results,
+        rawResults: action.results,
+        results: getUniqueValidationResults(action.results),
       };
     case SET_VALIDATION_IN_PROGRESS:
       return {
         ...state,
-        results: null,
         inProgress: true,
+        rawResults: null,
+        results: null,
       };
     case SET_RULESET:
       return {
