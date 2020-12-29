@@ -61,7 +61,7 @@
   ],
   "license": "AGPL-3.0",
   "name": "api-oas-checker",
-  "repository": "italia/api-oas-checker",
+  "repository": "https://github.com/italia/api-oas-checker",
   "scripts": {
     "eslint": "eslint src --fix",
     "start": "make rules && webpack serve",

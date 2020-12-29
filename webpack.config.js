@@ -5,6 +5,8 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const webpack = require('webpack');
+const packageJson = require('./package.json');
 
 const srcPath = path.resolve(__dirname, 'src');
 const buildPath = path.resolve(__dirname, 'dist');
@@ -72,6 +74,10 @@ module.exports = {
         { from: 'public', to: '.' },
         { from: 'spectral*.yml', to: '.' },
       ],
+    }),
+    new webpack.DefinePlugin({
+      REPO_URL: JSON.stringify(packageJson.repository),
+      VERSION: JSON.stringify(packageJson.version),
     }),
     new HtmlWebpackPlugin({
       template: `${srcPath}/index.html`,
