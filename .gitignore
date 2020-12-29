@@ -6,6 +6,7 @@
 /dist
 /assets
 *.zip
+spectral*.yml
 /css
 /fonts
 /svg
