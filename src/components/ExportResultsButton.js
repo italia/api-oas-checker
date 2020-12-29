@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { getRawValidationResults, isValidationInProgress } from '../redux/selectors.js';
 import { Button } from 'design-react-kit';
 import { downloadFile } from '../utils.js';
-import { getValidationResultsPropTypes } from '../spectral_utils.js';
+import { getValidationResultsPropTypes } from '../spectral/spectral_utils.js';
 
 const ExportResultsButton = ({ isValidationInProgress, validationResults }) => {
   const exportValidationResults = useCallback(() => {

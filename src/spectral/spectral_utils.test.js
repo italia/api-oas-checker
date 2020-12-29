@@ -1,5 +1,5 @@
 import { getSeverityByLineMap, getUniqueValidationResults, getValidationResultKey } from './spectral_utils.js';
-import { duplicatedValidationResultsMock } from './mocks/validationResultsMock.js';
+import { duplicatedValidationResultsMock } from '../mocks/validationResultsMock.js';
 
 describe('Utils', () => {
   describe('getSeverityByLineMap', () => {

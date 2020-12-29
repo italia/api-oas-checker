@@ -8,7 +8,11 @@ import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
 import { ERROR } from '../utils.js';
-import { getSeverityByLineMap, getValidationResultsPropTypes, getValidationResultType } from '../spectral_utils.js';
+import {
+  getSeverityByLineMap,
+  getValidationResultsPropTypes,
+  getValidationResultType,
+} from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
   editor: {

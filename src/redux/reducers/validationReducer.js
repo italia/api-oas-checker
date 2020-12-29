@@ -1,6 +1,6 @@
 import { SET_VALIDATION_RESULTS, SET_VALIDATION_IN_PROGRESS, SET_RULESET } from '../actionTypes.js';
 import { DEFAULT_RULESET } from '../../utils.js';
-import { getUniqueValidationResults } from '../../spectral_utils.js';
+import { getUniqueValidationResults } from '../../spectral/spectral_utils.js';
 
 const initialState = {
   results: null, // null to explicitly declare that the results are not available ([] -> when there are no errors)

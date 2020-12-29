@@ -1,4 +1,4 @@
-import SpectralWorker from 'worker-loader!../spectral_worker.js';
+import SpectralWorker from 'worker-loader!../spectral/spectral_worker.js';
 
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
