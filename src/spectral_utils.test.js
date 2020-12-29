@@ -1,4 +1,5 @@
-import { getSeverityByLineMap } from './utils.js';
+import { getSeverityByLineMap, getUniqueValidationResults, getValidationResultKey } from './spectral_utils.js';
+import { duplicatedValidationResultsMock } from './mocks/validationResultsMock.js';
 
 describe('Utils', () => {
   describe('getSeverityByLineMap', () => {
@@ -93,6 +94,20 @@ describe('Utils', () => {
       ];
       const lineSeverityMap = getSeverityByLineMap(validationResults);
       expect(lineSeverityMap.get(8)).toBe(1);
+    });
+  });
+
+  describe('Deduplicate validation results', () => {
+    it('returns the correct key', () => {
+      expect(getValidationResultKey(duplicatedValidationResultsMock[0])).toBe('string-maxlength-0-7-Test message 1');
+    });
+
+    it('cleans validation results from duplicates', () => {
+      const uniqueResults = getUniqueValidationResults(duplicatedValidationResultsMock);
+      expect(uniqueResults.length).toBe(3);
+      expect(uniqueResults.some((r) => r.code === 'string-maxlength' && r.severity === 0)).toBeTruthy();
+      expect(uniqueResults.some((r) => r.code === 'string-maxlength' && r.severity === 1)).toBeTruthy();
+      expect(uniqueResults.some((r) => r.code === 'another-code' && r.severity === 1)).toBeTruthy();
     });
   });
 });

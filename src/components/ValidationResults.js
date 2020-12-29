@@ -3,7 +3,7 @@ import { createUseStyles } from 'react-jss';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import ValidationResultItem from './ValidationResultItem.js';
-import { getValidationResultsPropTypes } from '../utils.js';
+import { getValidationResultsPropTypes } from '../spectral_utils.js';
 
 const useStyle = createUseStyles({
   enableScrollResults: { height: 'calc(100vh - 298px)', overflow: 'scroll' },

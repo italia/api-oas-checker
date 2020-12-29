@@ -3,7 +3,8 @@ import { Badge } from 'design-react-kit';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { createUseStyles } from 'react-jss';
-import { ERROR, getValidationResultType, getValidationResultsPropTypes, WARNING } from '../utils.js';
+import { ERROR, WARNING } from '../utils.js';
+import { getValidationResultsPropTypes, getValidationResultType } from '../spectral_utils.js';
 const useStyles = createUseStyles({
   error: {
     backgroundColor: 'var(--danger)',

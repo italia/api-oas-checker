@@ -2,16 +2,15 @@ import React, { useMemo, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import {
-  ERROR,
-  getValidationResultLine,
-  getValidationResultType,
-  getValidationResultItemPropTypes,
-  WARNING,
-} from '../utils.js';
+import { ERROR, WARNING } from '../utils.js';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
+import {
+  getValidationResultItemPropTypes,
+  getValidationResultLine,
+  getValidationResultType,
+} from '../spectral_utils.js';
 
 const type = {
   height: '16px',

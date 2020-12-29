@@ -2,7 +2,7 @@ import React from 'react';
 
 import { render, screen } from '../test-utils.js';
 import ValidationResults from './ValidationResults.js';
-import validationResultsMock from '../mocks/validationResultsMock.js';
+import { validationResultsMock } from '../mocks/validationResultsMock.js';
 
 describe('ValidationResults', () => {
   it(`doesn't render nothing on init`, () => {

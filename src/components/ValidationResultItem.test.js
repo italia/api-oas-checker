@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { render, screen } from '../test-utils.js';
-import validationResultsMock from '../mocks/validationResultsMock.js';
+import { validationResultsMock } from '../mocks/validationResultsMock.js';
 import ValidationResultItem from './ValidationResultItem.js';
 
 describe('ValidationResultItem', () => {
