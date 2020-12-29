@@ -8,7 +8,6 @@ import PropTypes from 'prop-types';
 import { getDocumentText, isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { resetValidationResults, setValidationInProgress, setValidationResults } from '../redux/actions.js';
 import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
-import { getUniqueValidationResults } from '../spectral_utils.js';
 
 const useStyles = createUseStyles({
   '@keyframes rotation': {
@@ -51,8 +50,7 @@ ${event.data.error}`);
         resetValidationResults();
         return;
       }
-      const uniqueResults = getUniqueValidationResults(event.data);
-      setValidationResults(uniqueResults);
+      setValidationResults(event.data);
     };
   }, [documentText, resetValidationResults, setValidationInProgress, setValidationResults, ruleset]);
 
