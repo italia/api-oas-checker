@@ -37,3 +37,24 @@ export const getValidationResultItemPropTypes = () =>
   });
 
 export const getResultLine = (result) => result.range.start.line + 1;
+
+/**
+ * Returns a map of that contains association between line and corresponding error severity.
+ * It reduces several severities that could insist on the same line to one, giving more priority to error severity.
+ */
+export const getSeverityByLineMap = (validationResults) => {
+  const lineSeverityMap = validationResults.reduce((lineSeverityMap, result) => {
+    const line = getResultLine(result);
+    if (!lineSeverityMap.has(line)) {
+      lineSeverityMap.set(line, result.severity);
+      return lineSeverityMap;
+    }
+
+    if (getResultType(result.severity) === ERROR) {
+      lineSeverityMap.set(line, result.severity);
+    }
+    return lineSeverityMap;
+  }, new Map());
+
+  return lineSeverityMap;
+};
