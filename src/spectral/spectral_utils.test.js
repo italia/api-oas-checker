@@ -95,6 +95,12 @@ describe('Utils', () => {
       const lineSeverityMap = getSeverityByLineMap(validationResults);
       expect(lineSeverityMap.get(8)).toBe(1);
     });
+
+    it('returns an empty map without errors', () => {
+      const validationResults = null;
+      const lineSeverityMap = getSeverityByLineMap(validationResults);
+      expect(lineSeverityMap.size).toBe(0);
+    });
   });
 
   describe('Deduplicate validation results', () => {
@@ -108,6 +114,11 @@ describe('Utils', () => {
       expect(uniqueResults.some((r) => r.code === 'string-maxlength' && r.severity === 0)).toBeTruthy();
       expect(uniqueResults.some((r) => r.code === 'string-maxlength' && r.severity === 1)).toBeTruthy();
       expect(uniqueResults.some((r) => r.code === 'another-code' && r.severity === 1)).toBeTruthy();
+    });
+
+    it('returns null without errors', () => {
+      const uniqueResults = getUniqueValidationResults(null);
+      expect(uniqueResults).toBeNull();
     });
   });
 });
