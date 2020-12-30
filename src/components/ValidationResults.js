@@ -6,7 +6,7 @@ import ValidationResultItem from './ValidationResultItem.js';
 import { getValidationResultsPropTypes, getValidationResultKey } from '../spectral/spectral_utils.js';
 
 const useStyle = createUseStyles({
-  enableScrollResults: { height: 'calc(100vh - 308px)', overflow: 'scroll' },
+  enableScrollResults: { height: 'calc(100vh - 371px)', overflow: 'scroll' },
   headerResults: {
     composes: 'row py-3 no-gutters',
     borderLeft: '8px solid var(--white)',

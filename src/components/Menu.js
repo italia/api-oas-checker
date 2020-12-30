@@ -1,7 +1,6 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
 import LoadFromUrlButton from './LoadFromUrlButton.js';
-import SettingsButton from './SettingsButton.js';
 import UploadFileButton from './UploadFileButton.js';
 import ExportResultsButton from './ExportResultsButton.js';
 import SaveFileButton from './SaveFileButton.js';
@@ -45,11 +44,6 @@ const Menu = () => {
         </div>
         <div className={classes.buttonContainer}>
           <LoadTemplateButton />
-        </div>
-      </section>
-      <section className="border-top">
-        <div className={classes.buttonContainer}>
-          <SettingsButton />
         </div>
       </section>
     </>

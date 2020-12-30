@@ -9,6 +9,7 @@ import ValidationController from './ValidationController.js';
 import ValidationSummary from './ValidationSummary.js';
 import ValidationResults from './ValidationResults.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
+import RulesetSelect from './RulesetSelect.js';
 
 // Lazy load editor to gain some ms on the fcp
 const Editor = React.lazy(() => import('./Editor.js'));
@@ -82,7 +83,8 @@ const Main = ({ isMenuDisplayed }) => {
             <Editor />
           </Suspense>
         </section>
-        <section className="col-md-4">
+        <section className="col-md-4 pt-2">
+          <RulesetSelect />
           <ValidationController />
           <ValidationSummary />
           <ValidationResults />
