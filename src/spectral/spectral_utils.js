@@ -21,6 +21,8 @@ export const getValidationResultLine = (result) => result.range.start.line + 1;
  * It reduces several severities that could insist on the same line to one, giving more priority to the highest severity.
  */
 export const getSeverityByLineMap = (validationResults) => {
+  if (validationResults === null) return new Map();
+
   const lineSeverityMap = validationResults.reduce((lineSeverityMap, result) => {
     const line = getValidationResultLine(result);
     if (!lineSeverityMap.has(line)) {
@@ -38,6 +40,8 @@ export const getSeverityByLineMap = (validationResults) => {
 };
 // https://github.com/italia/api-oas-checker/issues/79
 export const getUniqueValidationResults = (results) => {
+  if (results === null) return null;
+
   const uniqueResultsMap = results.reduce((uniqueResultsMap, result) => {
     const key = getValidationResultKey(result);
     if (!uniqueResultsMap.has(key)) {
