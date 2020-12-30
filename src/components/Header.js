@@ -36,8 +36,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
   const classes = useStyles();
   const leftSection = cx(
     {
-      'col-md-2 col-xxl-1': isMenuDisplayed,
-      'col-md-1 col-xxl-1': !isMenuDisplayed,
+      'col-lg-2 col-xxl-1': isMenuDisplayed,
+      'col-lg-1 col-xxl-1': !isMenuDisplayed,
       'bg-white': isMenuDisplayed,
     },
     'd-flex',
@@ -48,8 +48,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
 
   const rightSection = cx(
     {
-      'col-md-10 col-xxl-11': isMenuDisplayed,
-      'col-md-11 col-xxl-11': !isMenuDisplayed,
+      'col-lg-10 col-xxl-11': isMenuDisplayed,
+      'col-lg-11 col-xxl-11': !isMenuDisplayed,
     },
     'd-flex',
     'justify-content-center',

@@ -45,7 +45,7 @@ const Main = ({ isMenuDisplayed }) => {
 
   const sideSection = cx(
     {
-      'col-md-2 col-xxl-1': isMenuDisplayed,
+      'col-lg-2 col-xxl-1': isMenuDisplayed,
       [classes['col-0']]: !isMenuDisplayed,
     },
     classes.animate
@@ -53,16 +53,16 @@ const Main = ({ isMenuDisplayed }) => {
 
   const editorSection = cx(
     {
-      'col-md-6 col-xxl-7': isMenuDisplayed,
-      'col-md-8': !isMenuDisplayed,
+      'col-lg-6 col-xxl-7': isMenuDisplayed,
+      'col-lg-8': !isMenuDisplayed,
     },
     classes.editor
   );
 
   const footer = cx(
     {
-      'col-md-10 col-xxl-11': isMenuDisplayed,
-      'col-md-12': !isMenuDisplayed,
+      'col-lg-10 col-xxl-11': isMenuDisplayed,
+      'col-lg-12': !isMenuDisplayed,
     },
     classes.footer
   );
@@ -84,7 +84,7 @@ const Main = ({ isMenuDisplayed }) => {
             <Editor />
           </Suspense>
         </section>
-        <section className="col-md-4 pt-2">
+        <section className="col-lg-4 pt-2">
           <RulesetSelect />
           <ValidationController />
           <ValidationSummary />
