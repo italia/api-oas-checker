@@ -63,11 +63,12 @@
   "name": "api-oas-checker",
   "repository": "https://github.com/italia/api-oas-checker",
   "scripts": {
-    "eslint": "eslint src --fix",
-    "start": "make rules && webpack serve",
     "build": "make all",
     "build-js": "NODE_ENV=production webpack",
     "bundle-analyze": "NODE_ENV=production webpack --analyze",
+    "deploy": "gh-pages -d dist",
+    "eslint": "eslint src --fix",
+    "start": "make rules && webpack serve",
     "test": "jest"
   },
   "version": "0.2.0"
