@@ -17,7 +17,6 @@ import {
 const useStyles = createUseStyles({
   editor: {
     height: 'calc(100vh - 90px)',
-    overflow: 'auto',
   },
   editorMarginError: {
     backgroundColor: 'var(--danger)',
