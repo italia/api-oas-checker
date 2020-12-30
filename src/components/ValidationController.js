@@ -40,7 +40,7 @@ const ValidationController = ({
 
   const handleValidation = useCallback(() => {
     setValidationInProgress();
-    spectralWorker.postMessage({ documentText, ruleset });
+    spectralWorker.postMessage({ documentText, ruleset: `${location.href}${ruleset}` });
     spectralWorker.onmessage = (event) => {
       if (event.data.error) {
         console.error(event.data.error);
