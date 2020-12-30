@@ -82,8 +82,8 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
           })}
         ></div>
       </div>
-      <div className="col-1 text-center">{resultInfo.line}</div>
-      <div className={`col-10 ${classes.resultMessage}`}>{resultInfo.message}</div>
+      <div className="col-2 col-xxl-1 text-center">{resultInfo.line}</div>
+      <div className={`col-9 col-xxl-10 ${classes.resultMessage}`}>{resultInfo.message}</div>
     </div>
   );
 };
