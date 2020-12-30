@@ -24,6 +24,7 @@ const useStyles = createUseStyles({
   },
   editor: {
     extend: 'animate',
+    overflow: 'hidden',
     borderLeft: '10px solid var(--primary)',
   },
   footer: {
