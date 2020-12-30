@@ -58,7 +58,7 @@ module.exports = {
   },
   optimization,
   output: {
-    filename: '[contenthash].js', // TODO: [name] is too long for monaco files and gh pages blocks js scripts
+    filename: '[name].[contenthash].js',
     path: buildPath,
     publicPath: '',
   },
