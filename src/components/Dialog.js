@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import PropTypes from 'prop-types';
 
@@ -11,29 +11,20 @@ const Dialog = ({
   renderBody,
   title,
 }) => {
+  useEffect(() => {
+    const bindKeyboardEvent = (e) => {
+      if (e.keyCode === 27) {
+        onCloseAction();
+      }
+      if (e.keyCode === 13) {
+        onConfirmAction();
+      }
+    };
+    window.addEventListener('keydown', bindKeyboardEvent);
+    return () => window.removeEventListener('keydown', bindKeyboardEvent);
+  }, [onCloseAction, onConfirmAction]);
   return (
-    <Modal
-      autoFocus
-      backdrop
-      backdropTransition={{
-        mountOnEnter: true,
-        timeout: 150,
-      }}
-      centered={false}
-      container="body"
-      fade
-      isOpen={isOpen}
-      keyboard
-      modalTransition={{
-        timeout: 300,
-      }}
-      returnFocusAfterClose
-      role="dialog"
-      scrollable={false}
-      size="lg"
-      unmountOnClose
-      zIndex={1050}
-    >
+    <Modal isOpen={isOpen} role="dialog" size="lg">
       <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div">
         {title}
       </ModalHeader>

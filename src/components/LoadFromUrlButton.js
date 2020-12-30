@@ -21,6 +21,11 @@ const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValida
     setUrl(e.target.value);
   }, []);
 
+  const renderBody = useCallback(() => <Input label="Url" type="text" value={url} onChange={handleOnChange} />, [
+    url,
+    handleOnChange,
+  ]);
+
   return (
     <>
       <Button onClick={openDialog} color="primary" disabled={isValidationInProgress} icon={false} tag="button">
@@ -32,7 +37,7 @@ const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValida
         title="Load from url"
         labelCloseAction="Close"
         labelConfirmAction="Load url"
-        renderBody={() => <Input label="Url" type="text" value={url} onChange={handleOnChange} />}
+        renderBody={renderBody}
         onCloseAction={closeDialog}
         onConfirmAction={handleConfirmAction}
       />
