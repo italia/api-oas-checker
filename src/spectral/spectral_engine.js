@@ -6,7 +6,7 @@ let currentRuleset = null;
 
 export const getSpectralEngine = async (ruleset) => {
   if (ruleset !== currentRuleset) {
-    await spectral.loadRuleset(`${location.origin}/${ruleset}`);
+    await spectral.loadRuleset(ruleset);
     currentRuleset = ruleset;
   }
   return spectral;
