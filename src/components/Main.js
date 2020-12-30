@@ -17,6 +17,21 @@ const useStyles = createUseStyles({
   animate: {
     transition: '0.3s ease-in-out',
   },
+  main: {
+    composes: 'container-fluid p-0',
+    height: 'calc(100vh - 90px)',
+  },
+  editor: {
+    extend: 'animate',
+    borderLeft: '10px solid var(--primary)',
+  },
+  footer: {
+    extend: 'animate',
+    marginLeft: 'auto',
+    minHeight: '10px',
+    maxHeight: '10px',
+    backgroundColor: 'var(--primary)',
+  },
   'col-0': {
     flex: '0 0 0%',
     maxWidth: '0%',
@@ -34,21 +49,29 @@ const Main = ({ isMenuDisplayed }) => {
     classes.animate
   );
 
-  const mainSection = cx(
+  const editorSection = cx(
     {
       'col-md-6 col-xxl-7': isMenuDisplayed,
       'col-md-8': !isMenuDisplayed,
     },
-    classes.animate
+    classes.editor
+  );
+
+  const footer = cx(
+    {
+      'col-md-10 col-xxl-11': isMenuDisplayed,
+      'col-md-12': !isMenuDisplayed,
+    },
+    classes.footer
   );
 
   return (
-    <main className="container-fluid p-0" data-testid="main">
+    <main className={classes.main} data-testid="main">
       <div className="row no-gutters">
         <aside className={sideSection}>
           <Menu />
         </aside>
-        <section className={mainSection}>
+        <section className={editorSection}>
           <Suspense
             fallback={
               <div className="d-flex h-100 align-items-center justify-content-center">
@@ -64,6 +87,9 @@ const Main = ({ isMenuDisplayed }) => {
           <ValidationSummary />
           <ValidationResults />
         </section>
+      </div>
+      <div className="row no-gutters">
+        <footer className={footer}></footer>
       </div>
     </main>
   );

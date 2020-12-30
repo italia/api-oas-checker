@@ -16,7 +16,7 @@ import {
 
 const useStyles = createUseStyles({
   editor: {
-    height: 'calc(100vh - 80px)',
+    height: 'calc(100vh - 90px)',
     overflow: 'auto',
   },
   editorMarginError: {
