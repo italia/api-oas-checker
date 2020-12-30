@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     transition: '0.3s ease-in-out',
   },
   anchor: {
-    composes: 'm-0 ml-auto',
+    composes: 'm-0 ml-auto d-none d-md-block',
     color: 'var(--white)',
     fontSize: '0.8rem',
     '&:hover': {
@@ -52,7 +52,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
       'col-md-11 col-xxl-11': !isMenuDisplayed,
     },
     'd-flex',
-    'justify-content-start',
+    'justify-content-center',
+    'justify-content-lg-start',
     'align-items-center',
     'py-3',
     classes.animate
@@ -81,8 +82,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
             />
           </div>
           <div data-testid="right-section" className={rightSection}>
-            <img className="ml-4 mr-2" src="it.svg" alt="it logo" />
-            <img className="mx-2" src="loghetto.svg" alt="checker logo" />
+            <img className="d-none d-md-block ml-4 mr-2" src="it.svg" alt="it logo" />
+            <img className="d-none d-md-block mx-2" src="loghetto.svg" alt="checker logo" />
             <span className="m-0 font-weight-semibold">Italian OpenAPI Validation Checker</span>
             <span href="#" className={classes.version}>
               {/* eslint-disable-next-line no-undef */}
@@ -92,7 +93,7 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
             <a className={classes.anchor} href={REPO_URL}>
               Info + Repo
             </a>
-            <Icon color="white" className="p-2" icon="it-github" size="lg" />
+            <Icon color="white" className="p-2 d-none d-md-block" icon="it-github" size="lg" />
           </div>
         </div>
       </div>
