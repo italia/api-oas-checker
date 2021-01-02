@@ -18,25 +18,31 @@ const useStyles = createUseStyles({
   animate: {
     transition: '0.3s ease-in-out',
   },
-  main: {
-    composes: 'container-fluid p-0',
+  fullHeight: {
     height: 'calc(100vh - 90px)',
+  },
+  main: {
+    extend: 'fullHeight',
+    composes: 'container-fluid p-0',
   },
   editor: {
     extend: 'animate',
     overflow: 'hidden',
     borderLeft: '10px solid var(--primary)',
+    borderBottom: '10px solid var(--primary)',
   },
-  footer: {
+  controller: {
+    composes: 'col-lg-4 pt-2',
     extend: 'animate',
-    marginLeft: 'auto',
-    minHeight: '10px',
-    maxHeight: '10px',
-    backgroundColor: 'var(--primary)',
+    borderBottom: '10px solid var(--primary)',
   },
   'col-0': {
     flex: '0 0 0%',
     maxWidth: '0%',
+  },
+  spinnerContainer: {
+    extend: 'fullHeight',
+    composes: 'd-flex align-items-center justify-content-center',
   },
 });
 
@@ -59,14 +65,6 @@ const Main = ({ isMenuDisplayed }) => {
     classes.editor
   );
 
-  const footer = cx(
-    {
-      'col-lg-10 col-xxl-11': isMenuDisplayed,
-      'col-lg-12': !isMenuDisplayed,
-    },
-    classes.footer
-  );
-
   return (
     <main className={classes.main} data-testid="main">
       <div className="row no-gutters">
@@ -76,7 +74,7 @@ const Main = ({ isMenuDisplayed }) => {
         <section className={editorSection}>
           <Suspense
             fallback={
-              <div className="d-flex h-100 align-items-center justify-content-center">
+              <div className={classes.spinnerContainer}>
                 <Spinner active double small={false} tag="span" />
               </div>
             }
@@ -84,15 +82,12 @@ const Main = ({ isMenuDisplayed }) => {
             <Editor />
           </Suspense>
         </section>
-        <section className="col-lg-4 pt-2">
+        <section className={classes.controller}>
           <RulesetSelect />
           <ValidationController />
           <ValidationSummary />
           <ValidationResults />
         </section>
-      </div>
-      <div className="row no-gutters">
-        <footer className={footer}></footer>
       </div>
     </main>
   );
