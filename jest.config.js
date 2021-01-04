@@ -3,6 +3,7 @@ module.exports = {
     REPO_URL: 'https://localhost',
     VERSION: '1.0.0',
   },
+  transform: { '\\.m?[jt]sx?$': 'babel-jest' },
   transformIgnorePatterns: ['/node_modules/(?!monaco-editor)/'],
   //ignore css imported in components
   moduleNameMapper: {

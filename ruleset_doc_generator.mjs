@@ -10,13 +10,13 @@ const { file, title } = yargs(hideBin(process.argv))
   .option('file', {
     alias: 'f',
     demandOption: true,
-    description: 'The ruleset to process',
+    description: 'The ruleset file used for making doc',
     type: 'string',
   })
   .option('title', {
     alias: 't',
     demandOption: true,
-    description: 'The title of the generated doc',
+    description: 'The title of the output doc',
     type: 'string',
   }).argv;
 
@@ -24,8 +24,9 @@ const content = fs.readFileSync(file, 'utf8');
 const doc = yaml.parseDocument(content).toJSON();
 const rulesMd = Object.entries(doc.rules).reduce(
   (rules, [key, value]) => {
-    if (value.description === undefined)
-      throw new Error(`Rule ${key} doesn't have a description. Description is a required field`);
+    // TODO restore this after https://github.com/italia/api-oas-checker/issues/122
+    // if (value.description === undefined)
+    //   throw new Error(`Rule ${key} doesn't have a description. Rule description is a required field`);
 
     rules.push(`## ${key}\n\n${value.description}`);
     return rules;
