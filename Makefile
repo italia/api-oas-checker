@@ -36,14 +36,6 @@ spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
 
-rules-doc: $(RULE_DOCS)
-
-%.doc.html: %.yml
-	touch $@
-
-clean-doc:
-	rm -f $(RULE_DOCS)
-
 # Build js bundle
 build: install rules
 	yarn build-js
