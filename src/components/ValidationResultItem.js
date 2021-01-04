@@ -2,7 +2,7 @@ import React, { useMemo, useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ERROR, WARNING } from '../utils.js';
+import { ERROR, WARNING } from '../utils.mjs';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';

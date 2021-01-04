@@ -10,6 +10,7 @@ all: clean install rules build test-ui
 
 # Clean artifacts from the previous build
 clean:
+	rm -f $(RULE_DOCS)
 	rm -f $(RULE_FILES)
 
 # Install node dependencies
@@ -17,18 +18,23 @@ install: yarn.lock
 	rm -rf node_modules
 	yarn install --frozen-lockfile
 
-# Generate spectral ruleset
+
+# Generate spectral ruleset with documentation
 rules: clean $(RULE_FILES)
 spectral.yml: ./rules/
 	cat ./rules/rules-template.yml.template > $@
 	./rules/merge-yaml rules/*.yml >> $@
+	node ruleset_doc_generator.mjs --file $@ --title 'Ruleset Italian API Guidelines'
 spectral-generic.yml: ./rules/  spectral.yml
 	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
+	node ruleset_doc_generator.mjs --file $@ --title 'Ruleset Best Practices Only'
 spectral-security.yml: ./rules/  ./security/
 	cat ./rules/rules-template.yml.template > $@
 	./rules/merge-yaml security/*.yml >> $@
+	node ruleset_doc_generator.mjs --file $@ --title 'Ruleset Extra Security Checks'
 spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
+	node ruleset_doc_generator.mjs --file $@ --title 'Ruleset Italian API Guidelines + Extra Security Checks'
 
 rules-doc: $(RULE_DOCS)
 

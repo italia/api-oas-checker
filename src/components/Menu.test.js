@@ -2,7 +2,7 @@ import React from 'react';
 
 import Menu from './Menu.js';
 import { render, screen } from '../test-utils.js';
-import { DEFAULT_RULESET } from '../utils.js';
+import { DEFAULT_RULESET } from '../utils.mjs';
 
 describe('menu', () => {
   it('renders Menu', () => {

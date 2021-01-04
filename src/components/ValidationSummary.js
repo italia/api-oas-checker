@@ -3,7 +3,7 @@ import { Badge } from 'design-react-kit';
 import { connect } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
 import { createUseStyles } from 'react-jss';
-import { ERROR, WARNING } from '../utils.js';
+import { ERROR, WARNING } from '../utils.mjs';
 import { getValidationResultsPropTypes, getValidationResultType } from '../spectral/spectral_utils.js';
 const useStyles = createUseStyles({
   error: {

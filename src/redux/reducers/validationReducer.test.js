@@ -1,6 +1,6 @@
 import validationReducer from './validationReducer.js';
 import * as types from '../actionTypes.js';
-import { DEFAULT_RULESET } from '../../utils.js';
+import { DEFAULT_RULESET } from '../../utils.mjs';
 
 describe('validationReducer', () => {
   it('returns the initial state', () => {

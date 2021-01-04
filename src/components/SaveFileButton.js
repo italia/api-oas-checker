@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { Button } from 'design-react-kit';
-import { downloadFile } from '../utils.js';
+import { downloadFile } from '../utils.mjs';
 
 const SaveFileButton = ({ isValidationInProgress, documentText }) => {
   const saveFile = useCallback(() => {

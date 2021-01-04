@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import Dialog from './Dialog.js';
 import { isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { setRuleset } from '../redux/actions.js';
-import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.js';
+import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.mjs';
 import useDialogView from './useDialogView.js';
 
 const SettingsButton = ({ isValidationInProgress, ruleset, setRuleset }) => {

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
-import { TEMPLATE_DOCUMENT_URL } from '../utils.js';
+import { TEMPLATE_DOCUMENT_URL } from '../utils.mjs';
 
 const LoadTemplateButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
   const handleOnClick = useCallback(() => {
