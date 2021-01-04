@@ -1,6 +1,11 @@
 rules:
   array-boundaries:
-    description: Arrays should be limited.
+    description: |-
+      Arrays should be limited in size to mitigate resource exhaustion
+      using `maxItems` and `minItems`.
+
+      If you delegate input validation to a library or framework,
+      be sure to test it thoroughly.
     message: >-
       Schema of type array must specify maxItems and minItems. {{path}} {{error}}
     formats:
