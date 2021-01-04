@@ -96,7 +96,6 @@ module.exports = {
     fallback: {
       vm: false,
       fs: false,
-      path: require.resolve('path-browserify'),
     },
   },
   // https://github.com/webpack/webpack-dev-server/issues/2758#issuecomment-706840237
