@@ -4,6 +4,7 @@
 #
 
 RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml
+RULE_DOCS := $(RULE_FILES:.yml=.doc.html)
 
 all: clean install rules build test-ui
 
@@ -28,6 +29,14 @@ spectral-security.yml: ./rules/  ./security/
 	./rules/merge-yaml security/*.yml >> $@
 spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
+
+rules-doc: $(RULE_DOCS)
+
+%.doc.html: %.yml
+	touch $@
+
+clean-doc:
+	rm -f $(RULE_DOCS)
 
 # Build js bundle
 build: install rules
