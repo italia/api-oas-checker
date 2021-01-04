@@ -109,6 +109,9 @@ rules:
       function: truthy
 
   use-semver:
+    description: |-
+      The API version field should follow
+      [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
     severity: error
     recommended: true
     message: |-
