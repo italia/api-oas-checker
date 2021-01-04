@@ -7,7 +7,12 @@ extends: spectral:oas
 
 rules:
   array-boundaries:
-    description: Arrays should be limited.
+    description: |-
+      Arrays should be limited in size to mitigate resource exhaustion
+      using `maxItems` and `minItems`.
+
+      If you delegate input validation to a library or framework,
+      be sure to test it thoroughly.
     message: Schema of type array must specify maxItems and minItems. {{path}} {{error}}
     formats:
       - oas3
@@ -21,7 +26,12 @@ rules:
       - field: minItems
         function: defined
   number-boundaries:
-    description: Schema of type number or integer must specify a maximum and a minimum.
+    description: |-
+      Numeric values should be limited in size to mitigate resource exhaustion
+      using `maximum` and `minimum`.
+
+      If you delegate input validation to a library or framework,
+      be sure to test it thoroughly.
     message: Schema of type number or integer must specify a maximum and a minimum.
       {{path}} {{error}}
     formats:
