@@ -44,7 +44,7 @@ module.exports = {
   mode: isProduction ? 'production' : 'development',
   module: {
     rules: [
-      { test: /\.js$/, use: ['babel-loader'], exclude: /node_modules/ },
+      { test: /\.(m)?js$/, use: ['babel-loader'], exclude: /node_modules/ },
       {
         test: /\.(s)?css$/,
         use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'sass-loader'],
@@ -73,6 +73,7 @@ module.exports = {
       patterns: [
         { from: 'public', to: '.' },
         { from: 'spectral*.yml', to: '.' },
+        { from: 'spectral*.doc.html', to: '.' },
       ],
     }),
     new webpack.DefinePlugin({

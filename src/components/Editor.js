@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR } from '../utils.js';
+import { ERROR } from '../utils.mjs';
 import {
   getSeverityByLineMap,
   getValidationResultsPropTypes,

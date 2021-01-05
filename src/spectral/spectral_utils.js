@@ -1,4 +1,4 @@
-import { ERROR, WARNING } from '../utils.js';
+import { ERROR, WARNING } from '../utils.mjs';
 import PropTypes from 'prop-types';
 
 export const getValidationResultType = (severity) => (severity === 0 ? ERROR : WARNING);
