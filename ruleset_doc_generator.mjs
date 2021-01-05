@@ -2,6 +2,7 @@
 import yargs from 'yargs';
 import { hideBin } from 'yargs/helpers';
 import fs from 'fs';
+import path from 'path';
 import yaml from 'yaml';
 import marked from 'marked';
 import utils from './src/utils.mjs';
@@ -39,41 +40,37 @@ const rulesMd = Object.entries(doc.rules).reduce(
 const rulesHtml = marked(rulesMd.join('\n\n'));
 const docFilename = utils.getDocFilename(file);
 
+const boostrapCss = fs.readFileSync(path.resolve(path.dirname(''), 'node_modules/bootstrap-italia/dist/css/bootstrap-italia.min.css'), 'utf-8');
+
 const html = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Lora&family=Source+Code+Pro&display=swap" rel="stylesheet">
     <style>
-    * {
-      font-family: 'Lora', serif;
+    ${boostrapCss}
+    h2, h3 {
+        color: var(--primary)
     }
-    
-    body {
-      width: 75vw;
-      margin: 17px auto;
+    h1, h2 {
+        margin: 30px 0;
     }
-    
-    h1 {
-      margin: 10px;
+    h3 {
+        margin: 48px 0 24px 0;
     }
-    
-    h2, h3, h4, h5, h6 {
-      margin: 20px;
-    }
-    
-    p {
-      margin: 30px;
-    }
-    
     </style>
     <title>${title}</title>
 </head>
 <body>
-${rulesHtml}
+<div class="container">
+    <div class="row">
+        <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
+            ${rulesHtml}
+        </div>
+    </div>
+</div>
 </body>
 </html>`;
+
 
 fs.writeFileSync(docFilename, html);
