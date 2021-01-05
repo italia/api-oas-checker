@@ -5,7 +5,6 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import { ERROR, WARNING } from '../utils.mjs';
-import { getRuleset } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
 import {
   getValidationResultItemPropTypes,
