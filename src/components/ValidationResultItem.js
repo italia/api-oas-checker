@@ -1,9 +1,10 @@
-import React, { useMemo, useCallback } from 'react';
+import React, { useCallback } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { ERROR, WARNING } from '../utils.js';
 import { connect } from 'react-redux';
+import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
+import { ERROR, WARNING } from '../utils.js';
 import { getValidationResults } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
 import {
@@ -11,8 +12,10 @@ import {
   getValidationResultLine,
   getValidationResultType,
 } from '../spectral/spectral_utils.js';
+import useModalView from './useModalView.js';
 
 const type = {
+  margin: '8px 0px 0px 4px',
   height: '16px',
   width: '16px',
   borderRadius: '50%',
@@ -20,11 +23,6 @@ const type = {
 };
 
 const useStyle = createUseStyles({
-  resultMessage: {
-    composes: 'pr-4',
-    fontSize: '0.9rem',
-    wordBreak: 'break-all',
-  },
   resultItem: {
     composes: 'row py-2 no-gutters',
     borderLeft: '8px solid var(--white)',
@@ -39,6 +37,20 @@ const useStyle = createUseStyles({
       border: '0px',
     },
   },
+  resultMessage: {
+    composes: 'col-9 col-xxl-10 px-4 text-justify',
+    fontSize: '0.9rem',
+    marginTop: '2px',
+    wordBreak: 'break-all',
+  },
+  resultLine: {
+    composes: 'col-1 text-center',
+    marginTop: '2px',
+  },
+  info: {
+    composes: 'icon icon-primary',
+    width: '20px',
+  },
   error: {
     extend: type,
     backgroundColor: 'var(--danger)',
@@ -52,40 +64,60 @@ const useStyle = createUseStyles({
 
 const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
   const classes = useStyle(resultItem);
+  const [isModalOpen, closeModal, openModal] = useModalView();
 
-  const resultInfo = useMemo(
-    () => ({
-      character: resultItem.range.start.character,
-      description: resultItem.description,
-      line: getValidationResultLine(resultItem),
-      message: resultItem.message,
-      severity: resultItem.severity,
-    }),
-    [resultItem]
+  const handleOnInfoClick = useCallback(
+    (e) => {
+      openModal();
+      e.stopPropagation();
+    },
+    [openModal]
   );
 
   const handleOnResultClick = useCallback(() => {
-    focusDocumentLine({ line: resultInfo.line, character: resultInfo.character });
-  }, [resultInfo, focusDocumentLine]);
+    focusDocumentLine({ line: getValidationResultLine(resultItem), character: resultItem.range.start.character });
+  }, [resultItem, focusDocumentLine]);
 
   return (
-    <div
-      data-testid="validation-result-entry"
-      className={classes.resultItem}
-      role="button"
-      onClick={handleOnResultClick}
-    >
-      <div className="col-1 text-center">
-        <div
-          className={cx({
-            [classes.error]: getValidationResultType(resultInfo.severity) === ERROR,
-            [classes.warning]: getValidationResultType(resultInfo.severity) === WARNING,
-          })}
-        ></div>
+    <>
+      <div
+        data-testid="validation-result-entry"
+        className={classes.resultItem}
+        role="button"
+        onClick={handleOnResultClick}
+      >
+        <div className="col-2 col-xxl-1 d-flex justify-content-center">
+          <div>
+            <Icon type="button" className={classes.info} icon="it-info-circle" onClick={handleOnInfoClick} />
+          </div>
+          <div
+            className={cx({
+              [classes.error]: getValidationResultType(resultItem.severity) === ERROR,
+              [classes.warning]: getValidationResultType(resultItem.severity) === WARNING,
+            })}
+          ></div>
+        </div>
+        <div className={classes.resultLine}>{getValidationResultLine(resultItem)}</div>
+        <div className={classes.resultMessage}>{resultItem.message}</div>
       </div>
-      <div className="col-2 col-xxl-1 text-center">{resultInfo.line}</div>
-      <div className={`col-9 col-xxl-10 ${classes.resultMessage}`}>{resultInfo.message}</div>
-    </div>
+
+      <Modal fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+        <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+          {resultItem.code}
+        </ModalHeader>
+        <ModalBody className="mt-3" tag="div">
+          {resultItem.description}
+        </ModalBody>
+        <ModalFooter tag="div">
+          <Button className="white-bg" color="custom-white" icon={false} onClick={() => {}} tag="button">
+            Ask Slack
+          </Button>
+          <Button color="primary" icon={false} onClick={() => {}} tag="button">
+            Ruleset
+          </Button>
+        </ModalFooter>
+      </Modal>
+    </>
   );
 };
 

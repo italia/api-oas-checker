@@ -13,7 +13,7 @@ const LoadTemplateButton = ({ isValidationInProgress, setDocumentUrl, resetValid
   }, [setDocumentUrl, resetValidationResults]);
 
   return (
-    <Button onClick={handleOnClick} color="primary" disabled={isValidationInProgress} icon={false} tag="button">
+    <Button onClick={handleOnClick} color="custom-white" disabled={isValidationInProgress} icon={false} tag="button">
       Template
     </Button>
   );

@@ -11,7 +11,7 @@ const SaveFileButton = ({ isValidationInProgress, documentText }) => {
   }, [documentText]);
   return (
     <Button
-      color="primary"
+      color="custom-white"
       disabled={isValidationInProgress || documentText === ''}
       icon={false}
       tag="button"

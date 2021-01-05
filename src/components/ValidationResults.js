@@ -22,9 +22,9 @@ const ValidationResults = ({ validationResults }) => {
   return (
     <>
       <div className={classes.headerResults} data-testid="validation-results-header">
-        <div className="col-1 text-center">Type</div>
-        <div className="col-2 col-xxl-1 text-center">Line</div>
-        <div className="col-9 col-xxl-10">Message</div>
+        <div className="col-2 col-xxl-1 text-center">Type</div>
+        <div className="col-1 text-center">Line</div>
+        <div className="col-9 col-xxl-10 px-4">Message</div>
       </div>
       <div className={classes.enableScrollResults}>
         {validationResults.map((r) => (

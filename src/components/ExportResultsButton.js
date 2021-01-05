@@ -12,7 +12,7 @@ const ExportResultsButton = ({ isValidationInProgress, validationResults }) => {
   }, [validationResults]);
   return (
     <Button
-      color="primary"
+      color="custom-white"
       disabled={isValidationInProgress || validationResults === null || validationResults.length === 0}
       icon={false}
       tag="button"

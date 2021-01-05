@@ -23,7 +23,7 @@ const UploadFileButton = ({ isValidationInProgress, setDocumentUrl, resetValidat
     {
       disabled: isValidationInProgress,
     },
-    ['btn', 'btn-primary']
+    ['btn', 'btn-custom-white']
   );
 
   return (
