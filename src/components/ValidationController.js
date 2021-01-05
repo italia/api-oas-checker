@@ -36,6 +36,11 @@ const ValidationController = ({
   setValidationInProgress,
 }) => {
   const previousDocumentText = useRef();
+  const previousRuleset = useRef();
+  const needRevalidation = useCallback(
+    () => previousDocumentText.current !== documentText || previousRuleset.current !== ruleset,
+    [documentText, ruleset]
+  );
   const classes = useStyles(isValidationInProgress);
 
   const handleValidation = useCallback(() => {
@@ -57,13 +62,16 @@ ${event.data.error}`);
   const [autoRefresh, setAutoRefresh] = useState(false);
 
   useEffect(() => {
-    if (!autoRefresh || previousDocumentText.current === documentText) return;
-    handleValidation();
-  }, [documentText, autoRefresh, handleValidation]);
+    if (!autoRefresh) return;
+    if (needRevalidation()) {
+      handleValidation();
+    }
+  }, [autoRefresh, handleValidation, needRevalidation]);
 
   // Get previous text prop to handle correctly auto-refresh
   useEffect(() => {
     previousDocumentText.current = documentText;
+    previousRuleset.current = ruleset;
   });
 
   const handleAutoRefreshToogle = useCallback(() => {
