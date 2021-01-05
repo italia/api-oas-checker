@@ -5,7 +5,7 @@ import cx from 'classnames';
 import { connect } from 'react-redux';
 import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import { ERROR, WARNING } from '../utils.js';
-import { getValidationResults } from '../redux/selectors.js';
+import { getRuleset } from '../redux/selectors.js';
 import { focusDocumentLine } from '../redux/actions.js';
 import {
   getValidationResultItemPropTypes,
@@ -62,7 +62,7 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
+const ValidationResultItem = ({ resultItem, focusDocumentLine, ruleset }) => {
   const classes = useStyle(resultItem);
   const [isModalOpen, closeModal, openModal] = useModalView();
 
@@ -77,6 +77,10 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
   const handleOnResultClick = useCallback(() => {
     focusDocumentLine({ line: getValidationResultLine(resultItem), character: resultItem.range.start.character });
   }, [resultItem, focusDocumentLine]);
+
+  const handleOnAskSlackButtonClick = useCallback(() => {
+    window.open('https://slack.developers.italia.it/');
+  }, []);
 
   return (
     <>
@@ -109,10 +113,23 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
           {resultItem.description}
         </ModalBody>
         <ModalFooter tag="div">
-          <Button className="white-bg" color="custom-white" icon={false} onClick={() => {}} tag="button">
+          <Button
+            className="white-bg"
+            color="custom-white"
+            icon={false}
+            onClick={handleOnAskSlackButtonClick}
+            tag="button"
+          >
             Ask Slack
           </Button>
-          <Button color="primary" icon={false} onClick={() => {}} tag="button">
+          <Button
+            color="primary"
+            icon={false}
+            onClick={() => {
+              console.log(ruleset);
+            }}
+            tag="button"
+          >
             Ruleset
           </Button>
         </ModalFooter>
@@ -124,11 +141,12 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
 ValidationResultItem.propTypes = {
   resultItem: getValidationResultItemPropTypes(),
   focusDocumentLine: PropTypes.func.isRequired,
+  ruleset: PropTypes.string.isRequired,
 };
 
 export default connect(
   (state) => ({
-    validationResults: getValidationResults(state),
+    ruleset: getRuleset(state),
   }),
   {
     focusDocumentLine,
