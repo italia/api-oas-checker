@@ -16,6 +16,7 @@ describe('ValidationResults', () => {
       initialState: {
         validationState: {
           results: [],
+          ruleset: 'test',
         },
       },
     });
@@ -28,6 +29,7 @@ describe('ValidationResults', () => {
       initialState: {
         validationState: {
           results: validationResultsMock,
+          ruleset: 'test',
         },
       },
     });
