@@ -6,7 +6,13 @@ import ValidationResultItem from './ValidationResultItem.js';
 
 describe('ValidationResultItem', () => {
   it('renders a result message', () => {
-    render(<ValidationResultItem resultItem={validationResultsMock[0]} />);
+    render(<ValidationResultItem resultItem={validationResultsMock[0]} />, {
+      initialState: {
+        validationState: {
+          ruleset: 'test',
+        },
+      },
+    });
     expect(screen.queryByText(new RegExp(validationResultsMock[0].message, 'i'))).toBeTruthy();
   });
 

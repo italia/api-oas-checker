@@ -20,7 +20,7 @@ const useStyles = createUseStyles({
     animation: (isValidationInProgress) => isValidationInProgress && '$rotation 2s infinite',
   },
   formGroupButtonValidate: {
-    composes: 'm-3',
+    composes: 'mx-3',
     flexGrow: (isValidationInProgress) => isValidationInProgress && 1,
   },
 });
@@ -71,8 +71,8 @@ ${event.data.error}`);
   }, [autoRefresh, setAutoRefresh]);
 
   return (
-    <div className="d-flex align-items-center">
-      <FormGroup className={classes.formGroupButtonValidate} tag="div">
+    <div className="py-3 d-flex align-items-center bg-white">
+      <div className={classes.formGroupButtonValidate} tag="div">
         <Button
           data-testid="validation-button"
           className="w-100 py-2 px-3"
@@ -84,10 +84,10 @@ ${event.data.error}`);
           {isValidationInProgress ? 'Please wait...' : 'Validate'}
           <Icon className={classes.validatorIcon} color="white" icon="it-refresh" />
         </Button>
-      </FormGroup>
+      </div>
 
       {!isValidationInProgress && (
-        <FormGroup check className="m-3" tag="div">
+        <FormGroup check className="mx-3 my-0" tag="div">
           <div data-testid="auto-refresh" className="toggles">
             <Label className="m-0 font-weight-light" check>
               Auto-refresh

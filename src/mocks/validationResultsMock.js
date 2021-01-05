@@ -1,6 +1,7 @@
 export const validationResultsMock = [
   {
     code: 'string-maxlength',
+    description: 'test',
     message: 'Test message 1',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 0,
@@ -11,6 +12,7 @@ export const validationResultsMock = [
   },
   {
     code: 'string-maxlength',
+    description: 'test',
     message: 'Test message 2',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 1,
@@ -21,6 +23,7 @@ export const validationResultsMock = [
   },
   {
     code: 'string-maxlength',
+    description: 'test',
     message: 'Test message 3',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 1,
@@ -34,6 +37,7 @@ export const validationResultsMock = [
 export const duplicatedValidationResultsMock = [
   {
     code: 'string-maxlength',
+    description: 'test',
     message: 'Test message 1',
     path: ['components', 'parameters', 'codBanca', 'schema'],
     severity: 0,
@@ -44,6 +48,7 @@ export const duplicatedValidationResultsMock = [
   },
   {
     code: 'string-maxlength',
+    description: 'test',
     message: 'Test message 1',
     path: ['components', 'parameters', 'test', 'schema'],
     severity: 1,
@@ -54,6 +59,7 @@ export const duplicatedValidationResultsMock = [
   },
   {
     code: 'string-maxlength',
+    description: 'test',
     message: 'Test message 1',
     path: ['components', 'parameters', 'test2', 'schema'],
     severity: 1,
@@ -64,6 +70,7 @@ export const duplicatedValidationResultsMock = [
   },
   {
     code: 'another-code',
+    description: 'test',
     message: 'Not a duplicated one',
     path: ['components', 'parameters', 'test2', 'schema'],
     severity: 1,

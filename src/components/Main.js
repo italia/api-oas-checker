@@ -31,10 +31,9 @@ const useStyles = createUseStyles({
     borderLeft: '10px solid var(--primary)',
     borderBottom: '10px solid var(--primary)',
   },
-  controller: {
-    composes: 'col-lg-4 pt-2',
+  rightSection: {
+    composes: 'col-lg-4 bg-primary',
     extend: 'animate',
-    borderBottom: '10px solid var(--primary)',
   },
   'col-0': {
     flex: '0 0 0%',
@@ -49,7 +48,7 @@ const useStyles = createUseStyles({
 const Main = ({ isMenuDisplayed }) => {
   const classes = useStyles();
 
-  const sideSection = cx(
+  const leftSection = cx(
     {
       'col-lg-2 col-xxl-1': isMenuDisplayed,
       [classes['col-0']]: !isMenuDisplayed,
@@ -68,7 +67,7 @@ const Main = ({ isMenuDisplayed }) => {
   return (
     <main className={classes.main} data-testid="main">
       <div className="row no-gutters">
-        <aside className={sideSection}>
+        <aside className={leftSection}>
           <Menu />
         </aside>
         <section className={editorSection}>
@@ -82,7 +81,7 @@ const Main = ({ isMenuDisplayed }) => {
             <Editor />
           </Suspense>
         </section>
-        <section className={classes.controller}>
+        <section className={classes.rightSection}>
           <RulesetSelect />
           <ValidationController />
           <ValidationSummary />

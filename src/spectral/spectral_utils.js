@@ -5,6 +5,8 @@ export const getValidationResultType = (severity) => (severity === 0 ? ERROR : W
 export const getValidationResultsPropTypes = () => PropTypes.arrayOf(getValidationResultItemPropTypes());
 export const getValidationResultItemPropTypes = () =>
   PropTypes.shape({
+    code: PropTypes.string.isRequired,
+    description: PropTypes.string,
     range: PropTypes.exact({
       start: PropTypes.object,
       end: PropTypes.shape({
