@@ -55,10 +55,11 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
 
   const resultInfo = useMemo(
     () => ({
-      severity: resultItem.severity,
-      line: getValidationResultLine(resultItem),
       character: resultItem.range.start.character,
+      description: resultItem.description,
+      line: getValidationResultLine(resultItem),
       message: resultItem.message,
+      severity: resultItem.severity,
     }),
     [resultItem]
   );

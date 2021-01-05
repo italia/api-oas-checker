@@ -8,7 +8,7 @@ import { getValidationResultsPropTypes, getValidationResultKey } from '../spectr
 const useStyle = createUseStyles({
   enableScrollResults: { height: 'calc(100vh - 376px)', overflow: 'scroll' },
   headerResults: {
-    composes: 'row py-3 no-gutters',
+    composes: 'row py-3 no-gutters border-bottom',
     borderLeft: '8px solid var(--white)',
     borderRight: '8px solid var(--white)',
   },
