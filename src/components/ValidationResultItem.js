@@ -27,6 +27,7 @@ const useStyle = createUseStyles({
     composes: 'row py-2 no-gutters',
     borderLeft: '8px solid var(--white)',
     borderRight: '8px solid var(--white)',
+    backgroundColor: 'var(--white)',
     '&:hover': {
       borderColor: (resultItem) =>
         getValidationResultType(resultItem.severity) === ERROR ? 'var(--danger)' : 'var(--warning)',

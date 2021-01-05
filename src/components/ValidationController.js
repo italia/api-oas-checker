@@ -71,7 +71,7 @@ ${event.data.error}`);
   }, [autoRefresh, setAutoRefresh]);
 
   return (
-    <div className="d-flex align-items-center">
+    <div className="d-flex align-items-center bg-white">
       <FormGroup className={classes.formGroupButtonValidate} tag="div">
         <Button
           data-testid="validation-button"
