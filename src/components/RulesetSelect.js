@@ -3,7 +3,13 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { setRuleset } from '../redux/actions.js';
-import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.mjs';
+import {
+  getDocFilename,
+  RULESET_BEST_PRACTICES,
+  RULESET_ITALIAN,
+  RULESET_ITALIAN_PLUS_SECURITY,
+  RULESET_SECURITY,
+} from '../utils.mjs';
 import { createUseStyles } from 'react-jss';
 import { Icon } from 'design-react-kit';
 
@@ -44,7 +50,7 @@ const RulesetSelect = ({ isValidationInProgress, ruleset, setRuleset }) => {
         <option value={RULESET_SECURITY}>Extra Security Checks</option>
         <option value={RULESET_ITALIAN_PLUS_SECURITY}>Italian API Guidelines + Extra Security Checks</option>
       </select>
-      <a className={classes.anchor} href="#" target="_blank">
+      <a className={classes.anchor} href={getDocFilename(ruleset)} rel="noreferrer" target="_blank">
         Ruleset
       </a>
       <Icon className={classes.info} icon="it-info-circle" />

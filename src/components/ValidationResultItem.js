@@ -63,7 +63,7 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResultItem = ({ resultItem, focusDocumentLine, ruleset }) => {
+const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
   const classes = useStyle(resultItem);
   const [isModalOpen, closeModal, openModal] = useModalView();
 
@@ -123,16 +123,6 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine, ruleset }) => {
           >
             Ask Slack
           </Button>
-          <Button
-            color="primary"
-            icon={false}
-            onClick={() => {
-              console.log(ruleset);
-            }}
-            tag="button"
-          >
-            Ruleset
-          </Button>
         </ModalFooter>
       </Modal>
     </>
@@ -142,14 +132,8 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine, ruleset }) => {
 ValidationResultItem.propTypes = {
   resultItem: getValidationResultItemPropTypes(),
   focusDocumentLine: PropTypes.func.isRequired,
-  ruleset: PropTypes.string.isRequired,
 };
 
-export default connect(
-  (state) => ({
-    ruleset: getRuleset(state),
-  }),
-  {
-    focusDocumentLine,
-  }
-)(ValidationResultItem);
+export default connect(null, {
+  focusDocumentLine,
+})(ValidationResultItem);
