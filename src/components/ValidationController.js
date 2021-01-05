@@ -72,7 +72,7 @@ ${event.data.error}`);
 
   return (
     <div className="d-flex align-items-center bg-white">
-      <FormGroup className={classes.formGroupButtonValidate} tag="div">
+      <div className={classes.formGroupButtonValidate} tag="div">
         <Button
           data-testid="validation-button"
           className="w-100 py-2 px-3"
@@ -84,7 +84,7 @@ ${event.data.error}`);
           {isValidationInProgress ? 'Please wait...' : 'Validate'}
           <Icon className={classes.validatorIcon} color="white" icon="it-refresh" />
         </Button>
-      </FormGroup>
+      </div>
 
       {!isValidationInProgress && (
         <FormGroup check className="m-3" tag="div">

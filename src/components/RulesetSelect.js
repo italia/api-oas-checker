@@ -9,7 +9,7 @@ import { Icon } from 'design-react-kit';
 
 const useStyles = createUseStyles({
   select: {
-    composes: 'm-3 px-2',
+    composes: 'mx-3 px-2',
     height: '50px',
     width: '50%',
     fontSize: '0.9rem',
@@ -32,7 +32,7 @@ const useStyles = createUseStyles({
 const RulesetSelect = ({ isValidationInProgress, ruleset, setRuleset }) => {
   const classes = useStyles();
   return (
-    <div className="d-flex align-items-center bg-white">
+    <div className="pt-3 d-flex align-items-center bg-white">
       <select
         className={classes.select}
         disabled={isValidationInProgress}
@@ -44,7 +44,7 @@ const RulesetSelect = ({ isValidationInProgress, ruleset, setRuleset }) => {
         <option value={RULESET_SECURITY}>Extra Security Checks</option>
         <option value={RULESET_ITALIAN_PLUS_SECURITY}>Italian API Guidelines + Extra Security Checks</option>
       </select>
-      <a className={classes.anchor} href="#">
+      <a className={classes.anchor} href="#" target="_blank">
         Ruleset
       </a>
       <Icon className={classes.info} icon="it-info-circle" />
