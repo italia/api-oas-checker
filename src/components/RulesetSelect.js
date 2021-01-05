@@ -11,7 +11,7 @@ const useStyles = createUseStyles({
   select: {
     composes: 'mx-3 px-2',
     height: '50px',
-    width: '50%',
+    width: '70%',
     fontSize: '0.9rem',
   },
   anchor: {
