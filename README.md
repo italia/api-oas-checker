@@ -22,7 +22,7 @@ Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) c
 - Una directory [rules/](rules/) con le regole applicate, che vengono poi aggregate nel file spectral.yml
 
 ## Prerequisiti
-- nodejs v14.5
+- nodejs v14.15
 - yarn v1.22
 
 o in alternativa (supporto solo per applicazione web)
