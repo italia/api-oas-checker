@@ -44,6 +44,8 @@ build: install rules
 test-ui: install
 	yarn eslint
 	yarn test
+
+# TODO: this doesn't work on MacOS!
 test: install
 	bash test-ruleset.sh rules/ all
 	bash test-ruleset.sh security/ all
