@@ -9,7 +9,7 @@ export const getDocFilename = (ruleset) => {
 
 export const ERROR = 'error';
 export const WARNING = 'warning';
-export const DEFAULT_DOCUMENT_URL = 'example.yaml';
+export const DEFAULT_DOCUMENT_URL = 'initial.yaml';
 export const TEMPLATE_DOCUMENT_URL =
   'https://raw.githubusercontent.com/teamdigitale/api-starter-kit/master/openapi/simple.yaml.src';
 export const RULESET_ITALIAN = 'spectral.yml';
