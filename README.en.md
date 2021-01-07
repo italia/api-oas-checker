@@ -18,12 +18,12 @@ The validator is based on [Spectral](https://github.com/stoplightio/spectral) wh
 ## Content
 
 - A web application developed with React that uses Webpack + Babel to create a single-page application
-- A [rules/](rules/) directory with the rules applied, which come then aggregate in the [spectral.yml](spectral.yml) file.
+- A [rules/](rules/) directory with the rules applied, which come then aggregate in the spectral.yml file.
   
 ## Development
 
 ### CLI mode
-If you want to control your API using the CLI of Spectral, just launch from the directory `api-oas-validator`
+If you want to control your API using the CLI of Spectral, after cloning the repo, just launch
 
 ```
 $ yarn
@@ -43,7 +43,7 @@ or alternatively
 ```
 $ docker-compose run --rm --service-ports start
 ```
-and then after the build is finished, connect to http://127.0.0.1:3000/
+and then when the build is finished, connect to http://127.0.0.1:3000/
   
 ## Testing
 
