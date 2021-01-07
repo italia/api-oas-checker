@@ -24,7 +24,7 @@ Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) c
 ## Sviluppo
 
 ### Modalità linea di comando
-Se volete controllare la vostra API usando la CLI di Spectral, dopo aver clonato il repo, eseguite
+Se volete controllare la vostra API usando la CLI di Spectral, dopo aver clonato il repository, eseguite
 
 ```
 $ yarn
