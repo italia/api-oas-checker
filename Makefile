@@ -44,7 +44,7 @@ build: install rules
 test-ui: install
 	yarn eslint
 	yarn test
-test:
+test: install
 	bash test-ruleset.sh rules/ all
 	bash test-ruleset.sh security/ all
 
