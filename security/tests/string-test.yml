@@ -15,6 +15,12 @@ components:
       <<: *basestring
       pattern: '[a-z]+'
       format: email
+    ok_string_datetime:
+      type: string
+      format: 'date-time'
+    ok_string_date:
+      type: string
+      format: 'date'
     ok_pattern:
       <<: *basestring
       pattern: '[a-z]+'
