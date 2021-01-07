@@ -1,36 +1,21 @@
-version: '3.0'
+version: '3.8'
 services:
-  dev: &base
-    image: node:14
-    user: $UID:$GID
-    volumes:
-    - .:/code
-    working_dir: /code
-    environment:
-    - "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/code/node_modules/.bin"
-    entrypoint:
-    - /usr//bin/tail
-    - -f
-    - /etc/hosts
-
-  test:
-    <<: *base
-    working_dir: /code
-    entrypoint:
-    - make
-    - test
-
-  build:
-    image: node:14
-    user: $UID:$GID
-    working_dir: /code
-    volumes:
-    - .:/code
-    entrypoint:
-    - make
-
-  run:
-    build: .
+  start:
+    build:
+      context: .
     ports:
-    - "8000:8000"
-    user: $UID:$GID
+      - 3000:3000
+  test:
+    build:
+      context: .
+    entrypoint:
+      - make
+      - test
+      - test-ui
+  build:
+    build:
+      context: .
+    entrypoint:
+      - make
+    volumes:
+      - .:/app
