@@ -18,15 +18,8 @@ Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) c
 
 ## Contenuto
 
-- Una applicazione web sviluppata con reactjs che usa webpack + babel per creare una single-page application
+- Una applicazione web sviluppata con React che usa Webpack + Babel per creare una single-page application
 - Una directory [rules/](rules/) con le regole applicate, che vengono poi aggregate nel file spectral.yml
-
-## Prerequisiti
-- nodejs v14.15
-- yarn v1.22
-
-o in alternativa (supporto solo per applicazione web)
-- docker v19.03.0
 
 ## Sviluppo
 
@@ -67,6 +60,10 @@ In alternativa
 ```
 $ docker-compose run --rm test
 ```
+
+## Deploy
+
+L'applicazione web è ospitata su GitHub Pages e la CI/CD è implementata attraverso le GitHub Actions
 
 ## Scrivere regole
 

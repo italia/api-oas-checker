@@ -3,8 +3,7 @@
 [![Join the #api channel](https://img.shields.io/badge/Slack-%23api-blue.svg?logo=slack)](https://developersitalia.slack.com/messages/CDKBYTG74)
 [![API on forum.italia.it](https://img.shields.io/badge/Forum-interoperabilit%C3%A0-blue.svg)](https://forum.italia.it/c/piano-triennale/interoperabilita)
 
-This repository contains an in-browser validator that verifies
-some of the rules for the REST APIs, as indicated in the Interoperability Model.
+This repository contains an in-browser validator that verifies some of the rules for the REST APIs, as indicated in the Interoperability Model.
 
 The associated projects are indicated in the [API Starter Kit](https://github.com/teamdigitale/api-starter-kit).
 There's a Beta [github-action that uses these rules](https://github.com/teamdigitale/api-oas-checker-action).
@@ -18,48 +17,47 @@ The validator is based on [Spectral](https://github.com/stoplightio/spectral) wh
 
 ## Content
 
-- A nodejs project that uses webpack to create a single-page application
-- A [rules/](rules/) directory with the rules applied, which come
-  then aggregate in the [spectral.yml](spectral.yml) file.
+- A web application developed with React that uses Webpack + Babel to create a single-page application
+- A [rules/](rules/) directory with the rules applied, which come then aggregate in the [spectral.yml](spectral.yml) file.
   
-## Usage
+## Development
 
-The easiest way to run the application
-is via docker-compose:
-```
-$ git clone git@github.com:teamdigitale/api-oas-validator.git
-$ cd api-oas-validator
-$ docker-compose up -d run
-$ xdg-open localhost:8000
-```
-
-Alternatively, simply perform:
-```
-$ npm run build
-$ npm start
-```
-
-If you want to control your API using the CLI
-of Spectral, just launch from the directory `api-oas-validator`
+### CLI mode
+If you want to control your API using the CLI of Spectral, just launch from the directory `api-oas-validator`
 
 ```
-api-oas-validator $ spectral lint -r spectral.yml $OAS_URL_OR_FILE
+$ yarn
+$ make rules
+$ yarn run spectral lint -r spectral.yml $OAS_URL_OR_FILE
 ```
 
-## Setup
-This application uses Browserify,
-which recursively packages all dependencies
- nodejs in a javascript executable from the browser.
- 
-The application is in [index.js](index.js) and uses
-Spectral, an open source software that validates an OpenAPI file
-  according to a series of rules.
+### UI mode
+This web application is based on React library and uses Webpack as a bundler and Babel to transpile JavaScript code
+
+To launch the application
+```
+$ yarn
+$ yarn start
+```
+or alternatively
+```
+$ docker-compose run --rm --service-ports start
+```
+and then after the build is finished, connect to http://127.0.0.1:3000/
   
 ## Testing
 
-To test with docker just execute:
+It is possible to test boht the correct spectral rules generation and the ui
+
 ```
-docker-compose up test
+# N.B. make test doens't work correctly on MacOS
+$ make test
+$ make test-ui
+```
+
+or alternatively
+```
+$ docker-compose run --rm test
 ```
 
 ## Write rules
