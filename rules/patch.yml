@@ -8,7 +8,7 @@ rules:
       to the target resource.
 
       To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)
-      explains that application/json is not an appropriate media-type for PATCH.
+      explains that `application/json` is not an appropriate media-type for `PATCH`.
     message: >-
       application/json is not an appropriate media-type for PATCH. {{path}}
     formats:
