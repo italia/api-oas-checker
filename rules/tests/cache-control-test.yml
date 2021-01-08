@@ -1,4 +1,10 @@
 openapi: 3.0.1
+components:
+  schemas:
+    CacheControl:
+      type: string
+      pattern: >-
+        [a-z \-]+(=([a-z \-]+|"\w+"))?(,\s+[a-z \-]+(=([a-z \-]+|"\w+")))?
 paths:
   /ok-cache-control:
     get:
@@ -6,27 +12,39 @@ paths:
       - name: Cache-Control
         in: header
         example: >-
-          max-age: 3000
+          max-age=3000
         description: |-
           This rule should find a way to ensure that the API provider
           analysed and documented all the issues of caching and
           decided to use (eg. max-age, private, ...) because...
         schema:
-          type: string
+          $ref: "#/components/schemas/CacheControl"
       responses:
         "201":
           description: Cache-Control must contain a placeholder
           headers:
             Cache-Control:
               example: >-
-                max-age: 3000
+                max-age=3000
               description: |-
                 This rule should find a way to ensure that the API provider
                 analysed and documented all the issues of caching and
                 decided to use (eg. max-age, private, ...) because...
               schema:
-                type: string
-
+                $ref: "#/components/schemas/CacheControl"
+  /ok-no-cache:
+    put:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: string
+              maxLength: 500
+              pattern: "[a-z]+"
+      responses:
+        "201":
+          description: no cache
+          headers: {}
   /ok-cache-control-responses:
     get:
       responses:
@@ -35,27 +53,25 @@ paths:
           headers:
             Cache-Control:
               example: >-
-                max-age: 3000
+                max-age=3000
               description: |-
                 This rule should find a way to ensure that the API provider
                 analysed and documented all the issues of caching and
                 decided to use (eg. max-age, private, ...) because...
               schema:
-                type: string
-
+                $ref: "#/components/schemas/CacheControl"
   /ko-cache-control-request-nodescription:
     get:
       parameters:
       - name: Cache-Control
         in: header
         schema:
-          type: string
+          $ref: "#/components/schemas/CacheControl"
       responses:
         "201":
           description: |-
             Should detail cache usage. As `headers` is missing
             other checks won't run on responses.
-
   /ko-cache-control-request-short-description:
     get:
       parameters:
@@ -64,7 +80,7 @@ paths:
         description: |-
           Should detail cache usage
         schema:
-          type: string
+          $ref: "#/components/schemas/CacheControl"
       responses:
         "201":
           description: Should have a meaningful cache usage.
@@ -79,7 +95,7 @@ paths:
               description: |-
                 max-age private no-store
               schema:
-                type: string
+                $ref: "#/components/schemas/CacheControl"
             Expires:
                 description: |-
                   max-age private no-store
@@ -94,7 +110,7 @@ paths:
               description: |-
                 max-age private no-store
               schema:
-                type: string
+                $ref: "#/components/schemas/CacheControl"
             expires:
                 description: |-
                   max-age private no-store
@@ -119,6 +135,8 @@ paths:
           headers:
             Cache-Control:
               description: ""
+              schema:
+                $ref: "#/components/schemas/CacheControl"
   /ko-expires-short-description:
     get:
       responses:
@@ -135,3 +153,5 @@ paths:
           headers:
             Cache-Control:
               description: "this is very short"
+              schemas:
+                $ref: "#/components/schemas/CacheControl"
