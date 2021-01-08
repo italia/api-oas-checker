@@ -1,9 +1,9 @@
 rules:
   use-problem-json-for-errors:
     description: |-
-      Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc7807) 
+      Error responses should support RFC7807.
     message: |-
-      Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc7807) in {{path}}.
+      Error responses should support RFC7807 in {{path}}.
     formats:
       - oas3
     severity: error
