@@ -5,7 +5,12 @@ import fs from 'fs';
 import path from 'path';
 import yaml from 'yaml';
 import marked from 'marked';
+import createDOMPurify from 'dompurify';
+import { JSDOM } from 'jsdom';
 import utils from './src/utils.mjs';
+
+const window = new JSDOM('').window;
+const DOMPurify = createDOMPurify(window);
 
 const { file, title } = yargs(hideBin(process.argv))
   .option('file', {
@@ -38,7 +43,7 @@ const rulesMd = Object.entries(doc.rules).reduce(
   [`# ${title}`]
 );
 
-const rulesHtml = marked(rulesMd.join('\n\n'));
+const rulesHtml = DOMPurify.sanitize(marked(rulesMd.join('\n\n')), { USE_PROFILES: { html: true } });
 const docFilename = utils.getDocFilename(file);
 
 const boostrapCss = fs.readFileSync(
