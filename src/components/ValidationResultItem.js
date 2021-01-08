@@ -57,7 +57,7 @@ const useStyle = createUseStyles({
   },
   warning: {
     extend: type,
-    border: '1px solid var(--warning-text-dark)',
+    border: '1px solid var(--text-dark)',
     backgroundColor: 'var(--warning)',
   },
 });
