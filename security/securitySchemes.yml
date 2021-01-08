@@ -1,22 +1,46 @@
 rules:
   security-protection-get: &security-protection-get
     description: |-
-      Paths should be protected by a `security` rule, especially when they
+      Your API should be protected by a `security` rule either at
+      global or operation level.
+      Operations should be protected specially when they
       are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
 
-      You should define a security rule tied to a `securityScheme`, eg.
+      Security rules are defined in the `securityScheme` section.
+
+      An example of a security rule applied at global level.
+
+      ```
+      security:
+      - BasicAuth: []
+      paths:
+        /books: {}
+        /users: {}
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+      ```
+
+      An example of a security rule applied at operation level, which
+      eventually overrides the global one
 
       ```
       paths:
         /books:
           post:
             security:
-            - BasicAuth: []
+            - AccessToken: []
       securitySchemes:
         BasicAuth:
           scheme: http
           type: basic
+        AccessToken:
+          scheme: http
+          type: bearer
+          bearerFormat: JWT
       ```
+
     message: >-
       The path {{path}} is not protected.
     formats:

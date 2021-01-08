@@ -22,7 +22,7 @@ rules:
     x-tags:
     - standards
     description: |-
-      'HTTP' headers SHOULD NOT start with 'X-' [RFC6648](https://tools.ietf.org/html/rfc6648).
+      'HTTP' headers SHOULD NOT start with 'X-' RFC6648.
     severity: warn
     given:
       - "$..parameters[?(@.in == 'header')].name"
