@@ -41,7 +41,7 @@ $ yarn start
 ```
 or alternatively
 ```
-$ docker-compose run --rm --service-ports start
+$ docker-compose up --build start
 ```
 and then when the build is finished, connect to http://127.0.0.1:3000/
   
@@ -57,7 +57,7 @@ $ make test-ui
 
 or alternatively
 ```
-$ docker-compose run --rm test
+$ ddocker-compose up --build test
 ```
 
 ## Write rules
