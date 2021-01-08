@@ -26,4 +26,4 @@ export const downloadFile = (content, fileName, contentType) => {
   anchorElement.click();
 };
 
-export default { getDocFilename };
+export const autoLinkRFC = (text) => text.replace(/(rfc[0-9]+)/gi, '[$1](https://tools.ietf.org/html/$1)');

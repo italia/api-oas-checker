@@ -1,10 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
+import DOMPurify from 'dompurify';
+import marked from 'marked';
 import { connect } from 'react-redux';
 import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
-import { ERROR, WARNING } from '../utils.mjs';
+import { ERROR, WARNING, autoLinkRFC } from '../utils.mjs';
 import { focusDocumentLine } from '../redux/actions.js';
 import {
   getValidationResultItemPropTypes,
@@ -47,6 +49,12 @@ const useStyle = createUseStyles({
     composes: 'col-1 text-center',
     marginTop: '2px',
   },
+  resultDescription: {
+    '& p': {
+      fontSize: '1rem !important',
+      marginBottom: '1rem !important',
+    },
+  },
   info: {
     composes: 'icon icon-primary',
     width: '20px',
@@ -82,6 +90,13 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
     window.open('https://slack.developers.italia.it/');
   }, []);
 
+  const descriptionMarkup = useMemo(
+    () => ({
+      __html: DOMPurify.sanitize(marked(autoLinkRFC(resultItem?.description ?? '')), { USE_PROFILES: { html: true } }),
+    }),
+    [resultItem]
+  );
+
   return (
     <>
       <div
@@ -110,7 +125,7 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
           {resultItem.code}
         </ModalHeader>
         <ModalBody className="mt-3" tag="div">
-          {resultItem.description}
+          <div className={classes.resultDescription} dangerouslySetInnerHTML={descriptionMarkup} />
         </ModalBody>
         <ModalFooter tag="div">
           <Button
