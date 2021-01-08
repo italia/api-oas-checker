@@ -8,11 +8,12 @@ import { getValidationResultsPropTypes, getValidationResultType } from '../spect
 
 const useStyles = createUseStyles({
   error: {
-    backgroundColor: (summary) => (summary.errors > 0 ? 'var(--danger)' : 'var(--success)'),
+    backgroundColor: (summary) => (summary.errors > 0 ? 'var(--danger)' : 'var(--success-light)'),
+    color: (summary) => (summary.errors > 0 ? 'var(--white)' : 'var(--text-dark)'),
   },
   warning: {
-    backgroundColor: (summary) => (summary.warnings > 0 ? 'var(--warning)' : 'var(--success)'),
-    color: (summary) => (summary.warnings > 0 ? 'var(--warning-text-dark)' : 'var(--white)'),
+    backgroundColor: (summary) => (summary.warnings > 0 ? 'var(--warning)' : 'var(--success-light)'),
+    color: 'var(--text-dark)',
   },
 });
 
