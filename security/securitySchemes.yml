@@ -1,0 +1,26 @@
+rules:
+  security-protection-get: &security-protection-get
+    description: |-
+      Paths should be protected by a `security` rule, especially when they
+      are tied to non-idempotent HTTP methods like `POST`, `PUT`, `DELETE`.
+
+    message: >-
+      The path {{path}} is not protected.
+    formats:
+    - oas3
+    severity: info
+    recommended: true
+    given:
+    - >-
+      $.paths.*.get
+    then:
+    - field: security
+      function: truthy
+  security-protection-non-idempotent:
+    <<: *security-protection-get
+    message: >-
+      The non-idempotent operation {{path}} is not protected
+    severity: error
+    given:
+      - >-
+        $.paths.*[?(@property.match(/^(post|put|patch|delete)/))]
