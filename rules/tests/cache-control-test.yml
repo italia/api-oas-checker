@@ -1,7 +1,19 @@
 openapi: 3.0.1
 components:
+  headers:
+    Cache-Control-Ok: &CacheControlOk
+      example: >-
+        max-age=3000
+      description: |-
+        This rule should find a way to ensure that the API provider
+        analysed and documented all the issues of caching and
+        decided to use (eg. max-age, private, ...) because...
+      schema:
+        $ref: "#/components/schemas/CacheControl"
+
   schemas:
     CacheControl:
+      description: "max-age public"
       type: string
       pattern: >-
         [a-z \-]+(=([a-z \-]+|"\w+"))?(,\s+[a-z \-]+(=([a-z \-]+|"\w+")))?
@@ -24,26 +36,17 @@ paths:
           description: Cache-Control must contain a placeholder
           headers:
             Cache-Control:
-              example: >-
-                max-age=3000
-              description: |-
-                This rule should find a way to ensure that the API provider
-                analysed and documented all the issues of caching and
-                decided to use (eg. max-age, private, ...) because...
-              schema:
-                $ref: "#/components/schemas/CacheControl"
-  /ok-no-cache:
+              $ref: '#/components/headers/Cache-Control-Ok'
+  /ok-no-headers:
     put:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              type: string
-              maxLength: 500
-              pattern: "[a-z]+"
       responses:
         "201":
-          description: no cache
+          description: ignore cache checks because no headers
+  /ko-empty-headers:
+    put:
+      responses:
+        "201":
+          description: error as no cache in headers
           headers: {}
   /ok-cache-control-responses:
     get:
@@ -52,14 +55,8 @@ paths:
           description: Cache-Control must contain a placeholder
           headers:
             Cache-Control:
-              example: >-
-                max-age=3000
-              description: |-
-                This rule should find a way to ensure that the API provider
-                analysed and documented all the issues of caching and
-                decided to use (eg. max-age, private, ...) because...
-              schema:
-                $ref: "#/components/schemas/CacheControl"
+              $ref: '#/components/headers/Cache-Control-Ok'
+
   /ko-cache-control-request-nodescription:
     get:
       parameters:
@@ -92,13 +89,10 @@ paths:
           description: Cache-Control overrides Expires.
           headers:
             Cache-Control:
+              $ref: "#/components/schemas/CacheControl"
+            Expires:
               description: |-
                 max-age private no-store
-              schema:
-                $ref: "#/components/schemas/CacheControl"
-            Expires:
-                description: |-
-                  max-age private no-store
 
   /ko-cache-control-and-expires-lower:
     get:
@@ -107,10 +101,7 @@ paths:
           description: Cache-Control overrides Expires.
           headers:
             cache-control:
-              description: |-
-                max-age private no-store
-              schema:
-                $ref: "#/components/schemas/CacheControl"
+              <<: CacheControlOk
             expires:
                 description: |-
                   max-age private no-store
@@ -134,9 +125,8 @@ paths:
           description: Cache-Control overrides Expires.
           headers:
             Cache-Control:
+              <<: *CacheControlOk
               description: ""
-              schema:
-                $ref: "#/components/schemas/CacheControl"
   /ko-expires-short-description:
     get:
       responses:
@@ -152,6 +142,6 @@ paths:
           description: Cache-Control overrides Expires.
           headers:
             Cache-Control:
+              <<: *CacheControlOk
               description: "this is very short"
-              schemas:
-                $ref: "#/components/schemas/CacheControl"
+              

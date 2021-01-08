@@ -37,8 +37,9 @@ rules:
 
   cache-responses-undocumented:
     <<: *cache-control
+    severity: info
     message: >-
-      Cache usage in responses SHOULD be documented in Cache-Control and/or Expires.
+      Cache usage in responses SHOULD be documented in Cache-Control and/or Expires. {{error}}
     given: >-
       $.[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]]
 
@@ -46,8 +47,6 @@ rules:
     <<: *cache-control
     message: >-
       {{error}}
-    formats:
-      - oas3
     severity: info
     recommended: true
     given: >-
