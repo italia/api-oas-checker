@@ -43,9 +43,9 @@
 file: Authorization, Content-Type and Accept.
 You MUST use the associate functionalities provided by OAS, instead.</p>
 <h2 id="no-x-headers-request">no-x-headers-request</h2>
-<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
+<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="no-x-headers-response">no-x-headers-response</h2>
-<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
+<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="servers-description">servers-description</h2>
 <p>Servers must have a description.</p>
 <h2 id="servers-use-https">servers-use-https</h2>
@@ -64,7 +64,7 @@ Use <code>x-sandbox: true</code> to skip this kind of check.</p>
 <p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
 <h2 id="patch-media-type">patch-media-type</h2>
 <p>The PATCH specification explicits that the request body contains
-a &quot;patch document&quot; describing the changes to be applied
+a "patch document" describing the changes to be applied
 to the target resource.</p>
 <p>To avoid confusion, <a href="https://www.rfc-editor.org/errata/eid3169">this errata</a>
 explains that <code>application/json</code> is not an appropriate media-type for <code>PATCH</code>.</p>
@@ -78,7 +78,7 @@ defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
           application/json-patch+json:
             schema:
               type: object
-            example: [{ &quot;op&quot;: &quot;add&quot;, &quot;path&quot;: &quot;/baz&quot;, &quot;value&quot;: &quot;qux&quot; }]</code></pre>
+            example: [{ "op": "add", "path": "/baz", "value": "qux" }]</code></pre>
 <h2 id="paths-status">paths-status</h2>
 <p>You must define a <code>/status</code> path that can be used to health-check the API.
 Using this path avoids the arbitrary usage of a server URL for health-check
@@ -87,17 +87,17 @@ scope.</p>
 containing a successful status code if the service is working correctly.</p>
 <p>The service provider is free to define the implementation logic for this path.</p>
 <h2 id="paths-status-return-problem">paths-status-return-problem</h2>
-<p>&quot;/status&quot; must return a Problem object.</p>
+<p>"/status" must return a Problem object.</p>
 <h2 id="paths-status-problem-schema">paths-status-problem-schema</h2>
-<p>&quot;/status&quot; schema is not a Problem object.</p>
+<p>"/status" schema is not a Problem object.</p>
 <h2 id="use-problem-json-for-errors">use-problem-json-for-errors</h2>
 <p>Error responses should support <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>.</p>
 <h2 id="use-problem-schema">use-problem-schema</h2>
 <p>WARN: This rule is under implementation.
-Your problem schema doesn&#39;t seem to match <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>. Are you sure it is ok?
+Your problem schema doesn't seem to match <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>. Are you sure it is ok?
 See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore">https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore</a></p>
 <h2 id="hint-problem-schema">hint-problem-schema</h2>
-<p>Your problem schema doesn&#39;t seem to match <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>. Are you sure it is ok? See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore">https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore</a></p>
+<p>Your problem schema doesn't seem to match <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>. Are you sure it is ok? See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore">https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore</a></p>
 <h2 id="missing-retry-after">missing-retry-after</h2>
 <p>When a client is either:</p>
 <ul>
@@ -124,7 +124,7 @@ See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-heade
 <h2 id="response-with-json-object">response-with-json-object</h2>
 <p>JSON responses MUST use JSON objects, in order to be extensible.</p>
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return
-an object <code>{&quot;items&quot;: [1, 2, 3]}</code>.</p>
+an object <code>{"items": [1, 2, 3]}</code>.</p>
 <p>This allows the schema to evolve in a backward compatible ways.</p>
 
         </div>
