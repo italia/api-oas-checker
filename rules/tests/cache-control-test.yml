@@ -1,0 +1,147 @@
+openapi: 3.0.1
+components:
+  headers:
+    Cache-Control-Ok: &CacheControlOk
+      example: >-
+        max-age=3000
+      description: |-
+        This rule should find a way to ensure that the API provider
+        analysed and documented all the issues of caching and
+        decided to use (eg. max-age, private, ...) because...
+      schema:
+        $ref: "#/components/schemas/CacheControl"
+
+  schemas:
+    CacheControl:
+      description: "max-age public"
+      type: string
+      pattern: >-
+        [a-z \-]+(=([a-z \-]+|"\w+"))?(,\s+[a-z \-]+(=([a-z \-]+|"\w+")))?
+paths:
+  /ok-cache-control:
+    get:
+      parameters:
+      - name: Cache-Control
+        in: header
+        example: >-
+          max-age=3000
+        description: |-
+          This rule should find a way to ensure that the API provider
+          analysed and documented all the issues of caching and
+          decided to use (eg. max-age, private, ...) because...
+        schema:
+          $ref: "#/components/schemas/CacheControl"
+      responses:
+        "201":
+          description: Cache-Control must contain a placeholder
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control-Ok'
+  /ok-no-headers:
+    put:
+      responses:
+        "201":
+          description: ignore cache checks because no headers
+  /ko-empty-headers:
+    put:
+      responses:
+        "201":
+          description: error as no cache in headers
+          headers: {}
+  /ok-cache-control-responses:
+    get:
+      responses:
+        "201":
+          description: Cache-Control must contain a placeholder
+          headers:
+            Cache-Control:
+              $ref: '#/components/headers/Cache-Control-Ok'
+
+  /ko-cache-control-request-nodescription:
+    get:
+      parameters:
+      - name: Cache-Control
+        in: header
+        schema:
+          $ref: "#/components/schemas/CacheControl"
+      responses:
+        "201":
+          description: |-
+            Should detail cache usage. As `headers` is missing
+            other checks won't run on responses.
+  /ko-cache-control-request-short-description:
+    get:
+      parameters:
+      - name: Cache-Control
+        in: header
+        description: |-
+          Should detail cache usage
+        schema:
+          $ref: "#/components/schemas/CacheControl"
+      responses:
+        "201":
+          description: Should have a meaningful cache usage.
+
+  /ko-cache-control-and-expires:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Cache-Control:
+              $ref: "#/components/schemas/CacheControl"
+            Expires:
+              description: |-
+                max-age private no-store
+
+  /ko-cache-control-and-expires-lower:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            cache-control:
+              <<: CacheControlOk
+            expires:
+                description: |-
+                  max-age private no-store
+  /ko-no-cache-control-nor-expires:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+  /ko-expires-nodescription:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Expires:
+              description: ""
+  /ko-cache-control-response-nodescription:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Cache-Control:
+              <<: *CacheControlOk
+              description: ""
+  /ko-expires-short-description:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Expires:
+              description: "short description"
+  /ko-cache-control-response-short-description:
+    get:
+      responses:
+        "201":
+          description: Cache-Control overrides Expires.
+          headers:
+            Cache-Control:
+              <<: *CacheControlOk
+              description: "this is very short"
+              
