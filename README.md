@@ -4,68 +4,61 @@
 [![API on forum.italia.it](https://img.shields.io/badge/Forum-interoperabilit%C3%A0-blue.svg)](https://forum.italia.it/c/piano-triennale/interoperabilita)
 [![README in English](https://img.shields.io/badge/Readme-English-darkgreen.svg)](README.en.md)
 
-Questo repository contiene un validatore in-browser che verifica
-alcune delle regole per le API REST indicate
-nel Modello di Interoperabilità.
+Questo repository contiene un validatore in-browser che verifica alcune delle regole per le API REST indicate nel Modello di Interoperabilità.
 
 I progetti associati sono indicati nell' [API Starter Kit](https://github.com/teamdigitale/api-starter-kit).
 E' in beta una [github-action che utilizza queste regole](https://github.com/teamdigitale/api-oas-checker-action).
 
-L'applicazione on-line pronta all'uso è disponibile  
-[qui](https://teamdigitale.github.io/api-oas-checker).
+L'applicazione on-line pronta all'uso è disponibile [qui](https://italia.github.io/api-oas-checker/).
 
 Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) che abbiamo preferito rispetto ad altri software:
 
 - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
-- [Speccy](https://github.com/wework/speccy) pare supportare solo regole in javascript, mentre questo validatore utilizza dei file yaml statici. 
+- [Speccy](https://github.com/wework/speccy) pare supportare solo regole in javascript, mentre questo validatore utilizza dei file yaml statici.
 
 ## Contenuto
 
-- Un progetto nodejs che usa webpack per creare una single-page application
-- Una directory [rules/](rules/) con le regole applicate, che vengono
-  poi aggregate nel file [spectral.yml](spectral.yml).
-  
-## Istruzioni
+- Una applicazione web sviluppata con React che usa Webpack + Babel per creare una single-page application
+- Una directory [rules/](rules/) con le regole applicate, che vengono poi aggregate nel file spectral.yml
 
-Il modo più semplice per eseguire l'applicazione 
-è tramite docker-compose:
+## Sviluppo
 
-```
-$ git clone git@github.com:teamdigitale/api-oas-validator.git
-$ cd api-oas-validator
-$ docker-compose up -d run
-$ xdg-open localhost:8000
-```
-
-In alternativa sarà sufficiente eseguire:
-```
-$ npm run build
-$ npm start
-```
-
-Se volete controllare la vostra API usando la CLI
-di Spectral, vi basta lanciare dalla directory `api-oas-validator`
+### Modalità linea di comando
+Se volete controllare la vostra API usando la CLI di Spectral, dopo aver clonato il repository, eseguite
 
 ```
-api-oas-validator $ spectral lint -r spectral.yml $OAS_URL_OR_FILE
+$ yarn
+$ make rules
+$ yarn run spectral lint -r spectral.yml $OAS_URL_OR_FILE
 ```
 
-## Compilazione
+### Modalità ui
+Questa applicazione web è basata sulla libreria React e usa Webpack per generare il bundle dell'applicazione con il supporto di Babel per transpilare il codice JavaScript.
 
-Questa applicazione usa Browserify,
-che pacchettizza ricorsivamente tutte le dipendenze
- nodejs in un javascript eseguibile dal browser.
-
-L'applicazione è in [index.js](index.js) ed utilizza 
-Spectral, un software opensource che valida un file OpenAPI
-  in funzione di una serie di regole.
+Per avviare l'applicazione
+```
+$ yarn
+$ yarn start
+```
+In alternativa
+```
+$ docker-compose up --build start
+```
+e al termine della compilazione collegarsi a http://127.0.0.1:3000/
 
 ## Testing
 
-Per testare con docker basta lanciare
+E' possibile testare sia la corretta generazione delle regole spectral che la ui
 
 ```
-docker-compose up test
+# N.B. make test non funziona correttamente su MacOS
+$ make test
+$ make test-ui
+```
+
+In alternativa
+```
+$ docker-compose up --build test
 ```
 
 ## Scrivere regole

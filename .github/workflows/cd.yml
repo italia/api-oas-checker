@@ -1,0 +1,26 @@
+name: CD (commit on master)
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  deploy:
+    runs-on: 'ubuntu-20.04'
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          check-latest: true
+      - name: Test rules
+        run: |
+          make test
+      - name: Build ui, test ui and deploy
+        run: |
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/italia/api-oas-checker.git
+          make deploy
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

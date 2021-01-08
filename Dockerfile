@@ -1,8 +1,6 @@
-FROM node
+FROM node:14.15
 
-ADD . /code
-WORKDIR /code
-RUN make
-WORKDIR /code/bundle/
-EXPOSE 8000
-ENTRYPOINT ["python", "-m", "SimpleHTTPServer"]
+ADD . /app
+WORKDIR /app
+RUN yarn install --frozen-lockfile
+ENTRYPOINT ["yarn", "start"]
