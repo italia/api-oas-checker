@@ -1,15 +1,15 @@
 OpenAPI 3.x detected
 
 /code/rules/tests/metadata-test.yml
-  3:5   error  servers-description  Server #/servers/0 must have a description.
-  9:10  error  servers-use-https    Non-sandbox url  http://ko.example must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.
- 11:10  error  servers-use-https    Non-sandbox url  http://ko.sandbox.examle must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.
-  14:6  error  has-contact          API MUST reference a contact, either url or email in #/info/contact
-  14:6  error  has-termsOfService   API MUST reference the URL of the Terms of Service  in `#/info/termsOfService`
-  14:6  error  has-x-api-id         API must have an unique identifier in x-api-id in #/info/x-api-id.
-  14:6  error  has-x-summary        API MUST have an one-liner #/info/summary field containing a brief description.
+  3:5   error  servers-description  Server #/servers/0 must have a description.                                                                                                     servers[0]
+  9:10  error  servers-use-https    Non-sandbox url  http://ko.example must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.         servers[3].url
+ 11:10  error  servers-use-https    Non-sandbox url  http://ko.sandbox.examle must match the pattern '^https://.*'. Add `x-sandbox: true` to skip this check on a specific server.  servers[4].url
+  14:6  error  has-contact          API MUST reference a contact, either url or email in #/info/contact                                                                             info
+  14:6  error  has-termsOfService   API MUST reference the URL of the Terms of Service  in `#/info/termsOfService`                                                                  info
+  14:6  error  has-x-api-id         API must have an unique identifier in x-api-id in #/info/x-api-id.                                                                              info
+  14:6  error  has-x-summary        API MUST have an one-liner #/info/summary field containing a brief description.                                                                 info
  17:12  error  use-semver           Specs should follow semantic versioning. ko.no_semver is not a valid version.
-See https://semver.org/#semantic-versioning-specification-semver
+See https://semver.org/#semantic-versioning-specification-semver  info.version
 
 ✖ 8 problems (8 errors, 0 warnings, 0 infos, 0 hints)
 
