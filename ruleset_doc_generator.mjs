@@ -31,7 +31,8 @@ const rulesMd = Object.entries(doc.rules).reduce(
     if (value.description === undefined)
       throw new Error(`Rule ${key} doesn't have a description. Rule description is a required field`);
 
-    rules.push(`## ${key}\n\n${value.description}`);
+    const description = value.description.replace(/(rfc[0-9]+)/gi, '[$1](https://tools.ietf.org/html/$1)');
+    rules.push(`## ${key}\n\n${description}`);
     return rules;
   },
   [`# ${title}`]
@@ -40,7 +41,10 @@ const rulesMd = Object.entries(doc.rules).reduce(
 const rulesHtml = marked(rulesMd.join('\n\n'));
 const docFilename = utils.getDocFilename(file);
 
-const boostrapCss = fs.readFileSync(path.resolve(path.dirname(''), 'node_modules/bootstrap-italia/dist/css/bootstrap-italia.min.css'), 'utf-8');
+const boostrapCss = fs.readFileSync(
+  path.resolve(path.dirname(''), 'node_modules/bootstrap-italia/dist/css/bootstrap-italia.min.css'),
+  'utf-8'
+);
 
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -71,6 +75,5 @@ const html = `<!DOCTYPE html>
 </div>
 </body>
 </html>`;
-
 
 fs.writeFileSync(docFilename, html);
