@@ -3,13 +3,20 @@
 # generated bundle files
 /out.js
 /bundle
+/dist
 /assets
 *.zip
+spectral*.yml
+spectral*.doc.html
 /css
 /fonts
 /svg
 yarn-error.log
-yarn.lock
+/coverage
+.idea
 
 # generated json files
 rules/*.json
+
+# generated css from bootstrap-italia
+src/bootstrap-italia-custom.min.css
