@@ -1,10 +1,10 @@
 OpenAPI 3.x detected
 
 /code/rules/tests/problem-test.yml
- 21:30  error  use-problem-json-for-errors  Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc7807) in #/paths/~1ko-default-use-problem/get/responses/default/content/application~1json.  paths./ko-default-use-problem.get.responses.default.content.application/json
- 27:25  error  use-problem-json-for-errors  Error responses should support [RFC 7807](https://tools.ietf.org/html/rfc7807) in #/paths/~1ko-error-use-problem/get/responses/400/content/not~1problem.             paths./ko-error-use-problem.get.responses[400].content.not/problem
- 65:17   hint  hint-problem-schema          Error response doesn't seem to match RFC7807. Are you sure it is ok? #/components/schemas/ko_Problem/properties/message                                              components.schemas.ko_Problem.properties.message
- 67:14   hint  hint-problem-schema          Error response doesn't seem to match RFC7807. Are you sure it is ok? #/components/schemas/ko_Problem/properties/code                                                 components.schemas.ko_Problem.properties.code
+ 21:30  error  use-problem-json-for-errors  Error responses should support RFC7807 in #/paths/~1ko-default-use-problem/get/responses/default/content/application~1json.  paths./ko-default-use-problem.get.responses.default.content.application/json
+ 27:25  error  use-problem-json-for-errors  Error responses should support RFC7807 in #/paths/~1ko-error-use-problem/get/responses/400/content/not~1problem.             paths./ko-error-use-problem.get.responses[400].content.not/problem
+ 65:17   hint  hint-problem-schema          Error response doesn't seem to match RFC7807. Are you sure it is ok? #/components/schemas/ko_Problem/properties/message      components.schemas.ko_Problem.properties.message
+ 67:14   hint  hint-problem-schema          Error response doesn't seem to match RFC7807. Are you sure it is ok? #/components/schemas/ko_Problem/properties/code         components.schemas.ko_Problem.properties.code
 
 ✖ 4 problems (2 errors, 0 warnings, 0 infos, 2 hints)
 

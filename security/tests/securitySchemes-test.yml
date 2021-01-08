@@ -1,0 +1,26 @@
+openapi: 3.0.1
+info:
+  version: "1.2.3"
+  title: "securitySchemes"
+paths:
+  /security-ko-put:
+    put:
+      responses: {}
+  /security-ko-patch:
+    patch:
+      responses: {}
+  /security-ok:
+    post:
+      security:
+        -  BasicAuth: []
+      responses: {}
+  /security-ko-get:
+    get:
+      responses: {}
+
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+

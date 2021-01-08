@@ -1,0 +1,9 @@
+OpenAPI 3.x detected
+
+/code/security/tests/securitySchemes-test.yml
+  7:9         error  security-protection-non-idempotent  The non-idempotent operation #/paths/~1security-ko-put/put is not protected      paths./security-ko-put.put
+ 10:11        error  security-protection-non-idempotent  The non-idempotent operation #/paths/~1security-ko-patch/patch is not protected  paths./security-ko-patch.patch
+  18:9  information  security-protection-get             The path #/paths/~1security-ko-get/get is not protected.                         paths./security-ko-get.get
+
+✖ 3 problems (2 errors, 0 warnings, 1 info, 0 hints)
+
