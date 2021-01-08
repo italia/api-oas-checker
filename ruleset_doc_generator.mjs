@@ -7,7 +7,7 @@ import yaml from 'yaml';
 import marked from 'marked';
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
-import utils from './src/utils.mjs';
+import { getDocFilename, autoLinkRFC } from './src/utils.mjs';
 
 const window = new JSDOM('').window;
 const DOMPurify = createDOMPurify(window);
@@ -36,7 +36,7 @@ const rulesMd = Object.entries(doc.rules).reduce(
     if (value.description === undefined)
       throw new Error(`Rule ${key} doesn't have a description. Rule description is a required field`);
 
-    const description = value.description.replace(/(rfc[0-9]+)/gi, '[$1](https://tools.ietf.org/html/$1)');
+    const description = autoLinkRFC(value.description);
     rules.push(`## ${key}\n\n${description}`);
     return rules;
   },
@@ -44,7 +44,7 @@ const rulesMd = Object.entries(doc.rules).reduce(
 );
 
 const rulesHtml = DOMPurify.sanitize(marked(rulesMd.join('\n\n')), { USE_PROFILES: { html: true } });
-const docFilename = utils.getDocFilename(file);
+const docFilename = getDocFilename(file);
 
 const boostrapCss = fs.readFileSync(
   path.resolve(path.dirname(''), 'node_modules/bootstrap-italia/dist/css/bootstrap-italia.min.css'),
