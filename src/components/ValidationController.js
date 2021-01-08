@@ -86,6 +86,7 @@ ${event.data.error}`);
           className="w-100 py-2 px-3"
           color="primary"
           icon
+          disabled={documentText === null}
           tag="button"
           onClick={isValidationInProgress ? Function.prototype : handleValidation}
         >
