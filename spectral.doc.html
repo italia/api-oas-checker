@@ -43,9 +43,9 @@
 file: Authorization, Content-Type and Accept.
 You MUST use the associate functionalities provided by OAS, instead.</p>
 <h2 id="no-x-headers-request">no-x-headers-request</h2>
-<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/%5Brfc6648%5D(https://tools.ietf.org/html/rfc6648)"><a href="https://tools.ietf.org/html/RFC6648">RFC6648</a></a>.</p>
+<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="no-x-headers-response">no-x-headers-response</h2>
-<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/%5Brfc6648%5D(https://tools.ietf.org/html/rfc6648)"><a href="https://tools.ietf.org/html/RFC6648">RFC6648</a></a>.</p>
+<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="servers-description">servers-description</h2>
 <p>Servers must have a description.</p>
 <h2 id="servers-use-https">servers-use-https</h2>
@@ -91,15 +91,31 @@ to a shared subset.</p>
 a &quot;patch document&quot; describing the changes to be applied
 to the target resource.</p>
 <p>To avoid confusion, <a href="https://www.rfc-editor.org/errata/eid3169">this errata</a>
-explains that application/json is not an appropriate media-type for PATCH.</p>
+explains that <code>application/json</code> is not an appropriate media-type for <code>PATCH</code>.</p>
+<p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
+defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
+<pre><code>paths:
+  /books/{book_id}:
+    patch:
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: object
+            example: [{ &quot;op&quot;: &quot;add&quot;, &quot;path&quot;: &quot;/baz&quot;, &quot;value&quot;: &quot;qux&quot; }]</code></pre>
 <h2 id="paths-status">paths-status</h2>
-<p>The &quot;/status&quot; path used to health-check the API must be defined.</p>
+<p>You must define a <code>/status</code> path that can be used to health-check the API.
+Using this path avoids the arbitrary usage of a server URL for health-check
+scope.</p>
+<p>The <code>/status</code> endpoint should return a <code>application/problem+json</code> response
+containing a successful status code if the service is working correctly.</p>
+<p>The service provider is free to define the implementation logic for this path.</p>
 <h2 id="paths-status-return-problem">paths-status-return-problem</h2>
 <p>&quot;/status&quot; must return a Problem object.</p>
 <h2 id="paths-status-problem-schema">paths-status-problem-schema</h2>
 <p>&quot;/status&quot; schema is not a Problem object.</p>
 <h2 id="use-problem-json-for-errors">use-problem-json-for-errors</h2>
-<p>Error responses should support <a href="https://tools.ietf.org/html/%5Brfc7807%5D(https://tools.ietf.org/html/rfc7807)">RFC 7807</a> </p>
+<p>Error responses should support <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>.</p>
 <h2 id="use-problem-schema">use-problem-schema</h2>
 <p>WARN: This rule is under implementation.
 Your problem schema doesn&#39;t seem to match <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>. Are you sure it is ok?
@@ -114,8 +130,21 @@ See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointerop
 the server should explicitly communicate how long to wait
 before issuing further requests using the Retry-After header.</li>
 </ul>
+<p>Retry-After is defined in <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a>.</p>
 <h2 id="missing-ratelimit">missing-ratelimit</h2>
-<p>APIs should use ratelimit headers at least on successful responses.</p>
+<p>APIs should use the following headers at least on successful responses:</p>
+<ul>
+<li><code>X-RateLimit-Limit</code>: number of total requests in a give time window</li>
+<li><code>X-RateLimit-Remaining</code>: remaining requests in the current window</li>
+<li><code>X-RateLimit-Reset</code>: number of seconds before the window resets</li>
+</ul>
+<p>An example set of headers is the following</p>
+<pre><code>X-Ratelimit-Limit: 100
+X-Ratelimit-Remaining: 40
+X-Ratelimit-Reset: 12</code></pre>
+<p>A standardization proposal for ratelimit headers is ongoning
+inside the IETF HTTPAPI Workgroup.
+See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p>
 <h2 id="response-with-json-object">response-with-json-object</h2>
 <p>JSON responses MUST use JSON objects, in order to be extensible.</p>
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return

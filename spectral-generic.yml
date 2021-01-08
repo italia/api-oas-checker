@@ -72,8 +72,7 @@ rules:
   no-x-headers-request:
     x-tags:
       - standards
-    description: "'HTTP' headers SHOULD NOT start with 'X-'
-      [RFC6648](https://tools.ietf.org/html/rfc6648)."
+    description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648."
     severity: warn
     given:
       - $..parameters[?(@.in == 'header')].name
@@ -87,8 +86,7 @@ rules:
   no-x-headers-response:
     x-tags:
       - standards
-    description: "'HTTP' headers SHOULD NOT start with 'X-'
-      [RFC6648](https://tools.ietf.org/html/rfc6648)."
+    description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648."
     severity: warn
     given:
       - $.[responses][*].headers.*~
@@ -197,7 +195,26 @@ rules:
 
       To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)
 
-      explains that application/json is not an appropriate media-type for PATCH.
+      explains that `application/json` is not an appropriate media-type for `PATCH`.
+
+
+      A correct example of PATCH using eg. `application/json-patch+json` media-type
+
+      defined in RFC6902.
+
+
+      ```
+
+      paths:
+        /books/{book_id}:
+          patch:
+            requestBody:
+              content:
+                application/json-patch+json:
+                  schema:
+                    type: object
+                  example: [{ "op": "add", "path": "/baz", "value": "qux" }]
+      ```
     message: application/json is not an appropriate media-type for PATCH. {{path}}
     formats:
       - oas3
@@ -210,7 +227,20 @@ rules:
   paths-status:
     x-tags:
       - it
-    description: The "/status" path used to health-check the API must be defined.
+    description: >-
+      You must define a `/status` path that can be used to health-check the API.
+
+      Using this path avoids the arbitrary usage of a server URL for health-check
+
+      scope.
+
+
+      The `/status` endpoint should return a `application/problem+json` response
+
+      containing a successful status code if the service is working correctly.
+
+
+      The service provider is free to define the implementation logic for this path.
     message: The "/status" path used to health-check the API must be defined. {{error}}
     severity: error
     recommended: true
@@ -248,10 +278,8 @@ rules:
       - function: truthy
         field: properties.detail
   use-problem-json-for-errors:
-    description: "Error responses should support [RFC
-      7807](https://tools.ietf.org/html/rfc7807) "
-    message: Error responses should support [RFC
-      7807](https://tools.ietf.org/html/rfc7807) in {{path}}.
+    description: Error responses should support RFC7807.
+    message: Error responses should support RFC7807 in {{path}}.
     formats:
       - oas3
     severity: error
@@ -310,6 +338,8 @@ rules:
       * warned about a temporary server issue with a 503 status code;
       the server should explicitly communicate how long to wait
       before issuing further requests using the Retry-After header.
+
+      Retry-After is defined in RFC7231.
     message: "Missing ratelimit header: {{property}} in {{path}}"
     formats:
       - oas3
@@ -322,7 +352,35 @@ rules:
   missing-ratelimit:
     x-tags:
       - it
-    description: APIs should use ratelimit headers at least on successful responses.
+    description: >-
+      APIs should use the following headers at least on successful responses:
+
+      - `X-RateLimit-Limit`: number of total requests in a give time window
+
+      - `X-RateLimit-Remaining`: remaining requests in the current window
+
+      - `X-RateLimit-Reset`: number of seconds before the window resets
+
+
+      An example set of headers is the following
+
+
+      ```
+
+      X-Ratelimit-Limit: 100
+
+      X-Ratelimit-Remaining: 40
+
+      X-Ratelimit-Reset: 12
+
+      ```
+
+
+      A standardization proposal for ratelimit headers is ongoning
+
+      inside the IETF HTTPAPI Workgroup.
+
+      See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
     message: Missing ratelimit headers. {{property}} {{error}} {{path}}
     formats:
       - oas3

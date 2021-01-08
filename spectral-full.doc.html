@@ -43,9 +43,9 @@
 file: Authorization, Content-Type and Accept.
 You MUST use the associate functionalities provided by OAS, instead.</p>
 <h2 id="no-x-headers-request">no-x-headers-request</h2>
-<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/%5Brfc6648%5D(https://tools.ietf.org/html/rfc6648)"><a href="https://tools.ietf.org/html/RFC6648">RFC6648</a></a>.</p>
+<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="no-x-headers-response">no-x-headers-response</h2>
-<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/%5Brfc6648%5D(https://tools.ietf.org/html/rfc6648)"><a href="https://tools.ietf.org/html/RFC6648">RFC6648</a></a>.</p>
+<p>&#39;HTTP&#39; headers SHOULD NOT start with &#39;X-&#39; <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="servers-description">servers-description</h2>
 <p>Servers must have a description.</p>
 <h2 id="servers-use-https">servers-use-https</h2>
@@ -91,15 +91,31 @@ to a shared subset.</p>
 a &quot;patch document&quot; describing the changes to be applied
 to the target resource.</p>
 <p>To avoid confusion, <a href="https://www.rfc-editor.org/errata/eid3169">this errata</a>
-explains that application/json is not an appropriate media-type for PATCH.</p>
+explains that <code>application/json</code> is not an appropriate media-type for <code>PATCH</code>.</p>
+<p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
+defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
+<pre><code>paths:
+  /books/{book_id}:
+    patch:
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: object
+            example: [{ &quot;op&quot;: &quot;add&quot;, &quot;path&quot;: &quot;/baz&quot;, &quot;value&quot;: &quot;qux&quot; }]</code></pre>
 <h2 id="paths-status">paths-status</h2>
-<p>The &quot;/status&quot; path used to health-check the API must be defined.</p>
+<p>You must define a <code>/status</code> path that can be used to health-check the API.
+Using this path avoids the arbitrary usage of a server URL for health-check
+scope.</p>
+<p>The <code>/status</code> endpoint should return a <code>application/problem+json</code> response
+containing a successful status code if the service is working correctly.</p>
+<p>The service provider is free to define the implementation logic for this path.</p>
 <h2 id="paths-status-return-problem">paths-status-return-problem</h2>
 <p>&quot;/status&quot; must return a Problem object.</p>
 <h2 id="paths-status-problem-schema">paths-status-problem-schema</h2>
 <p>&quot;/status&quot; schema is not a Problem object.</p>
 <h2 id="use-problem-json-for-errors">use-problem-json-for-errors</h2>
-<p>Error responses should support <a href="https://tools.ietf.org/html/%5Brfc7807%5D(https://tools.ietf.org/html/rfc7807)">RFC 7807</a> </p>
+<p>Error responses should support <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>.</p>
 <h2 id="use-problem-schema">use-problem-schema</h2>
 <p>WARN: This rule is under implementation.
 Your problem schema doesn&#39;t seem to match <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>. Are you sure it is ok?
@@ -114,27 +130,246 @@ See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointerop
 the server should explicitly communicate how long to wait
 before issuing further requests using the Retry-After header.</li>
 </ul>
+<p>Retry-After is defined in <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a>.</p>
 <h2 id="missing-ratelimit">missing-ratelimit</h2>
-<p>APIs should use ratelimit headers at least on successful responses.</p>
+<p>APIs should use the following headers at least on successful responses:</p>
+<ul>
+<li><code>X-RateLimit-Limit</code>: number of total requests in a give time window</li>
+<li><code>X-RateLimit-Remaining</code>: remaining requests in the current window</li>
+<li><code>X-RateLimit-Reset</code>: number of seconds before the window resets</li>
+</ul>
+<p>An example set of headers is the following</p>
+<pre><code>X-Ratelimit-Limit: 100
+X-Ratelimit-Remaining: 40
+X-Ratelimit-Reset: 12</code></pre>
+<p>A standardization proposal for ratelimit headers is ongoning
+inside the IETF HTTPAPI Workgroup.
+See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p>
 <h2 id="response-with-json-object">response-with-json-object</h2>
 <p>JSON responses MUST use JSON objects, in order to be extensible.</p>
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return
 an object <code>{&quot;items&quot;: [1, 2, 3]}</code>.</p>
 <p>This allows the schema to evolve in a backward compatible ways.</p>
 <h2 id="array-boundaries">array-boundaries</h2>
-<p>Arrays should be limited in size to mitigate resource exhaustion
-using <code>maxItems</code> and <code>minItems</code>.</p>
+<p>Array size should be limited to mitigate resource exhaustion attacks.
+This can be done using <code>maxItems</code> and <code>minItems</code>, like in the example
+below.</p>
+<pre><code>Limited:
+  type: array
+  maxItems: 10
+  items:
+    type: string
+    format: date</code></pre>
+<p>You should ensure that the schema referenced in  <code>items</code> is constrained too.</p>
 <p>If you delegate input validation to a library or framework,
-be sure to test it thoroughly.</p>
+be sure to test it thoroughly and ensure that it verifies <code>maxItems</code>.</p>
 <h2 id="number-boundaries">number-boundaries</h2>
 <p>Numeric values should be limited in size to mitigate resource exhaustion
 using <code>maximum</code> and <code>minimum</code>.</p>
 <p>If you delegate input validation to a library or framework,
 be sure to test it thoroughly.</p>
+<h2 id="no-additionalproperties">no-additionalProperties</h2>
+<p>By default, jsonschema allows additionalProperties. This means
+that schema validators can be bypassed using further, unspecified
+fields.</p>
+<p>While forbidding additionalProperties can create rigidity and hinder
+the evolution of an API - eg making it hard to accept new parameters
+or fields - it is possible that this flexibility can be used
+to bypass the schema validator and force the application to process
+unwanted information.</p>
+<p>Disable <code>additionalProperties</code> with <code>false</code></p>
+<pre><code>Person:
+  type: object
+  additionalProperties: false
+  properties:
+    given_name:
+      type: string
+      pattern: [a-zA-Z ]{24}</code></pre>
+<p>Or constraint them using <code>maxProperties</code></p>
+<pre><code>Person:
+  type: object
+  additionalProperties:
+    type: string
+    pattern: /+39[0-9]{,14}/
+  maxProperties: 3
+  properties:
+    given_name:
+      type: string
+      pattern: [a-zA-Z ]{24}</code></pre>
+<ul>
+<li>no additionalProperties</li>
+<li>constrained additionalProperties</li>
+</ul>
+<h2 id="no-default-additionalproperties">no-default-additionalProperties</h2>
+<p>By default, jsonschema allows additionalProperties. This means
+that schema validators can be bypassed using further, unspecified
+fields.</p>
+<p>While forbidding additionalProperties can create rigidity and hinder
+the evolution of an API - eg making it hard to accept new parameters
+or fields - it is possible that this flexibility can be used
+to bypass the schema validator and force the application to process
+unwanted information.</p>
+<p>Disable <code>additionalProperties</code> with <code>false</code></p>
+<pre><code>Person:
+  type: object
+  additionalProperties: false
+  properties:
+    given_name:
+      type: string
+      pattern: [a-zA-Z ]{24}</code></pre>
+<p>Or constraint them using <code>maxProperties</code></p>
+<pre><code>Person:
+  type: object
+  additionalProperties:
+    type: string
+    pattern: /+39[0-9]{,14}/
+  maxProperties: 3
+  properties:
+    given_name:
+      type: string
+      pattern: [a-zA-Z ]{24}</code></pre>
+<ul>
+<li>no additionalProperties</li>
+<li>constrained additionalProperties</li>
+</ul>
+<h2 id="constrained-additionalproperties">constrained-additionalProperties</h2>
+<p>By default, jsonschema allows additionalProperties. This means
+that schema validators can be bypassed using further, unspecified
+fields.</p>
+<p>While forbidding additionalProperties can create rigidity and hinder
+the evolution of an API - eg making it hard to accept new parameters
+or fields - it is possible that this flexibility can be used
+to bypass the schema validator and force the application to process
+unwanted information.</p>
+<p>Disable <code>additionalProperties</code> with <code>false</code></p>
+<pre><code>Person:
+  type: object
+  additionalProperties: false
+  properties:
+    given_name:
+      type: string
+      pattern: [a-zA-Z ]{24}</code></pre>
+<p>Or constraint them using <code>maxProperties</code></p>
+<pre><code>Person:
+  type: object
+  additionalProperties:
+    type: string
+    pattern: /+39[0-9]{,14}/
+  maxProperties: 3
+  properties:
+    given_name:
+      type: string
+      pattern: [a-zA-Z ]{24}</code></pre>
+<ul>
+<li>no additionalProperties</li>
+<li>constrained additionalProperties</li>
+</ul>
+<h2 id="security-protection-get">security-protection-get</h2>
+<p>Your API should be protected by a <code>security</code> rule either at
+global or operation level.
+Operations should be protected specially when they
+are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.</p>
+<p>Security rules are defined in the <code>securityScheme</code> section.</p>
+<p>An example of a security rule applied at global level.</p>
+<pre><code>security:
+- BasicAuth: []
+paths:
+  /books: {}
+  /users: {}
+securitySchemes:
+  BasicAuth:
+    scheme: http
+    type: basic</code></pre>
+<p>An example of a security rule applied at operation level, which
+eventually overrides the global one</p>
+<pre><code>paths:
+  /books:
+    post:
+      security:
+      - AccessToken: []
+securitySchemes:
+  BasicAuth:
+    scheme: http
+    type: basic
+  AccessToken:
+    scheme: http
+    type: bearer
+    bearerFormat: JWT</code></pre>
+<h2 id="security-protection-non-idempotent">security-protection-non-idempotent</h2>
+<p>Your API should be protected by a <code>security</code> rule either at
+global or operation level.
+Operations should be protected specially when they
+are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.</p>
+<p>Security rules are defined in the <code>securityScheme</code> section.</p>
+<p>An example of a security rule applied at global level.</p>
+<pre><code>security:
+- BasicAuth: []
+paths:
+  /books: {}
+  /users: {}
+securitySchemes:
+  BasicAuth:
+    scheme: http
+    type: basic</code></pre>
+<p>An example of a security rule applied at operation level, which
+eventually overrides the global one</p>
+<pre><code>paths:
+  /books:
+    post:
+      security:
+      - AccessToken: []
+securitySchemes:
+  BasicAuth:
+    scheme: http
+    type: basic
+  AccessToken:
+    scheme: http
+    type: bearer
+    bearerFormat: JWT</code></pre>
 <h2 id="string-maxlength">string-maxlength</h2>
-<p>String length should be limited.</p>
+<p>String length should be limited to avoid an attacker
+to send very long strings to your service.</p>
+<p>You can do this in different ways:</p>
+<ul>
+<li>specify a <code>maxLength</code></li>
+<li>constraint the possible values with an <code>enum</code></li>
+<li>use a constrained <code>format</code> like <code>date</code> or <code>date-time</code>.</li>
+</ul>
+<p>A constrained string using the <code>date</code> format.</p>
+<pre><code>ConstrainedString:
+  type: string
+  format: date</code></pre>
+<p>Another constrained string using <code>maxLength</code>.
+You can always add further constraints using a
+<code>pattern</code> or a <code>format</code>.</p>
+<pre><code>ZipCode:
+  type: string
+  maxLength: 5
+  pattern: &#39;[0-9]{5}&#39;</code></pre>
+<p>For further security, you can always limit string length even
+in conjunction with <code>format</code> and <code>pattern</code>.</p>
 <h2 id="string-pattern-or-format-or-enum">string-pattern-or-format-or-enum</h2>
-<p>String values should be constrained.</p>
+<p>String length should be limited to avoid an attacker
+to send very long strings to your service.</p>
+<p>You can do this in different ways:</p>
+<ul>
+<li>specify a <code>maxLength</code></li>
+<li>constraint the possible values with an <code>enum</code></li>
+<li>use a constrained <code>format</code> like <code>date</code> or <code>date-time</code>.</li>
+</ul>
+<p>A constrained string using the <code>date</code> format.</p>
+<pre><code>ConstrainedString:
+  type: string
+  format: date</code></pre>
+<p>Another constrained string using <code>maxLength</code>.
+You can always add further constraints using a
+<code>pattern</code> or a <code>format</code>.</p>
+<pre><code>ZipCode:
+  type: string
+  maxLength: 5
+  pattern: &#39;[0-9]{5}&#39;</code></pre>
+<p>For further security, you can always limit string length even
+in conjunction with <code>format</code> and <code>pattern</code>.</p>
 
         </div>
     </div>
