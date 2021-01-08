@@ -2,8 +2,21 @@ rules:
   security-protection-get: &security-protection-get
     description: |-
       Paths should be protected by a `security` rule, especially when they
-      are tied to non-idempotent HTTP methods like `POST`, `PUT`, `DELETE`.
+      are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
 
+      You should define a security rule tied to a `securityScheme`, eg.
+
+      ```
+      paths:
+        /books:
+          post:
+            security:
+            - BasicAuth: []
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+      ```
     message: >-
       The path {{path}} is not protected.
     formats:
