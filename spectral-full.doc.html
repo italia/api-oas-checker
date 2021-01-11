@@ -310,7 +310,8 @@ unwanted information.</p>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 Operations should be protected specially when they
-are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.</p>
+are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
+This is done with one or more non-empty <code>security</code> rules.</p>
 <p>Security rules are defined in the <code>securityScheme</code> section.</p>
 <p>An example of a security rule applied at global level.</p>
 <pre><code>security:
@@ -341,7 +342,8 @@ securitySchemes:
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 Operations should be protected specially when they
-are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.</p>
+are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
+This is done with one or more non-empty <code>security</code> rules.</p>
 <p>Security rules are defined in the <code>securityScheme</code> section.</p>
 <p>An example of a security rule applied at global level.</p>
 <pre><code>security:
@@ -368,6 +370,54 @@ securitySchemes:
     scheme: http
     type: bearer
     bearerFormat: JWT</code></pre>
+<h2 id="securityschemes-oauth">securitySchemes-oauth</h2>
+<p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
+claims to be transferred between two parties. JWT can be enclosed in
+encrypted or signed tokens like JWS and JWE.</p>
+<p>The <a href="https://www.iana.org/assignments/jose/jose.xhtml">JOSE IANA registry</a>
+provides algorithms information.</p>
+<p><a href="https://tools.ietf.org/html/RFC8725">RFC8725</a> describes common pitfalls in the JWx specifications and in
+their implementations, such as:</p>
+<ul>
+<li>the ability to ignore algorithms, eg. <code>{"alg": "none"}</code>;</li>
+<li>using insecure algorithms like <code>RSASSA-PKCS1-v1_5</code> eg. <code>{"alg": "RS256"}</code>.</li>
+</ul>
+<p>An API using JWT should explicit in the <code>description</code>
+that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725">RFC8725</a>.</p>
+<pre><code>components:
+  securitySchemes:
+    JWTBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |-
+        A bearer token in the format of a JWS and conformato
+        to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).</code></pre>
+<h2 id="securityschemes-jwt">securitySchemes-jwt</h2>
+<p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
+claims to be transferred between two parties. JWT can be enclosed in
+encrypted or signed tokens like JWS and JWE.</p>
+<p>The <a href="https://www.iana.org/assignments/jose/jose.xhtml">JOSE IANA registry</a>
+provides algorithms information.</p>
+<p><a href="https://tools.ietf.org/html/RFC8725">RFC8725</a> describes common pitfalls in the JWx specifications and in
+their implementations, such as:</p>
+<ul>
+<li>the ability to ignore algorithms, eg. <code>{"alg": "none"}</code>;</li>
+<li>using insecure algorithms like <code>RSASSA-PKCS1-v1_5</code> eg. <code>{"alg": "RS256"}</code>.</li>
+</ul>
+<p>An API using JWT should explicit in the <code>description</code>
+that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725">RFC8725</a>.</p>
+<pre><code>components:
+  securitySchemes:
+    JWTBearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: |-
+        A bearer token in the format of a JWS and conformato
+        to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).</code></pre>
+<h2 id="securityschemes-oauth-http">securitySchemes-oauth-http</h2>
+<p>OAuth2 endpoints must use <code>https://</code></p>
 <h2 id="string-maxlength">string-maxlength</h2>
 <p>String length should be limited to avoid an attacker
 to send very long strings to your service.</p>
