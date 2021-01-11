@@ -1,0 +1,25 @@
+openapi: "3.0.1"
+servers:
+  - url: https://ko.nodescription
+  - url: https://ok.example
+    description: production
+  - url: http://ok.sandbox.examle
+    x-sandbox: true
+    description: ok
+  - url: http://ko.example
+    description: should be https
+  - url: http://ko.sandbox.examle
+    x-sandbox: false
+    description: should be https
+paths:
+  /foo-ko:
+    get:
+      servers:
+        - url: https://ko.nodesc.example
+        - url: https://ok.example
+          description: production
+        - url: http://ko.example
+          description: production
+        - url: http://ok.sandbox.examle
+          x-sandbox: true
+          description: ok
