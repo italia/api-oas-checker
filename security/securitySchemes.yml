@@ -5,6 +5,7 @@ rules:
       global or operation level.
       Operations should be protected specially when they
       are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+      This is done with one or more non-empty `security` rules.
 
       Security rules are defined in the `securityScheme` section.
 
@@ -42,7 +43,7 @@ rules:
       ```
 
     message: >-
-      The path {{path}} is not protected.
+      The following operation is not protected by a `security` rule: {{path}}
     formats:
     - oas3
     severity: info
@@ -52,12 +53,67 @@ rules:
       $.paths.*.get
     then:
     - field: security
-      function: truthy
+      function: schema
+      functionOptions:
+        schema:
+          items:
+            type: object
+            minProperties: 1
+          minItems: 1
+          type: array
+
   security-protection-non-idempotent:
     <<: *security-protection-get
     message: >-
-      The non-idempotent operation {{path}} is not protected
+      The following non-idempotent operation is not protected by a `security` rule: {{path}}
     severity: error
     given:
       - >-
         $.paths.*[?(@property.match(/^(post|put|patch|delete)/))]
+  securitySchemes-jwt-bcp: &jwt-bcp
+    description: |-
+      Json Web Tokens RFC7519 is a compact, URL-safe means of representing
+      claims to be transferred between two parties. JWT can be enclosed in
+      encrypted or signed tokens like JWS and JWE.
+
+      The [JOSE IANA registry](https://www.iana.org/assignments/jose/jose.xhtml)
+      provides algorithms information.
+
+      RFC8725 describes common pitfalls in the JWx specifications and in
+      their implementations, such as:
+      - the ability to ignore algorithms, eg. `{"alg": "none"}`;
+      - using insecure algorithms like `RSASSA-PKCS1-v1_5` eg. `{"alg": "RS256"}`.
+
+      An API using JWT should explicit in the `description`
+      that the implementation conforms to RFC8725.
+
+      ```
+      components:
+        securitySchemes:
+          JWTBearer:
+            type: http
+            scheme: bearer
+            bearerFormat: JWT
+            description: |-
+              A bearer token in the format of a JWS and conformato
+              to the specifications included in RFC8725.
+      ```
+
+    message: >-
+      JWT usage should be detailed in `description` {{error}}.
+    given:
+      - >-
+        $.[securitySchemes][?(@.type=="oauth2")]
+    then:
+      - field: description
+        function: truthy
+      - field: description
+        function: pattern
+        functionOptions:
+          match: >-
+           .*RFC8725.*
+  securitySchemes-jwt:
+    <<: *jwt-bcp
+    given:
+      - >-
+        $.[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]

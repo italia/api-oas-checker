@@ -9,6 +9,15 @@ paths:
   /security-ko-patch:
     patch:
       responses: {}
+  /security-empty-ko-patch:
+    patch:
+      responses: {}
+      security: []
+  /security-minproperties-ko-patch:
+    patch:
+      responses: {}
+      security:
+        - {}
   /security-ok:
     post:
       security:
@@ -23,4 +32,26 @@ components:
     BasicAuth:
       type: http
       scheme: basic
-
+    MyOauth_ko:
+      type: oauth2
+    MyOauth_ok:
+      type: oauth2
+      description: |-
+          The implementation of JWT conforms RFC8725.
+    MyOauth2_ko:
+      type: oauth2
+      description: A blatant description
+    JWTBearer_ko: &JWTBearer_ko
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+    JWTBearer2_ko:
+      <<: *JWTBearer_ko
+      description: a blatant description
+    JWTBearer_ok:
+      description: |-
+        The implementation conforms RFC8725
+        and uses only `EdDSA` RFC8032.
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
