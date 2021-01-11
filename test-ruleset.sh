@@ -43,7 +43,8 @@ case "$1" in
             diff -wubBEr --color -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" -
         TEST_OUT="$?"
         if [ "$TEST_OUT" != "0" ]; then
-            echo "Unexpected test result"
+            echo "X-(        TEST ERROR      X-("
+            echo "X-( Unexpected test result X-("
             exit 1
         fi
         echo "Ok"
