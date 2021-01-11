@@ -61,7 +61,6 @@ rules:
             minProperties: 1
           minItems: 1
           type: array
-
   security-protection-non-idempotent:
     <<: *security-protection-get
     message: >-
@@ -70,7 +69,7 @@ rules:
     given:
       - >-
         $.paths.*[?(@property.match(/^(post|put|patch|delete)/))]
-  securitySchemes-jwt-bcp: &jwt-bcp
+  securitySchemes-oauth: &jwt-bcp
     description: |-
       Json Web Tokens RFC7519 is a compact, URL-safe means of representing
       claims to be transferred between two parties. JWT can be enclosed in
@@ -117,3 +116,22 @@ rules:
     given:
       - >-
         $.[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]
+  # OAuth2 specific
+  securitySchemes-oauth-http:
+    description: |-
+      OAuth2 endpoints must use `https://`
+    message: >-
+      OAuth endpoints must use https://
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given:
+      - >-
+        $.[securitySchemes][?(@.type=="oauth2")][*].[?(@property.match(/url$/i))]
+    then:
+      - field: value
+        function: pattern
+        functionOptions:
+          match: >-
+            ^https://

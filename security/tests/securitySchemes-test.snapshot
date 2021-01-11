@@ -6,10 +6,11 @@ OpenAPI 3.x detected
  15:16        error  security-protection-non-idempotent  The following non-idempotent operation is not protected by a `security` rule: #/paths/~1security-empty-ko-patch/patch/security            paths./security-empty-ko-patch.patch.security
  20:11        error  security-protection-non-idempotent  The following non-idempotent operation is not protected by a `security` rule: #/paths/~1security-minproperties-ko-patch/patch/security/0  paths./security-minproperties-ko-patch.patch.security[0]
   27:9  information  security-protection-get             The following operation is not protected by a `security` rule: #/paths/~1security-ko-get/get                                              paths./security-ko-get.get
- 35:16      warning  securitySchemes-jwt-bcp             JWT usage should be detailed in `description` `MyOauth_ko.description` property is not truthy.                                            components.securitySchemes.MyOauth_ko
- 43:20      warning  securitySchemes-jwt-bcp             JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.MyOauth2_ko.description
- 44:18      warning  securitySchemes-jwt                 JWT usage should be detailed in `description` `JWTBearer_ko.description` property is not truthy.                                          components.securitySchemes.JWTBearer_ko
- 50:20      warning  securitySchemes-jwt                 JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.JWTBearer2_ko.description
+ 35:16      warning  securitySchemes-oauth               JWT usage should be detailed in `description` `MyOauth_ko.description` property is not truthy.                                            components.securitySchemes.MyOauth_ko
+ 46:20      warning  securitySchemes-oauth               JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.MyOauth2_ko.description
+ 47:18      warning  securitySchemes-jwt                 JWT usage should be detailed in `description` `JWTBearer_ko.description` property is not truthy.                                          components.securitySchemes.JWTBearer_ko
+ 53:20      warning  securitySchemes-jwt                 JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.JWTBearer2_ko.description
+ 66:31        error  securitySchemes-oauth-http          OAuth endpoints must use https://                                                                                                         components.securitySchemes.MyOauth_ko3.flows.implicit.authorizationUrl
 
-✖ 9 problems (4 errors, 4 warnings, 1 info, 0 hints)
+✖ 10 problems (5 errors, 4 warnings, 1 info, 0 hints)
 
