@@ -225,7 +225,9 @@ rules:
       - it
     description: Servers must have a description.
     message: Server {{path}} must have a description.
-    given: $.servers[*]
+    given:
+      - $.servers[*]
+      - $.paths..servers
     severity: error
     recommended: true
     then:
@@ -242,7 +244,9 @@ rules:
       Use `x-sandbox: true` to skip this kind of check.
     message: "Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip
       this check on a specific server."
-    given: $.servers[?(@["x-sandbox"] != true)]
+    given:
+      - $.servers[?(@["x-sandbox"] != true)]
+      - $.paths..servers[?(@["x-sandbox"] != true)]
     severity: error
     recommended: true
     then:
@@ -320,9 +324,7 @@ rules:
       [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
     severity: error
     recommended: true
-    message: |-
-      Specs should follow semantic versioning. {{value}} is not a valid version.
-      See https://semver.org/#semantic-versioning-specification-semver
+    message: Specs should follow semantic versioning. {{value}} is not a valid version.
     given: $.info.version
     then:
       function: pattern
