@@ -19,7 +19,8 @@ Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) c
 ## Contenuto
 
 - Una applicazione web sviluppata con React che usa Webpack + Babel per creare una single-page application
-- Una directory [rules/](rules/) con le regole applicate, che vengono poi aggregate nel file spectral.yml
+- Una directory [rules/](rules/) con le regole applicate, che vengono poi aggregate nel file [spectral.yml](https://italia.github.io/api-oas-checker/spectral.yml)
+- Una directory [security/](security/) con delle ulteriori regole di sicurezza, che vengono poi aggregate nel file [spectral-security.yml](https://italia.github.io/api-oas-checker/spectral-security.yml)
 
 ## Sviluppo
 
@@ -64,24 +65,27 @@ $ docker-compose up --build test
 ## Scrivere regole
 
 Spectral itera le specifiche OAS usando le espressioni jsonpath
-indicate nelle [regole](rules/)
+indicate nelle regole di default presenti nella directory [rules](rules/)
+o in quelle di sicurezza presenti nella directory [security](security/) 
 ed esegue le callback indicate sulle righe corrispondenti.
 E' possibile testare ogni singola regola (eg. `problem` ) verificando
-che l'output di spectral corrisponda a quello indicato nell file `.snapshot` associato
+che l'output di spectral corrisponda a quello indicato nel file `.snapshot` associato
+
+Questo comando testa le regole presenti nel file `problem.yml` contenuto nella directory `rules`.
 
 ```
-./test-ruleset.sh problem
+./test-ruleset.sh rules problem
 ```
 
 Quando si modifica una regola quindi, è necessario ricreare e validare il contenuto della snapshot
 con
 
 ```
-./test-ruleset.sh --snapshot problem
+./test-ruleset.sh rules --snapshot problem
 git add -p rules/problem* 
 ```
 
-Vedete qui [spectral.yml](spectral.yml) per degli esempi di regole.
+Vedete qui [spectral.yml](https://italia.github.io/api-oas-checker/spectral.yml) per degli esempi di regole.
 
 Sul sito http://jsonpath.com/ si possono testare le regole online.
 
