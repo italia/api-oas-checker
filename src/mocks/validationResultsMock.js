@@ -1,3 +1,4 @@
+/* eslint-disable sonarjs/no-duplicate-string */
 export const validationResultsMock = [
   {
     code: 'string-maxlength',

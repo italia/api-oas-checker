@@ -1,7 +1,7 @@
 import React from 'react';
 
-import Header from './Header.js';
 import { render, screen, fireEvent } from '../test-utils.js';
+import Header from './Header.js';
 
 describe('Header', () => {
   it('renders an header', () => {
