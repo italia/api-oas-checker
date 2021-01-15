@@ -1,5 +1,7 @@
-import { getSeverityByLineMap, getUniqueValidationResults, getValidationResultKey } from './spectral_utils.js';
+/* eslint-disable sonarjs/no-duplicate-string */
+
 import { duplicatedValidationResultsMock } from '../mocks/validationResultsMock.js';
+import { getSeverityByLineMap, getUniqueValidationResults, getValidationResultKey } from './spectral_utils.js';
 
 describe('Utils', () => {
   describe('getSeverityByLineMap', () => {

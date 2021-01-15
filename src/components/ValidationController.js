@@ -62,7 +62,9 @@ ${event.data.error}`);
   const [autoRefresh, setAutoRefresh] = useState(false);
 
   useEffect(() => {
-    if (!autoRefresh) return;
+    if (!autoRefresh) {
+      return;
+    }
     if (needRevalidation()) {
       handleValidation();
     }
