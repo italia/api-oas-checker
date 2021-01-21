@@ -61,7 +61,9 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
   }, [setDocumentText]);
 
   useEffect(() => {
-    if (!documentUrl) return null;
+    if (!documentUrl) {
+      return null;
+    }
 
     const loadDocumentFromUrl = async () => {
       try {
@@ -101,7 +103,9 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
   }, [validationResults, classes.editorHighlightLine, classes.editorMarginError, classes.editorMarginWarning]);
 
   useEffect(() => {
-    if (!focusLine) return;
+    if (!focusLine) {
+      return;
+    }
     // Reveal line
     editor.current.revealLineInCenter(focusLine.line);
     editor.current.setPosition({ lineNumber: focusLine.line, column: focusLine.character });

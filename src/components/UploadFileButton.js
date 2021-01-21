@@ -1,9 +1,9 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
+import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
-import cx from 'classnames';
 
 const UploadFileButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
   const loadFile = useCallback(

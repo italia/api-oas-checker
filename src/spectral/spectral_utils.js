@@ -1,5 +1,5 @@
-import { ERROR, WARNING } from '../utils.mjs';
 import PropTypes from 'prop-types';
+import { ERROR, WARNING } from '../utils.mjs';
 
 export const getValidationResultType = (severity) => (severity === 0 ? ERROR : WARNING);
 export const getValidationResultsPropTypes = () => PropTypes.arrayOf(getValidationResultItemPropTypes());
@@ -23,9 +23,11 @@ export const getValidationResultLine = (result) => result.range.start.line + 1;
  * It reduces several severities that could insist on the same line to one, giving more priority to the highest severity.
  */
 export const getSeverityByLineMap = (validationResults) => {
-  if (validationResults === null) return new Map();
+  if (validationResults === null) {
+    return new Map();
+  }
 
-  const lineSeverityMap = validationResults.reduce((lineSeverityMap, result) => {
+  return validationResults.reduce((lineSeverityMap, result) => {
     const line = getValidationResultLine(result);
     if (!lineSeverityMap.has(line)) {
       lineSeverityMap.set(line, result.severity);
@@ -37,12 +39,12 @@ export const getSeverityByLineMap = (validationResults) => {
     }
     return lineSeverityMap;
   }, new Map());
-
-  return lineSeverityMap;
 };
 // https://github.com/italia/api-oas-checker/issues/79
 export const getUniqueValidationResults = (results) => {
-  if (results === null) return null;
+  if (results === null) {
+    return null;
+  }
 
   const uniqueResultsMap = results.reduce((uniqueResultsMap, result) => {
     const key = getValidationResultKey(result);
@@ -53,6 +55,5 @@ export const getUniqueValidationResults = (results) => {
   }, new Map());
   return Array.from(uniqueResultsMap.values());
 };
-export const getValidationResultKey = (result) => {
-  return `${result.code}-${result.severity}-${result.range.start.line}-${result.message}`;
-};
+export const getValidationResultKey = (result) =>
+  `${result.code}-${result.severity}-${result.range.start.line}-${result.message}`;

@@ -1,8 +1,8 @@
 import React, { useCallback } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
-import { getRawValidationResults, isValidationInProgress } from '../redux/selectors.js';
 import { Button } from 'design-react-kit';
+import { getRawValidationResults, isValidationInProgress } from '../redux/selectors.js';
 import { downloadFile } from '../utils.mjs';
 import { getValidationResultsPropTypes } from '../spectral/spectral_utils.js';
 

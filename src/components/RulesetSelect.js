@@ -1,6 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
+import { createUseStyles } from 'react-jss';
+import { Icon } from 'design-react-kit';
 import { isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { setRuleset } from '../redux/actions.js';
 import {
@@ -10,8 +12,6 @@ import {
   RULESET_ITALIAN_PLUS_SECURITY,
   RULESET_SECURITY,
 } from '../utils.mjs';
-import { createUseStyles } from 'react-jss';
-import { Icon } from 'design-react-kit';
 
 const useStyles = createUseStyles({
   select: {
