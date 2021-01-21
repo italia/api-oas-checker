@@ -3,14 +3,15 @@ import { connect } from 'react-redux';
 import { Icon } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import cx from 'classnames';
+import PropTypes from 'prop-types';
 import { toogleMenu } from '../redux/actions.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
-import PropTypes from 'prop-types';
 
+const white = 'var(--white)';
 const useStyles = createUseStyles({
   version: {
     composes: 'mr-1 m-2 badge badge-pill',
-    backgroundColor: 'var(--white)',
+    backgroundColor: white,
     color: 'var(--primary)',
   },
   icon: {
@@ -21,10 +22,10 @@ const useStyles = createUseStyles({
   },
   anchor: {
     composes: 'm-0 ml-auto d-none d-md-block',
-    color: 'var(--white)',
+    color: white,
     fontSize: '0.8rem',
     '&:hover': {
-      color: 'var(--white)',
+      color: white,
     },
     '&:focus': {
       boxShadow: 'none',

@@ -1,6 +1,8 @@
-import validationReducer from './validationReducer.js';
+/* eslint-disable sonarjs/no-duplicate-string */
+
 import * as types from '../actionTypes.js';
 import { DEFAULT_RULESET } from '../../utils.mjs';
+import validationReducer from './validationReducer.js';
 
 describe('validationReducer', () => {
   it('returns the initial state', () => {
