@@ -5,7 +5,7 @@ rules:
     description: |
       Paths should be kebab-case.
 
-      See Italian Reccomendation RAC_REST_NAME_002.
+      See Italian recommendation RAC_REST_NAME_002.
     message: '{{property}} is not kebab-case: {{error}}'
     severity: warn
     recommended: true
@@ -23,7 +23,7 @@ rules:
     description: |
       Headers should be pascal-case.
 
-      See Italian Reccomendation RAC_REST_NAME_003.
+      See Italian recommendation RAC_REST_NAME_003.
     message: '{{value}} {{error}} in {{path}}'
     severity: hint
     recommended: true
