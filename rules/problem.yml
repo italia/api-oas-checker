@@ -1,7 +1,28 @@
 rules:
   use-problem-json-for-errors:
     description: |-
-      Error responses should support RFC7807.
+
+      Error management is a key enabler of a resilient API ecosystem.
+      Enforcing a consistent schema for errors between different APIs,
+      enables client to properly implement an error management strategy,
+      with positive impacts for users.
+
+      Error responses should return one of the media-type
+      defined in RFC7807:
+      - `application/problem+json`
+      - `application/problem+xml`
+
+      An example of a valid response:
+
+      ```
+      responses:
+        "503":
+          content:
+            application/problem+json:
+              schema:
+                ...
+      ```
+
     message: |-
       Error responses should support RFC7807 in {{path}}.
     formats:
@@ -14,13 +35,31 @@ rules:
       functionOptions:
         values:
         - application/problem+xml
-        - application/problem+json  
+        - application/problem+json
 
   use-problem-schema:
     description: |-
-      WARN: This rule is under implementation.
-      Your problem schema doesn't seem to match RFC7807. Are you sure it is ok?
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+      WARN: This rule is under implementation and just provides an hint.
+
+      Error management is a key enabler of a resilient API ecosystem.
+      Enforcing a consistent schema for errors between different APIs,
+      enables client to properly implement an error management strategy,
+      with positive impacts for users.
+
+      This rule inspects the schema returned by an error response and
+      verifies whether it contains the main properties defined in RFC7807:
+      `status`, `title` and `detail`.
+
+      An example of a valid payload is
+      ```
+      {
+       "title": "Not Found",
+       "status": 404,
+       "detail": "Book does not exist; id: 123"
+      }
+      ```
+
+      See recommendation RAC_REST_NAME_007.
     message: |-
       Your schema doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
@@ -44,9 +83,45 @@ rules:
               type: string
 
   hint-problem-schema:
-    description: >-
-      Your problem schema doesn't seem to match RFC7807. Are you sure it is ok?
-      See https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#usare-lo-schema-problem-json-per-le-risposte-di-errore
+    description: |-
+
+      WARN: This rule is under implementation and just provides an hint.
+
+      Error management is a key enabler of a resilient API ecosystem.
+      Enforcing a consistent schema for errors between different APIs,
+      enables client to properly implement an error management strategy,
+      with positive impacts for users.
+
+      Errors should return RFC7807 objects. Instead, this schema
+      seems to use non standard properties such as:
+      `message`, `msg` and `code`.
+
+      An error of the following form
+
+      ```
+      {
+        "msg": "Book with id: 123 does not exist.",
+        "code": 6063
+      }
+      ```
+
+      can be expressed in RFC7807 with
+
+      ```
+      {
+        "detail": "Book with id: 123 does not exist.",
+        "type": "https://api.example/v1/errors/6063",
+        "status": 404,
+        "title": "Not Found"
+      }
+      ```
+
+      Returning an URI in `type`, instead of an opaque `code` can help
+      the client in better identifying the error; moreover the URI
+      though it should not be dereferenced automatically, can return
+      an actual resource providing guidance in addressing the issue.
+
+      See recommendation RAC_REST_NAME_007.
     message: |-
       Error response doesn't seem to match RFC7807. Are you sure it is ok? {{path}}
     formats:
