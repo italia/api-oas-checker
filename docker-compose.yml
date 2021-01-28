@@ -1,5 +1,11 @@
 version: '3.8'
 services:
+  dev:
+    image: node
+    user: $UID:$GID
+    volumes:
+    - .:/code:z
+    command: ["tail", "-f", "/etc/hosts"]
   start:
     build:
       context: .
