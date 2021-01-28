@@ -13,7 +13,7 @@ rules:
         in the `description`: `max-age`, `private`, `no-store`, `no-cache`.
       * that one and only one between Expires and Cache-Control is used.
 
-      `Cache-Control and `Expires` should not be used in conjuction,
+      `Cache-Control` and `Expires` should not be used in conjuction,
       because `Cache-Control` overrides `Expires` when `max-age` is set.
       Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache
       like described in RFC7234.
