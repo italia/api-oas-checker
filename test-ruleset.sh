@@ -1,7 +1,7 @@
 #!/bin/bash
 shopt -s extglob
 export PATH="$PATH:$PWD/node_modules/.bin:"
-
+DIFF_OPTS='-wubBEr --color'
 BASEDIR="${1?Missing base directory}"; shift
 
 do_or_die(){
@@ -40,7 +40,7 @@ case "$1" in
         for RULE in $RULES; do
             echo -n "Executing rule $RULE.."
             spectral lint tests/$RULE-test.yml -r $RULE.yml | \
-                diff --color -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" - && echo "OK"
+                diff $DIFF_OPTS -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" - && echo "OK"
             do_or_die "$?"
         done
         ;;
@@ -52,7 +52,7 @@ case "$1" in
             exit 1
         fi
         spectral lint tests/$RULE-test.yml -r $RULE.yml | \
-            diff -wubBEr --color -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" -
+            diff $DIFF_OPTS -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" -
         TEST_OUT="$?"
     	do_or_die $TEST_OUT
         echo "Ok"
