@@ -1,7 +1,13 @@
 #
-# See technical recommendations on Italian Guidelines:
+# These rules are based on the Italian API Guidelines,
+# which are meant to align the design and security requirements
+# for the APIs provided by more that 20'000 administrations.
 #
-# https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/profili-di-interazione/regole-comuni-rest-soap.html#raccomandazioni-tecniche-per-rest
+# Ruleset integrate the current HTTP specifications and a wide set of Best Current Practices
+# currently adopted both in the private and the public sector.
+#
+# You can discuss the ruleset on github:
+# - https://github.com/italia/api-oas-checker
 #
 extends: spectral:oas
 
