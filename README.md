@@ -24,6 +24,33 @@ Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) c
 
 ## Sviluppo
 
+## Modalità online
+Il modo più semplice di controllare un'API è quello di eseguire i controlli usando
+direttamente - o dopo averli scaricati - i file con le regole presenti su github.
+
+```
+$ spectral lint -r https://italia.github.io/api-oas-checker/spectral.yml $OAS_URL_OR_FILE
+```
+
+## Modalità IDE
+Alcuni IDE supportano Spectral tramite delle estensioni.
+Di seguito i passaggi per utilizzare il profilo di validazione completo
+con [l'estensione ufficiale di Spectral per Visual Studio Code](https://github.com/stoplightio/vscode-spectral):
+
+```
+# Installa l'estensione dal marketplace di vscode
+$ code --install-extension stoplight.spectral
+
+# Scarica il profilo spectral-full.yml nella home del progetto
+$ curl https://italia.github.io/api-oas-checker/spectral-full.yml > .spectral.yml
+
+# Esegui l'IDE
+$ code
+```
+
+Quando si usa la versione online delle regole, è importante verificare periodicamente
+che sia aggiornata.
+
 ### Modalità linea di comando
 Se volete controllare la vostra API usando la CLI di Spectral, dopo aver clonato il repository, eseguite
 
