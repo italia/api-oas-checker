@@ -1,10 +1,10 @@
 import React from 'react';
 import { Badge } from 'design-react-kit';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { getValidationResults } from '../redux/selectors.js';
 import { ERROR, WARNING } from '../utils.mjs';
-import { getValidationResultsPropTypes, getValidationResultType } from '../spectral/spectral_utils.js';
+import { getValidationResultType } from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
   error: {
@@ -21,7 +21,8 @@ const getErrorLabel = (summary) => (summary.errors > 0 ? `${summary.errors} erro
 
 const getWarningLabel = (summary) => (summary.warnings > 0 ? `${summary.warnings} warnings` : 'No warnings');
 
-const ValidationSummary = ({ validationResults }) => {
+export const ValidationSummary = () => {
+  const validationResults = useSelector((state) => getValidationResults(state));
   const summary = {
     errors: validationResults?.filter((r) => getValidationResultType(r.severity) === ERROR).length,
     warnings: validationResults?.filter((r) => getValidationResultType(r.severity) === WARNING).length,
@@ -45,11 +46,3 @@ const ValidationSummary = ({ validationResults }) => {
     )
   );
 };
-
-ValidationSummary.propTypes = {
-  validationResults: getValidationResultsPropTypes(),
-};
-
-export default connect((state) => ({
-  validationResults: getValidationResults(state),
-}))(ValidationSummary);

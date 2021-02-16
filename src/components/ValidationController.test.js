@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { render, screen, fireEvent } from '../test-utils.js';
-import ValidationController from './ValidationController.js';
+import { ValidationController } from './ValidationController.js';
 
 describe('ValidationController', () => {
   // TODO mock redux dispatch

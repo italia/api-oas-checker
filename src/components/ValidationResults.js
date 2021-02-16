@@ -1,9 +1,9 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getValidationResults } from '../redux/selectors.js';
-import { getValidationResultsPropTypes, getValidationResultKey } from '../spectral/spectral_utils.js';
-import ValidationResultItem from './ValidationResultItem.js';
+import { getValidationResultKey } from '../spectral/spectral_utils.js';
+import { ValidationResultItem } from './ValidationResultItem.js';
 
 const useStyle = createUseStyles({
   enableScrollResults: { height: 'calc(100vh - 376px)', overflow: 'scroll' },
@@ -15,7 +15,8 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResults = ({ validationResults }) => {
+export const ValidationResults = () => {
+  const validationResults = useSelector((state) => getValidationResults(state));
   const classes = useStyle();
 
   if (validationResults === null || validationResults.length === 0) {
@@ -37,11 +38,3 @@ const ValidationResults = ({ validationResults }) => {
     </>
   );
 };
-
-ValidationResults.propTypes = {
-  validationResults: getValidationResultsPropTypes(),
-};
-
-export default connect((state) => ({
-  validationResults: getValidationResults(state),
-}))(ValidationResults);

@@ -3,16 +3,11 @@ import axios from 'axios';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
 import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
 import { ERROR } from '../utils.mjs';
-import {
-  getSeverityByLineMap,
-  getValidationResultsPropTypes,
-  getValidationResultType,
-} from '../spectral/spectral_utils.js';
+import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -29,11 +24,15 @@ const useStyles = createUseStyles({
   },
 });
 
-const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) => {
+const Editor = () => {
   const editorEl = useRef(null);
   const editor = useRef({});
   const decoration = useRef([]);
   const classes = useStyles();
+  const validationResults = useSelector((state) => getValidationResults(state));
+  const focusLine = useSelector((state) => getLineToFocus(state));
+  const documentUrl = useSelector((state) => getDocumentUrl(state));
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // Init Monaco
@@ -47,7 +46,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
     editor.current.onDidChangeModelContent(
       debounce(() => {
         const text = editor.current.getModel().getValue();
-        setDocumentText(text);
+        dispatch(setDocumentText(text));
       }, 1000)
     );
     // Add some space on top of the editor
@@ -58,7 +57,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
         domNode: document.createElement('span'),
       });
     });
-  }, [setDocumentText]);
+  }, [dispatch]);
 
   useEffect(() => {
     if (!documentUrl) {
@@ -69,7 +68,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
       try {
         const { data: text } = await axios.get(documentUrl);
         editor.current.getModel().setValue(text);
-        setDocumentText(text);
+        dispatch(setDocumentText(text));
       } catch (e) {
         console.error(e);
         alert(e.message);
@@ -77,7 +76,7 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
     };
 
     loadDocumentFromUrl();
-  }, [documentUrl, setDocumentText]);
+  }, [documentUrl, dispatch]);
 
   useEffect(() => {
     if (validationResults === null) {
@@ -115,23 +114,4 @@ const Editor = ({ validationResults, focusLine, documentUrl, setDocumentText }) 
   return <div ref={editorEl} className={classes.editor}></div>;
 };
 
-Editor.propTypes = {
-  focusLine: PropTypes.shape({
-    line: PropTypes.number.isRequired,
-    character: PropTypes.number.isRequired,
-  }),
-  documentUrl: PropTypes.string,
-  setDocumentText: PropTypes.func.isRequired,
-  validationResults: getValidationResultsPropTypes(),
-};
-
-export default connect(
-  (state) => ({
-    validationResults: getValidationResults(state),
-    focusLine: getLineToFocus(state),
-    documentUrl: getDocumentUrl(state),
-  }),
-  {
-    setDocumentText,
-  }
-)(Editor);
+export default Editor;
