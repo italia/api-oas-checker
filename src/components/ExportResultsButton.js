@@ -1,19 +1,19 @@
 import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Button } from 'design-react-kit';
 import { getRawValidationResults, isValidationInProgress } from '../redux/selectors.js';
 import { downloadFile } from '../utils.mjs';
-import { getValidationResultsPropTypes } from '../spectral/spectral_utils.js';
 
-const ExportResultsButton = ({ isValidationInProgress, validationResults }) => {
+export const ExportResultsButton = () => {
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
+  const validationResults = useSelector((state) => getRawValidationResults(state));
   const exportValidationResults = useCallback(() => {
     downloadFile(JSON.stringify(validationResults, null, 2), `oas-results-${new Date().toISOString()}.json`, 'json');
   }, [validationResults]);
   return (
     <Button
       color="custom-white"
-      disabled={isValidationInProgress || validationResults === null || validationResults.length === 0}
+      disabled={validationInProgress || validationResults === null || validationResults.length === 0}
       icon={false}
       tag="button"
       onClick={exportValidationResults}
@@ -22,13 +22,3 @@ const ExportResultsButton = ({ isValidationInProgress, validationResults }) => {
     </Button>
   );
 };
-
-ExportResultsButton.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  validationResults: getValidationResultsPropTypes(),
-};
-
-export default connect((state) => ({
-  isValidationInProgress: isValidationInProgress(state),
-  validationResults: getRawValidationResults(state),
-}))(ExportResultsButton);

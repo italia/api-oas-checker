@@ -1,15 +1,14 @@
 import React, { Suspense } from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { createUseStyles } from 'react-jss';
 import { Spinner } from 'design-react-kit';
 import { isMenuDisplayed } from '../redux/selectors.js';
-import Menu from './Menu.js';
-import ValidationController from './ValidationController.js';
-import ValidationSummary from './ValidationSummary.js';
-import ValidationResults from './ValidationResults.js';
-import RulesetSelect from './RulesetSelect.js';
+import { Menu } from './Menu.js';
+import { ValidationController } from './ValidationController.js';
+import { ValidationSummary } from './ValidationSummary.js';
+import { ValidationResults } from './ValidationResults.js';
+import { RulesetSelect } from './RulesetSelect.js';
 
 // Lazy load editor to gain some ms on the fcp
 const Editor = React.lazy(() => import('./Editor.js'));
@@ -45,21 +44,22 @@ const useStyles = createUseStyles({
   },
 });
 
-const Main = ({ isMenuDisplayed }) => {
+export const Main = () => {
   const classes = useStyles();
+  const showMenu = useSelector((state) => isMenuDisplayed(state));
 
   const leftSection = cx(
     {
-      'col-lg-2 col-xxl-1': isMenuDisplayed,
-      [classes['col-0']]: !isMenuDisplayed,
+      'col-lg-2 col-xxl-1': showMenu,
+      [classes['col-0']]: !showMenu,
     },
     classes.animate
   );
 
   const editorSection = cx(
     {
-      'col-lg-6 col-xxl-7': isMenuDisplayed,
-      'col-lg-8': !isMenuDisplayed,
+      'col-lg-6 col-xxl-7': showMenu,
+      'col-lg-8': !showMenu,
     },
     classes.editor
   );
@@ -91,9 +91,3 @@ const Main = ({ isMenuDisplayed }) => {
     </main>
   );
 };
-
-Main.propTypes = {
-  isMenuDisplayed: PropTypes.bool.isRequired,
-};
-
-export default connect((state) => ({ isMenuDisplayed: isMenuDisplayed(state) }))(Main);

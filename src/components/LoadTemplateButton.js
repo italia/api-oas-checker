@@ -1,36 +1,21 @@
 import React, { useCallback } from 'react';
 import { Button } from 'design-react-kit';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 import { TEMPLATE_DOCUMENT_URL } from '../utils.mjs';
 
-const LoadTemplateButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
+export const LoadTemplateButton = () => {
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
+  const dispatch = useDispatch();
   const handleOnClick = useCallback(() => {
-    setDocumentUrl(TEMPLATE_DOCUMENT_URL);
-    resetValidationResults();
-  }, [setDocumentUrl, resetValidationResults]);
+    dispatch(setDocumentUrl(TEMPLATE_DOCUMENT_URL));
+    dispatch(resetValidationResults());
+  }, [dispatch]);
 
   return (
-    <Button onClick={handleOnClick} color="custom-white" disabled={isValidationInProgress} icon={false} tag="button">
+    <Button onClick={handleOnClick} color="custom-white" disabled={validationInProgress} icon={false} tag="button">
       Template
     </Button>
   );
 };
-
-LoadTemplateButton.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  setDocumentUrl: PropTypes.func.isRequired,
-  resetValidationResults: PropTypes.func.isRequired,
-};
-
-export default connect(
-  (state) => ({
-    isValidationInProgress: isValidationInProgress(state),
-  }),
-  {
-    setDocumentUrl,
-    resetValidationResults,
-  }
-)(LoadTemplateButton);
