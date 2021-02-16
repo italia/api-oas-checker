@@ -1,6 +1,5 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { createUseStyles } from 'react-jss';
 import { Icon } from 'design-react-kit';
 import { isValidationInProgress, getRuleset } from '../redux/selectors.js';
@@ -35,15 +34,18 @@ const useStyles = createUseStyles({
   },
 });
 
-const RulesetSelect = ({ isValidationInProgress, ruleset, setRuleset }) => {
+export const RulesetSelect = () => {
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
+  const ruleset = useSelector((state) => getRuleset(state));
+  const dispatch = useDispatch();
   const classes = useStyles();
   return (
     <div className="pt-3 d-flex align-items-center bg-white">
       <select
         className={classes.select}
-        disabled={isValidationInProgress}
+        disabled={validationInProgress}
         value={ruleset}
-        onChange={(e) => setRuleset(e.target.value)}
+        onChange={(e) => dispatch(setRuleset(e.target.value))}
       >
         <option value={RULESET_ITALIAN}>Italian API Guidelines</option>
         <option value={RULESET_BEST_PRACTICES}>Best Practices Only</option>
@@ -57,19 +59,3 @@ const RulesetSelect = ({ isValidationInProgress, ruleset, setRuleset }) => {
     </div>
   );
 };
-
-RulesetSelect.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  ruleset: PropTypes.string.isRequired,
-  setRuleset: PropTypes.func.isRequired,
-};
-
-export default connect(
-  (state) => ({
-    isValidationInProgress: isValidationInProgress(state),
-    ruleset: getRuleset(state),
-  }),
-  {
-    setRuleset,
-  }
-)(RulesetSelect);

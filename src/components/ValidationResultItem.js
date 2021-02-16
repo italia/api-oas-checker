@@ -1,10 +1,9 @@
 import React, { useCallback, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
-import PropTypes from 'prop-types';
 import cx from 'classnames';
 import DOMPurify from 'dompurify';
 import marked from 'marked';
-import { connect } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import { ERROR, WARNING, autoLinkRFC } from '../utils.mjs';
 import { focusDocumentLine } from '../redux/actions.js';
@@ -70,7 +69,8 @@ const useStyle = createUseStyles({
   },
 });
 
-const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
+export const ValidationResultItem = ({ resultItem }) => {
+  const dispatch = useDispatch();
   const classes = useStyle(resultItem);
   const [isModalOpen, closeModal, openModal] = useModalView();
 
@@ -83,8 +83,10 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
   );
 
   const handleOnResultClick = useCallback(() => {
-    focusDocumentLine({ line: getValidationResultLine(resultItem), character: resultItem.range.start.character });
-  }, [resultItem, focusDocumentLine]);
+    dispatch(
+      focusDocumentLine({ line: getValidationResultLine(resultItem), character: resultItem.range.start.character })
+    );
+  }, [resultItem, dispatch]);
 
   const handleOnAskSlackButtonClick = useCallback(() => {
     window.open('https://slack.developers.italia.it/');
@@ -145,9 +147,4 @@ const ValidationResultItem = ({ resultItem, focusDocumentLine }) => {
 
 ValidationResultItem.propTypes = {
   resultItem: getValidationResultItemPropTypes(),
-  focusDocumentLine: PropTypes.func.isRequired,
 };
-
-export default connect(null, {
-  focusDocumentLine,
-})(ValidationResultItem);

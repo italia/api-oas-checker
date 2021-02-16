@@ -1,9 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Icon } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
 import cx from 'classnames';
-import PropTypes from 'prop-types';
 import { toogleMenu } from '../redux/actions.js';
 import { isMenuDisplayed } from '../redux/selectors.js';
 
@@ -33,13 +32,15 @@ const useStyles = createUseStyles({
   },
 });
 
-const Header = ({ isMenuDisplayed, toogleMenu }) => {
+export const Header = () => {
   const classes = useStyles();
+  const showMenu = useSelector((state) => isMenuDisplayed(state));
+  const dispatch = useDispatch();
   const leftSection = cx(
     {
-      'col-lg-2 col-xxl-1': isMenuDisplayed,
-      'col-lg-1 col-xxl-1': !isMenuDisplayed,
-      'bg-white': isMenuDisplayed,
+      'col-lg-2 col-xxl-1': showMenu,
+      'col-lg-1 col-xxl-1': !showMenu,
+      'bg-white': showMenu,
     },
     'd-flex',
     'align-items-center',
@@ -49,8 +50,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
 
   const rightSection = cx(
     {
-      'col-lg-10 col-xxl-11': isMenuDisplayed,
-      'col-lg-11 col-xxl-11': !isMenuDisplayed,
+      'col-lg-10 col-xxl-11': showMenu,
+      'col-lg-11 col-xxl-11': !showMenu,
     },
     'd-flex',
     'justify-content-center',
@@ -62,8 +63,8 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
 
   const iconClassNames = cx(
     {
-      'icon-white': !isMenuDisplayed,
-      'icon-primary': isMenuDisplayed,
+      'icon-white': !showMenu,
+      'icon-primary': showMenu,
     },
     'ml-4',
     classes.icon
@@ -75,7 +76,7 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
         <div className={`row no-gutters bg-primary text-white`}>
           <div className={leftSection}>
             <Icon
-              onClick={toogleMenu}
+              onClick={() => dispatch(toogleMenu())}
               role="button"
               className={iconClassNames}
               icon="it-burger"
@@ -101,10 +102,3 @@ const Header = ({ isMenuDisplayed, toogleMenu }) => {
     </header>
   );
 };
-
-Header.propTypes = {
-  isMenuDisplayed: PropTypes.bool.isRequired,
-  toogleMenu: PropTypes.func.isRequired,
-};
-
-export default connect((state) => ({ isMenuDisplayed: isMenuDisplayed(state) }), { toogleMenu })(Header);

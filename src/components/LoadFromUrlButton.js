@@ -1,20 +1,21 @@
 import React, { useCallback, useState } from 'react';
 import { Button, Input, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 import useModalView from './useModalView.js';
 
-const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValidationResults }) => {
+export const LoadFromUrlButton = () => {
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
+  const dispatch = useDispatch();
   const [isModalOpen, closeModal, openModal] = useModalView();
   const [url, setUrl] = useState('');
 
   const handleConfirmAction = useCallback(() => {
-    setDocumentUrl(url);
-    resetValidationResults();
+    dispatch(setDocumentUrl(url));
+    dispatch(resetValidationResults());
     closeModal();
-  }, [url, setDocumentUrl, resetValidationResults, closeModal]);
+  }, [url, closeModal, dispatch]);
 
   const handleOnChange = useCallback((e) => {
     setUrl(e.target.value);
@@ -22,7 +23,7 @@ const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValida
 
   return (
     <>
-      <Button onClick={openModal} color="custom-white" disabled={isValidationInProgress} icon={false} tag="button">
+      <Button onClick={openModal} color="custom-white" disabled={validationInProgress} icon={false} tag="button">
         From url
       </Button>
 
@@ -42,19 +43,3 @@ const LoadFromUrlButton = ({ isValidationInProgress, setDocumentUrl, resetValida
     </>
   );
 };
-
-LoadFromUrlButton.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  setDocumentUrl: PropTypes.func.isRequired,
-  resetValidationResults: PropTypes.func.isRequired,
-};
-
-export default connect(
-  (state) => ({
-    isValidationInProgress: isValidationInProgress(state),
-  }),
-  {
-    setDocumentUrl,
-    resetValidationResults,
-  }
-)(LoadFromUrlButton);

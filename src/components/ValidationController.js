@@ -3,11 +3,9 @@ import SpectralWorker from 'worker-loader!../spectral/spectral_worker.js';
 import React, { useCallback, useState, useEffect, useRef } from 'react';
 import { Button, Icon, Label, Input, FormGroup } from 'design-react-kit';
 import { createUseStyles } from 'react-jss';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector, useDispatch } from 'react-redux';
 import { getDocumentText, isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { resetValidationResults, setValidationInProgress, setValidationResults } from '../redux/actions.js';
-import { RULESET_BEST_PRACTICES, RULESET_ITALIAN, RULESET_ITALIAN_PLUS_SECURITY, RULESET_SECURITY } from '../utils.mjs';
 
 const useStyles = createUseStyles({
   '@keyframes rotation': {
@@ -17,34 +15,31 @@ const useStyles = createUseStyles({
   validatorIcon: {
     composes: 'ml-3',
     fontSize: '1.5rem',
-    animation: (isValidationInProgress) => isValidationInProgress && '$rotation 2s infinite',
+    animation: (validationInProgress) => validationInProgress && '$rotation 2s infinite',
   },
   formGroupButtonValidate: {
     composes: 'mx-3',
-    flexGrow: (isValidationInProgress) => isValidationInProgress && 1,
+    flexGrow: (validationInProgress) => validationInProgress && 1,
   },
 });
 
 const spectralWorker = new SpectralWorker();
 
-const ValidationController = ({
-  documentText,
-  isValidationInProgress,
-  ruleset,
-  resetValidationResults,
-  setValidationResults,
-  setValidationInProgress,
-}) => {
+export const ValidationController = () => {
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
+  const documentText = useSelector((state) => getDocumentText(state));
+  const ruleset = useSelector((state) => getRuleset(state));
+  const dispatch = useDispatch();
   const previousDocumentText = useRef();
   const previousRuleset = useRef();
   const needRevalidation = useCallback(
     () => previousDocumentText.current !== documentText || previousRuleset.current !== ruleset,
     [documentText, ruleset]
   );
-  const classes = useStyles(isValidationInProgress);
+  const classes = useStyles(validationInProgress);
 
   const handleValidation = useCallback(() => {
-    setValidationInProgress();
+    dispatch(setValidationInProgress());
     spectralWorker.postMessage({ documentText, ruleset: `${location.href}${ruleset}` });
     spectralWorker.onmessage = (event) => {
       if (event.data.error) {
@@ -52,12 +47,12 @@ const ValidationController = ({
         alert(`Error during validation
         
 ${event.data.error}`);
-        resetValidationResults();
+        dispatch(resetValidationResults());
         return;
       }
-      setValidationResults(event.data);
+      dispatch(setValidationResults(event.data));
     };
-  }, [documentText, resetValidationResults, setValidationInProgress, setValidationResults, ruleset]);
+  }, [documentText, ruleset, dispatch]);
 
   const [autoRefresh, setAutoRefresh] = useState(false);
 
@@ -90,14 +85,14 @@ ${event.data.error}`);
           icon
           disabled={documentText === null}
           tag="button"
-          onClick={isValidationInProgress ? Function.prototype : handleValidation}
+          onClick={validationInProgress ? Function.prototype : handleValidation}
         >
-          {isValidationInProgress ? 'Please wait...' : 'Validate'}
+          {validationInProgress ? 'Please wait...' : 'Validate'}
           <Icon className={classes.validatorIcon} color="white" icon="it-refresh" />
         </Button>
       </div>
 
-      {!isValidationInProgress && (
+      {!validationInProgress && (
         <FormGroup check className="mx-3 my-0" tag="div">
           <div data-testid="auto-refresh" className="toggles">
             <Label className="m-0 font-weight-light" check>
@@ -111,25 +106,3 @@ ${event.data.error}`);
     </div>
   );
 };
-
-ValidationController.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  documentText: PropTypes.string,
-  ruleset: PropTypes.oneOf([RULESET_ITALIAN, RULESET_BEST_PRACTICES, RULESET_SECURITY, RULESET_ITALIAN_PLUS_SECURITY]),
-  resetValidationResults: PropTypes.func.isRequired,
-  setValidationInProgress: PropTypes.func.isRequired,
-  setValidationResults: PropTypes.func.isRequired,
-};
-
-export default connect(
-  (state) => ({
-    documentText: getDocumentText(state),
-    isValidationInProgress: isValidationInProgress(state),
-    ruleset: getRuleset(state),
-  }),
-  {
-    resetValidationResults,
-    setValidationResults,
-    setValidationInProgress,
-  }
-)(ValidationController);
