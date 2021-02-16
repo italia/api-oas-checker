@@ -1,10 +1,10 @@
 import React from 'react';
 import { createUseStyles } from 'react-jss';
-import LoadFromUrlButton from './LoadFromUrlButton.js';
-import UploadFileButton from './UploadFileButton.js';
-import ExportResultsButton from './ExportResultsButton.js';
-import SaveFileButton from './SaveFileButton.js';
-import LoadTemplateButton from './LoadTemplateButton.js';
+import { LoadFromUrlButton } from './LoadFromUrlButton.js';
+import { UploadFileButton } from './UploadFileButton.js';
+import { ExportResultsButton } from './ExportResultsButton.js';
+import { SaveFileButton } from './SaveFileButton.js';
+import { LoadTemplateButton } from './LoadTemplateButton.js';
 
 const useStyles = createUseStyles({
   buttonContainer: {
@@ -22,7 +22,7 @@ const useStyles = createUseStyles({
   },
 });
 
-const Menu = () => {
+export const Menu = () => {
   const classes = useStyles();
 
   return (
@@ -49,5 +49,3 @@ const Menu = () => {
     </>
   );
 };
-
-export default Menu;

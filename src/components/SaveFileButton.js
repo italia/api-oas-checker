@@ -1,18 +1,19 @@
 import React, { useCallback } from 'react';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useSelector } from 'react-redux';
 import { Button } from 'design-react-kit';
 import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { downloadFile } from '../utils.mjs';
 
-const SaveFileButton = ({ isValidationInProgress, documentText }) => {
+export const SaveFileButton = () => {
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
+  const documentText = useSelector((state) => getDocumentText(state));
   const saveFile = useCallback(() => {
     downloadFile(documentText, `api-spec-${new Date().toISOString()}.yaml`, 'yaml');
   }, [documentText]);
   return (
     <Button
       color="custom-white"
-      disabled={isValidationInProgress || documentText === ''}
+      disabled={validationInProgress || documentText === ''}
       icon={false}
       tag="button"
       onClick={saveFile}
@@ -21,13 +22,3 @@ const SaveFileButton = ({ isValidationInProgress, documentText }) => {
     </Button>
   );
 };
-
-SaveFileButton.propTypes = {
-  isValidationInProgress: PropTypes.bool.isRequired,
-  documentText: PropTypes.string,
-};
-
-export default connect((state) => ({
-  isValidationInProgress: isValidationInProgress(state),
-  documentText: getDocumentText(state),
-}))(SaveFileButton);
