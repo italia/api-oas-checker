@@ -3,7 +3,7 @@
     "api-oas-checker": "api-oas-checker"
   },
   "dependencies": {
-    "@stoplight/spectral": "^5.8.0",
+    "@stoplight/spectral": "^5.8.1",
     "axios": "^0.21.1",
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.2.6",
@@ -23,7 +23,7 @@
     "typeface-titillium-web": "^1.1.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.12.10",
+    "@babel/core": "^7.12.17",
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "@testing-library/jest-dom": "^5.11.9",
