@@ -37,7 +37,7 @@ components:
     MyOauth_ok:
       type: oauth2
       "flows":
-        "implicit":
+        "authorizationCode":
           "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
       description: |-
           The implementation of JWT conforms RFC8725.
@@ -62,5 +62,9 @@ components:
       type: oauth2
       description: The implementation of JWT conforms RFC8725.
       "flows":
-        "implicit":
+        "authorizationCode":
           "authorizationUrl": "http://petstore3.swagger.io/oauth/authorize"
+        "implicit":
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
+        "password":
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
