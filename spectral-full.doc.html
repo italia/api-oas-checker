@@ -498,6 +498,16 @@ that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725
 </code></pre>
 <h2 id="securityschemes-oauth-http">securitySchemes-oauth-http</h2>
 <p>OAuth2 endpoints must use <code>https://</code></p>
+<h2 id="securityschemes-oauth-allowed-flows">securitySchemes-oauth-allowed-flows</h2>
+<p>The OAuth2 authorization framework defines various
+<a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3">grant types</a>,
+most notably the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.1">AuthorizationCode</a>
+and the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.4">Client Credentials</a>.</p>
+<p>Some grant types are now considered insecure
+and MUST not be used, including <code>implicit</code> and <code>password</code>.
+The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a> 
+still in draft, removes them and suggests to
+replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC7636">RFC7636</a>.</p>
 <h2 id="string-maxlength">string-maxlength</h2>
 <p>String length should be limited to avoid an attacker
 to send very long strings to your service.</p>
