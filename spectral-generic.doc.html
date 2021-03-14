@@ -139,6 +139,41 @@ containing a successful status code if the service is working correctly.</p>
 <p>"/status" must return a Problem object.</p>
 <h2 id="paths-status-problem-schema">paths-status-problem-schema</h2>
 <p>"/status" schema is not a Problem object.</p>
+<h2 id="paths-http-method">paths-http-method</h2>
+<p>When you design a REST API, you don't usually need to mention terms like
+<code>get</code>, <code>delete</code> and so on in your <code>paths</code>, because this information is
+conveyed by the HTTP method.</p>
+<p>Instead of using</p>
+<pre><code>POST /books/1234/delete HTTP/1.1
+Host: api.example
+</code></pre>
+<p>You can simply call</p>
+<pre><code>DELETE /books/1234 HTTP/1.1
+Host: api.example
+</code></pre>
+<p>Similarly you don't need verbs like <code>list</code> or <code>create</code> because
+the HTTP Semantics <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> supports this kind of actions natively
+with proper methods and status code.</p>
+<p>Instead of</p>
+<pre><code>POST /create/user HTTP/1.1
+Host: api.example
+Content-Type: application/json
+
+{"given_name": "Mario"}
+</code></pre>
+<p>You can use</p>
+<pre><code>POST /create/user HTTP/1.1
+Host: api.example
+Content-Type: application/json
+
+{"given_name": "Mario"}
+</code></pre>
+<p>returning a proper response</p>
+<pre><code>HTTP/1.1 201 Created
+Location: /users/1234
+</code></pre>
+<p>This simplifies securing your API as you know beforehand the kind of action
+which is going to be performed.</p>
 <h2 id="use-problem-json-for-errors">use-problem-json-for-errors</h2>
 <p>Error management is a key enabler of a resilient API ecosystem.
 Enforcing a consistent schema for errors between different APIs,
