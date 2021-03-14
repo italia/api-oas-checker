@@ -24,3 +24,9 @@ paths:
             application/ko+json:
               schema:
                 type: string
+  /ko/get: {}
+  /ko/post: {}
+  /ko/getUser: {}
+  /ko/get_user: {}
+  /ko/get/user: {}
+  /ko/patch/user: {}
