@@ -56,6 +56,9 @@
     "yaml": "^1.10.2",
     "yargs": "^16.2.0"
   },
+  "resolutions": {
+    "netmask": "^2.0.1"
+  },
   "keywords": [
     "spectral",
     "openapi"
