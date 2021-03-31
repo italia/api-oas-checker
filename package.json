@@ -3,7 +3,7 @@
     "api-oas-checker": "api-oas-checker"
   },
   "dependencies": {
-    "@stoplight/spectral": "^5.8.1",
+    "@stoplight/spectral": "^5.9.0",
     "axios": "^0.21.1",
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.2.6",
@@ -11,11 +11,11 @@
     "dompurify": "^2.2.7",
     "lodash.debounce": "^4.0.8",
     "marked": "^2.0.1",
-    "monaco-editor": "^0.22.3",
+    "monaco-editor": "^0.23.0",
     "prop-types": "^15.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-jss": "^10.5.1",
+    "react-jss": "^10.6.0",
     "react-redux": "^7.2.3",
     "redux": "^4.0.5",
     "typeface-lora": "^1.1.13",
