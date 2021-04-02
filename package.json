@@ -6,7 +6,7 @@
     "@stoplight/spectral": "^5.9.0",
     "axios": "^0.21.1",
     "bootstrap-italia": "^1.4.3",
-    "classnames": "^2.2.6",
+    "classnames": "^2.3.0",
     "design-react-kit": "^3.3.3",
     "dompurify": "^2.2.7",
     "lodash.debounce": "^4.0.8",
