@@ -56,10 +56,6 @@
     "yaml": "^1.10.2",
     "yargs": "^16.2.0"
   },
-  "resolutions": {
-    "is-svg": "^4.2.2",
-    "netmask": "^2.0.1"
-  },
   "keywords": [
     "spectral",
     "openapi"
