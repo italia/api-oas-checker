@@ -8,7 +8,7 @@
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.3.1",
     "design-react-kit": "^3.3.3",
-    "dompurify": "^2.2.7",
+    "dompurify": "^2.2.8",
     "lodash.debounce": "^4.0.8",
     "marked": "^2.0.3",
     "monaco-editor": "^0.23.0",
