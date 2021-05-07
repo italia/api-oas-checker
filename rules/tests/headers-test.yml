@@ -27,6 +27,8 @@ paths:
             X-RateLimit-Limit: {}
             x-ratelimit-remaining: {}
             xratelimit: {}
+            x-correlation-id: {}
+            xantani: {}
 
   /ko-no-x-header:
     parameters:
