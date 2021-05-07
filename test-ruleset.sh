@@ -4,6 +4,26 @@ export PATH="$PATH:$PWD/node_modules/.bin:"
 DIFF_OPTS='-wubBEr --color'
 BASEDIR="${1?Missing base directory}"; shift
 
+spectral_diff(){
+    local rule="${1?Missing rule parameter}"
+
+    spectral lint tests/$rule-test.yml -r $rule.yml | \
+        diff $DIFF_OPTS -I '^.*tests/.*-test.yml$' "tests/$rule-test.snapshot" -
+}
+
+spectral_diff_display(){
+    local rule="${1?Missing rule parameter}"
+    local SED_IGNORE_LINES='s/^\s\+[0-9:]\+//g'
+
+    spectral lint tests/$rule-test.yml -r $rule.yml | \
+    sed -e "$SED_IGNORE_LINES" | \
+    diff $DIFF_OPTS -I '^.*tests/.*-test.yml$' \
+        <(sed -e "$SED_IGNORE_LINES"  "tests/$rule-test.snapshot") -
+
+    echo "You are watching a simplified diff."
+}
+
+
 do_or_die(){
 	local TEST_OUT=$1
         if [ "$TEST_OUT" != "0" ]; then
@@ -39,20 +59,26 @@ case "$1" in
     all)
         for RULE in $RULES; do
             echo -n "Executing rule $RULE.."
-            spectral lint tests/$RULE-test.yml -r $RULE.yml | \
-                diff $DIFF_OPTS -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" - && echo "OK"
+            spectral_diff $RULE && echo "Ok"
             do_or_die "$?"
         done
         ;;
     @($RULES_REGEXP))
         RULE="$1"
+        SHORT="$2"
 
         if [ ! -f "tests/$RULE-test.snapshot" ]; then
             echo "Missing test snapshot for rule: $RULE"
             exit 1
         fi
-        spectral lint tests/$RULE-test.yml -r $RULE.yml | \
-            diff $DIFF_OPTS -I '^.*tests/.*-test.yml$' "tests/$RULE-test.snapshot" -
+
+        if [ -n "$SHORT" ]; then
+            spectral_diff_display $RULE
+        else
+            spectral_diff $RULE
+        fi
+        spectral_diff $RULE >& /dev/null && echo "Ok"
+
         TEST_OUT="$?"
     	do_or_die $TEST_OUT
         echo "Ok"
