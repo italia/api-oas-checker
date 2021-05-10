@@ -35,7 +35,7 @@ rules:
       functionOptions:
         # De Morgan:  !~ /^x-/ <=> h[0] != 'x' || h[1] != '-'
         match: >-
-          /^([^x]|.[^-])|RateLimit-/i
+          /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
   no-x-headers-response:
     <<: *no-x-headers
     given:
@@ -46,4 +46,4 @@ rules:
       function: pattern
       functionOptions:
         match: >-
-          /^([^x]|.[^-])|RateLimit-/i
+          /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
