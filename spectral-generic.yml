@@ -204,7 +204,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: /^([^x]|.[^-])|RateLimit-/i
+        match: /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
   no-x-headers-response:
     x-tags:
       - standards
@@ -218,7 +218,7 @@ rules:
     then:
       function: pattern
       functionOptions:
-        match: /^([^x]|.[^-])|RateLimit-/i
+        match: /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
   servers-description:
     x-tags:
       - metadata
