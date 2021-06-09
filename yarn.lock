@@ -4035,10 +4035,10 @@ escodegen@^2.0.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-italia@^1.0.3:
-  version "1.0.3"
-  resolved "https://registry.yarnpkg.com/eslint-config-italia/-/eslint-config-italia-1.0.3.tgz#b2cd15619ec2b96485196bf190ba8e2429d386fe"
-  integrity sha512-LrF5HSqHY64wRwfQtEQd7dK6cWmDHfzXo5eeqq5pFoGiSd1o9aLaU9DIBUBUwpAglmrULP/RCX+8xa2VdewoUg==
+eslint-config-italia@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/eslint-config-italia/-/eslint-config-italia-1.0.4.tgz#ad69930da315fa0e6e5a3f44da0b3ccc4755974f"
+  integrity sha512-1nDhXUpCP39OUoAjYc9R8DTsy1rI24PT2Mb8oCEigFB/SvMj4T8TMDEfTe2VLF+BCCiOOVx/3ZCvyCY6xNXTwg==
   dependencies:
     eslint-config-prettier "^7.2.0"
     eslint-plugin-import "^2.22.1"
