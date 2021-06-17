@@ -7,10 +7,14 @@ rules:
       This rule should ensure in some way that the api provider
       documented extensively the cache usage to avoid data leaks
       or usage of stale data.
+      The `no-transform` directive can
+      be used in responses to avoid transforming proxies to
+      modify (eg. compress) the content.
 
       For now this ruleset tests:
       * the presence of following keywords
-        in the `description`: `max-age`, `private`, `no-store`, `no-cache`.
+        in the `description`: `max-age`, `private`, `no-store`, `no-cache`,
+        `no-transform`.
       * that one and only one between Expires and Cache-Control is used.
 
       `Cache-Control` and `Expires` should not be used in conjuction,
@@ -33,7 +37,7 @@ rules:
        function: pattern
        functionOptions:
          match: >-
-           .*(max-age|private|no-store|no-cache).*
+           .*(max-age|private|no-store|no-cache|no-transform).*
 
   cache-responses-undocumented:
     <<: *cache-control
