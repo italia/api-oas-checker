@@ -1,4 +1,5 @@
 OpenAPI 3.x detected
+OpenAPI 3.0.x detected
 
 /code/security/tests/objects-test.yml
   4:13  warning  no-default-additionalProperties   Objects should not allow additionalProperties. Disable them with `additionalProperties: false` or constraint them.  components.schemas.ko_wild
