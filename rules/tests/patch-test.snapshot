@@ -1,4 +1,5 @@
 OpenAPI 3.x detected
+OpenAPI 3.0.x detected
 
 /code/rules/tests/patch-test.yml
  7:30  error  patch-media-type  application/json is not an appropriate media-type for PATCH. #/paths/~1ko-patch/patch/requestBody/content/application~1json  paths./ko-patch.patch.requestBody.content.application/json

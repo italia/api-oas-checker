@@ -3,8 +3,8 @@
     "api-oas-checker": "api-oas-checker"
   },
   "dependencies": {
-    "@stoplight/spectral": "^5.9.1",
     "axios": "^0.22.0",
+    "@stoplight/spectral": "^6.0.0",
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.3.1",
     "design-react-kit": "^3.3.3",

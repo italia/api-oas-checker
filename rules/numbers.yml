@@ -20,7 +20,7 @@ rules:
     severity: error
     recommended: true
     given: >-
-      $.[?(@.type=="number")]
+      $.[?(@ && @.type == "number")]
     then:
       field: format
       function: truthy
@@ -28,7 +28,7 @@ rules:
   integer-format:
     <<: *number-format
     given: >
-      $.[?(@.type=="integer")]
+      $.[?(@ && @.type == "integer")]
 
   allowed-integer-format: &allowed-integer-format
     x-tags:
@@ -40,15 +40,15 @@ rules:
 
       See recommendation RAC_REST_FORMAT_004.
     message: >-
-      Type format is "{{value}}", expected one of [int32, int64]. {{path}}
+      Type format {{error}} in {{path}}
     formats:
     - oas3
     severity: hint
     recommended: true
     given: >
-      $.[?(@.type=="integer")]
+      $.[?(@ && @.type=="integer" && @.format)]
     then:
-      field: format
+    - field: format
       function: enumeration
       functionOptions:
         values:
@@ -56,12 +56,10 @@ rules:
         - int64
   allowed-number-format:
     <<: *allowed-integer-format
-    message: >-
-      Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
     given: >
-      $.[?(@.type=="number")]
+      $.[?(@ && @.type=="number" && @.format)]
     then:
-      field: format
+    - field: format
       function: enumeration
       functionOptions:
         values:

@@ -26,7 +26,7 @@ rules:
       You can use `http://` only on sandboxes environment.
       Use `x-sandbox: true` to skip this kind of check.
     message: >-
-      Non-sandbox url  {{value}} {{error}}.
+      Non-sandbox url {{error}}.
       Add `x-sandbox: true` to skip this check on a specific server.
     given:
     -  $.servers[?(@["x-sandbox"] != true)]

@@ -1,13 +1,14 @@
 OpenAPI 3.x detected
+OpenAPI 3.0.x detected
 
 /code/rules/tests/numbers-test.yml
-  6:17   hint  allowed-integer-format  Type format is "bad", expected one of [int32, int64]. #/components/schemas/ko_Integer_bad1/schema/format                                                                           components.schemas.ko_Integer_bad1.schema.format
- 10:17   hint  allowed-number-format   Type format is "bad", expected one of [decimal32, decimal64, decimal128, float, double]. #/components/schemas/ko_Number_bad1/schema/format                                         components.schemas.ko_Number_bad1.schema.format
- 12:14  error  number-format           Schema of type number or integer must specify a format. #/components/schemas/ko_Number/schema                                                                                      components.schemas.ko_Number.schema
- 17:17   hint  allowed-number-format   Type format is "int32", expected one of [decimal32, decimal64, decimal128, float, double]. #/components/schemas/Number/schema/format                                               components.schemas.Number.schema.format
- 19:14  error  integer-format          Schema of type number or integer must specify a format. #/components/schemas/ko_Integer/schema                                                                                     components.schemas.ko_Integer.schema
- 34:22   hint  allowed-number-format   Type format is "int32", expected one of [decimal32, decimal64, decimal128, float, double]. #/paths/~1number-ok/put/requestBody/content/application~1json-patch+json/schema/format  paths./number-ok.put.requestBody.content.application/json-patch+json.schema.format
- 48:19  error  number-format           Schema of type number or integer must specify a format. #/paths/~1number-ko/put/requestBody/content/application~1json-patch+json/schema                                            paths./number-ko.put.requestBody.content.application/json-patch+json.schema
+  6:17   hint  allowed-integer-format  Type format "bad" must be equal to one of the allowed values: "int32", "int64" in #/components/schemas/ko_Integer_bad1/schema/format                                                                                 components.schemas.ko_Integer_bad1.schema.format
+ 10:17   hint  allowed-number-format   Type format "bad" must be equal to one of the allowed values: "decimal32", "decimal64", "float", "double", "decimal128" in #/components/schemas/ko_Number_bad1/schema/format                                         components.schemas.ko_Number_bad1.schema.format
+ 12:14  error  number-format           Schema of type number or integer must specify a format. #/components/schemas/ko_Number/schema                                                                                                                        components.schemas.ko_Number.schema
+ 17:17   hint  allowed-number-format   Type format "int32" must be equal to one of the allowed values: "decimal32", "decimal64", "float", "double", "decimal128" in #/components/schemas/Number/schema/format                                               components.schemas.Number.schema.format
+ 19:14  error  integer-format          Schema of type number or integer must specify a format. #/components/schemas/ko_Integer/schema                                                                                                                       components.schemas.ko_Integer.schema
+ 34:22   hint  allowed-number-format   Type format "int32" must be equal to one of the allowed values: "decimal32", "decimal64", "float", "double", "decimal128" in #/paths/~1number-ok/put/requestBody/content/application~1json-patch+json/schema/format  paths./number-ok.put.requestBody.content.application/json-patch+json.schema.format
+ 48:19  error  number-format           Schema of type number or integer must specify a format. #/paths/~1number-ko/put/requestBody/content/application~1json-patch+json/schema                                                                              paths./number-ko.put.requestBody.content.application/json-patch+json.schema
 
 ✖ 7 problems (3 errors, 0 warnings, 0 infos, 4 hints)
 

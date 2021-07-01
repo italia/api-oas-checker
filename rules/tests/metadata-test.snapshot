@@ -1,4 +1,5 @@
 OpenAPI 3.x detected
+OpenAPI 3.0.x detected
 
 /code/rules/tests/metadata-test.yml
   14:6  error  has-contact         API MUST reference a contact, either url or email in #/info/contact                info
