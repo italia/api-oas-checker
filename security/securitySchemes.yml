@@ -119,9 +119,9 @@ rules:
   # OAuth2 specific
   securitySchemes-oauth-http:
     description: |-
-      OAuth2 endpoints must use `https://`
+      OAuth2 endpoints must use `https://` or be relative.
     message: >-
-      OAuth endpoints must use https://
+      OAuth endpoints must use https:// or be relative.
     formats:
       - oas3
     severity: error
@@ -134,7 +134,7 @@ rules:
         function: pattern
         functionOptions:
           match: >-
-            ^https://
+            ^(https://|/[^/])
   securitySchemes-oauth-allowed-flows:
     description: |-
       The OAuth2 authorization framework defines various

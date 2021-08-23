@@ -68,3 +68,7 @@ components:
           "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
         "password":
           "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
+        "clientCredentials":
+          "tokenUrl": "non-relative-url"
+        "clientCredentials2":
+          "tokenUrl": "/relative-url"
