@@ -37,6 +37,8 @@ description:
     shortDescription: >-
       Questo repository contiene un validatore in-browser che verifica alcune
       delle regole per le API REST indicate nel Modello di Interoperabilità.
+    screenshots:
+      - screenshot.png
 developmentStatus: development
 it:
   conforme:
