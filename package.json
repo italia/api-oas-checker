@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "@stoplight/spectral": "^5.9.1",
-    "axios": "^0.21.1",
+    "axios": "^0.21.3",
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.3.1",
     "design-react-kit": "^3.3.3",
@@ -23,7 +23,7 @@
     "typeface-titillium-web": "^1.1.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.14.8",
+    "@babel/core": "^7.15.5",
     "@babel/preset-env": "^7.15.0",
     "@babel/preset-react": "^7.13.13",
     "@testing-library/jest-dom": "^5.12.0",
@@ -51,7 +51,7 @@
     "webpack": "^5.50.0",
     "webpack-bundle-analyzer": "^4.4.1",
     "webpack-cli": "^4.7.2",
-    "webpack-dev-server": "^3.11.2",
+    "webpack-dev-server": "^4.1.0",
     "worker-loader": "^3.0.8",
     "yaml": "^1.10.2",
     "yargs": "^17.1.1"
