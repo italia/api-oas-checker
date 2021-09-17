@@ -71,5 +71,5 @@ platforms:
   - linux
 releaseDate: "2020-06-16"
 softwareType: standalone/web
-softwareVersion: 0.0.1
+softwareVersion: 0.3.0
 url: "https://github.com/italia/api-oas-checker"
