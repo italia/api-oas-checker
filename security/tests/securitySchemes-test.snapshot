@@ -10,9 +10,10 @@ OpenAPI 3.x detected
  46:20      warning  securitySchemes-oauth                JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.MyOauth2_ko.description
  47:18      warning  securitySchemes-jwt                  JWT usage should be detailed in `description` `JWTBearer_ko.description` property is not truthy.                                          components.securitySchemes.JWTBearer_ko
  53:20      warning  securitySchemes-jwt                  JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.JWTBearer2_ko.description
- 66:31        error  securitySchemes-oauth-http           OAuth endpoints must use https://                                                                                                         components.securitySchemes.MyOauth_ko3.flows.authorizationCode.authorizationUrl
+ 66:31        error  securitySchemes-oauth-http           OAuth endpoints must use https:// or be relative.                                                                                         components.securitySchemes.MyOauth_ko3.flows.authorizationCode.authorizationUrl
  67:20        error  securitySchemes-oauth-allowed-flows  Do not use oauth2 insecure flow: "implicit".                                                                                              components.securitySchemes.MyOauth_ko3.flows.implicit
  69:20        error  securitySchemes-oauth-allowed-flows  Do not use oauth2 insecure flow: "password".                                                                                              components.securitySchemes.MyOauth_ko3.flows.password
+ 72:23        error  securitySchemes-oauth-http           OAuth endpoints must use https:// or be relative.                                                                                         components.securitySchemes.MyOauth_ko3.flows.clientCredentials.tokenUrl
 
-✖ 12 problems (7 errors, 4 warnings, 1 info, 0 hints)
+✖ 13 problems (8 errors, 4 warnings, 1 info, 0 hints)
 
