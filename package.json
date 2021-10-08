@@ -4,7 +4,7 @@
   },
   "dependencies": {
     "axios": "^0.22.0",
-    "@stoplight/spectral-cli": "^6.0.0",
+    "@stoplight/spectral-cli": "^6.1.0",
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.3.1",
     "design-react-kit": "^3.3.3",
