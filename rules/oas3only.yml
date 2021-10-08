@@ -1,5 +1,4 @@
 rules:
-  oas2: false
   no-swagger-2:
     description: >-
       Swagger 2 files are not allowed. Use OpenAPI >= 3.0

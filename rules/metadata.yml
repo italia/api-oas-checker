@@ -1,8 +1,5 @@
 rules:
   has-x-summary:
-    x-tags:
-      - it
-      - metadata
     message: >-
       API MUST have an one-liner #/info/x-summary field
       containing a brief description.
@@ -24,8 +21,6 @@ rules:
       function: truthy
 
   has-termsOfService:
-    x-tags:
-      - metadata
     message: >-
       API MUST reference the URL of the Terms of Service 
       in #/info/termsOfService.
@@ -43,8 +38,6 @@ rules:
       function: truthy
 
   has-contact:
-    x-tags:
-      - metadata
     description: >-
       API MUST reference a contact, either url or email in #/info/contact
     given: $
@@ -58,9 +51,6 @@ rules:
       function: truthy
 
   has-x-api-id:
-    x-tags:
-      - it
-      - metadata
     message: >-
       API must have an unique identifier in x-api-id in #/info/x-api-id.
     description: |-

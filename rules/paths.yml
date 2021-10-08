@@ -1,7 +1,5 @@
 rules:
   paths-status:
-    x-tags:
-    - it
     description: |-
       You must define a `/status` path that can be used to health-check the API.
       Using this path avoids the arbitrary usage of a server URL for health-check
@@ -20,8 +18,6 @@ rules:
       field: "paths./status.get.responses.200"
       function: truthy  
   paths-status-return-problem:
-    x-tags:
-    - it
     description: |-
       "/status" must return a Problem object.
     message: |-
@@ -37,8 +33,6 @@ rules:
         - application/problem+xml
         - application/problem+json  
   paths-status-problem-schema:
-    x-tags:
-    - it
     description: |-
       "/status" schema is not a Problem object.
     message: |-
@@ -55,8 +49,6 @@ rules:
     - function: truthy
       field: 'properties.detail'
   paths-http-method:
-    x-tags:
-      - it
     description: |-
       When you design a REST API, you don't usually need to mention terms like
       `get`, `delete` and so on in your `paths`, because this information is
