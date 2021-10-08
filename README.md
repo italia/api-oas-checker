@@ -52,12 +52,19 @@ Quando si usa la versione online delle regole, è importante verificare periodic
 che sia aggiornata.
 
 ### Modalità linea di comando
-Se volete controllare la vostra API usando la CLI di Spectral, dopo aver clonato il repository, eseguite
+Se volete controllare la vostra API ci sono due modalità:
 
+#### 1) Usando la CLI di Spectral
+dopo aver clonato il repository, eseguite:
 ```
 $ yarn
 $ make rules
 $ yarn run spectral lint -r spectral.yml $OAS_URL_OR_FILE
+```
+
+#### 2) Usando il docker
+```
+$ docker run --rm --entrypoint=sh -v $(pwd)/api:/locale stoplight/spectral:5.9.1 -c "spectral lint -r https://italia.github.io/api-oas-checker/spectral.yml /locale/openapi.yaml"
 ```
 
 ### Modalità ui
