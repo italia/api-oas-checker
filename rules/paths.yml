@@ -108,11 +108,11 @@ rules:
     given:
       - >-
         $.paths[?(@property.match(
-        /\/(get|post|put|delete|patch)[\/A-Z_\-]?/
+        "/(get|post|put|delete|patch)[\/A-Z_\-]?"
         ))]~
       - >-
         $.paths[?(@property.match(
-        /\/(create|remove|list)[\/A-Z_\-]?/
+        "/(create|remove|list)[\/A-Z_\-]?"
         ))]~
 
     then:
