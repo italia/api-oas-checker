@@ -20,12 +20,10 @@ rules:
       field: Retry-After
       function: truthy
   missing-ratelimit:
-    x-tags:
-    - it
     description: |-
       Ratelimiting API preserves a service and limits attack scenario
       [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).
-      
+
       APIs should use the following headers at least on successful responses:
       - `X-RateLimit-Limit`: number of total requests in a give time window
       - `X-RateLimit-Remaining`: remaining requests in the current window

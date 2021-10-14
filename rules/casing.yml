@@ -1,7 +1,5 @@
 rules:
   paths-kebab-case:
-    x-tags:
-    - it
     description: |
       Paths should be kebab-case.
 
@@ -18,8 +16,6 @@ rules:
         match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
 
   request-headers-pascal-case: &request-headers-pascal-case
-    x-tags:
-    - it
     description: |
       Headers should be pascal-case.
 

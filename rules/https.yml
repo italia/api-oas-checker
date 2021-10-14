@@ -1,8 +1,5 @@
 rules:
   servers-description:
-    x-tags:
-      - metadata
-      - it
     description: |-
       Servers must have a description.
     message: >-
@@ -17,8 +14,6 @@ rules:
       function: truthy
 
   servers-use-https:
-    x-tags:
-      - security
     description: |-
       Servers must use https to ensure the origin of the responses
       and protect the integrity and the  confidentiality of the communication.

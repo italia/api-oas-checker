@@ -1,7 +1,5 @@
 rules:
   paths-status:
-    x-tags:
-    - it
     description: |-
       You must define a `/status` path that can be used to health-check the API.
       Using this path avoids the arbitrary usage of a server URL for health-check
@@ -18,10 +16,8 @@ rules:
     given: $
     then:
       field: "paths./status.get.responses.200"
-      function: truthy  
+      function: truthy
   paths-status-return-problem:
-    x-tags:
-    - it
     description: |-
       "/status" must return a Problem object.
     message: |-
@@ -35,10 +31,8 @@ rules:
       functionOptions:
         values:
         - application/problem+xml
-        - application/problem+json  
+        - application/problem+json
   paths-status-problem-schema:
-    x-tags:
-    - it
     description: |-
       "/status" schema is not a Problem object.
     message: |-
@@ -55,8 +49,6 @@ rules:
     - function: truthy
       field: 'properties.detail'
   paths-http-method:
-    x-tags:
-      - it
     description: |-
       When you design a REST API, you don't usually need to mention terms like
       `get`, `delete` and so on in your `paths`, because this information is
@@ -116,11 +108,11 @@ rules:
     given:
       - >-
         $.paths[?(@property.match(
-        /\/(get|post|put|delete|patch)[\/A-Z_\-]?/
+        "/(get|post|put|delete|patch)[\/A-Z_\-]?"
         ))]~
       - >-
         $.paths[?(@property.match(
-        /\/(create|remove|list)[\/A-Z_\-]?/
+        "/(create|remove|list)[\/A-Z_\-]?"
         ))]~
 
     then:

@@ -1,7 +1,5 @@
 rules:
   patch-media-type:
-    x-tags:
-    - standards
     description: |-
       The PATCH specification explicits that the request body contains
       a "patch document" describing the changes to be applied
