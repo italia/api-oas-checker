@@ -3,9 +3,6 @@
 #
 rules:
   number-format: &number-format
-    x-tags:
-    - "it"
-    - "RAC_REST_FORMAT_004"
     description: |-
       Schema of type number or integer must specify a format
       to express the associated datatype, eg. `int32`, `int64`, ...
@@ -27,13 +24,10 @@ rules:
   # Reuse the number-format description and message.
   integer-format:
     <<: *number-format
-    given: >
+    given: >-
       $.[?(@.type=="integer")]
 
   allowed-integer-format: &allowed-integer-format
-    x-tags:
-    - "it"
-    - "RAC_REST_FORMAT_004"
     description: |-
       To improve interoperability, integer and number formats are constrained
       to a shared subset.
@@ -45,7 +39,7 @@ rules:
     - oas3
     severity: hint
     recommended: true
-    given: >
+    given: >-
       $.[?(@.type=="integer")]
     then:
       field: format
@@ -58,7 +52,7 @@ rules:
     <<: *allowed-integer-format
     message: >-
       Type format is "{{value}}", expected one of [decimal32, decimal64, decimal128, float, double]. {{path}}
-    given: >
+    given: >-
       $.[?(@.type=="number")]
     then:
       field: format
@@ -70,4 +64,4 @@ rules:
         - float
         - double
         - decimal128
-          
+
