@@ -152,8 +152,6 @@ rules:
             - Expires
             - Cache-Control
   paths-kebab-case:
-    x-tags:
-      - it
     description: |
       Paths should be kebab-case.
 
@@ -167,8 +165,6 @@ rules:
       functionOptions:
         match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
   request-headers-pascal-case:
-    x-tags:
-      - it
     description: |
       Headers should be pascal-case.
 
@@ -185,8 +181,6 @@ rules:
         separator:
           char: "-"
   response-headers-pascal-case:
-    x-tags:
-      - it
     description: |
       Headers should be pascal-case.
 
@@ -203,8 +197,6 @@ rules:
         separator:
           char: "-"
   no-forbidden-headers:
-    x-tags:
-      - standards
     description: |-
       OAS do not allow using the following HTTP headers in a specification
       file: Authorization, Content-Type and Accept.
@@ -219,8 +211,6 @@ rules:
       functionOptions:
         notMatch: /^(accept|content-type|authorization)$/i
   no-x-headers-request:
-    x-tags:
-      - standards
     description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648."
     severity: warn
     given:
@@ -233,8 +223,6 @@ rules:
       functionOptions:
         match: /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
   no-x-headers-response:
-    x-tags:
-      - standards
     description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648."
     severity: warn
     given:
@@ -247,9 +235,6 @@ rules:
       functionOptions:
         match: /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
   servers-description:
-    x-tags:
-      - metadata
-      - it
     description: Servers must have a description.
     message: Server {{path}} must have a description.
     given:
@@ -261,8 +246,6 @@ rules:
       field: description
       function: truthy
   servers-use-https:
-    x-tags:
-      - security
     description: |-
       Servers must use https to ensure the origin of the responses
       and protect the integrity and the  confidentiality of the communication.
@@ -282,9 +265,6 @@ rules:
       functionOptions:
         match: ^https://.*
   has-x-summary:
-    x-tags:
-      - it
-      - metadata
     message: "API MUST have an one-liner #/info/x-summary field containing a brief
       description."
     description: >-
@@ -303,11 +283,9 @@ rules:
       field: info.x-summary
       function: truthy
   has-termsOfService:
-    x-tags:
-      - metadata
-    message: "API MUST reference the URL of the Terms of Service  in
+    message: "API MUST reference the URL of the Terms of Service in
       #/info/termsOfService."
-    description: API MUST reference the URL of the Terms of Service  in
+    description: API MUST reference the URL of the Terms of Service in
       `#/info/termsOfService`
     given: $
     severity: error
@@ -319,8 +297,6 @@ rules:
       field: info.termsOfService
       function: truthy
   has-contact:
-    x-tags:
-      - metadata
     description: "API MUST reference a contact, either url or email in #/info/contact"
     given: $
     severity: error
@@ -332,9 +308,6 @@ rules:
       field: info.contact
       function: truthy
   has-x-api-id:
-    x-tags:
-      - it
-      - metadata
     message: "API must have an unique identifier in x-api-id in #/info/x-api-id."
     description: |-
       The `#/info/x-api-id` field can be used to associate an identifier
@@ -361,9 +334,6 @@ rules:
       functionOptions:
         match: ^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?
   number-format:
-    x-tags:
-      - it
-      - RAC_REST_FORMAT_004
     description: >-
       Schema of type number or integer must specify a format
 
@@ -384,9 +354,6 @@ rules:
       field: format
       function: truthy
   integer-format:
-    x-tags:
-      - it
-      - RAC_REST_FORMAT_004
     description: >-
       Schema of type number or integer must specify a format
 
@@ -402,15 +369,11 @@ rules:
       - oas3
     severity: error
     recommended: true
-    given: |
-      $.[?(@.type=="integer")]
+    given: $.[?(@.type=="integer")]
     then:
       field: format
       function: truthy
   allowed-integer-format:
-    x-tags:
-      - it
-      - RAC_REST_FORMAT_004
     description: |-
       To improve interoperability, integer and number formats are constrained
       to a shared subset.
@@ -421,8 +384,7 @@ rules:
       - oas3
     severity: hint
     recommended: true
-    given: |
-      $.[?(@.type=="integer")]
+    given: $.[?(@.type=="integer")]
     then:
       field: format
       function: enumeration
@@ -431,9 +393,6 @@ rules:
           - int32
           - int64
   allowed-number-format:
-    x-tags:
-      - it
-      - RAC_REST_FORMAT_004
     description: |-
       To improve interoperability, integer and number formats are constrained
       to a shared subset.
@@ -445,8 +404,7 @@ rules:
       - oas3
     severity: hint
     recommended: true
-    given: |
-      $.[?(@.type=="number")]
+    given: $.[?(@.type=="number")]
     then:
       field: format
       function: enumeration
@@ -457,7 +415,6 @@ rules:
           - float
           - double
           - decimal128
-  oas2: false
   no-swagger-2:
     description: Swagger 2 files are not allowed. Use OpenAPI >= 3.0
     given: $
@@ -470,8 +427,6 @@ rules:
       field: swagger
       function: falsy
   patch-media-type:
-    x-tags:
-      - standards
     description: >-
       The PATCH specification explicits that the request body contains
 
@@ -512,8 +467,6 @@ rules:
       field: application/json
       function: falsy
   paths-status:
-    x-tags:
-      - it
     description: >-
       You must define a `/status` path that can be used to health-check the API.
 
@@ -536,8 +489,6 @@ rules:
       field: paths./status.get.responses.200
       function: truthy
   paths-status-return-problem:
-    x-tags:
-      - it
     description: '"/status" must return a Problem object.'
     message: "{{error}}"
     severity: error
@@ -550,8 +501,6 @@ rules:
           - application/problem+xml
           - application/problem+json
   paths-status-problem-schema:
-    x-tags:
-      - it
     description: '"/status" schema is not a Problem object.'
     message: "{{error}} {{path}}"
     severity: warn
@@ -565,8 +514,6 @@ rules:
       - function: truthy
         field: properties.detail
   paths-http-method:
-    x-tags:
-      - it
     description: >-
       When you design a REST API, you don't usually need to mention terms like
 
@@ -659,9 +606,8 @@ rules:
     severity: hint
     recommended: true
     given:
-      - $.paths[?(@property.match( /\/(get|post|put|delete|patch)[\/A-Z_\-]?/
-        ))]~
-      - $.paths[?(@property.match( /\/(create|remove|list)[\/A-Z_\-]?/ ))]~
+      - $.paths[?(@property.match( "/(get|post|put|delete|patch)[\/A-Z_\-]?" ))]~
+      - $.paths[?(@property.match( "/(create|remove|list)[\/A-Z_\-]?" ))]~
     then:
       field: "@key"
       function: undefined
@@ -811,8 +757,6 @@ rules:
       field: Retry-After
       function: truthy
   missing-ratelimit:
-    x-tags:
-      - it
     description: >-
       Ratelimiting API preserves a service and limits attack scenario
 
