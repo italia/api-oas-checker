@@ -34,7 +34,7 @@ module.exports = {
   entry: `${srcPath}/index.js`,
   devtool: isProduction ? false : 'source-map',
   devServer: {
-    contentBase: buildPath,
+    static: buildPath,
     open: true,
     compress: true,
     hot: true,
