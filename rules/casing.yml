@@ -15,6 +15,22 @@ rules:
       functionOptions:
         match: "^(\/[a-z0-9-.]+|\/{[a-zA-Z0-9_]+})+$"
 
+  path-parameters-camel-case: &path-parameters-camel-case
+    description: Path parameters should be camelCase.
+    message: '{{property}} is not camelCase: {{error}}'
+    severity: warn
+    recommended: true
+    given: $.[parameters][?(@.in=="path")].name
+    then:
+      function: casing
+      functionOptions:
+        type: camel
+
+  query-parameters-came-case:
+    <<: *path-parameters-camel-case
+    description: Query parameters should be camelCase.
+    given: $.[parameters][?(@.in=="query")].name
+
   request-headers-pascal-case: &request-headers-pascal-case
     description: |
       Headers should be pascal-case.
@@ -31,6 +47,7 @@ rules:
         type: pascal
         separator:
           char: '-'
+
   response-headers-pascal-case:
     <<: *request-headers-pascal-case
     message: 'Header {{error}}: {{path}}'
