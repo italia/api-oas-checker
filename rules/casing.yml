@@ -36,3 +36,19 @@ rules:
     message: 'Header {{error}}: {{path}}'
     given:
     - $.[responses][*].headers.*~
+
+  schema-camel-case:
+    description: |-
+      Schema definitions should be CamelCase
+      (pascal case with blank separator char.)
+    message: 'Schema name should be CamelCase in {{path}}'
+    severity: hint
+    recommended: true
+    given: >-
+      $.components.schemas[*]~
+    then:
+      function: casing
+      functionOptions:
+        type: pascal
+        separator:
+          char: ""
