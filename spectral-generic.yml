@@ -147,7 +147,7 @@ rules:
             - Cache-Control
   paths-kebab-case:
     description: |
-      Paths should be kebab-case.
+      Paths should be kebab-case (e.g. `path-parameter`).
 
       See Italian recommendation RAC_REST_NAME_002.
     message: "{{property}} is not kebab-case: {{error}}"
@@ -159,8 +159,10 @@ rules:
       functionOptions:
         match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
   request-headers-pascal-case:
-    description: |
-      Headers should be pascal-case.
+    description: >
+      Headers should be pascal-case, separated by hyphens (e.g.
+      `PascalCase-Header`)
+
 
       See Italian recommendation RAC_REST_NAME_003.
     message: "{{value}} {{error}} in {{path}}"
@@ -175,8 +177,10 @@ rules:
         separator:
           char: "-"
   response-headers-pascal-case:
-    description: |
-      Headers should be pascal-case.
+    description: >
+      Headers should be pascal-case, separated by hyphens (e.g.
+      `PascalCase-Header`)
+
 
       See Italian recommendation RAC_REST_NAME_003.
     message: "Header {{error}}: {{path}}"
