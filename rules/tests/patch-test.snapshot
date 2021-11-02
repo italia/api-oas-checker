@@ -1,7 +1,8 @@
 OpenAPI 3.x detected
 
 /code/rules/tests/patch-test.yml
- 7:30  error  patch-media-type  application/json is not an appropriate media-type for PATCH. #/paths/~1ko-patch/patch/requestBody/content/application~1json  paths./ko-patch.patch.requestBody.content.application/json
+  7:30  error  patch-media-type     application/json is not an appropriate media-type for PATCH. #/paths/~1ko-patch/patch/requestBody/content/application~1json  paths./ko-patch.patch.requestBody.content.application/json
+ 19:21  error  request-GET-no-body  A GET request MUST NOT accpet a requestBody: `requestBody` property should be undefined.                                     paths./ko-get-with-body.get.requestBody
 
-✖ 1 problem (1 error, 0 warnings, 0 infos, 0 hints)
+✖ 2 problems (2 errors, 0 warnings, 0 infos, 0 hints)
 
