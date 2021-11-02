@@ -1,7 +1,7 @@
 rules:
   paths-kebab-case:
     description: |
-      Paths should be kebab-case.
+      Paths should be kebab-case (e.g. `path-parameter`).
 
       See Italian recommendation RAC_REST_NAME_002.
     message: '{{property}} is not kebab-case: {{error}}'
@@ -17,7 +17,7 @@ rules:
 
   request-headers-pascal-case: &request-headers-pascal-case
     description: |
-      Headers should be pascal-case.
+      Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
 
       See Italian recommendation RAC_REST_NAME_003.
     message: '{{value}} {{error}} in {{path}}'
