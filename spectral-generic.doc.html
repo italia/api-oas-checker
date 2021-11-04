@@ -98,6 +98,20 @@ like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
 <h2 id="response-headers-pascal-case">response-headers-pascal-case</h2>
 <p>Headers should be pascal-case, separated by hyphens (e.g. <code>PascalCase-Header</code>)</p>
 <p>See Italian recommendation RAC_REST_NAME_003.</p>
+<h2 id="schema-camel-case">schema-camel-case</h2>
+<p>Schema definitions should be CamelCase
+(pascal case with blank separator char).</p>
+<p>This improves readability and avoid
+confusion between schema names and properties.</p>
+<pre><code>Website:
+  type: string
+  format: url
+Person:
+  type: object
+  properties:
+    website:
+      $ref: "#/components/schemas/Website"
+</code></pre>
 <h2 id="no-forbidden-headers">no-forbidden-headers</h2>
 <p>OAS do not allow using the following HTTP headers in a specification
 file: Authorization, Content-Type and Accept.

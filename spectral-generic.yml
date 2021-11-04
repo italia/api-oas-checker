@@ -194,6 +194,34 @@ rules:
         type: pascal
         separator:
           char: "-"
+  schema-camel-case:
+    description: |-
+      Schema definitions should be CamelCase
+      (pascal case with blank separator char).
+
+      This improves readability and avoid
+      confusion between schema names and properties.
+
+      ```
+      Website:
+        type: string
+        format: url
+      Person:
+        type: object
+        properties:
+          website:
+            $ref: "#/components/schemas/Website"
+      ``` 
+    message: Schema name should be CamelCase in {{path}}
+    severity: hint
+    recommended: true
+    given: $.components.schemas[*]~
+    then:
+      function: casing
+      functionOptions:
+        type: pascal
+        separator:
+          char: ""
   no-forbidden-headers:
     description: |-
       OAS do not allow using the following HTTP headers in a specification
