@@ -47,5 +47,14 @@ paths:
         in: query
         schema:
           type: string
-
-
+components:
+  schemas:
+    koNonCamelSchema:
+      type: string
+      pattern: '[a-z]+'
+    OkCamelSchema:
+      type: string
+      pattern: '[a-z]+'
+    Ko-CamelSchema:
+      type: string
+      pattern: '[a-z]+'

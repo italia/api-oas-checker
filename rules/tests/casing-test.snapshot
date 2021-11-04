@@ -6,6 +6,8 @@ OpenAPI 3.x detected
  23:32     hint  response-headers-pascal-case  Header must be pascal case: #/paths/~1header/get/responses/200/headers/KO_RESPONSE_HEADER     paths./header.get.responses[200].headers.KO_RESPONSE_HEADER
  38:17  warning  paths-kebab-case              /KO_NON_KEBAB is not kebab-case: must match the pattern '^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$'  paths./KO_NON_KEBAB
  39:15  warning  paths-kebab-case              /koNonKebab is not kebab-case: must match the pattern '^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$'    paths./koNonKebab
+ 52:22     hint  schema-camel-case             Schema name should be CamelCase in #/components/schemas/koNonCamelSchema                      components.schemas.koNonCamelSchema
+ 58:20     hint  schema-camel-case             Schema name should be CamelCase in #/components/schemas/Ko-CamelSchema                        components.schemas.Ko-CamelSchema
 
-✖ 5 problems (0 errors, 2 warnings, 0 infos, 3 hints)
+✖ 7 problems (0 errors, 2 warnings, 0 infos, 5 hints)
 
