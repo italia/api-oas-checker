@@ -470,6 +470,19 @@ rules:
     then:
       field: application/json
       function: falsy
+  request-GET-no-body:
+    description: |-
+      A `GET` request MUST NOT accept a `requestBody`
+      because this behavior is not interoperable.
+      Moreover intermediaries such as reverse proxies
+      are allowed to strip the content from `GET` requests.
+
+      See RFC7231 for further information.
+    message: "A GET request MUST NOT accpet a requestBody: {{error}}."
+    severity: error
+    given: $.paths..get.requestBody
+    then:
+      function: undefined
   paths-status:
     description: >-
       You must define a `/status` path that can be used to health-check the API.

@@ -165,6 +165,12 @@ defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
               type: object
             example: [{ "op": "add", "path": "/baz", "value": "qux" }]
 </code></pre>
+<h2 id="request-get-no-body">request-GET-no-body</h2>
+<p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
+because this behavior is not interoperable.
+Moreover intermediaries such as reverse proxies
+are allowed to strip the content from <code>GET</code> requests.</p>
+<p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
 <h2 id="paths-status">paths-status</h2>
 <p>You must define a <code>/status</code> path that can be used to health-check the API.
 Using this path avoids the arbitrary usage of a server URL for health-check
