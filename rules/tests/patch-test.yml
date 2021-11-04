@@ -14,4 +14,11 @@ paths:
             application/json-patch+json:
               schema:
                 type: string
-
+    /ko-get-with-body:
+      get:
+        requestBody:
+          content:
+            application/json: {}
+    /ok-get-with-body:
+      get: {}
+            
