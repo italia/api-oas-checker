@@ -1,4 +1,5 @@
 OpenAPI 3.x detected
+OpenAPI 3.x detected
 
 /code/rules/tests/paths-test.yml
  19:28  warning  paths-status-problem-schema  `properties.detail` property is not truthy #/paths/~1status/get/responses/200/content/application~1problem+json/schema/properties  paths./status.get.responses[200].content.application/problem+json.schema.properties
