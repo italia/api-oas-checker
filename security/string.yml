@@ -1,5 +1,5 @@
 rules:
-  string-maxlength: &string-constraints
+  sec-string-maxlength: &string-constraints
     description: |-
       String length should be limited to avoid an attacker
       to send very long strings to your service.
@@ -45,7 +45,7 @@ rules:
     then:
       - field: maxLength
         function: defined
-  string-pattern-or-format-or-enum:
+  sec-string-pattern-or-format-or-enum:
     <<: *string-constraints
     message: >-
       Strings (non enum) must specify a pattern or a format. {{path}}

@@ -1,5 +1,5 @@
 rules:
-  number-boundaries:
+  sec-number-boundaries:
     description: |-
       Numeric values should be limited in size to mitigate resource exhaustion
       using `maximum` and `minimum`.
