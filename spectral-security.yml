@@ -12,7 +12,7 @@
 extends: spectral:oas
 
 rules:
-  array-boundaries:
+  sec-array-boundaries:
     description: >-
       Array size should be limited to mitigate resource exhaustion attacks.
 
@@ -50,7 +50,7 @@ rules:
         function: defined
       - field: minItems
         function: defined
-  number-boundaries:
+  sec-number-boundaries:
     description: |-
       Numeric values should be limited in size to mitigate resource exhaustion
       using `maximum` and `minimum`.
@@ -71,7 +71,7 @@ rules:
         function: defined
       - field: minimum
         function: defined
-  no-additionalProperties:
+  sec-no-additionalProperties:
     description: |-
       By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified
@@ -122,7 +122,7 @@ rules:
     then:
       - field: additionalProperties
         function: falsy
-  no-default-additionalProperties:
+  sec-no-default-additionalProperties:
     description: |-
       By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified
@@ -173,7 +173,7 @@ rules:
     then:
       - field: additionalProperties
         function: defined
-  constrained-additionalProperties:
+  sec-constrained-additionalProperties:
     description: |-
       By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified
@@ -241,7 +241,7 @@ rules:
         function: pattern
         functionOptions:
           notMatch: /^.*(password|secret|apikey).*$/i
-  security-protection-get:
+  sec-protection-get:
     description: >-
       Your API should be protected by a `security` rule either at
 
@@ -314,7 +314,7 @@ rules:
               minProperties: 1
             minItems: 1
             type: array
-  security-protection-non-idempotent:
+  sec-protection-non-idempotent:
     description: >-
       Your API should be protected by a `security` rule either at
 
@@ -388,7 +388,7 @@ rules:
               minProperties: 1
             minItems: 1
             type: array
-  securitySchemes-oauth:
+  sec-securitySchemes-oauth:
     description: >-
       Json Web Tokens RFC7519 is a compact, URL-safe means of representing
 
@@ -438,7 +438,7 @@ rules:
         function: pattern
         functionOptions:
           match: .*RFC8725.*
-  securitySchemes-jwt:
+  sec-securitySchemes-jwt:
     description: >-
       Json Web Tokens RFC7519 is a compact, URL-safe means of representing
 
@@ -488,7 +488,7 @@ rules:
         function: pattern
         functionOptions:
           match: .*RFC8725.*
-  securitySchemes-oauth-http:
+  sec-securitySchemes-oauth-http:
     description: OAuth2 endpoints must use `https://`
     message: OAuth endpoints must use https://
     formats:
@@ -502,7 +502,7 @@ rules:
         function: pattern
         functionOptions:
           match: ^https://
-  securitySchemes-oauth-allowed-flows:
+  sec-securitySchemes-oauth-allowed-flows:
     description: >-
       The OAuth2 authorization framework defines various
 
@@ -517,7 +517,7 @@ rules:
 
       and MUST not be used, including `implicit` and `password`.
 
-      The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01) 
+      The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01)
 
       still in draft, removes them and suggests to
 
@@ -534,7 +534,7 @@ rules:
         function: falsy
       - field: password
         function: falsy
-  security-apikeys-cookie:
+  sec-apikeys-cookie:
     description: |-
       API Keys are (usually opaque) strings that 
       are passed in headers, cookies or query parameters
@@ -566,7 +566,7 @@ rules:
       - function: pattern
         functionOptions:
           notMatch: ^(cookie|query)$
-  security-auth-insecure-schemes:
+  sec-auth-insecure-schemes:
     description: |-
       The http authorization type in OAS supports
       all the schemes defined in the associated
@@ -587,7 +587,7 @@ rules:
       - function: pattern
         functionOptions:
           notMatch: ^(negotiate|oauth)$
-  string-maxlength:
+  sec-string-maxlength:
     description: |-
       String length should be limited to avoid an attacker
       to send very long strings to your service.
@@ -629,7 +629,7 @@ rules:
     then:
       - field: maxLength
         function: defined
-  string-pattern-or-format-or-enum:
+  sec-string-pattern-or-format-or-enum:
     description: |-
       String length should be limited to avoid an attacker
       to send very long strings to your service.

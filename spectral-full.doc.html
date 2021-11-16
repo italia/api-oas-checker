@@ -349,7 +349,7 @@ See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-heade
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return
 an object <code>{"items": [1, 2, 3]}</code>.</p>
 <p>This allows the schema to evolve in a backward compatible ways.</p>
-<h2 id="array-boundaries">array-boundaries</h2>
+<h2 id="sec-array-boundaries">sec-array-boundaries</h2>
 <p>Array size should be limited to mitigate resource exhaustion attacks.
 This can be done using <code>maxItems</code> and <code>minItems</code>, like in the example
 below.</p>
@@ -363,12 +363,12 @@ below.</p>
 <p>You should ensure that the schema referenced in  <code>items</code> is constrained too.</p>
 <p>If you delegate input validation to a library or framework,
 be sure to test it thoroughly and ensure that it verifies <code>maxItems</code>.</p>
-<h2 id="number-boundaries">number-boundaries</h2>
+<h2 id="sec-number-boundaries">sec-number-boundaries</h2>
 <p>Numeric values should be limited in size to mitigate resource exhaustion
 using <code>maximum</code> and <code>minimum</code>.</p>
 <p>If you delegate input validation to a library or framework,
 be sure to test it thoroughly.</p>
-<h2 id="no-additionalproperties">no-additionalProperties</h2>
+<h2 id="sec-no-additionalproperties">sec-no-additionalProperties</h2>
 <p>By default, jsonschema allows additionalProperties. This means
 that schema validators can be bypassed using further, unspecified
 fields.</p>
@@ -402,7 +402,7 @@ unwanted information.</p>
 <li>no additionalProperties</li>
 <li>constrained additionalProperties</li>
 </ul>
-<h2 id="no-default-additionalproperties">no-default-additionalProperties</h2>
+<h2 id="sec-no-default-additionalproperties">sec-no-default-additionalProperties</h2>
 <p>By default, jsonschema allows additionalProperties. This means
 that schema validators can be bypassed using further, unspecified
 fields.</p>
@@ -436,7 +436,7 @@ unwanted information.</p>
 <li>no additionalProperties</li>
 <li>constrained additionalProperties</li>
 </ul>
-<h2 id="constrained-additionalproperties">constrained-additionalProperties</h2>
+<h2 id="sec-constrained-additionalproperties">sec-constrained-additionalProperties</h2>
 <p>By default, jsonschema allows additionalProperties. This means
 that schema validators can be bypassed using further, unspecified
 fields.</p>
@@ -473,7 +473,7 @@ unwanted information.</p>
 <h2 id="sec-credentials-parameters">sec-credentials-parameters</h2>
 <p>URL parameters MUST NOT contain credentials such as
 apikey, password, or secret.</p>
-<h2 id="security-protection-get">security-protection-get</h2>
+<h2 id="sec-protection-get">sec-protection-get</h2>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 Operations should be protected specially when they
@@ -507,7 +507,7 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
-<h2 id="security-protection-non-idempotent">security-protection-non-idempotent</h2>
+<h2 id="sec-protection-non-idempotent">sec-protection-non-idempotent</h2>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 Operations should be protected specially when they
@@ -541,7 +541,7 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
-<h2 id="securityschemes-oauth">securitySchemes-oauth</h2>
+<h2 id="sec-securityschemes-oauth">sec-securitySchemes-oauth</h2>
 <p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
 claims to be transferred between two parties. JWT can be enclosed in
 encrypted or signed tokens like JWS and JWE.</p>
@@ -565,7 +565,7 @@ that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725
         A bearer token in the format of a JWS and conformato
         to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).
 </code></pre>
-<h2 id="securityschemes-jwt">securitySchemes-jwt</h2>
+<h2 id="sec-securityschemes-jwt">sec-securitySchemes-jwt</h2>
 <p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
 claims to be transferred between two parties. JWT can be enclosed in
 encrypted or signed tokens like JWS and JWE.</p>
@@ -589,19 +589,19 @@ that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725
         A bearer token in the format of a JWS and conformato
         to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).
 </code></pre>
-<h2 id="securityschemes-oauth-http">securitySchemes-oauth-http</h2>
+<h2 id="sec-securityschemes-oauth-http">sec-securitySchemes-oauth-http</h2>
 <p>OAuth2 endpoints must use <code>https://</code></p>
-<h2 id="securityschemes-oauth-allowed-flows">securitySchemes-oauth-allowed-flows</h2>
+<h2 id="sec-securityschemes-oauth-allowed-flows">sec-securitySchemes-oauth-allowed-flows</h2>
 <p>The OAuth2 authorization framework defines various
 <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3">grant types</a>,
 most notably the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.1">AuthorizationCode</a>
 and the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.4">Client Credentials</a>.</p>
 <p>Some grant types are now considered insecure
 and MUST not be used, including <code>implicit</code> and <code>password</code>.
-The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a> 
+The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a>
 still in draft, removes them and suggests to
 replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC7636">RFC7636</a>.</p>
-<h2 id="security-apikeys-cookie">security-apikeys-cookie</h2>
+<h2 id="sec-apikeys-cookie">sec-apikeys-cookie</h2>
 <p>API Keys are (usually opaque) strings that 
 are passed in headers, cookies or query parameters
 to access APIs.</p>
@@ -618,7 +618,7 @@ securitySchemes:
     in: cookie
     name: X-Api-Key
 </code></pre>
-<h2 id="security-auth-insecure-schemes">security-auth-insecure-schemes</h2>
+<h2 id="sec-auth-insecure-schemes">sec-auth-insecure-schemes</h2>
 <p>The http authorization type in OAS supports
 all the schemes defined in the associated
 <a href="https://www.iana.org/assignments/http-authschemes/">IANA table</a>.</p>
@@ -626,7 +626,7 @@ all the schemes defined in the associated
 now considered insecure, such as
 negotiating authentication using specifications
 like NTLM or OAuth v1.</p>
-<h2 id="string-maxlength">string-maxlength</h2>
+<h2 id="sec-string-maxlength">sec-string-maxlength</h2>
 <p>String length should be limited to avoid an attacker
 to send very long strings to your service.</p>
 <p>You can do this in different ways:</p>
@@ -650,7 +650,7 @@ You can always add further constraints using a
 </code></pre>
 <p>For further security, you can always limit string length even
 in conjunction with <code>format</code> and <code>pattern</code>.</p>
-<h2 id="string-pattern-or-format-or-enum">string-pattern-or-format-or-enum</h2>
+<h2 id="sec-string-pattern-or-format-or-enum">sec-string-pattern-or-format-or-enum</h2>
 <p>String length should be limited to avoid an attacker
 to send very long strings to your service.</p>
 <p>You can do this in different ways:</p>
