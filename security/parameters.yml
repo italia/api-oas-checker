@@ -1,0 +1,21 @@
+rules:
+  sec-credentials-parameters: &sec-credentials-parameters
+    description: |-
+      URL parameters MUST NOT contain credentials such as
+      apikey, password, or secret.
+
+    message: >-
+      Credentials are sent via URLs. {{path}} {{error}}
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given:
+      - >-
+        $..parameters[?(@.in.match(/query|path/))].name
+    then:
+      - field: name
+        function: pattern
+        functionOptions:
+          notMatch: >-
+           /^.*(password|secret|apikey).*$/i
