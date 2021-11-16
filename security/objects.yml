@@ -1,5 +1,5 @@
 rules:
-  no-additionalProperties: &object-constraints
+  sec-no-additionalProperties: &object-constraints
     description: |-
       By default, jsonschema allows additionalProperties. This means
       that schema validators can be bypassed using further, unspecified
@@ -53,7 +53,7 @@ rules:
     then:
       - field: additionalProperties
         function: falsy
-  no-default-additionalProperties:
+  sec-no-default-additionalProperties:
     <<: *object-constraints
     given:
       - >-
@@ -61,7 +61,7 @@ rules:
     then:
       - field: additionalProperties
         function: defined
-  constrained-additionalProperties:
+  sec-constrained-additionalProperties:
     <<: *object-constraints
     given:
       - >-
