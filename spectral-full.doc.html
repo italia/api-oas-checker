@@ -179,6 +179,29 @@ defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
               type: object
             example: [{ "op": "add", "path": "/baz", "value": "qux" }]
 </code></pre>
+<h2 id="patch-without-request-body">patch-without-request-body</h2>
+<p>The PATCH method requests that a set of changes described in the
+<code>requestBody</code> be applied to the target resource.
+A PATCH specification without a <code>requestBody</code>
+just applies no changes to the target resource.</p>
+<p>Since PATCH has impacts on caches, using it
+on a different target resource may result in non-interoperable
+behavior.</p>
+<p>For example, to modify the resource at <code>/user/123</code>,
+you can use the following PATCH request:</p>
+<pre><code>PATCH /user/123
+Content-Type: application/json-patch
+
+{"op": "replace", "path": "enable", "value": true}
+</code></pre>
+<p>or  POST request with the semantic implied by the target url:</p>
+<pre><code>POST /user/123/enable
+</code></pre>
+<p>Instead, the following request
+is expected to modify the <code>/user/123/enabe</code>
+subresource, and not the <code>/user/123</code> one.</p>
+<pre><code>PATCH /user/123/enable
+</code></pre>
 <h2 id="request-get-no-body">request-GET-no-body</h2>
 <p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
 because this behavior is not interoperable.
