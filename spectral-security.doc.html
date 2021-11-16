@@ -150,9 +150,6 @@ unwanted information.</p>
 <li>no additionalProperties</li>
 <li>constrained additionalProperties</li>
 </ul>
-<h2 id="sec-credentials-parameters">sec-credentials-parameters</h2>
-<p>URL parameters MUST NOT contain credentials such as
-apikey, password, or secret.</p>
 <h2 id="sec-protection-get">sec-protection-get</h2>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
@@ -269,23 +266,11 @@ that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725
         A bearer token in the format of a JWS and conformato
         to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).
 </code></pre>
-<h2 id="sec-securityschemes-oauth-http">sec-securitySchemes-oauth-http</h2>
-<p>OAuth2 endpoints must use <code>https://</code></p>
-<h2 id="sec-securityschemes-oauth-allowed-flows">sec-securitySchemes-oauth-allowed-flows</h2>
-<p>The OAuth2 authorization framework defines various
-<a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3">grant types</a>,
-most notably the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.1">AuthorizationCode</a>
-and the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.4">Client Credentials</a>.</p>
-<p>Some grant types are now considered insecure
-and MUST not be used, including <code>implicit</code> and <code>password</code>.
-The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a>
-still in draft, removes them and suggests to
-replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC7636">RFC7636</a>.</p>
 <h2 id="sec-apikeys-cookie">sec-apikeys-cookie</h2>
-<p>API Keys are (usually opaque) strings that 
+<p>API Keys are (usually opaque) strings that
 are passed in headers, cookies or query parameters
 to access APIs.</p>
-<p>Those keys can be eavesdropped, especially when they are stored 
+<p>Those keys can be eavesdropped, especially when they are stored
 in cookies or passed as URL parameters.</p>
 <pre><code>security:
 - ApiKey: []

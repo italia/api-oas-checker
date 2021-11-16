@@ -225,22 +225,6 @@ rules:
     then:
       - field: maxProperties
         function: defined
-  sec-credentials-parameters:
-    description: |-
-      URL parameters MUST NOT contain credentials such as
-      apikey, password, or secret.
-    message: Credentials are sent via URLs. {{path}} {{error}}
-    formats:
-      - oas3
-    severity: error
-    recommended: true
-    given:
-      - $..parameters[?(@.in.match(/query|path/))].name
-    then:
-      - field: name
-        function: pattern
-        functionOptions:
-          notMatch: /^.*(password|secret|apikey).*$/i
   sec-protection-get:
     description: >-
       Your API should be protected by a `security` rule either at
@@ -488,59 +472,13 @@ rules:
         function: pattern
         functionOptions:
           match: .*RFC8725.*
-  sec-securitySchemes-oauth-http:
-    description: OAuth2 endpoints must use `https://`
-    message: OAuth endpoints must use https://
-    formats:
-      - oas3
-    severity: error
-    recommended: true
-    given:
-      - $.[securitySchemes][?(@.type=="oauth2")][*].[?(@property.match(/url$/i))]
-    then:
-      - field: value
-        function: pattern
-        functionOptions:
-          match: ^https://
-  sec-securitySchemes-oauth-allowed-flows:
-    description: >-
-      The OAuth2 authorization framework defines various
-
-      [grant types](https://tools.ietf.org/html/rfc6749#section-1.3),
-
-      most notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1)
-
-      and the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).
-
-
-      Some grant types are now considered insecure
-
-      and MUST not be used, including `implicit` and `password`.
-
-      The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01)
-
-      still in draft, removes them and suggests to
-
-      replace the `implicit` with `authorizationCode` + PKCE defined in RFC7636.
-    message: 'Do not use oauth2 insecure flow: "{{property}}".'
-    formats:
-      - oas3
-    severity: error
-    recommended: true
-    given:
-      - $.[?(@.type=="oauth2")].flows
-    then:
-      - field: implicit
-        function: falsy
-      - field: password
-        function: falsy
   sec-apikeys-cookie:
     description: |-
-      API Keys are (usually opaque) strings that 
+      API Keys are (usually opaque) strings that
       are passed in headers, cookies or query parameters
       to access APIs.
 
-      Those keys can be eavesdropped, especially when they are stored 
+      Those keys can be eavesdropped, especially when they are stored
       in cookies or passed as URL parameters.
 
       ```
@@ -565,7 +503,7 @@ rules:
     then:
       - function: pattern
         functionOptions:
-          notMatch: ^(cookie|query)$
+          notMatch: ^(cookie)$
   sec-auth-insecure-schemes:
     description: |-
       The http authorization type in OAS supports
