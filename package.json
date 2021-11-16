@@ -23,7 +23,7 @@
     "typeface-titillium-web": "^1.1.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.0",
     "@babel/preset-react": "^7.16.0",
     "@testing-library/jest-dom": "^5.15.0",
