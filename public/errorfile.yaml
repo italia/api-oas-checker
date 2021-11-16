@@ -1,0 +1,201 @@
+x-commons:
+  ratelimit-headers: &ratelimit-headers
+    X-RateLimit-Limit:
+      $ref: '#/components/headers/X-RateLimit-Limit'
+    X-RateLimit-Remaining:
+      $ref: '#/components/headers/X-RateLimit-Remaining'
+    X-RateLimit-Reset:
+      $ref: '#/components/headers/X-RateLimit-Reset'
+  common-responses: &common-responses
+    '400':
+      $ref: '#/components/responses/400BadRequest'
+    '429':
+      $ref: '#/components/responses/429TooManyRequests'
+    '503':
+      $ref: '#/components/responses/503ServiceUnavailable'
+    default:
+      $ref: '#/components/responses/default'
+
+openapi: 3.0.0
+info:
+  version: "1.0.0"
+  title: |-
+    Error file.
+  x-summary: >-
+    Non compliant file for tests and showcase.
+  description: |
+    #### Documentation
+    This file is a broken file used to showcase the ability of
+    API OAS Checker to identify typical errors in OAS files.
+
+  termsOfService: 'http://swagger.io/terms/'
+  # Chi posso contattare per informazioni sul servizio e sul suo stato?
+  contact:
+    email: robipolli@gmail.com
+    name: Roberto Polli
+    url: https://twitter.com/ioggstream
+  x-audience:
+    - public
+  x-api-id: 00000000-0000-0000-0000-000000000000
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+
+  x-lifecycle:
+    published: 1970-01-01
+    deprecated: 2050-01-01
+    retired: 2050-06-01
+    maturity: published
+
+tags:
+  - name: public
+    description: Retrieve informations
+    externalDocs:
+      url: http://docs.my-api.com/pet-operations.htm
+# Uno o piu' server di erogazione.
+#   Puo' essere utile indicare gli indirizzi di collaudo,
+#   sviluppo e test.
+#   Di seguito mostriamo come indicare se il server
+#   e' una sandbox o meno con dei tag custom.
+servers:
+  - description: Development server
+    url: https://localhost:8443/datetime/v1
+  - description: Test server
+    url: https://api.example.com/datetime/v1
+    x-sandbox: true
+    # Questo parametro indica come testare il servizio.
+    x-healthCheck:
+      url: https://api.example.com/datetime/v1/status
+      interval: 300
+      timeout: 15
+paths:
+  /echo:
+    get:
+      summary: Ritorna un timestamp in formato RFC5424.
+      description: |
+        Ritorna un timestamp in formato RFC5424
+        prendendola dal server attuale.
+      operationId: get_echo
+      tags:
+        - public
+      responses:
+        <<: *common-responses
+        '200':
+          description: |
+            Il server ha ritornato il timestamp.
+          # Questi header di throttling sono obbligatori e definiti
+          #   nel Nuovo modello di interoperabilità.
+          headers:
+            <<: *ratelimit-headers
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Timestamps'
+  /status:
+    get:
+      summary: Ritorna lo stato dell'applicazione.
+      description: |
+        Ritorna lo stato dell'applicazione. A scopo
+        di test, su base randomica puo' ritornare
+        un errore.
+      operationId: get_status
+      tags:
+        - public
+      responses:
+        <<: *common-responses
+        '200':
+          description: |
+            Il server ha ritornato lo status. In caso di problemi
+            ritorna sempre un problem+json.
+          # Questi header di throttling sono obbligatori e definiti
+          #   nel Nuovo modello di interoperabilità.
+          headers:
+            <<: *ratelimit-headers
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/Problem'
+
+components:
+
+  headers:
+    X-RateLimit-Limit:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/headers/X-RateLimit-Limit'
+    X-RateLimit-Remaining:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/headers/X-RateLimit-Remaining'
+    X-RateLimit-Reset:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/headers/X-RateLimit-Reset'
+    Retry-After:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/headers/Retry-After'
+
+  responses:
+    # Predefined error codes for this API
+    400BadRequest:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/responses/400BadRequest'
+    404NotFound:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/responses/404NotFound'
+    429TooManyRequests:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/responses/429TooManyRequests'
+    503ServiceUnavailable:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/responses/503ServiceUnavailable'
+    default:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/responses/default'
+
+  schemas:
+    Problem:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/schemas/Problem'
+    Timestamps:
+      type: object
+      description: Un Timestamp in RFC5424
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+          example: '2018-12-30T12:23:32Z'
+
+  parameters:
+    InsecureParameter:
+      name: mySecret
+      in: query
+      schema:
+        type: string
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    InsecureApiKey:
+      type: apiKey
+      in: query
+      name: insecure
+    MyOauth:
+      type: oauth2
+      description: |-
+          The implementation of JWT conforms RFC8725.
+      "flows":
+        authorizationCode:
+          authorizationUrl: "https://petstore3.swagger.io/oauth/authorize"
+          tokenUrl: https://foo.it
+    UndocumentedJWT:
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+    JWTBearer_ok:
+      description: |-
+        The implementation conforms RFC8725
+        and uses only `EdDSA` RFC8032.
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+    MyOauth_ko3:
+      type: oauth2
+      description: The implementation of JWT conforms RFC8725.
+      flows:
+        "authorizationCode":
+          "authorizationUrl": "http://petstore3.swagger.io/oauth/authorize"
+          tokenUrl: https://foo.it
+        "implicit":
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
+          scopes: {}
+        "password":
+          "tokenUrl": "https://petstore3.swagger.io/oauth/authorize"
+
