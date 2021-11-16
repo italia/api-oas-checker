@@ -534,6 +534,59 @@ rules:
         function: falsy
       - field: password
         function: falsy
+  security-apikeys-cookie:
+    description: |-
+      API Keys are (usually opaque) strings that 
+      are passed in headers, cookies or query parameters
+      to access APIs.
+
+      Those keys can be eavesdropped, especially when they are stored 
+      in cookies or passed as URL parameters.
+
+      ```
+      security:
+      - ApiKey: []
+      paths:
+        /books: {}
+        /users: {}
+      securitySchemes:
+        ApiKey:
+          type: apiKey
+          in: cookie
+          name: X-Api-Key
+      ```
+    message: "ApiKey stored in cookie or passed in URL: {{error}}."
+    formats:
+      - oas3
+    severity: error
+    recommended: true
+    given:
+      - $.[securitySchemes][?(@.type=="apiKey")].in
+    then:
+      - function: pattern
+        functionOptions:
+          notMatch: ^(cookie|query)$
+  security-auth-insecure-schemes:
+    description: |-
+      The http authorization type in OAS supports
+      all the schemes defined in the associated
+      [IANA table](https://www.iana.org/assignments/http-authschemes/).
+
+      Some of those schemes are
+      now considered insecure, such as
+      negotiating authentication using specifications
+      like NTLM or OAuth v1.
+    message: "Authentication scheme is insecure: {{error}}"
+    formats:
+      - oas3
+    recommended: true
+    severity: error
+    given:
+      - $.[securitySchemes][?(@.type=="http")].scheme
+    then:
+      - function: pattern
+        functionOptions:
+          notMatch: ^(negotiate|oauth)$
   string-maxlength:
     description: |-
       String length should be limited to avoid an attacker

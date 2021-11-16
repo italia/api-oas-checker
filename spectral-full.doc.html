@@ -601,6 +601,31 @@ and MUST not be used, including <code>implicit</code> and <code>password</code>.
 The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a> 
 still in draft, removes them and suggests to
 replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC7636">RFC7636</a>.</p>
+<h2 id="security-apikeys-cookie">security-apikeys-cookie</h2>
+<p>API Keys are (usually opaque) strings that 
+are passed in headers, cookies or query parameters
+to access APIs.</p>
+<p>Those keys can be eavesdropped, especially when they are stored 
+in cookies or passed as URL parameters.</p>
+<pre><code>security:
+- ApiKey: []
+paths:
+  /books: {}
+  /users: {}
+securitySchemes:
+  ApiKey:
+    type: apiKey
+    in: cookie
+    name: X-Api-Key
+</code></pre>
+<h2 id="security-auth-insecure-schemes">security-auth-insecure-schemes</h2>
+<p>The http authorization type in OAS supports
+all the schemes defined in the associated
+<a href="https://www.iana.org/assignments/http-authschemes/">IANA table</a>.</p>
+<p>Some of those schemes are
+now considered insecure, such as
+negotiating authentication using specifications
+like NTLM or OAuth v1.</p>
 <h2 id="string-maxlength">string-maxlength</h2>
 <p>String length should be limited to avoid an attacker
 to send very long strings to your service.</p>
