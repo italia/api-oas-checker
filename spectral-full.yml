@@ -559,10 +559,20 @@ rules:
     message: The "/status" path used to health-check the API must be defined. {{error}}
     severity: error
     recommended: true
-    given: $
+    given: $.paths
     then:
-      field: paths./status.get.responses.200
-      function: truthy
+      function: schema
+      functionOptions:
+        schema:
+          oneOf:
+            - type: object
+              required:
+                - /status
+              properties:
+                /status:
+                  type: object
+            - type: object
+              additionalProperties: false
   paths-status-return-problem:
     description: '"/status" must return a Problem object.'
     message: "{{error}}"
