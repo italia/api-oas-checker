@@ -13,51 +13,108 @@ The ready-to-use online application is available [here](https://teamdigitale.git
 The validator is based on [Spectral](https://github.com/stoplightio/spectral) which we preferred over other good validators:
 
 - [Zally](https://github.com/zalando/zally) requires a database and cannot be webpackaged in a browser application;
-- [Speccy](https://github.com/wework/speccy) seem to support only javascript rules, while our rules are described using static yaml files. 
+- [Speccy](https://github.com/wework/speccy) seem to support only javascript rules, while our rules are described using static yaml files.
 
 ## Content
 
-- A web application developed with React that uses Webpack + Babel to create a single-page application
-- A [rules/](rules/) directory with the rules applied, which come then aggregate in the spectral.yml file.
-  
+- A web application developed with React using Webpack + Babel to create a single-page application
+- A directory [rules/](rules/) with the applied rules, which are then aggregated in the file [spectral.yml](https://italia.github.io/api-oas-checker/spectral.yml)
+- A directory [security/](security/) with additional security rules, which are then aggregated into the file [spectral-security.yml](https://italia.github.io/api-oas-checker/spectral-security.yml)
+
 ## Development
 
-### CLI mode
+## Online mode
+
+The simplest way to check an API is to run the checks using
+directly - or after downloading them - the rule files on github.
+
+```bash
+$ spectral lint -r https://italia.github.io/api-oas-checker/spectral.yml $OAS_URL_OR_FILE
+```
+
+## CI Mode (versioned rulesets)
+
+When embedding the validator in a CI, you may want to use a specific version of the rules instead of the latest one.
+version of the rules instead of the latest one. In this case, you can refer to
+tags prefixed with `rules/X.Y.Z` (e.g. `rules/0.3.3`).
+
+```bash
+$ spectral lint -r https://raw.githubusercontent.com/italia/api-oas-checker/rules/0.3.3/spectral.yml $OAS_URL_OR_FILE
+```
+
+## IDE mode
+
+Some IDEs support Spectral via extensions.
+Here are the steps to use the complete validation profile
+with [the official Spectral extension for Visual Studio Code](https://github.com/stoplightio/vscode-spectral):
+
+```bash
+# Install the extension from the vscode marketplace
+$ code --install-extension stoplight.spectral
+
+# Download the profile spectral-full.yml to your project home
+$ curl https://italia.github.io/api-oas-checker/spectral-full.yml > .spectral.yml
+
+# Run the IDE
+$ code
+```
+
+When downloading the online version of the rules, it is important to periodically check that it is up-to-date.
+
+### Command line mode
+
+If you want to control your API there are two ways:
+
+#### 1) Using the Spectral CLI
+
 If you want to control your API using the CLI of Spectral, after cloning the repo, just launch
 
-```
+```bash
 $ yarn
 $ make rules
 $ yarn run spectral lint -r spectral.yml $OAS_URL_OR_FILE
 ```
 
+#### 2) Using Spectral docker image
+
+```bash
+$ docker run --rm --entrypoint=sh \
+    -v $(pwd)/api:/locale stoplight/spectral:5.9.1 \
+    -c "spectral lint -r https://italia.github.io/api-oas-checker/spectral.yml /locale/openapi.yaml"
+```
+
 ### UI mode
+
 This web application is based on React library and uses Webpack as a bundler and Babel to transpile JavaScript code
 
 To launch the application
-```
+
+```bash
 $ yarn
 $ yarn start
 ```
 or alternatively
-```
+
+```bash
 $ docker-compose up --build start
 ```
+
 and then when the build is finished, connect to http://127.0.0.1:3000/
-  
+
 ## Testing
 
 It is possible to test boht the correct spectral rules generation and the ui
 
-```
+```bash
 # N.B. make test doens't work correctly on MacOS
 $ make test
 $ make test-ui
 ```
 
 or alternatively
-```
-$ ddocker-compose up --build test
+
+```bash
+$ docker-compose up --build test
 ```
 
 ## Write rules
@@ -68,25 +125,25 @@ and executes the callbacks indicated on the corresponding lines.
 It is possible to test every single rule (e.g. `problem`) by verifying
 that the spectral output corresponds to that indicated in the associated `.snapshot` file
 
-```
-./test-ruleset.sh problem
+```bash
+./test-ruleset.sh rules problem
 ```
 
 Therefore, when editing a rule, it is necessary to recreate and validate the contents of the snapshot
 with
 
-```
-./test-ruleset.sh --snapshot problem
-git add -p rules/problem* 
+```bash
+./test-ruleset.sh rules --snapshot problem
+git add -p rules/problem*
 ```
 
 See here [spectral.yml](spectral.yml) for examples of rules.
 
-On the site http://jsonpath.com/ you can test the rules online.
+You can test the rules online here: http://jsonpath.com/ .
 
 Jsonpath supports back-references,
- see https://github.com/json-path/JsonPath/issues/287#issuecomment-265479196
- 
+see https://github.com/json-path/JsonPath/issues/287#issuecomment-265479196
+
 For more information on spectral rules see https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/getting-started/rulesets.md
 
 ## Thanks to
