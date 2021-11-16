@@ -22,8 +22,6 @@ rules:
                     type: object
                   example: [{ "op": "add", "path": "/baz", "value": "qux" }]
       ```
-
-
     message: >-
       application/json is not an appropriate media-type for PATCH. {{path}}
     formats:
@@ -35,7 +33,50 @@ rules:
     then:
       field: application/json
       function: falsy
+  patch-without-request-body:
+    description: |-
+      The PATCH method requests that a set of changes described in the
+      `requestBody` be applied to the target resource.
+      A PATCH specification without a `requestBody`
+      just applies no changes to the target resource.
 
+      Since PATCH has impacts on caches, using it
+      on a different target resource may result in non-interoperable
+      behavior.
+
+      For example, to modify the resource at `/user/123`,
+      you can use the following PATCH request:
+
+      ```
+      PATCH /user/123
+      Content-Type: application/json-patch
+
+      {"op": "replace", "path": "enable", "value": true}
+      ```
+
+      or  POST request with the semantic implied by the target url:
+
+      ```
+      POST /user/123/enable
+      ```
+
+      Instead, the following request
+      is expected to modify the `/user/123/enabe`
+      subresource, and not the `/user/123` one.
+
+      ```
+      PATCH /user/123/enable
+      ````
+    message: >-
+      PATCH requires a non empty requestBody.
+    severity: error
+    given: >-
+      $.[patch]
+    then:
+    - field: requestBody
+      function: defined
+    - field: requestBody.required
+      function: truthy
   request-GET-no-body:
     description: |-
       A `GET` request MUST NOT accept a `requestBody`
@@ -45,7 +86,7 @@ rules:
 
       See RFC7231 for further information.
     message: >-
-      A GET request MUST NOT accpet a requestBody: {{error}}.
+      A GET request MUST NOT accept a requestBody: {{error}}.
     severity: error
     given: $.paths..get.requestBody
     then:
