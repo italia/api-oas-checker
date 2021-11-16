@@ -12,10 +12,6 @@ tags: []
 servers: []
 components:
   securitySchemes:
-    ko_api_key_query:
-      type: apiKey
-      name: X-Api-Key
-      in: query
     ko_api_key_cookie:
       type: apiKey
       name: X-Api-Key

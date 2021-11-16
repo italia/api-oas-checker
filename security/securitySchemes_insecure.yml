@@ -1,11 +1,11 @@
 rules:
   sec-apikeys-cookie: &sec-apikeys-cookie
     description: |-
-      API Keys are (usually opaque) strings that 
+      API Keys are (usually opaque) strings that
       are passed in headers, cookies or query parameters
       to access APIs.
 
-      Those keys can be eavesdropped, especially when they are stored 
+      Those keys can be eavesdropped, especially when they are stored
       in cookies or passed as URL parameters.
 
       ```
@@ -34,7 +34,7 @@ rules:
     - function: pattern
       functionOptions:
         notMatch: >-
-          ^(cookie|query)$
+          ^(cookie)$
   sec-auth-insecure-schemes:
     description: |-
       The http authorization type in OAS supports
@@ -48,7 +48,7 @@ rules:
     message: >-
       Authentication scheme is insecure: {{error}}
     formats:
-    - oas3 
+    - oas3
     recommended: true
     severity: error
     given:
