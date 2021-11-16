@@ -1,0 +1,9 @@
+openapi: 3.0.1
+tags: []
+servers: []
+info: {}
+paths: {}
+components:
+  schemas:
+    Foo:
+      type: string
