@@ -1,5 +1,5 @@
 rules:
-  array-boundaries:
+  sec-array-boundaries:
     description: |-
       Array size should be limited to mitigate resource exhaustion attacks.
       This can be done using `maxItems` and `minItems`, like in the example

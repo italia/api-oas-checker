@@ -1,5 +1,5 @@
 rules:
-  security-apikeys-cookie: &security-apikeys-cookie
+  sec-apikeys-cookie: &sec-apikeys-cookie
     description: |-
       API Keys are (usually opaque) strings that 
       are passed in headers, cookies or query parameters
@@ -35,7 +35,7 @@ rules:
       functionOptions:
         notMatch: >-
           ^(cookie|query)$
-  security-auth-insecure-schemes:
+  sec-auth-insecure-schemes:
     description: |-
       The http authorization type in OAS supports
       all the schemes defined in the associated
