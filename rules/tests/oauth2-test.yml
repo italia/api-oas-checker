@@ -1,0 +1,45 @@
+openapi: 3.0.1
+info:
+  version: "1.2.3"
+  title: "securitySchemes"
+components:
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+    MyOauth_ko:
+      type: oauth2
+    MyOauth_ok:
+      type: oauth2
+      "flows":
+        "authorizationCode":
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
+      description: |-
+          The implementation of JWT conforms RFC8725.
+    MyOauth2_ko:
+      type: oauth2
+      description: A blatant description
+    JWTBearer_ko: &JWTBearer_ko
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+    JWTBearer2_ko:
+      <<: *JWTBearer_ko
+      description: a blatant description
+    JWTBearer_ok:
+      description: |-
+        The implementation conforms RFC8725
+        and uses only `EdDSA` RFC8032.
+      type: http
+      scheme: bearer
+      bearerFormat: "JWT"
+    MyOauth_ko3:
+      type: oauth2
+      description: The implementation of JWT conforms RFC8725.
+      "flows":
+        "authorizationCode":
+          "authorizationUrl": "http://petstore3.swagger.io/oauth/authorize"
+        "implicit":
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
+        "password":
+          "authorizationUrl": "https://petstore3.swagger.io/oauth/authorize"
