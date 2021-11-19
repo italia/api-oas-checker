@@ -21,7 +21,7 @@ rules:
       function: truthy
   missing-ratelimit:
     description: |-
-      Ratelimiting API preserves a service and limits attack scenario
+      Ratelimiting an API preserves a service and limits attack scenario
       [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).
 
       APIs should use the following headers at least on successful responses:
@@ -37,7 +37,7 @@ rules:
       X-Ratelimit-Reset: 12
       ```
 
-      A standardization proposal for ratelimit headers is ongoning
+      A standardization proposal for ratelimit headers is ongoing
       inside the IETF HTTPAPI Workgroup.
       See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
     message: >-
