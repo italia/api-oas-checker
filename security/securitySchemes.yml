@@ -3,7 +3,7 @@ rules:
     description: |-
       Your API should be protected by a `security` rule either at
       global or operation level.
-      Operations should be protected especially when they
+      All operations should be protected especially when they
       not safe (methods that do not alter the state of the server) 
       HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
       This is done with one or more non-empty `security` rules.
