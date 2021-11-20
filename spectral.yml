@@ -40,11 +40,11 @@ rules:
       * that one and only one between Expires and Cache-Control is used.
 
 
-      `Cache-Control` and `Expires` should not be used in conjuction,
+      `Cache-Control` and `Expires` should not be used in conjunction,
 
       because `Cache-Control` overrides `Expires` when `max-age` is set.
 
-      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache
+      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
 
       like described in RFC7234.
     message: Cache usage SHOULD be documented when used.
@@ -90,11 +90,11 @@ rules:
       * that one and only one between Expires and Cache-Control is used.
 
 
-      `Cache-Control` and `Expires` should not be used in conjuction,
+      `Cache-Control` and `Expires` should not be used in conjunction,
 
       because `Cache-Control` overrides `Expires` when `max-age` is set.
 
-      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache
+      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
 
       like described in RFC7234.
     message: Cache usage in responses SHOULD be documented in Cache-Control and/or
@@ -133,11 +133,11 @@ rules:
       * that one and only one between Expires and Cache-Control is used.
 
 
-      `Cache-Control` and `Expires` should not be used in conjuction,
+      `Cache-Control` and `Expires` should not be used in conjunction,
 
       because `Cache-Control` overrides `Expires` when `max-age` is set.
 
-      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use euristic cache
+      Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
 
       like described in RFC7234.
     message: "{{error}}"
@@ -575,7 +575,7 @@ rules:
       ```
 
       Instead, the following request
-      is expected to modify the `/user/123/enabe`
+      is expected to modify the `/user/123/enable`
       subresource, and not the `/user/123` one.
 
       ```
@@ -904,7 +904,7 @@ rules:
       function: truthy
   missing-ratelimit:
     description: >-
-      Ratelimiting API preserves a service and limits attack scenario
+      Ratelimiting an API preserves a service and limits attack scenario
 
       [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).
 
@@ -932,7 +932,7 @@ rules:
       ```
 
 
-      A standardization proposal for ratelimit headers is ongoning
+      A standardization proposal for ratelimit headers is ongoing
 
       inside the IETF HTTPAPI Workgroup.
 

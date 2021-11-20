@@ -45,9 +45,9 @@ in the <code>description</code>: <code>max-age</code>, <code>private</code>, <co
 <code>no-transform</code>.</li>
 <li>that one and only one between Expires and Cache-Control is used.</li>
 </ul>
-<p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjuction,
+<p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjunction,
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
-Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use euristic cache
+Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
 like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
 <h2 id="cache-responses-undocumented">cache-responses-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
@@ -65,9 +65,9 @@ in the <code>description</code>: <code>max-age</code>, <code>private</code>, <co
 <code>no-transform</code>.</li>
 <li>that one and only one between Expires and Cache-Control is used.</li>
 </ul>
-<p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjuction,
+<p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjunction,
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
-Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use euristic cache
+Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
 like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
 <h2 id="cache-responses-indeterminate-behavior">cache-responses-indeterminate-behavior</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
@@ -85,9 +85,9 @@ in the <code>description</code>: <code>max-age</code>, <code>private</code>, <co
 <code>no-transform</code>.</li>
 <li>that one and only one between Expires and Cache-Control is used.</li>
 </ul>
-<p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjuction,
+<p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjunction,
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
-Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use euristic cache
+Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
 like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
 <h2 id="paths-kebab-case">paths-kebab-case</h2>
 <p>Paths should be kebab-case (e.g. <code>path-parameter</code>).</p>
@@ -211,7 +211,7 @@ Content-Type: application/json-patch
 <pre><code>POST /user/123/enable
 </code></pre>
 <p>Instead, the following request
-is expected to modify the <code>/user/123/enabe</code>
+is expected to modify the <code>/user/123/enable</code>
 subresource, and not the <code>/user/123</code> one.</p>
 <pre><code>PATCH /user/123/enable
 </code></pre>
@@ -341,7 +341,7 @@ before issuing further requests using the Retry-After header.</li>
 </ul>
 <p>Retry-After is defined in <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a>.</p>
 <h2 id="missing-ratelimit">missing-ratelimit</h2>
-<p>Ratelimiting API preserves a service and limits attack scenario
+<p>Ratelimiting an API preserves a service and limits attack scenario
 <a href="https://owasp.org/www-project-api-security">see API4:2019 Lack of Resources &amp; Rate Limiting</a>.</p>
 <p>APIs should use the following headers at least on successful responses:</p>
 <ul>
@@ -354,7 +354,7 @@ before issuing further requests using the Retry-After header.</li>
 X-Ratelimit-Remaining: 40
 X-Ratelimit-Reset: 12
 </code></pre>
-<p>A standardization proposal for ratelimit headers is ongoning
+<p>A standardization proposal for ratelimit headers is ongoing
 inside the IETF HTTPAPI Workgroup.
 See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p>
 <h2 id="response-with-json-object">response-with-json-object</h2>
