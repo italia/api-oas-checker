@@ -61,7 +61,7 @@ rules:
       ```
 
       Instead, the following request
-      is expected to modify the `/user/123/enabe`
+      is expected to modify the `/user/123/enable`
       subresource, and not the `/user/123` one.
 
       ```
