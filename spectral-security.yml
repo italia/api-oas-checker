@@ -226,30 +226,21 @@ rules:
       - field: maxProperties
         function: defined
   sec-protection-get:
-    description: >-
+    description: |-
       Your API should be protected by a `security` rule either at
-
       global or operation level.
-
-      Operations should be protected specially when they
-
-      are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
-
+      All operations should be protected especially when they
+      not safe (methods that do not alter the state of the server) 
+      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
       This is done with one or more non-empty `security` rules.
-
 
       Security rules are defined in the `securityScheme` section.
 
-
       An example of a security rule applied at global level.
 
-
       ```
-
       security:
-
       - BasicAuth: []
-
       paths:
         /books: {}
         /users: {}
@@ -259,14 +250,10 @@ rules:
           type: basic
       ```
 
-
       An example of a security rule applied at operation level, which
-
       eventually overrides the global one
 
-
       ```
-
       paths:
         /books:
           post:
@@ -298,31 +285,22 @@ rules:
               minProperties: 1
             minItems: 1
             type: array
-  sec-protection-non-idempotent:
-    description: >-
+  sec-protection-unsafe:
+    description: |-
       Your API should be protected by a `security` rule either at
-
       global or operation level.
-
-      Operations should be protected specially when they
-
-      are tied to non-idempotent HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
-
+      All operations should be protected especially when they
+      not safe (methods that do not alter the state of the server) 
+      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
       This is done with one or more non-empty `security` rules.
-
 
       Security rules are defined in the `securityScheme` section.
 
-
       An example of a security rule applied at global level.
 
-
       ```
-
       security:
-
       - BasicAuth: []
-
       paths:
         /books: {}
         /users: {}
@@ -332,14 +310,10 @@ rules:
           type: basic
       ```
 
-
       An example of a security rule applied at operation level, which
-
       eventually overrides the global one
 
-
       ```
-
       paths:
         /books:
           post:
@@ -354,8 +328,8 @@ rules:
           type: bearer
           bearerFormat: JWT
       ```
-    message: "The following non-idempotent operation is not protected by a
-      `security` rule: {{path}}"
+    message: "The following unsafe operation is not protected by a `security` rule:
+      {{path}}"
     formats:
       - oas3
     severity: error

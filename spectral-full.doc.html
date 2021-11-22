@@ -507,8 +507,9 @@ unwanted information.</p>
 <h2 id="sec-protection-get">sec-protection-get</h2>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
-Operations should be protected specially when they
-are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
+All operations should be protected especially when they
+not safe (methods that do not alter the state of the server) 
+HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
 This is done with one or more non-empty <code>security</code> rules.</p>
 <p>Security rules are defined in the <code>securityScheme</code> section.</p>
 <p>An example of a security rule applied at global level.</p>
@@ -538,11 +539,12 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
-<h2 id="sec-protection-non-idempotent">sec-protection-non-idempotent</h2>
+<h2 id="sec-protection-unsafe">sec-protection-unsafe</h2>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
-Operations should be protected specially when they
-are tied to non-idempotent HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
+All operations should be protected especially when they
+not safe (methods that do not alter the state of the server) 
+HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
 This is done with one or more non-empty <code>security</code> rules.</p>
 <p>Security rules are defined in the <code>securityScheme</code> section.</p>
 <p>An example of a security rule applied at global level.</p>
