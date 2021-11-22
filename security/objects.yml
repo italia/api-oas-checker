@@ -49,7 +49,7 @@ rules:
     recommended: true
     given:
       - >-
-        $.[?(@.type=="object" && @.additionalProperties==true)]
+        $..[?(@.type=="object" && @.additionalProperties==true)]
     then:
       - field: additionalProperties
         function: falsy
@@ -57,7 +57,7 @@ rules:
     <<: *object-constraints
     given:
       - >-
-        $.[?(@.type=="object" && ! @.additionalProperties)]
+        $..[?(@.type=="object" && ! @.additionalProperties)]
     then:
       - field: additionalProperties
         function: defined
@@ -65,7 +65,7 @@ rules:
     <<: *object-constraints
     given:
       - >-
-        $.[?(@.type=="object" && @.additionalProperties
+        $..[?(@.type=="object" && @.additionalProperties
         &&  @.additionalProperties!=true
         &&  @.additionalProperties!=false
         )]

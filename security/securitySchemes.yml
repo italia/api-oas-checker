@@ -103,7 +103,7 @@ rules:
       JWT usage should be detailed in `description` {{error}}.
     given:
       - >-
-        $.[securitySchemes][?(@.type=="oauth2")]
+        $..[securitySchemes][?(@.type=="oauth2")]
     then:
       - field: description
         function: truthy
@@ -116,4 +116,4 @@ rules:
     <<: *jwt-bcp
     given:
       - >-
-        $.[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]
+        $..[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]
