@@ -130,7 +130,7 @@ rules:
     recommended: true
     # Search for 4xx, 5xx and default responses schema.
     given: >-
-      $.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~
+      $..[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~
     then:
       field: "@key"
       function: pattern

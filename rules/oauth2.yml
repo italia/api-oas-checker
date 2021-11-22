@@ -11,7 +11,7 @@ rules:
     recommended: true
     given:
       - >-
-        $.[securitySchemes][?(@.type=="oauth2")][*].[?(@property.match(/url$/i))]
+        $..[securitySchemes][?(@.type=="oauth2")][*].[?(@property.match(/url$/i))]
     then:
       - field: value
         function: pattern
@@ -41,7 +41,7 @@ rules:
     recommended: true
     given:
       - >-
-        $.[?(@.type=="oauth2")].flows
+        $..[?(@.type=="oauth2")].flows
     then:
       - field: implicit
         function: falsy

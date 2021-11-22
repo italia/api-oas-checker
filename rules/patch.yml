@@ -29,7 +29,7 @@ rules:
     severity: error
     recommended: true
     given: >-
-      $.[patch][requestBody][content]
+      $..[patch][requestBody][content]
     then:
       field: application/json
       function: falsy
@@ -71,7 +71,7 @@ rules:
       PATCH requires a non empty requestBody.
     severity: error
     given: >-
-      $.[patch]
+      $..[patch]
     then:
     - field: requestBody
       function: defined
