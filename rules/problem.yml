@@ -29,7 +29,7 @@ rules:
       - oas3
     severity: error
     given: >-
-      $.paths.[*].responses[?(@property.match(/^(4|5|default)/))].content.*~
+      $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/))].content.*~
     then:
       function: enumeration
       functionOptions:
@@ -68,7 +68,7 @@ rules:
     recommended: false
     # Search for 4xx, 5xx and default responses schema.
     given: >-
-      $.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]
+      $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/))][[schema]]
     then:
       function: schema
       functionOptions:
@@ -130,7 +130,7 @@ rules:
     recommended: true
     # Search for 4xx, 5xx and default responses schema.
     given: >-
-      $.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~
+      $..[responses][?(@property && @property.match(/^(4|5|default)/))][[schema]][properties].*~
     then:
       field: "@key"
       function: pattern

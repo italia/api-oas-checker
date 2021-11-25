@@ -12,7 +12,7 @@ rules:
     severity: warn
     recommended: true
     given: >-
-      $.[responses][*][content][?(@property.match("json$"))][schema]
+      $..[responses][*][content][?(@property.match("json$"))][schema]
     then:
       field: type
       function: pattern

@@ -14,9 +14,9 @@ rules:
     recommended: true
     given:
     - >-
-      $.[?(@.type=="number")]
+      $..[?(@.type=="number")]
     - >-
-      $.[?(@.type=="integer")]
+      $..[?(@.type=="integer")]
     then:
     - field: maximum
       function: defined

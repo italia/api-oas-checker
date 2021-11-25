@@ -9,7 +9,7 @@ rules:
     severity: error
     given:
       - "$..parameters[?(@.in == 'header')].name"
-      - $.[responses][*].headers.*~
+      - $..[responses][*].headers.*~
     then:
       function: pattern
       functionOptions:
@@ -35,7 +35,7 @@ rules:
   no-x-headers-response:
     <<: *no-x-headers
     given:
-      - $.[responses][*].headers.*~
+      - $..[responses][*].headers.*~
     message: |-
       HTTP response header SHOULD NOT start with 'X-' in {{path}}
     then:
