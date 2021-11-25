@@ -90,7 +90,7 @@ rules:
     formats: *a1
     severity: info
     recommended: true
-    given: $.[responses][?(@property[0] == "2"
+    given: $..[responses][?(@property[0] == "2"
       )][headers].[?(@property.match(/Cache-Control|Expires/i))]]
     then: *a2
   cache-responses-indeterminate-behavior:
@@ -132,7 +132,7 @@ rules:
     formats: *a1
     severity: info
     recommended: true
-    given: $.[responses][?(@property[0] == "2" )][headers]
+    given: $..[responses][?(@property[0] == "2" )][headers]
     then:
       - function: xor
         functionOptions:
@@ -163,7 +163,7 @@ rules:
     severity: hint
     recommended: true
     given:
-      - $.[parameters][?(@.in=="header")].name
+      - $..[parameters][?(@.in=="header")].name
     then:
       function: casing
       functionOptions:
@@ -181,7 +181,7 @@ rules:
     severity: hint
     recommended: true
     given:
-      - $.[responses][*].headers.*~
+      - $..[responses][*].headers.*~
     then:
       function: casing
       functionOptions:
@@ -225,7 +225,7 @@ rules:
     severity: error
     given:
       - $..parameters[?(@.in == 'header')].name
-      - $.[responses][*].headers.*~
+      - $..[responses][*].headers.*~
     then:
       function: pattern
       functionOptions:
@@ -246,7 +246,7 @@ rules:
     description: "'HTTP' headers SHOULD NOT start with 'X-' RFC6648."
     severity: warn
     given:
-      - $.[responses][*].headers.*~
+      - $..[responses][*].headers.*~
     message: HTTP response header SHOULD NOT start with 'X-' in {{path}}
     recommended: true
     type: style
@@ -369,7 +369,7 @@ rules:
       - oas3
     severity: error
     recommended: true
-    given: $.[?(@.type=="number")]
+    given: $..[?(@ && @.type=="number")]
     then:
       field: format
       function: truthy
@@ -389,7 +389,7 @@ rules:
       - oas3
     severity: error
     recommended: true
-    given: $.[?(@.type=="integer")]
+    given: $..[?(@ && @.type=="integer")]
     then:
       field: format
       function: truthy
@@ -404,7 +404,7 @@ rules:
       - oas3
     severity: hint
     recommended: true
-    given: $.[?(@.type=="integer")]
+    given: $..[?(@ && @.type=="integer")]
     then:
       field: format
       function: enumeration
@@ -424,7 +424,7 @@ rules:
       - oas3
     severity: hint
     recommended: true
-    given: $.[?(@.type=="number")]
+    given: $..[?(@ && @.type=="number")]
     then:
       field: format
       function: enumeration
@@ -454,7 +454,8 @@ rules:
     severity: error
     recommended: true
     given:
-      - $.[securitySchemes][?(@.type=="oauth2")][*].[?(@property.match(/url$/i))]
+      - $..[securitySchemes][?(@ && @.type=="oauth2")][*].[?(@property &&
+        @property.match(/Url$/i))]
     then:
       - field: value
         function: pattern
@@ -489,7 +490,7 @@ rules:
     severity: error
     recommended: true
     given:
-      - $.[?(@.type=="oauth2")].flows
+      - $..[?(@ && @.type=="oauth2")].flows
     then:
       - field: implicit
         function: falsy
@@ -531,7 +532,7 @@ rules:
       - oas3
     severity: error
     recommended: true
-    given: $.[patch][requestBody][content]
+    given: $..[patch][requestBody][content]
     then:
       field: application/json
       function: falsy
@@ -571,7 +572,7 @@ rules:
       ````
     message: PATCH requires a non empty requestBody.
     severity: error
-    given: $.[patch]
+    given: $..[patch]
     then:
       - field: requestBody
         function: defined
@@ -740,8 +741,10 @@ rules:
     severity: hint
     recommended: true
     given:
-      - $.paths[?(@property.match( "/(get|post|put|delete|patch)[\/A-Z_\-]?" ))]~
-      - $.paths[?(@property.match( "/(create|remove|list)[\/A-Z_\-]?" ))]~
+      - $.paths[?(@property && @property.match(
+        "/(get|post|put|delete|patch)[\/A-Z_\-]?" ))]~
+      - $.paths[?(@property && @property.match(
+        "/(create|remove|list)[\/A-Z_\-]?" ))]~
     then:
       field: "@key"
       function: undefined
@@ -772,7 +775,8 @@ rules:
     formats:
       - oas3
     severity: error
-    given: $.paths.[*].responses[?(@property.match(/^(4|5|default)/))].content.*~
+    given: $.paths.[*].responses[?(@property &&
+      @property.match(/^(4|5|default)/))].content.*~
     then:
       function: enumeration
       functionOptions:
@@ -807,7 +811,8 @@ rules:
       - oas3
     severity: hint
     recommended: false
-    given: $.paths.[*].responses[?(@property.match(/^(4|5|default)/))][[schema]]
+    given: $.paths.[*].responses[?(@property &&
+      @property.match(/^(4|5|default)/))][[schema]]
     then:
       function: schema
       functionOptions:
@@ -866,7 +871,8 @@ rules:
       - oas3
     severity: hint
     recommended: true
-    given: $.[responses][?(@property.match(/^(4|5|default)/))][[schema]][properties].*~
+    given: $..[responses][?(@property &&
+      @property.match(/^(4|5|default)/))][[schema]][properties].*~
     then:
       field: "@key"
       function: pattern
@@ -886,7 +892,7 @@ rules:
       - oas3
     severity: warn
     recommended: true
-    given: $.[responses][?(@property == "429" || @property == "503"  )][headers]
+    given: $..[responses][?(@property == "429" || @property == "503"  )][headers]
     then:
       field: Retry-After
       function: truthy
@@ -930,7 +936,7 @@ rules:
       - oas3
     severity: warn
     recommended: true
-    given: $.[responses][?(@property[0] == "2" )][headers]
+    given: $..[responses][?(@property[0] == "2" )][headers]
     then:
       - functionOptions:
           properties:
@@ -958,7 +964,7 @@ rules:
     message: JSON responses must use json objects (eg "{}"), not {{value}}. {{path}}
     severity: warn
     recommended: true
-    given: $.[responses][*][content][?(@property.match("json$"))][schema]
+    given: $..[responses][*][content][?(@property.match("json$"))][schema]
     then:
       field: type
       function: pattern
@@ -991,7 +997,7 @@ rules:
     severity: error
     recommended: true
     given:
-      - $.[securitySchemes][?(@.type=="apiKey")].in
+      - $..[securitySchemes][?(@ && @.type=="apiKey")].in
     then:
       - function: pattern
         functionOptions:
@@ -1010,7 +1016,7 @@ rules:
     severity: error
     recommended: true
     given:
-      - $..parameters[?(@.in.match(/query|path/))].name
+      - $..parameters[?(@ && @.in && @.in.match(/query|path/))].name
     then:
       - field: name
         function: pattern
@@ -1048,7 +1054,7 @@ rules:
     severity: warn
     recommended: true
     given:
-      - $.[?(@.type=="array")]
+      - $..[?(@.type=="array")]
     then:
       - field: maxItems
         function: defined
@@ -1068,8 +1074,8 @@ rules:
     severity: warn
     recommended: true
     given:
-      - $.[?(@.type=="number")]
-      - $.[?(@.type=="integer")]
+      - $..[?(@.type=="number")]
+      - $..[?(@.type=="integer")]
     then:
       - field: maximum
         function: defined
@@ -1122,7 +1128,7 @@ rules:
     severity: warn
     recommended: true
     given:
-      - $.[?(@.type=="object" && @.additionalProperties==true)]
+      - $..[?(@.type=="object" && @.additionalProperties==true)]
     then:
       - field: additionalProperties
         function: falsy
@@ -1173,7 +1179,7 @@ rules:
     severity: warn
     recommended: true
     given:
-      - $.[?(@.type=="object" && ! @.additionalProperties)]
+      - $..[?(@.type=="object" && ! @.additionalProperties)]
     then:
       - field: additionalProperties
         function: defined
@@ -1224,7 +1230,7 @@ rules:
     severity: warn
     recommended: true
     given:
-      - $.[?(@.type=="object" && @.additionalProperties
+      - $..[?(@.type=="object" && @.additionalProperties
         &&  @.additionalProperties!=true &&  @.additionalProperties!=false )]
     then:
       - field: maxProperties
@@ -1392,7 +1398,7 @@ rules:
       ```
     message: JWT usage should be detailed in `description` {{error}}.
     given:
-      - $.[securitySchemes][?(@.type=="oauth2")]
+      - $..[securitySchemes][?(@.type=="oauth2")]
     then:
       - field: description
         function: truthy
@@ -1442,7 +1448,7 @@ rules:
       ```
     message: JWT usage should be detailed in `description` {{error}}.
     given:
-      - $.[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]
+      - $..[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]
     then:
       - field: description
         function: truthy
@@ -1477,7 +1483,7 @@ rules:
     severity: error
     recommended: true
     given:
-      - $.[securitySchemes][?(@.type=="apiKey")].in
+      - $..[securitySchemes][?(@.type=="apiKey")].in
     then:
       - function: pattern
         functionOptions:
@@ -1498,7 +1504,7 @@ rules:
     recommended: true
     severity: error
     given:
-      - $.[securitySchemes][?(@.type=="http")].scheme
+      - $..[securitySchemes][?(@.type=="http")].scheme
     then:
       - function: pattern
         functionOptions:
@@ -1540,7 +1546,7 @@ rules:
     severity: warn
     recommended: true
     given:
-      - $.[?(@.type=="string" && !@.enum && @.format!="date" && @.format
+      - $..[?(@.type=="string" && !@.enum && @.format!="date" && @.format
         !="date-time" )]
     then:
       - field: maxLength
@@ -1582,7 +1588,7 @@ rules:
     severity: hint
     recommended: true
     given:
-      - $.[?(@.type=="string" && !@.enum && @.format!="date" && @.format
+      - $..[?(@.type=="string" && !@.enum && @.format!="date" && @.format
         !="date-time" )]
     then:
       function: schema
