@@ -28,7 +28,7 @@ rules:
     recommended: true
     given:
     - >-
-      $.[?(@.type=="array")]
+      $..[?(@.type=="array")]
     then:
     - field: maxItems
       function: defined

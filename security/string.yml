@@ -39,7 +39,7 @@ rules:
     recommended: true
     given:
       - >-
-        $.[?(@.type=="string" && !@.enum
+        $..[?(@.type=="string" && !@.enum
         && @.format!="date" && @.format !="date-time"
         )]
     then:
