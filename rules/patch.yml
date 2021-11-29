@@ -71,7 +71,7 @@ rules:
       PATCH requires a non empty requestBody.
     severity: error
     given: >-
-      $..[patch]
+      $.paths.*.patch
     then:
     - field: requestBody
       function: defined
