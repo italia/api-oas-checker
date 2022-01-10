@@ -63,7 +63,11 @@ case "$1" in
         for RULE in $RULES; do
             echo -n "Executing rule $RULE.."
             spectral_diff $RULE && echo "Ok"
-            do_or_die "$?"
+            if [ "$2" == "--continue" ]; then
+            	echo "KO"
+            else
+                do_or_die "$?"
+            fi
         done
         ;;
     @($RULES_REGEXP))

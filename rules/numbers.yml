@@ -17,7 +17,7 @@ rules:
     severity: error
     recommended: true
     given: >-
-      $..[?(@.type=="number")]
+      $..[?(@.type == "number")]
     then:
       field: format
       function: truthy
@@ -25,7 +25,7 @@ rules:
   integer-format:
     <<: *number-format
     given: >-
-      $..[?(@.type=="integer")]
+      $..[?(@.type == "integer")]
 
   allowed-integer-format: &allowed-integer-format
     description: |-
@@ -40,7 +40,7 @@ rules:
     severity: hint
     recommended: true
     given: >-
-      $..[?(@.type=="integer")]
+      $..[?(@ && @.type=="integer")]
     then:
       field: format
       function: enumeration

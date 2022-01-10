@@ -25,6 +25,7 @@ spectral.yml: ./rules/
 	cat ./rules/rules-template.yml.template > $@
 	./rules/merge-yaml rules/*.yml >> $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
+	node ruleset_migrator.mjs $@
 spectral-generic.yml: ./rules/  spectral.yml
 	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
@@ -35,7 +36,6 @@ spectral-security.yml: ./rules/  ./security/
 spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
-
 # Build js bundle
 build: install rules
 	yarn build-js

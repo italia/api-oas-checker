@@ -9,8 +9,10 @@ services:
   dev:
     image: node
     user: $UID:$GID
+    working_dir: /code
     volumes:
     - .:/code:z
+    - ./dev_bashrc:/.bashrc
     command: ["tail", "-f", "/etc/hosts"]
   start:
     build:

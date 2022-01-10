@@ -1,5 +1,7 @@
-import { Document, Parsers } from '@stoplight/spectral';
+import { Document } from '@stoplight/spectral-core';
 import { getSpectralEngine } from './spectral_engine.js';
+
+const Parsers = require('@stoplight/spectral-parsers');
 
 onmessage = async (e) => {
   try {

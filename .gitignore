@@ -17,6 +17,7 @@ yarn-error.log
 
 # generated json files
 rules/*.json
+src/spectral/spectral.yml.js
 
 # generated css from bootstrap-italia
 src/bootstrap-italia-custom.min.css
