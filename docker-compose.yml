@@ -12,7 +12,7 @@ services:
     working_dir: /code
     volumes:
     - .:/code:z
-    - ./dev_bashrc:/.bashrc
+    - ./.devbashrc:/root/.bashrc
     command: ["tail", "-f", "/etc/hosts"]
   start:
     build:
