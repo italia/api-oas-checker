@@ -1,25 +1,19 @@
 components:
   schemas:
     ko_Integer_bad1:
-      schema:
         type: integer
         format: bad
     ko_Number_bad1:
-      schema:
         type: number
         format: bad
     ko_Number:
-      schema:
         type: number
     Number:
-      schema:
         type: number
         format: int32
     ko_Integer:
-      schema:
         type: integer
     Integer:
-      schema:
         type: integer
         format: int32
 openapi: 3.0.1
@@ -27,18 +21,18 @@ paths:
   /number-ok:
     put:
       requestBody:
-       content:
-         application/json-patch+json:
-           schema:
-             type: number
-             format: int32
+        content:
+          application/json-patch+json:
+            schema:
+              type: number
+              format: int32
   /integer-ok:
     put:
       requestBody:
-      content:
-        application/json-patch+json:
-          schema:
-            $ref: '#/components/schemas/Integer'
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/Integer'
 
   /number-ko:
      put:
@@ -50,19 +44,23 @@ paths:
   /integer-ko:
     put:
       requestBody:
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/ko_Integer'
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ko_Integer'
   /integer-ko-bad:
     put:
       requestBody:
-      content:
-        application/json:
-          schema:
-            properties:
-              ibad1:
-                $ref: '#/components/schemas/ko_Integer_bad1'
-              nbad1:
-                $ref: '#/components/schemas/ko_Number_bad1'
-          
+        content:
+          application/json:
+            schema:
+              properties:
+                ibad1:
+                  $ref: '#/components/schemas/ko_Integer_bad1'
+                nbad1:
+                  $ref: '#/components/schemas/ko_Number_bad1'
+info:
+  version: 1.0.1
+  title: test
+servers: []
+tags: []
