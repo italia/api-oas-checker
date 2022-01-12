@@ -23,7 +23,7 @@ export const LoadFromUrlButton = () => {
 
   return (
     <>
-      <Button onClick={openModal} color="custom-white" disabled={validationInProgress} icon={false} tag="button">
+      <Button onClick={openModal} color="primary" disabled={validationInProgress} icon={false} tag="button" outline>
         From url
       </Button>
 

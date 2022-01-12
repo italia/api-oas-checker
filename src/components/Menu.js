@@ -4,7 +4,7 @@ import { LoadFromUrlButton } from './LoadFromUrlButton.js';
 import { UploadFileButton } from './UploadFileButton.js';
 import { ExportResultsButton } from './ExportResultsButton.js';
 import { SaveFileButton } from './SaveFileButton.js';
-import { LoadTemplateButton } from './LoadTemplateButton.js';
+import { LoadTestfileButton } from './LoadTestfileButton.js';
 
 const useStyles = createUseStyles({
   buttonContainer: {
@@ -43,7 +43,7 @@ export const Menu = () => {
           <LoadFromUrlButton />
         </div>
         <div className={classes.buttonContainer}>
-          <LoadTemplateButton />
+          <LoadTestfileButton />
         </div>
       </section>
     </>

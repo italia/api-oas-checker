@@ -12,11 +12,12 @@ export const ExportResultsButton = () => {
   }, [validationResults]);
   return (
     <Button
-      color="custom-white"
+      color="primary"
       disabled={validationInProgress || validationResults === null || validationResults.length === 0}
       icon={false}
       tag="button"
       onClick={exportValidationResults}
+      outline
     >
       Export results
     </Button>
