@@ -1,21 +1,12 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
+import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Icon } from 'design-react-kit';
 import { useSelector, useDispatch } from 'react-redux';
-import { createUseStyles } from 'react-jss';
 import { setDocumentUrl, resetValidationResults, setTemplateDocumentName } from '../redux/actions.js';
-import { getTemplateDocumentName, isValidationInProgress } from '../redux/selectors.js';
+import { isValidationInProgress } from '../redux/selectors.js';
 import { TEMPLATE_DOCUMENT_URL } from '../utils.mjs';
-
-const useStyles = createUseStyles({
-  select: {
-    textAlign: 'center',
-    fontSize: '0.9rem',
-    width: '256px',
-  },
-});
 
 export const LoadTestfileButton = () => {
   const validationInProgress = useSelector((state) => isValidationInProgress(state));
-  const templateDocumentName = useSelector((state) => getTemplateDocumentName(state));
   const dispatch = useDispatch();
   const handleOnClick = useCallback(
     (url) => {
@@ -27,19 +18,20 @@ export const LoadTestfileButton = () => {
     [dispatch]
   );
 
-  const classes = useStyles();
+  const [open, toggle] = useState(false);
   return (
-    <div className="pt-3 d-flex align-items-center bg-white">
-      <select
-        className={classes.select + ' btn btn-custom-white'}
-        disabled={validationInProgress}
-        value={templateDocumentName}
-        onChange={(e) => handleOnClick(e.target.value)}
-      >
-        <option value={''}> From template.. </option>
-        <option value={TEMPLATE_DOCUMENT_URL}> API template </option>
-        <option value={'errorfile.yaml'}> Error Test File </option>
-      </select>
-    </div>
+    <Dropdown isOpen={open} toggle={() => toggle(!open)}>
+      <DropdownToggle color="primary" disabled={validationInProgress} outline caret>
+        From template...
+      </DropdownToggle>
+      <DropdownMenu>
+        <DropdownItem onClick={() => handleOnClick(TEMPLATE_DOCUMENT_URL)}>
+          <Icon className="left" icon="it-upload" aria-hidden size="sm" /> Example API
+        </DropdownItem>
+        <DropdownItem onClick={() => handleOnClick('errorfile.yaml')}>
+          <Icon className="left" icon="it-upload" aria-hidden size="sm" /> Example API with error
+        </DropdownItem>
+      </DropdownMenu>
+    </Dropdown>
   );
 };
