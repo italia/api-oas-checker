@@ -132,10 +132,11 @@ export const ValidationResultItem = ({ resultItem }) => {
         <ModalFooter tag="div">
           <Button
             className="white-bg"
-            color="custom-white"
+            color="primary"
             icon={false}
             onClick={handleOnAskSlackButtonClick}
             tag="button"
+            outline
           >
             Ask Slack
           </Button>

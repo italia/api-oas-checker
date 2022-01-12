@@ -11,3 +11,5 @@ export const getDocumentText = (state) => state.documentState.text;
 export const getDocumentUrl = (state) => state.documentState.url;
 
 export const getLineToFocus = (state) => state.documentState.focusLine;
+
+export const getTemplateDocumentName = (state) => state.documentState.templateDocumentName;

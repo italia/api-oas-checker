@@ -6,6 +6,7 @@ import {
   FOCUS_DOCUMENT_LINE,
   SET_DOCUMENT_URL,
   SET_RULESET,
+  SET_TEMPLATE_DOCUMENT_NAME,
 } from './actionTypes.js';
 
 export const toogleMenu = () => ({
@@ -41,4 +42,9 @@ export const focusDocumentLine = (line) => ({
 export const setDocumentUrl = (url) => ({
   type: SET_DOCUMENT_URL,
   url,
+});
+
+export const setTemplateDocumentName = (ruleset) => ({
+  type: SET_TEMPLATE_DOCUMENT_NAME,
+  ruleset,
 });

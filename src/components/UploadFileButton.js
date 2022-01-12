@@ -24,7 +24,7 @@ export const UploadFileButton = () => {
     {
       disabled: validationInProgress,
     },
-    ['btn', 'btn-custom-white']
+    ['btn', 'btn-outline-primary']
   );
 
   return (

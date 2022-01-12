@@ -12,11 +12,12 @@ export const SaveFileButton = () => {
   }, [documentText]);
   return (
     <Button
-      color="custom-white"
+      color="primary"
       disabled={validationInProgress || documentText === ''}
       icon={false}
       tag="button"
       onClick={saveFile}
+      outline
     >
       Save file
     </Button>
