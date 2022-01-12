@@ -72,6 +72,7 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public', to: '.' },
+        { from: 'functions', to: 'functions' },
         { from: 'spectral*.yml', to: '.' },
         { from: 'spectral*.doc.html', to: '.' },
       ],
