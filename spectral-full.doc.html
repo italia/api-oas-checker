@@ -362,6 +362,8 @@ See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-heade
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return
 an object <code>{"items": [1, 2, 3]}</code>.</p>
 <p>This allows the schema to evolve in a backward compatible ways.</p>
+<p>There are notable exceptions when specific media types are involved,
+for example json-patch is an array (see <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>).</p>
 <h2 id="sec-apikeys-url">sec-apikeys-url</h2>
 <p>API Keys are (usually opaque) strings that
 are passed in headers, cookies or query parameters
