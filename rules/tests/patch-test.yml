@@ -1,6 +1,6 @@
 openapi: 3.0.1
 paths:
-    /ko-patch-mediatype:
+    /ko-patch-generic-mediatype:
       patch:
         requestBody:
           required: true
@@ -8,7 +8,7 @@ paths:
             application/json:
               schema:
                 type: string
-    /ok-patch-mediatype:
+    /ko-patch-mediatype-not-array:
       patch:
         requestBody:
           required: true
@@ -16,12 +16,20 @@ paths:
             application/json-patch+json:
               schema:
                 type: string
+    /ok-patch-mediatype-array:
+      patch:
+        requestBody:
+          required: true
+          content:
+            application/json-patch+json:
+              schema:
+                type: array
     /ko-get-with-body:
       get:
         requestBody:
           content:
             application/json: {}
-    /ok-get-with-body:
+    /ok-get-without-body:
       get: {}
     /ko-patch-without-body:
       patch:
