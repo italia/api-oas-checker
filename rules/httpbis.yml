@@ -47,7 +47,7 @@ rules:
   http-response-content-2xx:
     <<: *response-content
     message: >-
-      200, 201, 202 and 206 responses usually have a content: {{error}}.
+      200, 201, 202, 203 and 206 responses usually have a content: {{error}}.
     severity: hint
     given: "$.paths.[?( @property && @property.match(/(200|201|202|203|206)/) )]"
     then:
