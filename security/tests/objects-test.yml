@@ -28,6 +28,16 @@ components:
           type: string
           maxLength: 8
           format: date
+    ok_nested_object:
+      type: object
+      maxProperties: 1
+      additionalProperties:
+        type: object
+        maxProperties: 1
+        additionalProperties:
+          type: string
+          maxLength: 8
+
 openapi: 3.0.1
 paths:
   /string-ko-params:
@@ -39,5 +49,3 @@ paths:
 info:
   version: 1.0.0
   title: ciao
-
-
