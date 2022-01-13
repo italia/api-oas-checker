@@ -24,13 +24,6 @@ paths:
             application/json-patch+json:
               schema:
                 type: array
-    /ko-get-with-body:
-      get:
-        requestBody:
-          content:
-            application/json: {}
-    /ok-get-without-body:
-      get: {}
     /ko-patch-without-body:
       patch:
         description: Patch without body
