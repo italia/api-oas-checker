@@ -7,14 +7,20 @@ rules:
       an object `{"items": [1, 2, 3]}`.
       
       This allows the schema to evolve in a backward compatible ways.
+
+      There are notable exceptions when specific media types are involved,
+      for example json-patch is an array (see RFC6902).
     message: |-
       JSON responses must use json objects (eg "{}"), not {{value}}. {{path}}
     severity: warn
     recommended: true
-    given: >-
-      $..[responses][*][content][?(@property.match("json$"))][schema]
+    given: 
+    - >-
+      $..[responses][*][content][?(@property && @property.match("json$") && !@property.match(/json-patch\+json$/))][schema]
     then:
       field: type
       function: pattern
       functionOptions:
         match: object
+#      $..[responses][*][content][?(@property && @property.match("json$")   
+# && !@property.match("^application/json-patch+json$") )][?(@.schema.type=="array")][schema]
