@@ -41,8 +41,8 @@ rules:
       - constrained additionalProperties
 
     message: >-
-      Objects should not allow additionalProperties.
-      Disable them with `additionalProperties: false` or constraint them.
+      Objects should not allow unconstrained additionalProperties.
+      Disable them with `additionalProperties: false` or add `maxProperties`.
     formats:
       - oas3
     severity: warn
