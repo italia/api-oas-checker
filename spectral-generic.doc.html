@@ -164,7 +164,8 @@ defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
         content:
           application/json-patch+json:
             schema:
-              type: object
+              type: array
+              ...
             example: [{ "op": "add", "path": "/baz", "value": "qux" }]
 </code></pre>
 <h2 id="patch-without-request-body">patch-without-request-body</h2>
@@ -178,9 +179,9 @@ behavior.</p>
 <p>For example, to modify the resource at <code>/user/123</code>,
 you can use the following PATCH request:</p>
 <pre><code>PATCH /user/123
-Content-Type: application/json-patch
+Content-Type: application/json-patch+json
 
-{"op": "replace", "path": "enable", "value": true}
+[{"op": "replace", "path": "enable", "value": true}]
 </code></pre>
 <p>or  POST request with the semantic implied by the target url:</p>
 <pre><code>POST /user/123/enable
@@ -196,6 +197,20 @@ because this behavior is not interoperable.
 Moreover intermediaries such as reverse proxies
 are allowed to strip the content from <code>GET</code> requests.</p>
 <p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
+<h2 id="patch-json-patch-mediatype">patch-json-patch-mediatype</h2>
+<p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
+defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
+<pre><code>paths:
+  /books/{book_id}:
+    patch:
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              ...
+            example: [{ "op": "add", "path": "/baz", "value": "qux" }]
+</code></pre>
 <h2 id="paths-status">paths-status</h2>
 <p>You must define a <code>/status</code> path that can be used to health-check the API.
 Using this path avoids the arbitrary usage of a server URL for health-check

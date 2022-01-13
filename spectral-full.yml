@@ -524,7 +524,8 @@ rules:
               content:
                 application/json-patch+json:
                   schema:
-                    type: object
+                    type: array
+                    ...
                   example: [{ "op": "add", "path": "/baz", "value": "qux" }]
       ```
     message: application/json is not an appropriate media-type for PATCH. {{path}}
@@ -552,9 +553,9 @@ rules:
 
       ```
       PATCH /user/123
-      Content-Type: application/json-patch
+      Content-Type: application/json-patch+json
 
-      {"op": "replace", "path": "enable", "value": true}
+      [{"op": "replace", "path": "enable", "value": true}]
       ```
 
       or  POST request with the semantic implied by the target url:
@@ -591,6 +592,38 @@ rules:
     given: $.paths..get.requestBody
     then:
       function: undefined
+  patch-json-patch-mediatype:
+    description: >-
+      A correct example of PATCH using eg. `application/json-patch+json`
+      media-type
+
+      defined in RFC6902.
+
+
+      ```
+
+      paths:
+        /books/{book_id}:
+          patch:
+            requestBody:
+              content:
+                application/json-patch+json:
+                  schema:
+                    type: array
+                    ...
+                  example: [{ "op": "add", "path": "/baz", "value": "qux" }]
+      ```
+    message: application/json-patch+json is not an array. {{path}}
+    formats:
+      - oas3
+    severity: warn
+    recommended: true
+    given: $..[patch][requestBody][content][application/json-patch+json][schema]
+    then:
+      field: type
+      function: pattern
+      functionOptions:
+        match: array
   paths-status:
     description: >-
       You must define a `/status` path that can be used to health-check the API.
