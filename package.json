@@ -54,7 +54,7 @@
     "webpack-dev-server": "^4.7.2",
     "worker-loader": "^3.0.8",
     "yaml": "^1.10.2",
-    "yargs": "^17.2.1"
+    "yargs": "^17.3.1"
   },
   "keywords": [
     "spectral",
