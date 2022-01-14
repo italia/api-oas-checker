@@ -66,13 +66,18 @@ paths:
           "200": &has-schema
             $ref: "#/components/responses/HasSchema"
           "201":
-            <<: *has-schema
+            $ref: "#/components/responses/HasSchema"
           "202":
-            <<: *has-schema
+            $ref: "#/components/responses/HasSchema"
           "203":
-            <<: *has-schema
+            $ref: "#/components/responses/HasSchema"
           "206":
-            <<: *has-schema
+            $ref: "#/components/responses/HasSchema"
+  /ok-get-dont-break-undefined:
+    get: {}
+  /ok-get-dont-break-undefined-responses:
+    get:
+      responses: {}
 components:
   responses:
     HasSchema:

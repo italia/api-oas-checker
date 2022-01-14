@@ -8,8 +8,8 @@ OpenAPI 3.x detected
  52:21     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `content` property should not have fewer than 1 properties.           paths./ko-2xx-no-content.get.responses[200].content
  56:32     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `application~1json` property should have required property `schema`.  paths./ko-2xx-no-content.get.responses[201].content.application/json
  61:17     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `[206].content` property is not truthy.                               paths./ko-2xx-no-content.get.responses[206]
- 86:18     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `202NoContent` property is not truthy.                                components.responses.202NoContent
- 88:18     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `203NoContent` property is not truthy.                                components.responses.203NoContent
+ 91:18     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `202NoContent` property is not truthy.                                components.responses.202NoContent
+ 93:18     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `203NoContent` property is not truthy.                                components.responses.203NoContent
 
 ✖ 9 problems (3 errors, 1 warning, 0 infos, 5 hints)
 
