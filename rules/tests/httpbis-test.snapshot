@@ -7,9 +7,9 @@ OpenAPI 3.x detected
  36:21    error  http-response-no-content-204-205:204 and 205 responses MUST NOT have a content: `content` property is not falsy.                                                    paths./ko-204-205-with-content.get.responses[205].content
  52:21     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `content` property should not have fewer than 1 properties.           paths./ko-2xx-no-content.get.responses[200].content
  56:32     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `application~1json` property should have required property `schema`.  paths./ko-2xx-no-content.get.responses[201].content.application/json
- 57:17     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `[202].content` property is not truthy.                               paths./ko-2xx-no-content.get.responses[202]
- 59:17     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `[203].content` property is not truthy.                               paths./ko-2xx-no-content.get.responses[203]
  61:17     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `[206].content` property is not truthy.                               paths./ko-2xx-no-content.get.responses[206]
+ 86:18     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `202NoContent` property is not truthy.                                components.responses.202NoContent
+ 88:18     hint  http-response-content-2xx         200, 201, 202, 203 and 206 responses usually have a content: `203NoContent` property is not truthy.                                components.responses.203NoContent
 
 ✖ 9 problems (3 errors, 1 warning, 0 infos, 5 hints)
 

@@ -55,19 +55,16 @@ paths:
             content:
               application/json: {}
           "202":
-            description: Expected content.
+            $ref: "#/components/responses/202NoContent"
           "203":
-            description: Expected content.
+            $ref: "#/components/responses/203NoContent"
           "206":
             description: Partial content.
   /ok-2xx-content:
       get:
         responses:
           "200": &has-schema
-            description: OK.
-            content:
-              application/json:
-                schema: {}
+            $ref: "#/components/responses/HasSchema"
           "201":
             <<: *has-schema
           "202":
@@ -76,3 +73,17 @@ paths:
             <<: *has-schema
           "206":
             <<: *has-schema
+components:
+  responses:
+    HasSchema:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            anyOf:
+            - type: string
+            - type: integer
+    202NoContent:
+      description: No content.
+    203NoContent:
+      description: No content.
