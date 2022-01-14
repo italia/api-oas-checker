@@ -40,7 +40,7 @@ rules:
     message: >-
       204 and 205 responses MUST NOT have a content: {{error}}.
     severity: error
-    given: $.paths.[?( @property === '204' || @property === '205')]
+    given: $.paths.[?( @property.match("(204|205)") )]
     then:
       field: content
       function: falsy
@@ -49,7 +49,7 @@ rules:
     message: >-
       200, 201, 202, 203 and 206 responses usually have a content: {{error}}.
     severity: hint
-    given: "$.paths.[?( @property && @property.match(/(200|201|202|203|206)/) )]"
+    given: '$.paths.[?( @property && @property.match("(200|201|202|203|206)") )]'
     then:
     - field: content
       function: truthy
