@@ -15,9 +15,6 @@ jobs:
         with:
           node-version: '14'
           check-latest: true
-      - name: Test rules
-        run: |
-          make rules
       - name: Extra tests
         run: |
           make ittest
