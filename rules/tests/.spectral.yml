@@ -1,0 +1,26 @@
+#
+# This file is intended for developing purposes only, and it is used
+#   by vscode to highlight issues while developing new rules.
+#   For this reason, spectral predefined rules are disabled.
+#
+extends:
+- https://italia.github.io/api-oas-checker/spectral-full.yml
+rules:
+  oas3-unused-components-schema: false
+  oas3-api-servers: false
+  has-contract: false
+  has-x-summary: false
+  info-description: false
+  paths-status: false
+  has-x-api-id: false
+  info-contact: false
+  has-contact: false
+  has-termsOfService: false
+  openapi-tags: false
+  operation-operationId: false
+  operation-tags: false
+  operation-description: false
+  sec-string-maxlength: hint
+  sec-protection-get: hint
+  sec-protection-unsafe: hint
+  sec-no-default-additionalProperties: hint

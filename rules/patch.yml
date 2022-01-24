@@ -78,20 +78,6 @@ rules:
       function: defined
     - field: requestBody.required
       function: truthy
-  request-GET-no-body:
-    description: |-
-      A `GET` request MUST NOT accept a `requestBody`
-      because this behavior is not interoperable.
-      Moreover intermediaries such as reverse proxies
-      are allowed to strip the content from `GET` requests.
-
-      See RFC7231 for further information.
-    message: >-
-      A GET request MUST NOT accept a requestBody: {{error}}.
-    severity: error
-    given: $.paths..get.requestBody
-    then:
-      function: undefined
   patch-json-patch-mediatype:
     description: |-
       A correct example of PATCH using eg. `application/json-patch+json` media-type

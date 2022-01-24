@@ -1,0 +1,64 @@
+rules:
+  http-request-GET-no-body:
+    description: |-
+      A `GET` request MUST NOT accept a `requestBody`
+      because this behavior is not interoperable.
+      Moreover intermediaries such as reverse proxies
+      are allowed to strip the content from `GET` requests.
+
+      See RFC7231 for further information.
+    message: >-
+      A GET request MUST NOT accept a requestBody: {{error}}.
+    severity: error
+    given: $.paths..get.requestBody
+    then:
+      function: undefined
+  http-request-DELETE-no-body:
+    description: |-
+      Sending a `requestBody` in a `DELETE` request 
+      is not considered interoperable.
+      Moreover intermediaries such as reverse proxies
+      might strip the content from `DELETE` requests.
+
+      See RFC7231 for further information.
+    message: >-
+      A DELETE request SHOULD NOT accept a requestBody: {{error}}.
+    severity: warn
+    given: $.paths..delete.requestBody
+    then:
+      function: undefined
+  http-response-no-content-204-205: &response-content
+    description: >-
+      Responses with the following status codes usually
+      expected to include a content,
+      which might have zero length: 200, 201, 202, 203, 206.
+
+      Responses with status code 204 and 205 MUST NOT include a content.
+
+      See RFC7231 for further information.
+
+    message: >-
+      204 and 205 responses MUST NOT have a content: {{error}}.
+    severity: error
+    given: '$..paths..responses[?(@property && @property.match("(204|205)") )]'
+    then:
+      field: content
+      function: falsy
+  http-response-content-2xx:
+    <<: *response-content
+    message: >-
+      200, 201, 202, 203 and 206 responses usually have a content: {{error}}.
+    severity: hint
+    given: '$..paths..responses[?( @property && @property.match("(200|201|202|203|206)") )]'
+    then:
+    - field: content
+      function: truthy
+    - field: content
+      function: schema
+      functionOptions:
+        schema:
+          type: object
+          minProperties: 1
+          additionalProperties:
+            required:
+            - schema
