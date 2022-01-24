@@ -5,7 +5,7 @@ import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
+import { getDocumentText, getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
 import { ERROR } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
@@ -32,6 +32,7 @@ const Editor = () => {
   const validationResults = useSelector((state) => getValidationResults(state));
   const focusLine = useSelector((state) => getLineToFocus(state));
   const documentUrl = useSelector((state) => getDocumentUrl(state));
+  const documentText = useSelector((state) => getDocumentText(state));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -58,6 +59,22 @@ const Editor = () => {
       });
     });
   }, [dispatch]);
+
+  useEffect(() => {
+    console.debug('Eventually update editor text.');
+    if (documentText == null) {
+      return null;
+    }
+    if (documentText === editor.current.getValue()) {
+      return null;
+    }
+    console.log('Update editor and state text.');
+    const updateDocumentText = async () => {
+      editor.current.getModel().setValue(documentText);
+      dispatch(setDocumentText(documentText));
+    };
+    updateDocumentText();
+  }, [documentText, dispatch]);
 
   useEffect(() => {
     if (!documentUrl) {
