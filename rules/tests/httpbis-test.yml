@@ -1,0 +1,94 @@
+openapi: 3.0.1
+info:
+  title: Check httpbis RFC specifications
+  version: 0.0.1
+paths:
+  /ok-get-delete-without-body:
+    get: &request-without-body
+      description: Test without body
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      <<: *request-without-body
+  /ko-get-delete-with-body:
+    get: &request-with-body
+      description: Test GET with body
+      requestBody: {}
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+    delete:
+      <<: *request-with-body
+  /ko-204-205-with-content:
+      get:
+        responses:
+          "204": &response-with-content
+            description: Unexpected content.
+            content:
+              application/json: {}
+          "205":
+            <<: *response-with-content
+  /ok-204-no-content:
+      get:
+        responses:
+          "204":
+            description: No content.
+          "205":
+            description: No content.
+  /ko-2xx-no-content:
+      get:
+        responses:
+          "200":
+            description: Fail with empty content.
+            content: {}
+          "201":
+            description: Fail with undefined schema.
+            content:
+              application/json: {}
+          "202":
+            $ref: "#/components/responses/202NoContent"
+          "203":
+            $ref: "#/components/responses/203NoContent"
+          "206":
+            description: Partial content.
+  /ok-2xx-content:
+      get:
+        responses:
+          "200": &has-schema
+            $ref: "#/components/responses/HasSchema"
+          "201":
+            $ref: "#/components/responses/HasSchema"
+          "202":
+            $ref: "#/components/responses/HasSchema"
+          "203":
+            $ref: "#/components/responses/HasSchema"
+          "206":
+            $ref: "#/components/responses/HasSchema"
+  /ok-get-dont-break-undefined:
+    get: {}
+  /ok-get-dont-break-undefined-responses:
+    get:
+      responses: {}
+components:
+  responses:
+    HasSchema:
+      description: OK.
+      content:
+        application/json:
+          schema:
+            anyOf:
+            - type: string
+            - type: integer
+    202NoContent:
+      description: No content.
+    203NoContent:
+      description: No content.
