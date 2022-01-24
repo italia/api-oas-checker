@@ -51,10 +51,8 @@ test: install
 	bash test-ruleset.sh security/ all
 
 # regression test with existing files
-ittest: test ittest-files
-
-ittest-files: ./tests/*.yaml
-	spectral lint -r spectral-full.yml "$^" | diff - $^.snapshot
+ittest: test rules
+	(cd ittest && bash ittest.sh)
 
 deploy: all
 	yarn deploy

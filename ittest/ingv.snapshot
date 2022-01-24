@@ -1,6 +1,6 @@
 OpenAPI 3.x detected
 
-/code/tests/ingv.yaml
+https://raw.githubusercontent.com/INGV/openapi/master/src/api/dante/0.0.2/openapi.yaml
    1:1         error  invalid-ref                           '#/parameters/endtime__REQUIRED' does not exist @ 'https://ingv.github.io/openapi/definitions.yaml'                                                                                                         parameters.endtime__REQUIRED.$ref
    1:1         error  invalid-ref                           '#/parameters/eventid' does not exist @ 'https://ingv.github.io/openapi/definitions.yaml'                                                                                                                   parameters.eventid.$ref
    1:1         error  invalid-ref                           '#/parameters/fk_events_group' does not exist @ 'https://ingv.github.io/openapi/definitions.yaml'                                                                                                           parameters.fk_events_group.$ref
