@@ -50,5 +50,9 @@ test: install
 	bash test-ruleset.sh rules/ all
 	bash test-ruleset.sh security/ all
 
+# regression test with existing files
+ittest: test rules
+	(cd ittest && bash ittest.sh)
+
 deploy: all
 	yarn deploy

@@ -1,0 +1,871 @@
+openapi: 3.0.0
+info:
+  contact:
+    email: valentino.lauciani@ingv.it
+    name: INGV
+    url: http://terremoti.ingv.it/webservices_and_software
+  description: "
+    \ \n\n \
+    \ # Introduction\n \
+    \ Dante is an API Web Service used for iteract with earthquake data stored in database (**eventdb**); the **eventdb** database schema is used at INGV.\n \
+    \ Use other schema would require cration of specific `Model` and `Controller` but this is the potential of web services. \
+    \ \n\n \
+    \ Dante provides a set of routes to store message **event**, **hypocenter**, **magnitude**, **phase**, **...**.
+    \ \n\n \
+    \ # Input\n \
+    \ As input, Dante acept:\n
+    \ - A `json` message (view '**store api**' spec below) \n \
+    \ - An Eartworm `json` message (view '**earthworm api**' spec below) produced by **ew2openapi** module \
+    \ \n\n \
+    \ # Output\n \
+    \ As output, Dante has a RESTful api foreach database table and implement three specific routes: \n
+    \ - `events_pref`: returns the preferred hypocenter and the preferred magnitude from all clusterd events. \n \
+    \ - `events`: returns the preferred hypocenter and the preferred magnitude from the same instance. \n \
+    \ - `event`: returns the full event (event, hypocenters, magnitudes, phases, amplitude, etc...) from an **eventid** or **originid**/**hypocenterid**. \n \
+    \ \n\n \
+    \ "
+  license:
+    name: Creative Commons Attribution 4.0 International
+    url: http://creativecommons.org/licenses/by/4.0/
+  title: Dante Web Services
+  version: 2.0.1
+  x-api-id: 24e1e2e6-43ad-4a84-bec7-5c6ddcf5db97
+  x-logo: http://webservices.ingv.it/ingv_logo_text_two_lines.png
+  x-summary: Web Service to receive location from Earthworm or JSON standard
+servers:
+- description: Production
+  url: http://localhost:8087/api/eventdb/
+paths:
+  /v1/events_pref/:
+    get:
+      description: This API returns the preferred hypocenter and the preferred magnitude from all clusterd events.
+      summary: This API returns the preferred hypocenter and the preferred magnitude from all clusterd events.
+      parameters:
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/starttime__REQUIRED'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/endtime__REQUIRED'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minlat'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxlat'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minlon'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxlon'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/lat'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/lon'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minradius'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxradius'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minradiuskm'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxradiuskm'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minmag'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxmag'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/mindepth'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxdepth'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/orderby'
+      responses:
+        '200':
+          $ref: '#/components/responses/200EventsAndEventsPref'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - get
+  /v1/events/:
+    get:
+      description: This API returns the preferred hypocenter and the preferred magnitude from the same instance
+      summary: This API returns the preferred hypocenter and the preferred magnitude from the same instance.
+      parameters:
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/starttime__REQUIRED'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/endtime__REQUIRED'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minlat'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxlat'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minlon'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxlon'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/lat'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/lon'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minradius'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxradius'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minradiuskm'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxradiuskm'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/minmag'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxmag'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/mindepth'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/maxdepth'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/orderby'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/fk_events_group'
+      responses:
+        '200':
+          $ref: '#/components/responses/200EventsAndEventsPref'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - get
+  /v1/event/:
+    get:
+      description: This API returns the preferred hypocenter and the preferred magnitude from all clusterd events.
+      summary: This API returns the preferred hypocenter and the preferred magnitude from all clusterd events.
+      parameters:
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/originid'
+        - $ref: 'https://ingv.github.io/openapi/definitions.yaml#/parameters/eventid'
+      responses:
+        '200':
+          $ref: '#/components/responses/200Event'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - get
+    post:
+      summary: Add a new event to the DB
+      requestBody:
+        description: JSON to store
+        required: true
+        content:
+          application/json:
+            schema:
+                properties:
+                  data:
+                    properties:
+                      event:
+                        $ref: '#/components/schemas/objectEventBasePost'
+      responses:
+        '201':
+          description: record inserted
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - store api
+  /v1/hypocenter/:
+    post:
+      summary: Add a new hypocenter(s) to the DB
+      requestBody:
+        description: JSON to store
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  properties:
+                    eventid:
+                        $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id'
+                    hypocenter:
+                        $ref: '#/components/schemas/objectHypocenterBasePost'
+      responses:
+        '201':
+          description: record inserted
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - store api
+  /v1/magnitude/:
+    post:
+      summary: Add a new magnitude(s) to the DB
+      requestBody:
+        description: JSON to store
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  properties:
+                    hypocenterid:
+                        $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id'
+                    hypocenter:
+                        $ref: '#/components/schemas/objectMagnitudeBasePost'
+      responses:
+        '201':
+          description: record inserted
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - store api
+  /ew/v1/quake2k/:
+    post:
+      summary: Insert a new quake2k message to the DB using ew2openapi module
+      requestBody:
+        description: JSON to store
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'https://ingv.github.io/openapi/definitions_ew.yaml#/schemas/quake2kSchema'
+      responses:
+        '201':
+            description: record inserted
+            #content:
+            #    application/json:
+            #        schema:
+            #            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hyp2000arc'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - earthwmorm api
+  /ew/v1/hyp2000arc/:
+    post:
+      summary: Insert a new hyp2000arc message to the DB using ew2openapi module
+      requestBody:
+        description: JSON to store
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'https://ingv.github.io/openapi/definitions_ew.yaml#/schemas/hyp2000arcSchema'
+      responses:
+        '201':
+            description: record inserted
+            #content:
+            #    application/json:
+            #        schema:
+            #            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hyp2000arc'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - earthwmorm api
+  /ew/v1/magnitude/:
+    post:
+      summary: Insert a new magnitude message to the DB using ew2openapi module
+      requestBody:
+        description: JSON to store
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'https://ingv.github.io/openapi/definitions_ew.yaml#/schemas/magnitudeSchema'
+      responses:
+        '201':
+            description: record inserted
+            #content:
+            #    application/json:
+            #        schema:
+            #            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hyp2000arc'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - earthwmorm api
+  /ew/v1/pick_scnl/:
+    post:
+      summary: Insert a new pick_scnl message to the DB using ew2openapi module
+      requestBody:
+        description: JSON to send
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'https://ingv.github.io/openapi/definitions_ew.yaml#/schemas/pick_scnlSchema'
+      responses:
+        '201':
+            description: record inserted
+            #content:
+            #    application/json:
+            #        schema:
+            #            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hyp2000arc'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - earthwmorm api
+  /ew/v1/strongmotionii/:
+    post:
+      summary: Insert a new strongmotionii message to the DB using ew2openapi module
+      requestBody:
+        description: JSON to send
+        required: true
+        content:
+          application/json:
+            schema:
+              properties:
+                data:
+                  $ref: 'https://ingv.github.io/openapi/definitions_ew.yaml#/schemas/strongmotioniiSchema'
+      responses:
+        '201':
+            description: record inserted
+            #content:
+            #    application/json:
+            #        schema:
+            #            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hyp2000arc'
+        '404':
+          $ref: '#/components/responses/404NotFound'
+        '429':
+          $ref: '#/components/responses/429TooManyRequests'
+        '500':
+          $ref: '#/components/responses/500InternalServerError'
+      tags:
+      - earthwmorm api
+components:
+  headers:
+    Retry-After:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/headers/Retry-After'
+    X-RateLimit-Limit:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/headers/X-RateLimit-Limit'
+    X-RateLimit-Reset:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/headers/X-RateLimit-Reset'
+    X-RateLimit-Remaining:
+        $ref: 'https://teamdigitale.github.io/openapi/0.0.5/definitions.yaml#/headers/X-RateLimit-Remaining'
+  responses:
+    204NoContent:
+      $ref: 'https://ingv.github.io/openapi/definitions.yaml#/responses/204NoContent'
+    400BadRequest:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/responses/400BadRequest'
+    404NotFound:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/responses/404NotFound'
+    429TooManyRequests:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/responses/429TooManyRequests'
+    500InternalServerError:
+      $ref: 'https://ingv.github.io/openapi/definitions.yaml#/responses/500InternalServerError'
+    503ServiceUnavailable:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/responses/503ServiceUnavailable'
+    default:
+      $ref: 'https://teamdigitale.github.io/openapi/0.0.6/definitions.yaml#/responses/default'
+    200Event:
+        description: Operation successful
+        content:
+            application/json:
+                schema:
+                    properties:
+                        data:
+                            properties:
+                                event:
+                                    $ref: '#/components/schemas/objectEventBaseGet'
+    200EventsAndEventsPref:
+        description: Operation successful
+        content:
+            application/json:
+                schema:
+                    allOf:
+                      - $ref: '#/components/schemas/metaDefinition'
+                      - type: object
+                        properties:
+                            data:
+                                type: array
+                                items:
+                                    allOf:
+                                        - $ref: '#/components/schemas/objectEventForEventsAndEventsPref'
+                                        - type: object
+                                          properties:
+                                            hypocenter:
+                                              $ref: '#/components/schemas/objectHypocenterForEventsAndEventsPref'
+                                        - type: object
+                                          properties:
+                                            magnitude:
+                                              $ref: '#/components/schemas/objectMagnitudeForEventsAndEventsPref'
+                                        - type: object
+                                          properties:
+                                            provenance:
+                                              $ref: '#/components/schemas/objectProvenaceForEventsAndEventsPref'
+  schemas:
+    objectProvenance:
+        type: object
+        properties:
+            provenance_name:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__name'
+            provenance_instance:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__instance'
+            provenance_softwarename:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__softwarename'
+            provenance_username:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__username'
+            provenance_hostname:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__hostname'
+            provenance_description:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__description'
+    objectInstance:
+        type: object
+        properties:
+            instance_name:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/instance__name'
+            instance_description:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/instance__description'
+    objectIdModifiedInserted:
+        allOf:
+        - properties:
+            id:
+                $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id'
+            modified:
+                $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/modified'
+            inserted:
+                $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/inserted'
+          type: object
+    objectEventBase:
+        properties:
+            id_local_instance:
+                $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id_local_instance'
+            type_event:
+                $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_event__name'
+    objectEventBasePost:
+        allOf:
+        - required:
+            - id_local_instance
+            - type_event
+            - instance_name
+        - $ref: '#/components/schemas/objectProvenance'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectEventBase'
+        - type: object
+          properties:
+            hypocenters:
+                $ref: '#/components/schemas/objectHypocenterBasePost'
+    objectEventBaseGet:
+        allOf:
+        - $ref: '#/components/schemas/objectIdModifiedInserted'
+        - $ref: '#/components/schemas/objectProvenance'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectEventBase'
+        - type: object
+          properties:
+            hypocenters:
+                $ref: '#/components/schemas/objectHypocenterBaseGet'
+
+    objectHypocenterBase:
+      properties:
+        azim_gap:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__azim_gap'
+        confidence_lev:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__confidence_lev'
+        depth:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/depth'
+        e0:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e0'
+        e0_az:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e0_az'
+        e0_dip:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e0_dip'
+        e1:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e1'
+        e1_az:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e1_az'
+        e1_dip:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e1_dip'
+        e2:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e2'
+        e2_az:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e2_az'
+        e2_dip:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__e2_dip'
+        err_depth:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_depth'
+        err_h:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_h'
+        err_lat:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_lat'
+        err_lon:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_lon'
+        err_ot:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_ot'
+        err_z:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_z'
+        fix_depth:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__fix_depth'
+        is_centroid:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__is_centroid'
+        lat:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/latitude'
+        loc_program:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/loc_program__name'
+        lon:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/longitude'
+        max_distance:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__max_distance'
+        min_distance:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__min_distance'
+        model:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/model__name'
+        nph:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__nph'
+        nph_fm:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__nph_fm'
+        nph_s:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__nph_s'
+        nph_tot:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__nph_tot'
+        ot:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__ot'
+        quality:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__quality'
+        region:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter_region_name__region'
+        rms:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__rms'
+        sec_azim_gap:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__sec_azim_gap'
+        type_hypocenter:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_hypocenter__name'
+        w_rms:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__w_rms'
+    objectHypocenterBasePost:
+      items:
+        allOf:
+        - required:
+          - ot
+          - lat
+          - lon
+          - depth
+        - $ref: '#/components/schemas/objectHypocenterBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+        - properties:
+            magnitudes:
+              $ref: '#/components/schemas/objectMagnitudeBasePost'
+            phases:
+              $ref: '#/components/schemas/objectPhaseBasePost'
+          type: object
+      type: array
+    objectHypocenterBaseGet:
+      items:
+        allOf:
+        - $ref: '#/components/schemas/objectIdModifiedInserted'
+        - $ref: '#/components/schemas/objectHypocenterBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+        - properties:
+            magnitudes:
+              $ref: '#/components/schemas/objectMagnitudeBaseGet'
+            phases:
+              $ref: '#/components/schemas/objectPhaseBaseGet'
+          type: object
+      type: array
+
+    objectMagnitudeBase:
+        properties:
+          mag:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__mag'
+          err:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__err'
+          quality:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__quality'
+          min_dist:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__min_dist'
+          azimut:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__azimut'
+          nsta:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__nsta'
+          ncha:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__ncha'
+          nsta_used:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__nsta_used'
+          mag_quality:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__mag_quality'
+          type_magnitude:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_magnitude__name'
+    objectMagnitudeBasePost:
+      items:
+        allOf:
+        - required:
+          - type_magnitude
+          - provenance_name
+          - provenance_softwarename
+        - $ref: '#/components/schemas/objectMagnitudeBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+        - properties:
+            amplitudes:
+              $ref: '#/components/schemas/objectAmplitudeBasePost'
+          type: object
+      type: array
+    objectMagnitudeBaseGet:
+      items:
+        allOf:
+        - $ref: '#/components/schemas/objectMagnitudeBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+        - $ref: '#/components/schemas/objectIdModifiedInserted'
+        - properties:
+            amplitudes:
+              $ref: '#/components/schemas/objectAmplitudeBaseGet'
+          type: object
+      type: array
+
+    objectAmplitudeBase:
+        properties:
+          time1:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/amplitude__time1'
+          amp1:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/amplitude__amp1'
+          period1:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/amplitude__period1'
+          time2:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/amplitude__time2'
+          amp2:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/amplitude__amp2'
+          period2:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/amplitude__period2'
+          type_amplitude:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_amplitude__type'
+          scnl_net:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__net'
+          scnl_sta:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__sta'
+          scnl_cha:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__cha'
+          scnl_loc:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__loc'
+          ep_distance:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase-st_amp_mag-st_dur_mag__ep_distance'
+          hyp_distance:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase-st_amp_mag-st_dur_mag__hyp_distance'
+          azimut:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase-st_amp_mag-st_dur_mag__azimut'
+          mag:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/st_amp_mag__mag'
+          err_mag:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/st_amp_mag-st_dur_mag__err_mag'
+          mag_correction:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/st_amp_mag__mag_correction'
+          is_used:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/st_amp_mag-st_dur_mag__polarity_is_used'
+          type_magnitude:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_magnitude__name'
+    objectAmplitudeBasePost:
+      items:
+        allOf:
+        - required:
+          - amp1
+          - amp2
+        - $ref: '#/components/schemas/objectAmplitudeBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+      type: array
+    objectAmplitudeBaseGet:
+      items:
+        allOf:
+        - $ref: '#/components/schemas/objectAmplitudeBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+        - $ref: '#/components/schemas/objectIdModifiedInserted'
+      type: array
+
+    objectPhaseBase:
+        properties:
+          isc_code:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__isc_code'
+          weight_picker:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/pick__weight'
+          arrival_time:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/pick__arrival_time'
+          err_arrival_time:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/pick__err_arrival_time'
+          firstmotion:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/pick__firstmotion'
+          emersio:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/pick__emersio'
+          pamp:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/pick__pamp'
+          scnl_net:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__net'
+          scnl_sta:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__sta'
+          scnl_cha:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__cha'
+          scnl_loc:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/scnl__loc'
+          ep_distance:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase-st_amp_mag-st_dur_mag__ep_distance'
+          hyp_distance:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase-st_amp_mag-st_dur_mag__hyp_distance'
+          azimut:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase-st_amp_mag-st_dur_mag__azimut'
+          take_off:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__take_off'
+          polarity_is_used:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__polarity_is_used'
+          arr_time_is_used:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__arr_time_is_used'
+          residual:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__residual'
+          teo_travel_time:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__teo_travel_time'
+          weight_phase_a_priori:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__weight_in'
+          weight_phase_localization:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__weight_out'
+          std_error:
+              $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/phase__std_error'
+    objectPhaseBasePost:
+      items:
+        allOf:
+        - required:
+          - isc_code
+          - arrival_time
+          - provenance_name
+          - provenance_softwarename
+          - scnl_net
+          - scnl_sta
+          - scnl_cha
+        - $ref: '#/components/schemas/objectPhaseBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+      type: array
+    objectPhaseBaseGet:
+      items:
+        allOf:
+        - $ref: '#/components/schemas/objectPhaseBase'
+        - $ref: '#/components/schemas/objectInstance'
+        - $ref: '#/components/schemas/objectProvenance'
+        - $ref: '#/components/schemas/objectIdModifiedInserted'
+      type: array
+
+    objectEventForEventsAndEventsPref:
+      type: object
+      properties:
+        id:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id'
+        id_local_instance:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id_local_instance'
+        fk_events_group:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/event__fk_events_group'
+        type_event:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_event__name'
+        modified:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/modified'
+        inserted:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/inserted'
+    objectHypocenterForEventsAndEventsPref:
+      type: object
+      properties:
+        id:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id'
+        ot:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__ot'
+        lat:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/latitude'
+        lon:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/longitude'
+        depth:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/depth'
+        err_ot:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_ot'
+        err_h:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_h'
+        err_z:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_z'
+        err_lat:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_lat'
+        err_lon:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__err_lon'
+        quality:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter__quality'
+        region:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/hypocenter_region_name__region'
+        type:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_hypocenter__name'
+        value:
+            $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_hypocenter__value'
+        modified:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/modified'
+        inserted:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/inserted'
+        provenance:
+          $ref: '#/components/schemas/objectProvenaceForEventsAndEventsPref'
+    objectProvenaceForEventsAndEventsPref:
+      type: object
+      properties:
+        name:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__name'
+        instance:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__instance'
+        softwarename:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/provenance__softwarename'
+    objectMagnitudeForEventsAndEventsPref:
+      type: object
+      properties:
+        id:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/id'
+        name:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/type_magnitude__name'
+        value:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__mag'
+        quality:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__quality'
+        mag_quality:
+          $ref: 'https://ingv.github.io/openapi/definitions.yaml#/schemas/magnitude__mag_quality'
+        provenance:
+          $ref: '#/components/schemas/objectProvenaceForEventsAndEventsPref'
+    metaDefinition:
+      type: object
+      properties:
+        current_page:
+          type: string
+          description: Current page.
+          example: '1'
+        total:
+          type: string
+          description: Total records.
+          example: '50'
+        per_page:
+          type: string
+          description: Record per page.
+          example: '4000'
+        last_page:
+          type: string
+          description: Last page.
+          example: '967'
+        first_page_url:
+          type: string
+          description: URL first page.
+          example: 'http://localhost:8087/api/eventdb/v1/events_pref/?page=2'
+        last_page_url:
+          type: string
+          description: URL last page.
+          example: 'http://localhost:8087/api/eventdb/v1/events_pref/?page=4'
+        next_page_url:
+          type: string
+          description: URL next page.
+          example: 'http://localhost:8087/api/eventdb/v1/events_pref/?page=3'
+        prev_page_url:
+          type: string
+          description: URL previous page.
+          example: 'http://localhost:8087/api/eventdb/v1/events_pref/?page=1'
+        path:
+          type: string
+          description: URL base path.
+          example: 'http://localhost:8087'
+        from:
+          type: string
+          description: Showed record from.
+          example: '1'
+        to:
+          type: string
+          description: Showed record to.
+          example: '4000'
