@@ -120,6 +120,26 @@ You MUST use the associate functionalities provided by OAS, instead.</p>
 <p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
 <h2 id="no-x-headers-response">no-x-headers-response</h2>
 <p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
+<h2 id="http-request-get-no-body">http-request-GET-no-body</h2>
+<p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
+because this behavior is not interoperable.
+Moreover intermediaries such as reverse proxies
+are allowed to strip the content from <code>GET</code> requests.</p>
+<p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
+<h2 id="http-request-delete-no-body">http-request-DELETE-no-body</h2>
+<p>Sending a <code>requestBody</code> in a <code>DELETE</code> request 
+is not considered interoperable.
+Moreover intermediaries such as reverse proxies
+might strip the content from <code>DELETE</code> requests.</p>
+<p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
+<h2 id="http-response-no-content-204-205">http-response-no-content-204-205</h2>
+<p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
+Responses with status code 204 and 205 MUST NOT include a content.
+See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
+<h2 id="http-response-content-2xx">http-response-content-2xx</h2>
+<p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
+Responses with status code 204 and 205 MUST NOT include a content.
+See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
 <h2 id="servers-description">servers-description</h2>
 <p>Servers must have a description.</p>
 <h2 id="servers-use-https">servers-use-https</h2>
@@ -216,12 +236,6 @@ is expected to modify the <code>/user/123/enable</code>
 subresource, and not the <code>/user/123</code> one.</p>
 <pre><code>PATCH /user/123/enable
 </code></pre>
-<h2 id="request-get-no-body">request-GET-no-body</h2>
-<p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
-because this behavior is not interoperable.
-Moreover intermediaries such as reverse proxies
-are allowed to strip the content from <code>GET</code> requests.</p>
-<p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
 <h2 id="patch-json-patch-mediatype">patch-json-patch-mediatype</h2>
 <p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
 defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
