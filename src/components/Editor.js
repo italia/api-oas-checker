@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import axios from 'axios';
 import * as monaco from 'monaco-editor/esm/vs/editor/editor.api.js';
+import { setDiagnosticsOptions } from 'monaco-yaml';
 import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
@@ -35,6 +36,14 @@ const Editor = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    setDiagnosticsOptions({
+      enableSchemaRequest: false,
+      hover: true,
+      completion: true,
+      validate: true,
+      format: true,
+    });
+
     // Init Monaco
     editor.current = monaco.editor.create(editorEl.current, {
       value: '',
