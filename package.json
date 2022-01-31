@@ -8,7 +8,7 @@
     "bootstrap-italia": "^1.4.3",
     "classnames": "^2.3.1",
     "design-react-kit": "^3.3.3",
-    "dompurify": "^2.3.4",
+    "dompurify": "^2.3.5",
     "lodash.debounce": "^4.0.8",
     "marked": "^3.0.6",
     "monaco-editor": "^0.24.0",
@@ -23,7 +23,7 @@
     "typeface-titillium-web": "^1.1.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.16.0",
+    "@babel/core": "^7.16.12",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@testing-library/jest-dom": "^5.16.1",
