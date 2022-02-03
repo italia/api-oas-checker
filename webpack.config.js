@@ -89,6 +89,14 @@ module.exports = {
 
     new MonacoWebpackPlugin({
       languages: ['yaml'],
+        customLanguages: [{
+          label: 'yaml',
+          entry: 'monaco-yaml/lib/esm/monaco.contribution',
+          worker: {
+            id: 'vs/language/yaml/yamlWorker',
+            entry: 'monaco-yaml/lib/esm/yaml.worker.js'
+          }
+        }]
     }),
   ],
   resolve: {
