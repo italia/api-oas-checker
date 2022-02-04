@@ -37,11 +37,17 @@ const Editor = () => {
 
   useEffect(() => {
     setDiagnosticsOptions({
-      enableSchemaRequest: false,
+      enableSchemaRequest: true,
       hover: true,
       completion: true,
       validate: true,
       format: true,
+      schemas: [
+        {
+          uri: 'oas3-completion.schema.json',
+          fileMatch: ['*'],
+        },
+      ],
     });
 
     // Init Monaco
