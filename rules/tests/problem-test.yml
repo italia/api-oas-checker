@@ -47,7 +47,24 @@ paths:
             application/problem+json:
               schema:
                 $ref: '#/components/schemas/ko_Problem'
-
+  /ok-skip-check-when-oauth2:
+    post:
+      responses:
+        "400":
+          x-noqa: RFC6902
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    enum:
+                      - invalid_client
+  /ok-regression:
+    post:
+      responses:
+        "400": {}
 components:
   schemas:
     Problem:
