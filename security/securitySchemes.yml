@@ -43,6 +43,16 @@ rules:
           bearerFormat: JWT
       ```
 
+      To make security optional, use `{}` as a security rules:
+
+      ```
+      paths:
+        /books:
+          post:
+            security:
+            - {}
+      ```
+
     message: >-
       The following operation is not protected by a `security` rule: {{path}}
     formats:
@@ -59,10 +69,10 @@ rules:
         schema:
           items:
             type: object
-            minProperties: 1
+            minProperties: 0
           minItems: 1
           type: array
-  sec-protection-unsafe:
+  sec-protection-unsafe: &sec-protection-unsafe
     <<: *sec-protection-get
     message: >-
       The following unsafe operation is not protected by a `security` rule: {{path}}
@@ -70,6 +80,19 @@ rules:
     given:
       - >-
         $.paths.*[?(@property.match(/^(post|put|patch|delete)/))]
+  sec-protection-unsafe-strict:
+    <<: *sec-protection-unsafe
+    severity: hint
+    then:
+    - field: security
+      function: schema
+      functionOptions:
+        schema:
+          items:
+            type: object
+            minProperties: 1
+          minItems: 1
+          type: array
   sec-securitySchemes-oauth: &jwt-bcp
     description: |-
       Json Web Tokens RFC7519 is a compact, URL-safe means of representing

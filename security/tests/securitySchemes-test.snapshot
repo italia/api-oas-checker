@@ -1,15 +1,18 @@
 OpenAPI 3.x detected
 
 /code/security/tests/securitySchemes-test.yml
-  7:9         error  sec-protection-unsafe          The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-put/put                               paths./security-ko-put.put
- 10:11        error  sec-protection-unsafe          The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-patch/patch                           paths./security-ko-patch.patch
- 15:16        error  sec-protection-unsafe          The following unsafe operation is not protected by a `security` rule: #/paths/~1security-empty-ko-patch/patch/security            paths./security-empty-ko-patch.patch.security
- 20:11        error  sec-protection-unsafe          The following unsafe operation is not protected by a `security` rule: #/paths/~1security-minproperties-ko-patch/patch/security/0  paths./security-minproperties-ko-patch.patch.security[0]
-  27:9  information  sec-protection-get             The following operation is not protected by a `security` rule: #/paths/~1security-ko-get/get                                              paths./security-ko-get.get
- 35:16      warning  sec-securitySchemes-oauth      JWT usage should be detailed in `description` `MyOauth_ko.description` property is not truthy.                                            components.securitySchemes.MyOauth_ko
- 46:20      warning  sec-securitySchemes-oauth      JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.MyOauth2_ko.description
- 47:18      warning  sec-securitySchemes-jwt        JWT usage should be detailed in `description` `JWTBearer_ko.description` property is not truthy.                                          components.securitySchemes.JWTBearer_ko
- 53:20      warning  sec-securitySchemes-jwt        JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                                       components.securitySchemes.JWTBearer2_ko.description
+  7:9         error  sec-protection-unsafe         The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-put/put                          paths./security-ko-put.put
+  7:9          hint  sec-protection-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-put/put                          paths./security-ko-put.put
+ 10:11        error  sec-protection-unsafe         The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-patch/patch                      paths./security-ko-patch.patch
+ 10:11         hint  sec-protection-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-patch/patch                      paths./security-ko-patch.patch
+ 15:16        error  sec-protection-unsafe         The following unsafe operation is not protected by a `security` rule: #/paths/~1security-empty-ko-patch/patch/security       paths./security-empty-ko-patch.patch.security
+ 15:16         hint  sec-protection-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-empty-ko-patch/patch/security       paths./security-empty-ko-patch.patch.security
+ 20:11         hint  sec-protection-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-explicit-ok-patch/patch/security/0  paths./security-explicit-ok-patch.patch.security[0]
+  27:9  information  sec-protection-get            The following operation is not protected by a `security` rule: #/paths/~1security-ko-get/get                                 paths./security-ko-get.get
+ 35:16      warning  sec-securitySchemes-oauth     JWT usage should be detailed in `description` `MyOauth_ko.description` property is not truthy.                               components.securitySchemes.MyOauth_ko
+ 46:20      warning  sec-securitySchemes-oauth     JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                          components.securitySchemes.MyOauth2_ko.description
+ 47:18      warning  sec-securitySchemes-jwt       JWT usage should be detailed in `description` `JWTBearer_ko.description` property is not truthy.                             components.securitySchemes.JWTBearer_ko
+ 53:20      warning  sec-securitySchemes-jwt       JWT usage should be detailed in `description` must match the pattern '.*RFC8725.*'.                                          components.securitySchemes.JWTBearer2_ko.description
 
-✖ 9 problems (4 errors, 4 warnings, 1 info, 0 hints)
+✖ 12 problems (3 errors, 4 warnings, 1 info, 4 hints)
 
