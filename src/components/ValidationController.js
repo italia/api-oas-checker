@@ -40,7 +40,7 @@ export const ValidationController = () => {
 
   const handleValidation = useCallback(() => {
     dispatch(setValidationInProgress());
-    spectralWorker.postMessage({ documentText, ruleset: `${location.href}${ruleset}` });
+    spectralWorker.postMessage({ documentText, ruleset: `${location.origin}${location.pathname}${ruleset}` });
     spectralWorker.onmessage = (event) => {
       if (event.data.error) {
         console.error(event.data.error);

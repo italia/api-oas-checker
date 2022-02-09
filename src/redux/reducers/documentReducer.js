@@ -1,10 +1,11 @@
 import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_URL, SET_DOCUMENT_TEXT } from '../actionTypes.js';
 import { DEFAULT_DOCUMENT_URL } from '../../utils.mjs';
 
+const queryParams = new URLSearchParams(window.location.search);
 const initialState = {
   focusLine: null,
   text: null,
-  url: DEFAULT_DOCUMENT_URL,
+  url: queryParams.get('url') || DEFAULT_DOCUMENT_URL,
 };
 
 export default function (state = initialState, action) {
