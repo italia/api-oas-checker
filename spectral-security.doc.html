@@ -185,6 +185,13 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
+<p>To make security optional, use <code>{}</code> as a security rules:</p>
+<pre><code>paths:
+  /books:
+    post:
+      security:
+      - {}
+</code></pre>
 <h2 id="sec-protection-unsafe">sec-protection-unsafe</h2>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
@@ -219,6 +226,55 @@ securitySchemes:
     scheme: http
     type: bearer
     bearerFormat: JWT
+</code></pre>
+<p>To make security optional, use <code>{}</code> as a security rules:</p>
+<pre><code>paths:
+  /books:
+    post:
+      security:
+      - {}
+</code></pre>
+<h2 id="sec-protection-unsafe-strict">sec-protection-unsafe-strict</h2>
+<p>Your API should be protected by a <code>security</code> rule either at
+global or operation level.
+All operations should be protected especially when they
+not safe (methods that do not alter the state of the server) 
+HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
+This is done with one or more non-empty <code>security</code> rules.</p>
+<p>Security rules are defined in the <code>securityScheme</code> section.</p>
+<p>An example of a security rule applied at global level.</p>
+<pre><code>security:
+- BasicAuth: []
+paths:
+  /books: {}
+  /users: {}
+securitySchemes:
+  BasicAuth:
+    scheme: http
+    type: basic
+</code></pre>
+<p>An example of a security rule applied at operation level, which
+eventually overrides the global one</p>
+<pre><code>paths:
+  /books:
+    post:
+      security:
+      - AccessToken: []
+securitySchemes:
+  BasicAuth:
+    scheme: http
+    type: basic
+  AccessToken:
+    scheme: http
+    type: bearer
+    bearerFormat: JWT
+</code></pre>
+<p>To make security optional, use <code>{}</code> as a security rules:</p>
+<pre><code>paths:
+  /books:
+    post:
+      security:
+      - {}
 </code></pre>
 <h2 id="sec-securityschemes-oauth">sec-securitySchemes-oauth</h2>
 <p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
