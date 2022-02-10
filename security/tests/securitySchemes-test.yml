@@ -13,7 +13,7 @@ paths:
     patch:
       responses: {}
       security: []
-  /security-minproperties-ko-patch:
+  /security-explicit-ok-patch:
     patch:
       responses: {}
       security:
