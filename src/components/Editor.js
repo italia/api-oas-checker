@@ -7,12 +7,18 @@ import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR } from '../utils.mjs';
+import { ERROR, WARNING, INFO, HINT } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
   editor: {
     height: 'calc(100vh - 90px)',
+  },
+  editorMarginHint: {
+    backgroundColor: 'var(--light)',
+  },
+  editorMarginInfo: {
+    backgroundColor: 'var(--info)',
   },
   editorMarginError: {
     backgroundColor: 'var(--danger)',
@@ -112,12 +118,27 @@ const Editor = () => {
         range: new monaco.Range(Number(line), 1, Number(line), 1),
         options: {
           glyphMarginClassName:
-            getValidationResultType(severity) === ERROR ? classes.editorMarginError : classes.editorMarginWarning,
+            getValidationResultType(severity) === ERROR
+              ? classes.editorMarginError
+              : getValidationResultType(severity) === WARNING
+              ? classes.editorMarginWarning
+              : getValidationResultType(severity) === INFO
+              ? classes.editorMarginInfo
+              : getValidationResultType(severity) === HINT
+              ? classes.editorMarginHint
+              : classes.editorMarginError,
         },
       });
     }
     decoration.current = editor.current.deltaDecorations([], newDecorations);
-  }, [validationResults, classes.editorHighlightLine, classes.editorMarginError, classes.editorMarginWarning]);
+  }, [
+    validationResults,
+    classes.editorHighlightLine,
+    classes.editorMarginError,
+    classes.editorMarginWarning,
+    classes.editorMarginInfo,
+    classes.editorMarginHint,
+  ]);
 
   useEffect(() => {
     if (!focusLine) {
