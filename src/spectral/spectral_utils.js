@@ -1,7 +1,20 @@
 import PropTypes from 'prop-types';
-import { ERROR, WARNING } from '../utils.mjs';
+import { ERROR, HINT, WARNING } from '../utils.mjs';
 
-export const getValidationResultType = (severity) => (severity === 0 ? ERROR : WARNING);
+export const getValidationResultType = (severity) => {
+  switch (severity) {
+    case 0:
+      return ERROR;
+    case 1:
+      return WARNING;
+    case 2:
+      return WARNING;
+    case 3:
+      return HINT;
+    default:
+      return ERROR;
+  }
+};
 export const getValidationResultsPropTypes = () => PropTypes.arrayOf(getValidationResultItemPropTypes());
 export const getValidationResultItemPropTypes = () =>
   PropTypes.shape({
