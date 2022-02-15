@@ -27,118 +27,96 @@ https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318
  5:8  warning  sec-number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/schema `schema.maximum` property should be defined  schema
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/routing-api.yaml
-   2:6         error  has-x-api-id                            API must have an unique identifier in x-api-id in #/info/x-api-id.                                                                    info
-   2:6         error  has-x-summary                           API MUST have an one-liner #/info/x-summary field containing a brief description.                                                     info
-  11:10      warning  oas3-server-trailing-slash              Server URL should not have a trailing slash.                                                                                          servers[0].url
-  13:10      warning  oas3-server-trailing-slash              Server URL should not have a trailing slash.                                                                                          servers[1].url
-  20:7         error  paths-status                            The "/status" path used to health-check the API must be defined. `paths` property should have required property `/status`             paths
-  22:9   information  sec-protection-get                      The following operation is not protected by a `security` rule: #/paths/~1routes/get                                                   paths./routes.get
-  41:19  information  cache-responses-indeterminate-behavior  Expires and Cache-Control cannot be both defined or both undefined                                                                    paths./routes.get.responses[200].headers
-  90:30        error  use-problem-json-for-errors             Error responses should support RFC7807 in #/paths/~1routes/get/responses/429/content/application~1json.                               paths./routes.get.responses[429].content.application/json
-  91:22      warning  sec-no-default-additionalProperties     Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  paths./routes.get.responses[429].content.application/json.schema
-  93:19      warning  missing-retry-after                     Missing ratelimit header: headers.Retry-After in #/paths/~1routes/get/responses/429/headers                                           paths./routes.get.responses[429].headers
-  114:9  information  sec-protection-get                      The following operation is not protected by a `security` rule: #/paths/~1areas/get                                                    paths./areas.get
- 130:19  information  cache-responses-indeterminate-behavior  Expires and Cache-Control cannot be both defined or both undefined                                                                    paths./areas.get.responses[200].headers
- 179:30        error  use-problem-json-for-errors             Error responses should support RFC7807 in #/paths/~1areas/get/responses/429/content/application~1json.                                paths./areas.get.responses[429].content.application/json
- 180:22      warning  sec-no-default-additionalProperties     Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  paths./areas.get.responses[429].content.application/json.schema
- 182:19      warning  missing-retry-after                     Missing ratelimit header: headers.Retry-After in #/paths/~1areas/get/responses/429/headers                                            paths./areas.get.responses[429].headers
- 208:11      warning  oas3-unused-components-schema           Potentially unused components schema has been detected.                                                                               components.schemas.Route
- 210:22      warning  oas3-unused-components-schema           Potentially unused components schema has been detected.                                                                               components.schemas.SubmissionSchema
- 212:17      warning  oas3-unused-components-schema           Potentially unused components schema has been detected.                                                                               components.schemas.Destination
-  214:9      warning  oas3-unused-components-schema           Potentially unused components schema has been detected.                                                                               components.schemas.JWK
- 216:10      warning  oas3-unused-components-schema           Potentially unused components schema has been detected.                                                                               components.schemas.JWKS
- 220:10      warning  oas3-unused-components-schema           Potentially unused components schema has been detected.                                                                               components.schemas.Area
+   2:6     error  has-x-api-id                         API must have an unique identifier in x-api-id in #/info/x-api-id.                                                                    info
+   2:6     error  has-x-summary                        API MUST have an one-liner #/info/x-summary field containing a brief description.                                                     info
+  11:10  warning  oas3-server-trailing-slash           Server URL should not have a trailing slash.                                                                                          servers[0].url
+  13:10  warning  oas3-server-trailing-slash           Server URL should not have a trailing slash.                                                                                          servers[1].url
+  20:7     error  paths-status                         The "/status" path used to health-check the API must be defined. `paths` property should have required property `/status`             paths
+  90:30    error  use-problem-json-for-errors          Error responses should support RFC7807 in #/paths/~1routes/get/responses/429/content/application~1json.                               paths./routes.get.responses[429].content.application/json
+  91:22  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  paths./routes.get.responses[429].content.application/json.schema
+  93:19  warning  missing-retry-after                  Missing ratelimit header: headers.Retry-After in #/paths/~1routes/get/responses/429/headers                                           paths./routes.get.responses[429].headers
+ 179:30    error  use-problem-json-for-errors          Error responses should support RFC7807 in #/paths/~1areas/get/responses/429/content/application~1json.                                paths./areas.get.responses[429].content.application/json
+ 180:22  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  paths./areas.get.responses[429].content.application/json.schema
+ 182:19  warning  missing-retry-after                  Missing ratelimit header: headers.Retry-After in #/paths/~1areas/get/responses/429/headers                                            paths./areas.get.responses[429].headers
+ 208:11  warning  oas3-unused-components-schema        Potentially unused components schema has been detected.                                                                               components.schemas.Route
+ 210:22  warning  oas3-unused-components-schema        Potentially unused components schema has been detected.                                                                               components.schemas.SubmissionSchema
+ 212:17  warning  oas3-unused-components-schema        Potentially unused components schema has been detected.                                                                               components.schemas.Destination
+  214:9  warning  oas3-unused-components-schema        Potentially unused components schema has been detected.                                                                               components.schemas.JWK
+ 216:10  warning  oas3-unused-components-schema        Potentially unused components schema has been detected.                                                                               components.schemas.JWKS
+ 220:10  warning  oas3-unused-components-schema        Potentially unused components schema has been detected.                                                                               components.schemas.Area
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/area-result.yaml
-  1:1   warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
- 10:10  warning  sec-number-boundaries                 Schema of type number or integer must specify a maximum and a minimum. #/properties/offset `offset.maximum` property should be defined          properties.offset
- 15:14  warning  sec-number-boundaries                 Schema of type number or integer must specify a maximum and a minimum. #/properties/totalCount `totalCount.maximum` property should be defined  properties.totalCount
- 22:11  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/areas/items `items.maxLength` property should be defined                         properties.areas.items
- 22:11     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/areas/items                                                                 properties.areas.items
+  1:1   warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+ 10:10  warning  sec-number-boundaries                Schema of type number or integer must specify a maximum and a minimum. #/properties/offset `offset.maximum` property should be defined          properties.offset
+ 15:14  warning  sec-number-boundaries                Schema of type number or integer must specify a maximum and a minimum. #/properties/totalCount `totalCount.maximum` property should be defined  properties.totalCount
+ 22:11  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/areas/items `items.maxLength` property should be defined                         properties.areas.items
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/area.yaml
-  1:1  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
- 3:12  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
-  4:6  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/id `id.maxLength` property should be defined                           properties.id
-  9:8  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/name `name.maxLength` property should be defined                       properties.name
-  9:8     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/name                                                              properties.name
- 13:8  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/type `type.maxLength` property should be defined                       properties.type
- 13:8     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/type                                                              properties.type
+  1:1  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+ 3:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
+  4:6  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/id `id.maxLength` property should be defined                           properties.id
+  9:8  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/name `name.maxLength` property should be defined                       properties.name
+ 13:8  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/type `type.maxLength` property should be defined                       properties.type
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/destination.yaml
-  6:17     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/encryptionKid                                                                properties.encryptionKid
- 11:20  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/metadataVersions `metadataVersions.maxItems` property should be defined    properties.metadataVersions
- 17:11  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/metadataVersions/items `items.maxLength` property should be defined               properties.metadataVersions.items
- 20:14  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/publicKeys `publicKeys.maxItems` property should be defined                properties.publicKeys
- 20:14  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.publicKeys
- 20:14  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/publicKeys `publicKeys.maxLength` property should be defined                      properties.publicKeys
- 20:14     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/publicKeys                                                                   properties.publicKeys
- 22:17  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels
- 27:14  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.elster
- 30:13  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.eMail
- 37:14  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.deMail
- 40:12  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.fink
- 51:21  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/submissionSchemas `submissionSchemas.maxItems` property should be defined  properties.submissionSchemas
- 58:17  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/submissionUrl `submissionUrl.maxLength` property should be defined                properties.submissionUrl
+ 11:20  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/metadataVersions `metadataVersions.maxItems` property should be defined    properties.metadataVersions
+ 17:11  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/metadataVersions/items `items.maxLength` property should be defined               properties.metadataVersions.items
+ 20:14  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/publicKeys `publicKeys.maxItems` property should be defined                properties.publicKeys
+ 20:14  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.publicKeys
+ 20:14  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/publicKeys `publicKeys.maxLength` property should be defined                      properties.publicKeys
+ 22:17  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels
+ 27:14  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.elster
+ 30:13  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.eMail
+ 37:14  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.deMail
+ 40:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.             properties.replyChannels.properties.fink
+ 51:21  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/submissionSchemas `submissionSchemas.maxItems` property should be defined  properties.submissionSchemas
+ 58:17  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/submissionUrl `submissionUrl.maxLength` property should be defined                properties.submissionUrl
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/error.yaml
-  1:1   warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
-  9:8   warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/type `type.maxLength` property should be defined                       properties.type
-  9:8      hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/type                                                              properties.type
-  12:9  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/title `title.maxLength` property should be defined                     properties.title
-  12:9     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/title                                                             properties.title
- 15:10    error  integer-format                        Schema of type number or integer must specify a format. #/properties/status                                                           properties.status
- 20:10  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/detail `detail.maxLength` property should be defined                   properties.detail
- 20:10     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/detail                                                            properties.detail
- 23:12  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/instance `instance.maxLength` property should be defined               properties.instance
+  1:1   warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+  9:8   warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/type `type.maxLength` property should be defined                       properties.type
+  12:9  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/title `title.maxLength` property should be defined                     properties.title
+ 15:10    error  integer-format                       Schema of type number or integer must specify a format. #/properties/status                                                           properties.status
+ 20:10  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/detail `detail.maxLength` property should be defined                   properties.detail
+ 23:12  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/instance `instance.maxLength` property should be defined               properties.instance
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/jwk.yaml
-  1:1      hint  schema-camel-case                     Schema name should be CamelCase in #
-  1:1   warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
- 12:12  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
- 21:11  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/key_ops `key_ops.maxItems` property should be defined           properties.key_ops
-  43:7  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/x5c `x5c.maxItems` property should be defined                   properties.x5c
- 49:11  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/x5c/items `items.maxLength` property should be defined                 properties.x5c.items
- 49:11     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/x5c/items                                                         properties.x5c.items
-  52:7     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/kid                                                               properties.kid
-  60:5  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/n `n.maxLength` property should be defined                             properties.n
-  60:5     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/n                                                                 properties.n
+  1:1   warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+ 12:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
+ 21:11  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/key_ops `key_ops.maxItems` property should be defined           properties.key_ops
+  43:7  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/x5c `x5c.maxItems` property should be defined                   properties.x5c
+ 49:11  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/x5c/items `items.maxLength` property should be defined                 properties.x5c.items
+  60:5  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/n `n.maxLength` property should be defined                             properties.n
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/jwks.yaml
-  1:1      hint  schema-camel-case                     Schema name should be CamelCase in #
-  1:1   warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
-  6:12  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
-  7:8   warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/keys `keys.maxItems` property should be defined                 properties.keys
- 11:11  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/keys/items `items.maxItems` property should be defined          properties.keys.items
- 11:11  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/keys/items `items.maxLength` property should be defined                properties.keys.items
- 11:11     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/keys/items                                                        properties.keys.items
+  1:1   warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+  6:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
+  7:8   warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/keys `keys.maxItems` property should be defined                 properties.keys
+ 11:11  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/keys/items `items.maxItems` property should be defined          properties.keys.items
+ 11:11  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/keys/items `items.maxLength` property should be defined                properties.keys.items
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/route-result.yaml
-  1:1   warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
- 10:10  warning  sec-number-boundaries                 Schema of type number or integer must specify a maximum and a minimum. #/properties/offset `offset.maximum` property should be defined          properties.offset
- 15:14  warning  sec-number-boundaries                 Schema of type number or integer must specify a maximum and a minimum. #/properties/totalCount `totalCount.maximum` property should be defined  properties.totalCount
- 22:11  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/routes/items `items.maxItems` property should be defined                  properties.routes.items
- 22:11  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.            properties.routes.items
- 22:11  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/routes/items `items.maxLength` property should be defined                        properties.routes.items
- 22:11     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/routes/items                                                                properties.routes.items
+  1:1   warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+ 10:10  warning  sec-number-boundaries                Schema of type number or integer must specify a maximum and a minimum. #/properties/offset `offset.maximum` property should be defined          properties.offset
+ 15:14  warning  sec-number-boundaries                Schema of type number or integer must specify a maximum and a minimum. #/properties/totalCount `totalCount.maximum` property should be defined  properties.totalCount
+ 22:11  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/routes/items `items.maxItems` property should be defined                  properties.routes.items
+ 22:11  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.            properties.routes.items
+ 22:11  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/routes/items `items.maxLength` property should be defined                        properties.routes.items
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/route.yaml
-  1:1   warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
-  4:12  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.                                 properties
- 11:24  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/destinationSignature `destinationSignature.maxLength` property should be defined                      properties.destinationSignature
- 16:25  warning  sec-array-boundaries                  Schema of type array must specify maxItems and minItems. #/properties/destinationParameters `destinationParameters.maxItems` property should be defined              properties.destinationParameters
- 16:25  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.                                 properties.destinationParameters
- 16:25  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/destinationParameters `destinationParameters.maxLength` property should be defined                    properties.destinationParameters
- 16:25     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/destinationParameters                                                                            properties.destinationParameters
- 19:34  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/destinationParametersSignature `destinationParametersSignature.maxLength` property should be defined  properties.destinationParametersSignature
- 24:19  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/destinationName `destinationName.maxLength` property should be defined                                properties.destinationName
- 24:19     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/destinationName                                                                                  properties.destinationName
- 28:19  warning  sec-string-maxlength                  Strings (non enum) must specify a maximum length. #/properties/destinationLogo `destinationLogo.maxLength` property should be defined                                properties.destinationLogo
- 28:19     hint  sec-string-pattern-or-format-or-enum  Strings (non enum) must specify a pattern or a format. #/properties/destinationLogo                                                                                  properties.destinationLogo
+  1:1   warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
+  4:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.                                 properties
+ 11:24  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/destinationSignature `destinationSignature.maxLength` property should be defined                      properties.destinationSignature
+ 16:25  warning  sec-array-boundaries                 Schema of type array must specify maxItems and minItems. #/properties/destinationParameters `destinationParameters.maxItems` property should be defined              properties.destinationParameters
+ 16:25  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.                                 properties.destinationParameters
+ 16:25  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/destinationParameters `destinationParameters.maxLength` property should be defined                    properties.destinationParameters
+ 19:34  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/destinationParametersSignature `destinationParametersSignature.maxLength` property should be defined  properties.destinationParametersSignature
+ 24:19  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/destinationName `destinationName.maxLength` property should be defined                                properties.destinationName
+ 28:19  warning  sec-string-maxlength                 Strings (non enum) must specify a maximum length. #/properties/destinationLogo `destinationLogo.maxLength` property should be defined                                properties.destinationLogo
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/schemas/submission-schema.yaml
   1:1  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
  6:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
 
-✖ 104 problems (8 errors, 74 warnings, 4 infos, 18 hints)
+✖ 82 problems (8 errors, 74 warnings, 0 infos, 0 hints)
 
