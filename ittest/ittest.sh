@@ -15,7 +15,7 @@ test(){
         exit 1
     fi
 
-    spectral lint -r "${RULESET}" -F error "${openapi}" | \
+    spectral lint -r "${RULESET}" -D -F warn "${openapi}" | \
         diff - "${snapshot}.snapshot"
 }
 
@@ -28,7 +28,7 @@ snapshot(){
         exit 1
     fi
     
-    spectral lint -r "${RULESET}" -F error "${openapi}" > "${snapshot}.snapshot"
+    spectral lint -r "${RULESET}" -D -F warn "${openapi}" > "${snapshot}.snapshot"
 }
 
 
