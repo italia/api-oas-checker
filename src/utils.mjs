@@ -7,8 +7,11 @@ export const getDocFilename = (ruleset) => {
   return `${docFilename}.doc.html`;
 };
 
+// See spectral DiagnosticSeverity values.
 export const ERROR = 'error';
 export const WARNING = 'warning';
+export const INFO = 'info';
+export const HINT = 'hint';
 export const DEFAULT_DOCUMENT_URL = 'initial.yaml';
 export const TEMPLATE_DOCUMENT_URL =
   'https://raw.githubusercontent.com/teamdigitale/api-starter-kit/master/openapi/simple.yaml.src';
