@@ -535,7 +535,9 @@ unwanted information.</p>
 <li>no additionalProperties</li>
 <li>constrained additionalProperties</li>
 </ul>
-<h2 id="sec-protection-get">sec-protection-get</h2>
+<h2 id="sec-protection-global-unsafe">sec-protection-global-unsafe</h2>
+<p>Check if the operation is protected at operation level.
+Otherwise, the global <code>#/security</code> property is check.</p>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 All operations should be protected especially when they
@@ -570,14 +572,9 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
-<p>To make security optional, use <code>{}</code> as a security rules:</p>
-<pre><code>paths:
-  /books:
-    post:
-      security:
-      - {}
-</code></pre>
-<h2 id="sec-protection-unsafe">sec-protection-unsafe</h2>
+<h2 id="sec-protection-global-unsafe-strict">sec-protection-global-unsafe-strict</h2>
+<p>Check if the operation is protected at operation level.
+Otherwise, the global <code>#/security</code> property is check.</p>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 All operations should be protected especially when they
@@ -612,14 +609,9 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
-<p>To make security optional, use <code>{}</code> as a security rules:</p>
-<pre><code>paths:
-  /books:
-    post:
-      security:
-      - {}
-</code></pre>
-<h2 id="sec-protection-unsafe-strict">sec-protection-unsafe-strict</h2>
+<h2 id="sec-protection-global-safe">sec-protection-global-safe</h2>
+<p>Check if the operation is protected at operation level.
+Otherwise, the global <code>#/security</code> property is check.</p>
 <p>Your API should be protected by a <code>security</code> rule either at
 global or operation level.
 All operations should be protected especially when they
@@ -653,13 +645,6 @@ securitySchemes:
     scheme: http
     type: bearer
     bearerFormat: JWT
-</code></pre>
-<p>To make security optional, use <code>{}</code> as a security rules:</p>
-<pre><code>paths:
-  /books:
-    post:
-      security:
-      - {}
 </code></pre>
 <h2 id="sec-securityschemes-oauth">sec-securitySchemes-oauth</h2>
 <p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing

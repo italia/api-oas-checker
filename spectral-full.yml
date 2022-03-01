@@ -1324,8 +1324,11 @@ rules:
     then:
       - field: maxProperties
         function: defined
-  sec-protection-get:
+  sec-protection-global-unsafe:
     description: |-
+      Check if the operation is protected at operation level.
+      Otherwise, the global `#/security` property is check.
+
       Your API should be protected by a `security` rule either at
       global or operation level.
       All operations should be protected especially when they
@@ -1367,175 +1370,140 @@ rules:
           type: bearer
           bearerFormat: JWT
       ```
+    message: "The following unsafe operation is not protected by a `security` rule:
+      {{path}}"
+    severity: error
+    given: $
+    then:
+      - function: checkSecurity
+        functionOptions:
+          schemesPath:
+            - securitySchemes
+          nullable: true
+          methods:
+            - post
+            - patch
+            - delete
+            - put
+  sec-protection-global-unsafe-strict:
+    description: |-
+      Check if the operation is protected at operation level.
+      Otherwise, the global `#/security` property is check.
 
-      To make security optional, use `{}` as a security rules:
+      Your API should be protected by a `security` rule either at
+      global or operation level.
+      All operations should be protected especially when they
+      not safe (methods that do not alter the state of the server) 
+      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+      This is done with one or more non-empty `security` rules.
+
+      Security rules are defined in the `securityScheme` section.
+
+      An example of a security rule applied at global level.
+
+      ```
+      security:
+      - BasicAuth: []
+      paths:
+        /books: {}
+        /users: {}
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+      ```
+
+      An example of a security rule applied at operation level, which
+      eventually overrides the global one
 
       ```
       paths:
         /books:
           post:
             security:
-            - {}
+            - AccessToken: []
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+        AccessToken:
+          scheme: http
+          type: bearer
+          bearerFormat: JWT
+      ```
+    message: "The following unsafe operation is not protected by a `security` rule:
+      {{path}}"
+    severity: info
+    given: $
+    then:
+      - function: checkSecurity
+        functionOptions:
+          schemesPath:
+            - securitySchemes
+          nullable: false
+          methods:
+            - post
+            - patch
+            - delete
+            - put
+  sec-protection-global-safe:
+    description: |-
+      Check if the operation is protected at operation level.
+      Otherwise, the global `#/security` property is check.
+
+      Your API should be protected by a `security` rule either at
+      global or operation level.
+      All operations should be protected especially when they
+      not safe (methods that do not alter the state of the server) 
+      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+      This is done with one or more non-empty `security` rules.
+
+      Security rules are defined in the `securityScheme` section.
+
+      An example of a security rule applied at global level.
+
+      ```
+      security:
+      - BasicAuth: []
+      paths:
+        /books: {}
+        /users: {}
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+      ```
+
+      An example of a security rule applied at operation level, which
+      eventually overrides the global one
+
+      ```
+      paths:
+        /books:
+          post:
+            security:
+            - AccessToken: []
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+        AccessToken:
+          scheme: http
+          type: bearer
+          bearerFormat: JWT
       ```
     message: "The following operation is not protected by a `security` rule: {{path}}"
-    formats:
-      - oas3
     severity: info
-    recommended: true
-    given:
-      - $.paths.*.get
+    given: $
     then:
-      - field: security
-        function: schema
+      - function: checkSecurity
         functionOptions:
-          schema:
-            items:
-              type: object
-              minProperties: 0
-            minItems: 1
-            type: array
-  sec-protection-unsafe:
-    description: |-
-      Your API should be protected by a `security` rule either at
-      global or operation level.
-      All operations should be protected especially when they
-      not safe (methods that do not alter the state of the server) 
-      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
-      This is done with one or more non-empty `security` rules.
-
-      Security rules are defined in the `securityScheme` section.
-
-      An example of a security rule applied at global level.
-
-      ```
-      security:
-      - BasicAuth: []
-      paths:
-        /books: {}
-        /users: {}
-      securitySchemes:
-        BasicAuth:
-          scheme: http
-          type: basic
-      ```
-
-      An example of a security rule applied at operation level, which
-      eventually overrides the global one
-
-      ```
-      paths:
-        /books:
-          post:
-            security:
-            - AccessToken: []
-      securitySchemes:
-        BasicAuth:
-          scheme: http
-          type: basic
-        AccessToken:
-          scheme: http
-          type: bearer
-          bearerFormat: JWT
-      ```
-
-      To make security optional, use `{}` as a security rules:
-
-      ```
-      paths:
-        /books:
-          post:
-            security:
-            - {}
-      ```
-    message: "The following unsafe operation is not protected by a `security` rule:
-      {{path}}"
-    formats:
-      - oas3
-    severity: error
-    recommended: true
-    given:
-      - $.paths.*[?(@property.match(/^(post|put|patch|delete)/))]
-    then:
-      - field: security
-        function: schema
-        functionOptions:
-          schema:
-            items:
-              type: object
-              minProperties: 0
-            minItems: 1
-            type: array
-  sec-protection-unsafe-strict:
-    description: |-
-      Your API should be protected by a `security` rule either at
-      global or operation level.
-      All operations should be protected especially when they
-      not safe (methods that do not alter the state of the server) 
-      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
-      This is done with one or more non-empty `security` rules.
-
-      Security rules are defined in the `securityScheme` section.
-
-      An example of a security rule applied at global level.
-
-      ```
-      security:
-      - BasicAuth: []
-      paths:
-        /books: {}
-        /users: {}
-      securitySchemes:
-        BasicAuth:
-          scheme: http
-          type: basic
-      ```
-
-      An example of a security rule applied at operation level, which
-      eventually overrides the global one
-
-      ```
-      paths:
-        /books:
-          post:
-            security:
-            - AccessToken: []
-      securitySchemes:
-        BasicAuth:
-          scheme: http
-          type: basic
-        AccessToken:
-          scheme: http
-          type: bearer
-          bearerFormat: JWT
-      ```
-
-      To make security optional, use `{}` as a security rules:
-
-      ```
-      paths:
-        /books:
-          post:
-            security:
-            - {}
-      ```
-    message: "The following unsafe operation is not protected by a `security` rule:
-      {{path}}"
-    formats:
-      - oas3
-    severity: hint
-    recommended: true
-    given:
-      - $.paths.*[?(@property.match(/^(post|put|patch|delete)/))]
-    then:
-      - field: security
-        function: schema
-        functionOptions:
-          schema:
-            items:
-              type: object
-              minProperties: 1
-            minItems: 1
-            type: array
+          schemesPath:
+            - securitySchemes
+          nullable: true
+          methods:
+            - get
+            - head
   sec-securitySchemes-oauth:
     description: >-
       Json Web Tokens RFC7519 is a compact, URL-safe means of representing
@@ -1781,4 +1749,6 @@ rules:
             - required:
                 - format
           additionalProperties: true
+functions:
+  - checkSecurity
 
