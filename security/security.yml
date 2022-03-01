@@ -1,0 +1,101 @@
+functions:
+- checkSecurity
+rules:
+  sec-protection-global-unsafe: &sec-protection-global-unsafe-error
+    description: |-
+      Check if the operation is protected at operation level.
+      Otherwise, the global `#/security` property is check.
+
+      Your API should be protected by a `security` rule either at
+      global or operation level.
+      All operations should be protected especially when they
+      not safe (methods that do not alter the state of the server) 
+      HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+      This is done with one or more non-empty `security` rules.
+
+      Security rules are defined in the `securityScheme` section.
+
+      An example of a security rule applied at global level.
+
+      ```
+      security:
+      - BasicAuth: []
+      paths:
+        /books: {}
+        /users: {}
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+      ```
+
+      An example of a security rule applied at operation level, which
+      eventually overrides the global one
+
+      ```
+      paths:
+        /books:
+          post:
+            security:
+            - AccessToken: []
+      securitySchemes:
+        BasicAuth:
+          scheme: http
+          type: basic
+        AccessToken:
+          scheme: http
+          type: bearer
+          bearerFormat: JWT
+      ```
+
+    message: >-
+      The following unsafe operation is not protected by a `security` rule: {{path}}
+    severity: error
+    given: "$"
+    then:
+    - function: "checkSecurity"
+      functionOptions:
+        schemesPath: 
+        - securitySchemes
+        # If nullable is false, unauthenticated operations
+        #  raise an error.
+        nullable: true
+        methods:
+        - post
+        - patch
+        - delete
+        - put
+  sec-protection-global-unsafe-strict:
+    <<: *sec-protection-global-unsafe-error
+    severity: info
+    then:
+    - function: "checkSecurity"
+      functionOptions:
+        schemesPath: 
+        - securitySchemes
+        # If nullable is false, unauthenticated operations
+        #  raise an error.
+        nullable: false
+        methods:
+        - post
+        - patch
+        - delete
+        - put
+
+  sec-protection-global-safe:
+    <<: *sec-protection-global-unsafe-error
+    severity: info
+    message: >-
+      The following operation is not protected by a `security` rule: {{path}}
+    given: "$"
+    then:
+    - function: "checkSecurity"
+      functionOptions:
+        schemesPath: 
+        - securitySchemes
+        # If nullable is false, unauthenticated operations
+        #  raise an error.
+        nullable: true
+        methods:
+        - get
+        - head

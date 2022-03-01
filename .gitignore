@@ -12,6 +12,9 @@ spectral*.doc.html
 /fonts
 /svg
 yarn-error.log
+/functions
+
+# IDE files
 /coverage
 .idea
 

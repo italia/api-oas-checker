@@ -1,0 +1,18 @@
+OpenAPI 3.x detected
+OpenAPI 3.x detected
+
+/code/security/tests/security-test.yml
+  7:9         error  sec-protection-global-unsafe         The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-missing/put            paths./security-ko-missing.put
+  7:9   information  sec-protection-global-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-missing/put            paths./security-ko-missing.put
+ 10:16        error  sec-protection-global-unsafe         The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-missing/post/security  paths./security-ko-missing.post.security
+ 10:16  information  sec-protection-global-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-missing/post/security  paths./security-ko-missing.post.security
+  26:9  information  sec-protection-global-safe           The following operation is not protected by a `security` rule: #/paths/~1security-ko-get/get                       paths./security-ko-get.get
+ 29:16  information  sec-protection-global-safe           The following operation is not protected by a `security` rule: #/paths/~1security-ko-get/head/security             paths./security-ko-get.head.security
+ 33:11  information  sec-protection-global-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-info/post/security/0   paths./security-ko-info.post.security[0]
+
+/code/security/tests/security-1-test.yml
+ 19:11  information  sec-protection-global-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-patch-noauth/patch/security/0  paths./security-ko-patch-noauth.patch.security[0]
+ 24:11  information  sec-protection-global-unsafe-strict  The following unsafe operation is not protected by a `security` rule: #/paths/~1security-ko-post-noauth/patch/security/0   paths./security-ko-post-noauth.patch.security[0]
+
+✖ 9 problems (2 errors, 0 warnings, 7 infos, 0 hints)
+

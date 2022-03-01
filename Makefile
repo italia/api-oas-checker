@@ -31,6 +31,8 @@ spectral-generic.yml: ./rules/  spectral.yml
 spectral-security.yml: ./rules/  ./security/
 	cat ./rules/rules-template.yml.template > $@
 	./rules/merge-yaml security/*.yml >> $@
+	mkdir -p ./functions
+	cp ./security/functions/* ./functions/
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
 spectral-full.yml: spectral.yml spectral-security.yml
 	./rules/merge-yaml spectral.yml spectral-security.yml > $@
