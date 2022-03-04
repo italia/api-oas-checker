@@ -429,6 +429,73 @@ rules:
       function: pattern
       functionOptions:
         match: ^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?
+  use-recommended-names-in-parameters:
+    description: |-
+      Use well defined parameter and schema names, deriving them
+      from the national ontologies available at https://w3id.org/italia/onto/
+
+      For example, you can model a person using the following names:
+
+      ```
+      {
+        "en": {
+          "given_name": "Mario",
+          "family_name": "Rossi",
+          "tax_code": "12345678901"
+        },
+        "it": {
+          "nome_proprio": "Mario",
+          "cognome": "Rossi",
+          "codice_fiscale": "12345678901"
+        }
+      }
+      ```
+    message: Use recommended variable names in {{value}}.
+    formats:
+      - oas3
+    severity: info
+    given: $..parameters.[?(@.name && @.name.match &&
+      @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+      )]
+    then:
+      field: name
+      function: pattern
+      functionOptions:
+        match: //
+  use-recommended-names-in-schemas:
+    description: |-
+      Use well defined parameter and schema names, deriving them
+      from the national ontologies available at https://w3id.org/italia/onto/
+
+      For example, you can model a person using the following names:
+
+      ```
+      {
+        "en": {
+          "given_name": "Mario",
+          "family_name": "Rossi",
+          "tax_code": "12345678901"
+        },
+        "it": {
+          "nome_proprio": "Mario",
+          "cognome": "Rossi",
+          "codice_fiscale": "12345678901"
+        }
+      }
+      ```
+    message: Use recommended variable names in {{value}}.
+    formats:
+      - oas3
+    severity: info
+    given: $..[?(@ && @.type=="object")].properties.[?( @property  &&
+      @property.match  &&
+      @property.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+      )]
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        match: //
   number-format:
     description: >-
       Schema of type number or integer must specify a format

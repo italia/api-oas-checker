@@ -154,6 +154,40 @@ Use <code>x-sandbox: true</code> to skip this kind of check.</p>
 <h2 id="use-semver">use-semver</h2>
 <p>The API version field should follow
 <a href="https://semver.org/#semantic-versioning-specification-semver">semantic versioning</a>.</p>
+<h2 id="use-recommended-names-in-parameters">use-recommended-names-in-parameters</h2>
+<p>Use well defined parameter and schema names, deriving them
+from the national ontologies available at <a href="https://w3id.org/italia/onto/">https://w3id.org/italia/onto/</a></p>
+<p>For example, you can model a person using the following names:</p>
+<pre><code>{
+  "en": {
+    "given_name": "Mario",
+    "family_name": "Rossi",
+    "tax_code": "12345678901"
+  },
+  "it": {
+    "nome_proprio": "Mario",
+    "cognome": "Rossi",
+    "codice_fiscale": "12345678901"
+  }
+}
+</code></pre>
+<h2 id="use-recommended-names-in-schemas">use-recommended-names-in-schemas</h2>
+<p>Use well defined parameter and schema names, deriving them
+from the national ontologies available at <a href="https://w3id.org/italia/onto/">https://w3id.org/italia/onto/</a></p>
+<p>For example, you can model a person using the following names:</p>
+<pre><code>{
+  "en": {
+    "given_name": "Mario",
+    "family_name": "Rossi",
+    "tax_code": "12345678901"
+  },
+  "it": {
+    "nome_proprio": "Mario",
+    "cognome": "Rossi",
+    "codice_fiscale": "12345678901"
+  }
+}
+</code></pre>
 <h2 id="no-swagger-2">no-swagger-2</h2>
 <p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
 <h2 id="sec-securityschemes-oauth-http">sec-securitySchemes-oauth-http</h2>

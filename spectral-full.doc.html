@@ -161,6 +161,40 @@ This is useful to track an API even when its <code>#/info/title</code> changes.<
 <h2 id="use-semver">use-semver</h2>
 <p>The API version field should follow
 <a href="https://semver.org/#semantic-versioning-specification-semver">semantic versioning</a>.</p>
+<h2 id="use-recommended-names-in-parameters">use-recommended-names-in-parameters</h2>
+<p>Use well defined parameter and schema names, deriving them
+from the national ontologies available at <a href="https://w3id.org/italia/onto/">https://w3id.org/italia/onto/</a></p>
+<p>For example, you can model a person using the following names:</p>
+<pre><code>{
+  "en": {
+    "given_name": "Mario",
+    "family_name": "Rossi",
+    "tax_code": "12345678901"
+  },
+  "it": {
+    "nome_proprio": "Mario",
+    "cognome": "Rossi",
+    "codice_fiscale": "12345678901"
+  }
+}
+</code></pre>
+<h2 id="use-recommended-names-in-schemas">use-recommended-names-in-schemas</h2>
+<p>Use well defined parameter and schema names, deriving them
+from the national ontologies available at <a href="https://w3id.org/italia/onto/">https://w3id.org/italia/onto/</a></p>
+<p>For example, you can model a person using the following names:</p>
+<pre><code>{
+  "en": {
+    "given_name": "Mario",
+    "family_name": "Rossi",
+    "tax_code": "12345678901"
+  },
+  "it": {
+    "nome_proprio": "Mario",
+    "cognome": "Rossi",
+    "codice_fiscale": "12345678901"
+  }
+}
+</code></pre>
 <h2 id="number-format">number-format</h2>
 <p>Schema of type number or integer must specify a format
 to express the associated datatype, eg. <code>int32</code>, <code>int64</code>, ...</p>
