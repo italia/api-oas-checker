@@ -1,0 +1,52 @@
+#
+# Naming convention hints
+#
+# $..parameters.[?(@.name && @.name.match("^(nome|cognome|name|surname|cf|fiscalcode)$",i))]
+rules:
+  use-recommended-names-in-parameters: &use-recommended-names
+    description: |-
+      Use well defined parameter and schema names, deriving them
+      from the national ontologies available at https://w3id.org/italia/onto/
+
+      For example, you can model a person using the following names:
+      
+      ```
+      {
+        "en": {
+          "given_name": "Mario",
+          "family_name": "Rossi",
+          "tax_code": "12345678901"
+        },
+        "it": {
+          "nome_proprio": "Mario",
+          "cognome": "Rossi",
+          "codice_fiscale": "12345678901"
+        }
+      }
+      ```
+
+
+    message: |-
+      Use recommended variable names in {{value}}.
+    formats:
+      - oas3
+    severity: info
+    given: >-
+      $..parameters.[?(@.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i) )]
+    then:
+      field: "name"
+      function: pattern
+      functionOptions:
+        match: //
+  use-recommended-names-in-schemas:
+    <<: *use-recommended-names
+    given: '$..[?(@ && @.type=="object")].properties.[?(
+       @property 
+       && @property.match 
+       && @property.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+      )]'
+    then:
+      field: "@key"
+      function: pattern
+      functionOptions:
+        match: //
