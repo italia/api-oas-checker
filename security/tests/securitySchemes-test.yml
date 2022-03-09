@@ -3,28 +3,10 @@ info:
   version: "1.2.3"
   title: "securitySchemes"
 paths:
-  /security-ko-put:
-    put:
-      responses: {}
-  /security-ko-patch:
-    patch:
-      responses: {}
-  /security-empty-ko-patch:
-    patch:
-      responses: {}
-      security: []
-  /security-explicit-ok-patch:
-    patch:
-      responses: {}
-      security:
-        - {}
   /security-ok:
     post:
       security:
         -  BasicAuth: []
-      responses: {}
-  /security-ko-get:
-    get:
       responses: {}
 
 components:
