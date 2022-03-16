@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from 'react';
 import { createUseStyles } from 'react-jss';
 import cx from 'classnames';
 import DOMPurify from 'dompurify';
-import marked from 'marked';
+import { marked } from 'marked';
 import { useDispatch } from 'react-redux';
 import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import { ERROR, WARNING, INFO, HINT, autoLinkRFC } from '../utils.mjs';
@@ -121,7 +121,9 @@ export const ValidationResultItem = ({ resultItem }) => {
 
   const descriptionMarkup = useMemo(
     () => ({
-      __html: DOMPurify.sanitize(marked(autoLinkRFC(resultItem?.description ?? '')), { USE_PROFILES: { html: true } }),
+      __html: DOMPurify.sanitize(marked.parse(autoLinkRFC(resultItem?.description ?? '')), {
+        USE_PROFILES: { html: true },
+      }),
     }),
     [resultItem]
   );

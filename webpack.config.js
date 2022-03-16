@@ -92,10 +92,10 @@ module.exports = {
       languages: ['yaml'],
         customLanguages: [{
           label: 'yaml',
-          entry: 'monaco-yaml/lib/esm/monaco.contribution',
+          entry: ['monaco-yaml', 'vs/basic-languages/yaml/yaml.contribution'],
           worker: {
             id: 'vs/language/yaml/yamlWorker',
-            entry: 'monaco-yaml/lib/esm/yaml.worker.js'
+            entry: 'monaco-yaml/yaml.worker.js'
           }
         }]
     }),
