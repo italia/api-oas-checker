@@ -4,7 +4,7 @@ import { hideBin } from 'yargs/helpers';
 import fs from 'fs';
 import path from 'path';
 import yaml from 'yaml';
-import marked from 'marked';
+import { marked } from 'marked';
 import createDOMPurify from 'dompurify';
 import { JSDOM } from 'jsdom';
 import { getDocFilename, autoLinkRFC } from './src/utils.mjs';
@@ -43,7 +43,7 @@ const rulesMd = Object.entries(doc.rules).reduce(
   [`# ${title}`]
 );
 
-const rulesHtml = DOMPurify.sanitize(marked(rulesMd.join('\n\n')), { USE_PROFILES: { html: true } });
+const rulesHtml = DOMPurify.sanitize(marked.parse(rulesMd.join('\n\n')), { USE_PROFILES: { html: true } });
 const docFilename = getDocFilename(file);
 
 const boostrapCss = fs.readFileSync(
