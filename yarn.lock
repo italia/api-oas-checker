@@ -1388,6 +1388,11 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
+"@splidejs/splide@^3.6.12":
+  version "3.6.12"
+  resolved "https://registry.yarnpkg.com/@splidejs/splide/-/splide-3.6.12.tgz#9b6bede5c99140fd06754990c91e474374566c30"
+  integrity sha512-ggOUAuSxjWuxxL0IQEZcux26KByfKWfYM2HYmvDBdxkXc5evVW+xuECO+3iuciyrJpgcbYTr4hn0cHfbNlYIeA==
+
 "@stoplight/better-ajv-errors@0.0.4":
   version "0.0.4"
   resolved "https://registry.yarnpkg.com/@stoplight/better-ajv-errors/-/better-ajv-errors-0.0.4.tgz#2147e0e4e9918519e885e74b15aa458a89eb2337"
@@ -2063,6 +2068,13 @@ accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.8:
     mime-types "~2.1.34"
     negotiator "0.6.3"
 
+accessible-autocomplete@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/accessible-autocomplete/-/accessible-autocomplete-2.0.4.tgz#e295256c8d268b97c5ab456a1cb084b553ed3eb0"
+  integrity sha512-2p0txrSpvs5wXFUeQJHMheDPTZVSEmiUHWlEPb7vJnv2Dd1xPfoLnBQQMfNbTSit2pL/9sSQYESuD2Yyohd4Yw==
+  dependencies:
+    preact "^8.3.1"
+
 acorn-globals@^6.0.0:
   version "6.0.0"
   resolved "https://registry.yarnpkg.com/acorn-globals/-/acorn-globals-6.0.0.tgz#46cdd39f0f8ff08a876619b55f5ac8a6dc770b45"
@@ -2550,16 +2562,20 @@ boolbase@^1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap-italia@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-italia/-/bootstrap-italia-1.5.2.tgz#7a6078dee588f7220e61516f01430b36a5f34b12"
-  integrity sha512-NHrkU+hZSJvJE+TtmMyVrX/Yt/kpxFt+hINsdZltU+j5XpQ4oxgWEr7OaYAXGaXv1lFkJ0SiWAmHDwzNF1hc8Q==
+bootstrap-italia@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/bootstrap-italia/-/bootstrap-italia-1.6.0.tgz#a7e94c64731ea42698fc310e724d0e45df622be5"
+  integrity sha512-23a+cjHb8Q1svQYae2mFaKgbnVrN5urUwKY2CtDOOOoLlHcv8wQqWW5q02a3+es5nMb/aASXbTUwbHo62QiMsQ==
   dependencies:
+    "@splidejs/splide" "^3.6.12"
+    accessible-autocomplete "^2.0.4"
     ansi-regex "^6.0.1"
     bootstrap "^4.6.1"
     bootstrap-select "^1.13.18"
     glob-parent "^6.0.2"
     jquery "^3.6.0"
+    just-validate "^3.5.0"
+    just-validate-plugin-date "^1.1.1"
     nth-check "^2.0.1"
     owl.carousel "2.3.4"
     popper.js "1.16.1"
@@ -3261,6 +3277,11 @@ data-urls@^3.0.1:
     abab "^2.0.3"
     whatwg-mimetype "^3.0.0"
     whatwg-url "^10.0.0"
+
+date-fns@2.28.0:
+  version "2.28.0"
+  resolved "https://registry.yarnpkg.com/date-fns/-/date-fns-2.28.0.tgz#9570d656f5fc13143e50c975a3b6bbeb46cd08b2"
+  integrity sha512-8d35hViGYx/QH0icHYCeLmsLmMUheMmTyV9Fcm6gvNwdw31yXXH+O85sOBJ+OLnLQMKZowvpKb6FgMIQjcpvQw==
 
 debug@2.6.9, debug@^2.2.0, debug@^2.3.3, debug@^2.6.9:
   version "2.6.9"
@@ -6036,6 +6057,18 @@ jss@10.9.0:
     array-includes "^3.1.3"
     object.assign "^4.1.2"
 
+just-validate-plugin-date@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/just-validate-plugin-date/-/just-validate-plugin-date-1.1.1.tgz#3a1cfaa226de67336fa00fd640b9fb30e8652870"
+  integrity sha512-CAPSaZ3TGtDQjweMymMG1br1wMLUz2y0/T7idH2HqERSdM2abpKFVa5/+uvK2XAPn1AV01Y0n/8P95g6aEx4Ag==
+  dependencies:
+    date-fns "2.28.0"
+
+just-validate@^3.5.0:
+  version "3.5.1"
+  resolved "https://registry.yarnpkg.com/just-validate/-/just-validate-3.5.1.tgz#985499e726233ef142fdc4f4f52e8a15bc6d6d21"
+  integrity sha512-NKuUFjhd/O7fi4Y/n27VUeXv1dDfkIUx5MeDOs+fW7yXmDfH37MvYT43c+GxYx9DXUOymtnoK9dGINfAKKssnQ==
+
 kind-of@^3.0.2, kind-of@^3.0.3, kind-of@^3.2.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/kind-of/-/kind-of-3.2.2.tgz#31ea21a734bab9bbb0f32466d893aea51e4a3c64"
@@ -7269,6 +7302,11 @@ postcss@^8.3.5, postcss@^8.4.7:
     nanoid "^3.3.1"
     picocolors "^1.0.0"
     source-map-js "^1.0.2"
+
+preact@^8.3.1:
+  version "8.5.3"
+  resolved "https://registry.yarnpkg.com/preact/-/preact-8.5.3.tgz#78c2a5562fcecb1fed1d0055fa4ac1e27bde17c1"
+  integrity sha512-O3kKP+1YdgqHOFsZF2a9JVdtqD+RPzCQc3rP+Ualf7V6rmRDchZ9MJbiGTT7LuyqFKZqlHSOyO/oMFmI2lVTsw==
 
 prelude-ls@^1.2.1:
   version "1.2.1"
