@@ -1,9 +1,4 @@
-import {
-  FOCUS_DOCUMENT_LINE,
-  SET_DOCUMENT_URL,
-  SET_DOCUMENT_TEXT,
-  SET_DOCUMENT_TEXT_PARAMETER,
-} from '../actionTypes.js';
+import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_URL, SET_DOCUMENT_TEXT } from '../actionTypes.js';
 import { DEFAULT_DOCUMENT_URL } from '../../utils.mjs';
 
 const queryParams = new URLSearchParams(window.location.search);
@@ -33,12 +28,6 @@ export default function (state = initialState, action) {
         ...state,
         url: action.url,
         textParameter: null,
-      };
-    case SET_DOCUMENT_TEXT_PARAMETER:
-      return {
-        ...state,
-        textParameter: action.textParameter,
-        url: null, // Invalidate document url in order to allow the reload of the same url if the text has been changed
       };
     default:
       return state;
