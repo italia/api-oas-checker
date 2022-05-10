@@ -24,7 +24,7 @@
     "typeface-titillium-web": "^1.1.13"
   },
   "devDependencies": {
-    "@babel/core": "^7.17.8",
+    "@babel/core": "^7.17.10",
     "@babel/preset-env": "^7.16.11",
     "@babel/preset-react": "^7.16.7",
     "@babel/preset-typescript": "^7.16.7",
@@ -47,7 +47,7 @@
     "merge-yaml": "^1.1.0",
     "mini-css-extract-plugin": "^2.5.3",
     "monaco-editor-webpack-plugin": "^7.0.1",
-    "prettier": "^2.6.1",
+    "prettier": "^2.6.2",
     "sass": "^1.50.1",
     "sass-loader": "^12.4.0",
     "style-loader": "^3.3.1",
