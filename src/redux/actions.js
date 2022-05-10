@@ -3,6 +3,7 @@ import {
   TOOGLE_MENU,
   SET_VALIDATION_IN_PROGRESS,
   SET_DOCUMENT_TEXT,
+  SET_DOCUMENT_TEXT_PARAMETER,
   FOCUS_DOCUMENT_LINE,
   SET_DOCUMENT_URL,
   SET_RULESET,
@@ -31,6 +32,11 @@ export const setRuleset = (ruleset) => ({
 
 export const setDocumentText = (text) => ({
   type: SET_DOCUMENT_TEXT,
+  text,
+});
+
+export const setDocumentTextParameter = (text) => ({
+  type: SET_DOCUMENT_TEXT_PARAMETER,
   text,
 });
 

@@ -6,7 +6,7 @@ import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
+import { getDocumentTextParameter, getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
 import { ERROR, WARNING, INFO, HINT } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
@@ -31,6 +31,10 @@ const useStyles = createUseStyles({
   },
 });
 
+const b64url_encode = (buf) => window.btoa(buf).replace(/[+=/]/g, (match) => ({ '+': '-', '/': '_', '=': '' }[match]));
+const b64url_decode = (s) =>
+  window.atob(s.replace(/[-_]/g, (match) => ({ '-': '+', _: '/' }[match])) + '='.repeat(3 - ((s.length - 1) % 4)));
+
 const Editor = () => {
   const editorEl = useRef(null);
   const editor = useRef({});
@@ -39,6 +43,7 @@ const Editor = () => {
   const validationResults = useSelector((state) => getValidationResults(state));
   const focusLine = useSelector((state) => getLineToFocus(state));
   const documentUrl = useSelector((state) => getDocumentUrl(state));
+  const documentTextParameter = useSelector((state) => getDocumentTextParameter(state));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -84,23 +89,41 @@ const Editor = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!documentUrl) {
-      return null;
-    }
+    console.log(`Document url: ${documentUrl}`);
 
-    const loadDocumentFromUrl = async () => {
+    const loadDocumentFromUrl = async (documentUrl) => {
       try {
         const { data: text } = await axios.get(documentUrl);
         editor.current.getModel().setValue(text);
         dispatch(setDocumentText(text));
+        console.log('Document text', b64url_encode(text));
       } catch (e) {
         console.error(e);
         alert(e.message);
       }
     };
 
-    loadDocumentFromUrl();
-  }, [documentUrl, dispatch]);
+    const loadDocumentFromTextParam = (textParam) => {
+      try {
+        const { data: text } = { data: b64url_decode(textParam) };
+        editor.current.getModel().setValue(text);
+        dispatch(setDocumentText(text));
+        console.log('Document text', b64url_encode(text));
+      } catch (e) {
+        console.error(e);
+        alert(e.message);
+      }
+    };
+
+    if (documentTextParameter) {
+      console.log('Loading document from text', documentTextParameter);
+      return loadDocumentFromTextParam(documentTextParameter);
+    } else if (documentUrl) {
+      loadDocumentFromUrl(documentUrl);
+    } else {
+      return null;
+    }
+  }, [documentUrl, documentTextParameter, dispatch]);
 
   useEffect(() => {
     if (validationResults === null) {
