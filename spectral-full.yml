@@ -926,8 +926,8 @@ rules:
     formats:
       - oas3
     severity: error
-    given: $.paths.[*].responses[?(@property &&
-      @property.match(/^(4|5|default)/))].content.*~
+    given: $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/) &&
+      !@["x-noqa"] )].content.*~
     then:
       function: enumeration
       functionOptions:
@@ -963,7 +963,7 @@ rules:
     severity: hint
     recommended: false
     given: $.paths.[*].responses[?(@property &&
-      @property.match(/^(4|5|default)/))][[schema]]
+      @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][[schema]]
     then:
       function: schema
       functionOptions:
@@ -1022,8 +1022,8 @@ rules:
       - oas3
     severity: hint
     recommended: true
-    given: $..[responses][?(@property &&
-      @property.match(/^(4|5|default)/))][[schema]][properties].*~
+    given: $..[responses][?(@property && @property.match(/^(4|5|default)/)  &&
+      !@["x-noqa"] )][[schema]][properties].*~
     then:
       field: "@key"
       function: pattern
