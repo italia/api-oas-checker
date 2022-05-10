@@ -17,7 +17,9 @@ export const CopyUrlButton = () => {
       <DropdownMenu>
         <DropdownItem>
           <Icon className="left" icon="it-copy" aria-hidden size="sm" />
-          <a href={window.location.href + '?text=' + b64url_encode(documentText)}>editor text as URL</a>
+          <a href={window.location.origin + window.location.pathname + '?text=' + b64url_encode(documentText)}>
+            editor text as URL
+          </a>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
