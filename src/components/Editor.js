@@ -7,7 +7,7 @@ import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentTextParameter, getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR, WARNING, INFO, HINT } from '../utils.mjs';
+import { ERROR, WARNING, INFO, HINT, b64url_encode, b64url_decode } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
@@ -30,10 +30,6 @@ const useStyles = createUseStyles({
     backgroundColor: 'var(--primary)',
   },
 });
-
-const b64url_encode = (buf) => window.btoa(buf).replace(/[+=/]/g, (match) => ({ '+': '-', '/': '_', '=': '' }[match]));
-const b64url_decode = (s) =>
-  window.atob(s.replace(/[-_]/g, (match) => ({ '-': '+', _: '/' }[match])) + '='.repeat(3 - ((s.length - 1) % 4)));
 
 const Editor = () => {
   const editorEl = useRef(null);

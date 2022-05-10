@@ -30,3 +30,7 @@ export const downloadFile = (content, fileName, contentType) => {
 };
 
 export const autoLinkRFC = (text) => text.replace(/(rfc[0-9]+)/gi, '[$1](https://tools.ietf.org/html/$1)');
+export const b64url_encode = (buf) =>
+  window.btoa(buf).replace(/[+=/]/g, (match) => ({ '+': '-', '/': '_', '=': '' }[match]));
+export const b64url_decode = (s) =>
+  window.atob(s.replace(/[-_]/g, (match) => ({ '-': '+', _: '/' }[match])) + '='.repeat(3 - ((s.length - 1) % 4)));
