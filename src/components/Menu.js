@@ -38,7 +38,6 @@ export const Menu = () => {
         <div className={classes.buttonContainer}>
           <CopyUrlButton />
         </div>
-
       </section>
       <section className="border-top">
         <div className={classes.buttonContainer}>

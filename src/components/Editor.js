@@ -7,7 +7,7 @@ import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
 import { getDocumentTextParameter, getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR, WARNING, INFO, HINT, b64url_encode, b64url_decode } from '../utils.mjs';
+import { ERROR, WARNING, INFO, HINT, b64url_decode } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
@@ -85,14 +85,11 @@ const Editor = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    console.log(`Document url: ${documentUrl}`);
-
     const loadDocumentFromUrl = async (documentUrl) => {
       try {
         const { data: text } = await axios.get(documentUrl);
         editor.current.getModel().setValue(text);
         dispatch(setDocumentText(text));
-        console.log('Document text', b64url_encode(text));
       } catch (e) {
         console.error(e);
         alert(e.message);
@@ -104,7 +101,6 @@ const Editor = () => {
         const { data: text } = { data: b64url_decode(textParam) };
         editor.current.getModel().setValue(text);
         dispatch(setDocumentText(text));
-        console.log('Document text', b64url_encode(text));
       } catch (e) {
         console.error(e);
         alert(e.message);
@@ -112,7 +108,6 @@ const Editor = () => {
     };
 
     if (documentTextParameter) {
-      console.log('Loading document from text', documentTextParameter);
       return loadDocumentFromTextParam(documentTextParameter);
     } else if (documentUrl) {
       loadDocumentFromUrl(documentUrl);
