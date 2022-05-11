@@ -17,7 +17,7 @@
     "react": "^18.0.0",
     "react-dom": "^18.0.0",
     "react-jss": "^10.9.0",
-    "react-redux": "^7.2.8",
+    "react-redux": "^8.0.1",
     "redux": "^4.2.0",
     "typeface-lora": "^1.1.13",
     "typeface-roboto-mono": "^1.1.13",
