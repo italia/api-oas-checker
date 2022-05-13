@@ -85,7 +85,7 @@ const Editor = () => {
 
   useEffect(() => {
     if (!documentUrl) {
-      return null;
+      return;
     }
 
     const loadDocumentFromUrl = async () => {
