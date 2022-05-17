@@ -4,9 +4,20 @@ import { useSelector } from 'react-redux';
 import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { b64url_encode } from '../utils.mjs';
 
+const MAX_SNIPPET_SIZE = 16000;
+
 export const CopyUrlButton = () => {
   const validationInProgress = useSelector((state) => isValidationInProgress(state));
   const documentText = useSelector((state) => getDocumentText(state));
+  const isDocumentTextTooLong = (documentText) => new TextEncoder().encode(documentText).length > MAX_SNIPPET_SIZE;
+  const editorTextAsUrl = () => {
+    if (isDocumentTextTooLong(documentText)) {
+      alert('Snippet is too long.');
+    } else {
+      const url = `${window.location.origin}${window.location.pathname}?text=${b64url_encode(documentText)}`;
+      window.location.href = url;
+    }
+  };
 
   const [open, toggle] = useState(false);
   return (
@@ -17,9 +28,7 @@ export const CopyUrlButton = () => {
       <DropdownMenu>
         <DropdownItem>
           <Icon className="left" icon="it-copy" aria-hidden size="sm" />
-          <a href={window.location.origin + window.location.pathname + '?text=' + b64url_encode(documentText)}>
-            editor text as URL
-          </a>
+          <span onClick={editorTextAsUrl}>Editor text as URL</span>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
