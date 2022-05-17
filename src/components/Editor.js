@@ -108,11 +108,11 @@ const Editor = () => {
     };
 
     if (documentTextParameter) {
-      return loadDocumentFromTextParam(documentTextParameter);
+      loadDocumentFromTextParam(documentTextParameter);
     } else if (documentUrl) {
       loadDocumentFromUrl(documentUrl);
     } else {
-      return null;
+      return;
     }
   }, [documentUrl, documentTextParameter, dispatch]);
 
