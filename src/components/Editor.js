@@ -6,8 +6,8 @@ import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
-import { ERROR, WARNING, INFO, HINT } from '../utils.mjs';
+import { getDocumentTextParameter, getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
+import { ERROR, WARNING, INFO, HINT, b64url_decode } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
 const useStyles = createUseStyles({
@@ -39,6 +39,7 @@ const Editor = () => {
   const validationResults = useSelector((state) => getValidationResults(state));
   const focusLine = useSelector((state) => getLineToFocus(state));
   const documentUrl = useSelector((state) => getDocumentUrl(state));
+  const documentTextParameter = useSelector((state) => getDocumentTextParameter(state));
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -84,11 +85,7 @@ const Editor = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    if (!documentUrl) {
-      return;
-    }
-
-    const loadDocumentFromUrl = async () => {
+    const loadDocumentFromUrl = async (documentUrl) => {
       try {
         const { data: text } = await axios.get(documentUrl);
         editor.current.getModel().setValue(text);
@@ -99,8 +96,25 @@ const Editor = () => {
       }
     };
 
-    loadDocumentFromUrl();
-  }, [documentUrl, dispatch]);
+    const loadDocumentFromTextParam = (textParam) => {
+      try {
+        const { data: text } = { data: b64url_decode(textParam) };
+        editor.current.getModel().setValue(text);
+        dispatch(setDocumentText(text));
+      } catch (e) {
+        console.error(e);
+        alert(e.message);
+      }
+    };
+
+    if (documentTextParameter) {
+      loadDocumentFromTextParam(documentTextParameter);
+    } else if (documentUrl) {
+      loadDocumentFromUrl(documentUrl);
+    } else {
+      return;
+    }
+  }, [documentUrl, documentTextParameter, dispatch]);
 
   useEffect(() => {
     if (validationResults === null) {
