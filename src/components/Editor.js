@@ -85,10 +85,13 @@ const Editor = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const loadDocumentFromUrl = async (documentUrl) => {
+    if (!documentUrl) {
+      return;
+    }
+
+    const loadDocumentFromUrl = async () => {
       try {
         const { data: text } = await axios.get(documentUrl);
-        editor.current.getModel().setValue(text);
         dispatch(setDocumentText(text));
       } catch (e) {
         console.error(e);
