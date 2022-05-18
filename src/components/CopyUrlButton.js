@@ -15,7 +15,14 @@ export const CopyUrlButton = () => {
       alert('Snippet is too long.');
     } else {
       const url = `${window.location.origin}${window.location.pathname}?text=${b64url_encode(documentText)}`;
-      window.location.href = url;
+      if (window.navigator.clipboard) {
+        window.navigator.clipboard.writeText(url).then(() => {
+          alert('Snippet url copied to clipboard!');
+        });
+      } else {
+        alert('Dev mode: snipped url is only available in console');
+        console.log(`Snippet url: ${url}`);
+      }
     }
   };
 
