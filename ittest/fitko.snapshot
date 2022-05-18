@@ -27,7 +27,6 @@ https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318
  5:8  warning  sec-number-boundaries  Schema of type number or integer must specify a maximum and a minimum. #/schema `schema.maximum` property should be defined  schema
 
 https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/routing-api.yaml
-   2:6     error  has-x-api-id                         API must have an unique identifier in x-api-id in #/info/x-api-id.                                                                    info
    2:6     error  has-x-summary                        API MUST have an one-liner #/info/x-summary field containing a brief description.                                                     info
   11:10  warning  oas3-server-trailing-slash           Server URL should not have a trailing slash.                                                                                          servers[0].url
   13:10  warning  oas3-server-trailing-slash           Server URL should not have a trailing slash.                                                                                          servers[1].url
@@ -118,5 +117,5 @@ https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318
   1:1  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.
  6:12  warning  sec-no-default-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  properties
 
-✖ 82 problems (8 errors, 74 warnings, 0 infos, 0 hints)
+✖ 81 problems (7 errors, 74 warnings, 0 infos, 0 hints)
 
