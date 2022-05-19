@@ -153,7 +153,7 @@ export const ValidationResultItem = ({ resultItem }) => {
         <div className={classes.resultMessage}>{resultItem.message}</div>
       </div>
 
-      <Modal fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+      <Modal fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal} className={'modal-xl'}>
         <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
           {resultItem.code}
         </ModalHeader>
