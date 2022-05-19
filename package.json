@@ -21,7 +21,7 @@
     "react-jss": "^10.9.0",
     "react-redux": "^7.2.8",
     "redux": "^4.2.0",
-    "swagger-ui-react": "^4.11.0",
+    "swagger-ui-react": "^4.11.1",
     "typeface-lora": "^1.1.13",
     "typeface-roboto-mono": "^1.1.13",
     "typeface-titillium-web": "^1.1.13"
