@@ -28,21 +28,6 @@ export const ShowButton = () => {
       }
     }
   };
-  /*
-  import { createUseStyles } from 'react-jss';
-
-  const useStyles = createUseStyles({
-    modalFullScreen: {
-      minWidth: '100% !important',
-      margin: '0 !important',
-      padding: '40px',
-    },
-    description: {
-      verticalAlign: 'top',
-      padding: '1em',
-    },
-  });
-  */
   const [isModalOpen, closeModal, openModal] = useModalView();
   const handleConfirmAction = useCallback(() => {
     closeModal();
@@ -61,7 +46,7 @@ export const ShowButton = () => {
         </DropdownItem>
 
         <DropdownItem onClick={openModal}>
-          <Icon className="left" icon="it-upload" aria-hidden size="sm" />
+          <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
           Show schema
           <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
             <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
