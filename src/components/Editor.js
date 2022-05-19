@@ -89,7 +89,7 @@ const Editor = () => {
       return;
     }
 
-    const loadDocumentFromUrl = async () => {
+    const loadDocumentFromUrl = async (documentUrl) => {
       try {
         const { data: text } = await axios.get(documentUrl);
         dispatch(setDocumentText(text));

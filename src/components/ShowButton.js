@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Icon } from 'design-react-kit';
 import { useSelector } from 'react-redux';
+import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { b64url_encode } from '../utils.mjs';
+import { SwaggerPanel } from './SwaggerPanel.js';
+import useModalView from './useModalView.js';
 
 const MAX_SNIPPET_SIZE = 16000;
 
-export const CopyUrlButton = () => {
+export const ShowButton = () => {
   const validationInProgress = useSelector((state) => isValidationInProgress(state));
   const documentText = useSelector((state) => getDocumentText(state));
   const isDocumentTextTooLong = (documentText) => new TextEncoder().encode(documentText).length > MAX_SNIPPET_SIZE;
@@ -25,6 +28,25 @@ export const CopyUrlButton = () => {
       }
     }
   };
+  /*
+  import { createUseStyles } from 'react-jss';
+
+  const useStyles = createUseStyles({
+    modalFullScreen: {
+      minWidth: '100% !important',
+      margin: '0 !important',
+      padding: '40px',
+    },
+    description: {
+      verticalAlign: 'top',
+      padding: '1em',
+    },
+  });
+  */
+  const [isModalOpen, closeModal, openModal] = useModalView();
+  const handleConfirmAction = useCallback(() => {
+    closeModal();
+  }, [closeModal]);
 
   const [open, toggle] = useState(false);
   return (
@@ -36,6 +58,24 @@ export const CopyUrlButton = () => {
         <DropdownItem>
           <Icon className="left" icon="it-copy" aria-hidden size="sm" />
           <span onClick={editorTextAsUrl}>Editor text as URL</span>
+        </DropdownItem>
+
+        <DropdownItem onClick={openModal}>
+          <Icon className="left" icon="it-upload" aria-hidden size="sm" />
+          Show schema
+          <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+            <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+              Mostra schema
+            </ModalHeader>
+            <ModalBody className="mt-3" tag="div">
+              <SwaggerPanel />
+            </ModalBody>
+            <ModalFooter tag="div">
+              <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
         </DropdownItem>
       </DropdownMenu>
     </Dropdown>
