@@ -1,6 +1,10 @@
+import React from 'react';
 import { Document, Parsers } from '@stoplight/spectral';
 import { useSelector } from 'react-redux';
+import YAML from 'yaml';
 import { getDocumentText } from '../redux/selectors.js';
+import TableSearch from './TableSearch.js';
+import './APICanvasPanel.css';
 
 function listOpenapiSchemas(document) {
   const operations = [];
@@ -294,5 +298,19 @@ export const APICanvasPanel = () => {
   const ops = listOperations(document.data);
   console.log('rows', ops);
 
-  return JSON.stringify(ops, null, 2);
+  // return JSON.stringify(ops, null, 2);
+  return (
+    <TableSearch
+      className={'apiCanvas'}
+      data={mock.map((row) => ({
+        id: row.id,
+        goal: YAML.stringify(row.goal),
+        who: YAML.stringify(row.who),
+        what: row.what,
+        how: row.how,
+        inputs: YAML.stringify(row.inputs),
+        outputs: YAML.stringify(row.outputs),
+      }))}
+    />
+  );
 };
