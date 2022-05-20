@@ -7,6 +7,7 @@ import { b64url_encode } from '../utils.mjs';
 import { SwaggerPanel } from './SwaggerPanel.js';
 import { APICanvasPanel } from './APICanvasPanel.js';
 import useModalView from './useModalView.js';
+import './SwaggerPanel.css';
 
 const MAX_SNIPPET_SIZE = 16000;
 
@@ -29,10 +30,59 @@ export const ShowButton = () => {
       }
     }
   };
-  const [isModalOpen, closeModal, openModal] = useModalView();
-  const handleConfirmAction = useCallback(() => {
-    closeModal();
-  }, [closeModal]);
+
+  const SwaggerPanelModal = () => {
+    const [isModalOpen, closeModal, openModal] = useModalView();
+    const handleConfirmAction = useCallback(() => {
+      closeModal();
+    }, [closeModal]);
+
+    return (
+      <DropdownItem onClick={openModal}>
+        <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
+        Show schema
+        <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+          <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+            Schemas
+          </ModalHeader>
+          <ModalBody className="mt-3" tag="div">
+            <SwaggerPanel />
+          </ModalBody>
+          <ModalFooter tag="div">
+            <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </DropdownItem>
+    );
+  };
+
+  const APICanvasPanelModal = () => {
+    const [isModalOpen, closeModal, openModal] = useModalView();
+    const handleConfirmAction = useCallback(() => {
+      closeModal();
+    }, [closeModal]);
+    return (
+      <DropdownItem onClick={openModal}>
+        <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
+        Show API Canvas
+        <Modal className={'modal-fs'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+          <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+            API Canvas
+          </ModalHeader>
+          <ModalBody className="mt-3" tag="div">
+            <APICanvasPanel />
+          </ModalBody>
+          <ModalFooter tag="div">
+            <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </DropdownItem>
+    );
+  };
 
   const [open, toggle] = useState(false);
   return (
@@ -45,42 +95,8 @@ export const ShowButton = () => {
           <Icon className="left" icon="it-copy" aria-hidden size="sm" />
           <span onClick={editorTextAsUrl}>Editor text as URL</span>
         </DropdownItem>
-
-        <DropdownItem onClick={openModal}>
-          <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
-          Show schema
-          <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
-            <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
-              Schemas
-            </ModalHeader>
-            <ModalBody className="mt-3" tag="div">
-              <SwaggerPanel />
-            </ModalBody>
-            <ModalFooter tag="div">
-              <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </DropdownItem>
-
-        <DropdownItem onClick={openModal}>
-          <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
-          Show API Canvas
-          <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
-            <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
-              API Canvas
-            </ModalHeader>
-            <ModalBody className="mt-3" tag="div">
-              <APICanvasPanel />
-            </ModalBody>
-            <ModalFooter tag="div">
-              <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
-                Close
-              </Button>
-            </ModalFooter>
-          </Modal>
-        </DropdownItem>
+        {SwaggerPanelModal()}
+        {APICanvasPanelModal()}
       </DropdownMenu>
     </Dropdown>
   );

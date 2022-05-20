@@ -2,32 +2,18 @@ import React from 'react';
 import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table';
 // A library for fuzzy filtering/sorting items
 import { matchSorter } from 'match-sorter';
+import { renderMarkdown } from '../utils.mjs';
 
-// Define a default UI for filtering
-function GlobalFilter({ preGlobalFilteredRows, globalFilter, setGlobalFilter }) {
-  const count = preGlobalFilteredRows.length;
-  const [value, setValue] = React.useState(globalFilter);
-  const onChange = useAsyncDebounce((value) => {
-    setGlobalFilter(value || undefined);
-  }, 200);
-
-  return (
-    <span>
-      Search:{' '}
-      <input
-        value={value || ''}
-        onChange={(e) => {
-          setValue(e.target.value);
-          onChange(e.target.value);
-        }}
-        placeholder={`${count} records...`}
-        style={{
-          fontSize: '1.1rem',
-          border: '0',
-        }}
-      />
-    </span>
+function MyCell({ value, columnProps: columnProps = null }) {
+  console.log('MyCell', value, columnProps);
+  const descriptionMarkup = React.useMemo(
+    () => ({
+      __html: renderMarkdown(value ?? ''),
+    }),
+    [value]
   );
+
+  return <div dangerouslySetInnerHTML={descriptionMarkup} />;
 }
 
 // Define a default UI for filtering
@@ -42,37 +28,6 @@ function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter
       }}
       placeholder={`Search ${count} records...`}
     />
-  );
-}
-
-// This is a custom filter UI for selecting
-// a unique option from a list
-function SelectColumnFilter({ column: { filterValue, setFilter, preFilteredRows, id } }) {
-  // Calculate the options for filtering
-  // using the preFilteredRows
-  const options = React.useMemo(() => {
-    const options = new Set();
-    preFilteredRows.forEach((row) => {
-      options.add(row.values[id]);
-    });
-    return [...options.values()];
-  }, [id, preFilteredRows]);
-
-  // Render a multi-select box
-  return (
-    <select
-      value={filterValue}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined);
-      }}
-    >
-      <option value="">All</option>
-      {options.map((option, i) => (
-        <option key={i} value={option}>
-          {option}
-        </option>
-      ))}
-    </select>
   );
 }
 
@@ -137,7 +92,7 @@ function Table({ columns, data, className }) {
 
   return (
     <>
-      <table className={'apiCanvas'} {...getTableProps()}>
+      <table className={className} {...getTableProps()}>
         <thead>
           {headerGroups.map((headerGroup) => (
             <tr {...headerGroup.getHeaderGroupProps()}>
@@ -156,13 +111,7 @@ function Table({ columns, data, className }) {
               style={{
                 textAlign: 'left',
               }}
-            >
-              <GlobalFilter
-                preGlobalFilteredRows={preGlobalFilteredRows}
-                globalFilter={state.globalFilter}
-                setGlobalFilter={setGlobalFilter}
-              />
-            </th>
+            ></th>
           </tr>
         </thead>
         <tbody {...getTableBodyProps()}>
@@ -180,7 +129,7 @@ function Table({ columns, data, className }) {
       </table>
       <br />
       <div>
-        Showing the first ß{pageSize} results of {rows.length} rows
+        Showing the first {pageSize} results of {rows.length} rows
       </div>
       <div>
         <pre>
@@ -205,7 +154,7 @@ function filterGreaterThan(rows, id, filterValue) {
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
 
-export default function TableSearch({ data: data, className: className }) {
+export default function TableSearch({ data, className }) {
   const columns = React.useMemo(
     () => [
       {
@@ -230,26 +179,31 @@ export default function TableSearch({ data: data, className: className }) {
             Header: 'Who',
             accessor: 'who',
             filter: 'fuzzyText',
+            Cell: MyCell,
           },
           {
             Header: 'What',
             accessor: 'what',
             filter: 'fuzzyText',
+            Cell: MyCell,
           },
           {
             Header: 'How',
             accessor: 'how',
             filter: 'includes',
+            Cell: MyCell,
           },
           {
             Header: 'Inputs',
             accessor: 'inputs',
             filter: 'includes',
+            Cell: MyCell,
           },
           {
             Header: 'Outputs',
             accessor: 'outputs',
             filter: 'includes',
+            Cell: MyCell,
           },
         ],
       },
@@ -257,8 +211,6 @@ export default function TableSearch({ data: data, className: className }) {
     []
   );
 
-  console.log('data', data);
   const indata = React.useMemo(() => data, [data]);
-
   return <Table className={className} columns={columns} data={indata} />;
 }
