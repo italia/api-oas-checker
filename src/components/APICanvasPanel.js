@@ -1,23 +1,12 @@
 import React from 'react';
 import { Document, Parsers } from '@stoplight/spectral';
-import { useSelector } from 'react-redux';
+import { CSVLink } from 'react-csv';
 import YAML from 'yaml';
+import { useSelector } from 'react-redux';
 import { getDocumentText } from '../redux/selectors.js';
 import TableSearch from './TableSearch.js';
-import './APICanvasPanel.css';
 
-function listOpenapiSchemas(document) {
-  const operations = [];
-  if (document.components && document.components.schemas) {
-    Object.keys(document.components.schemas).forEach((schemaName) => {
-      const schema = document.components.schemas[schemaName];
-      if (schema.properties) {
-        operations.push(schema.properties);
-      }
-    });
-  }
-  return operations;
-}
+import './APICanvasPanel.css';
 
 function renderSchema(schema) {
   const nativeTypes = ['object', 'array', 'string', 'number'];
@@ -124,25 +113,33 @@ function listOperations(document) {
 }
 
 export const APICanvasPanel = () => {
-  const documentText = useSelector((state) => getDocumentText(state));
-  const document = new Document(documentText, Parsers.Yaml);
-  console.log('spectral document', document);
-  const ops = listOperations(document.data);
-  console.log('rows', ops);
-
-  // return JSON.stringify(ops, null, 2);
-  return (
-    <TableSearch
-      className={'apiCanvas'}
-      data={ops.map((row) => ({
-        id: row.id,
-        goal: YAML.stringify(row.goal),
-        who: YAML.stringify(row.who),
-        what: row.what,
-        how: row.how,
-        inputs: YAML.stringify(row.inputs),
-        outputs: YAML.stringify(row.outputs),
-      }))}
-    />
-  );
+  try {
+    const documentText = useSelector((state) => getDocumentText(state));
+    const document = new Document(documentText, Parsers.Yaml);
+    console.log('spectral document', document);
+    const oas = document.data;
+    const ops = listOperations(oas);
+    const rows = ops.map((row) => ({
+      id: row.id,
+      goal: YAML.stringify(row.goal),
+      who: YAML.stringify(row.who),
+      what: row.what,
+      how: row.how,
+      inputs: YAML.stringify(row.inputs),
+      outputs: YAML.stringify(row.outputs),
+    }));
+    console.log('rows', rows);
+    const csvFilename = `${oas.info.title.replace('', '_') + oas.info.version}-canvas.csv`;
+    return (
+      <div>
+        <CSVLink data={rows} filename={csvFilename}>
+          Download Canvas
+        </CSVLink>
+        <TableSearch className={'apiCanvas'} data={rows} />
+      </div>
+    );
+  } catch (e) {
+    console.error(e);
+    return <div>Cannot render a canvas of an invalid OAS specification.</div>;
+  }
 };
