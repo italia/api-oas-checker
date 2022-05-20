@@ -122,7 +122,9 @@ function Table({ columns, data, className }) {
             return (
               <tr key={rowId} {...row.getRowProps()}>
                 {row.cells.map((cell, cellId) => (
-                  <td key={cellId} {...cell.getCellProps()}>{cell.render('Cell')}</td>
+                  <td key={cellId} {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
                 ))}
               </tr>
             );
