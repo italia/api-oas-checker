@@ -1,11 +1,12 @@
 import React from 'react';
-import { useTable, useFilters, useGlobalFilter, useAsyncDebounce } from 'react-table';
+import { useTable, useFilters, useGlobalFilter } from 'react-table';
+import PropTypes from 'prop-types';
 // A library for fuzzy filtering/sorting items
 import { matchSorter } from 'match-sorter';
 import { renderMarkdown } from '../utils.mjs';
 
-function MyCell({ value, columnProps: columnProps = null }) {
-  console.log('MyCell', value, columnProps);
+function MyCell({ value }) {
+  console.log('MyCell', value);
   const descriptionMarkup = React.useMemo(
     () => ({
       __html: renderMarkdown(value ?? ''),
@@ -15,6 +16,9 @@ function MyCell({ value, columnProps: columnProps = null }) {
 
   return <div dangerouslySetInnerHTML={descriptionMarkup} />;
 }
+MyCell.propTypes = {
+  value: PropTypes.func.isRequired,
+};
 
 // Define a default UI for filtering
 function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter } }) {
@@ -30,13 +34,21 @@ function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter
     />
   );
 }
-
+DefaultColumnFilter.propTypes = {
+  column: PropTypes.object.isRequired,
+};
 function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
 }
 
 // Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = (val) => !val;
+
+Table.propTypes = {
+  data: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
+  className: PropTypes.string,
+};
 
 // Our table component
 function Table({ columns, data, className }) {
@@ -65,17 +77,7 @@ function Table({ columns, data, className }) {
     []
   );
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    state,
-    visibleColumns,
-    preGlobalFilteredRows,
-    setGlobalFilter,
-  } = useTable(
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, visibleColumns } = useTable(
     {
       columns,
       data,
@@ -115,7 +117,7 @@ function Table({ columns, data, className }) {
           </tr>
         </thead>
         <tbody {...getTableBodyProps()}>
-          {firstPageRows.map((row, i) => {
+          {firstPageRows.map((row) => {
             prepareRow(row);
             return (
               <tr {...row.getRowProps()}>
@@ -153,7 +155,10 @@ function filterGreaterThan(rows, id, filterValue) {
 // will be automatically removed. Normally this is just an undefined
 // check, but here, we want to remove the filter if it's not a number
 filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
-
+TableSearch.propTypes = {
+  data: PropTypes.array.isRequired,
+  className: PropTypes.string,
+};
 export default function TableSearch({ data, className }) {
   const columns = React.useMemo(
     () => [
