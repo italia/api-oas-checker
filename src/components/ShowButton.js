@@ -5,6 +5,7 @@ import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react
 import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { b64url_encode } from '../utils.mjs';
 import { SwaggerPanel } from './SwaggerPanel.js';
+import { APICanvasPanel } from './APICanvasPanel.js';
 import useModalView from './useModalView.js';
 
 const MAX_SNIPPET_SIZE = 16000;
@@ -50,10 +51,28 @@ export const ShowButton = () => {
           Show schema
           <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
             <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
-              Mostra schema
+              Schemas
             </ModalHeader>
             <ModalBody className="mt-3" tag="div">
               <SwaggerPanel />
+            </ModalBody>
+            <ModalFooter tag="div">
+              <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
+                Close
+              </Button>
+            </ModalFooter>
+          </Modal>
+        </DropdownItem>
+
+        <DropdownItem onClick={openModal}>
+          <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
+          Show API Canvas
+          <Modal className={'modal-xl'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+            <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+              API Canvas
+            </ModalHeader>
+            <ModalBody className="mt-3" tag="div">
+              <APICanvasPanel />
             </ModalBody>
             <ModalFooter tag="div">
               <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
