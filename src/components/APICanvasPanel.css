@@ -1,0 +1,16 @@
+/**
+ * APICanvasPanel.css
+ */
+
+.apiCanvas table, tr, td, th {
+  width: 100%;
+  border-style: solid;
+  border-width: thin;
+}
+
+.apiCanvas th {
+    text-align: center;
+    background-color: #0066cc;
+    color: white;
+}
+
