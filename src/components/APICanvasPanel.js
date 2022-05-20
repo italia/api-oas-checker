@@ -6,6 +6,7 @@ import { getDocumentText } from '../redux/selectors.js';
 import TableSearch from './TableSearch.js';
 import './APICanvasPanel.css';
 
+
 function listOpenapiSchemas(document) {
   const operations = [];
   if (document.components && document.components.schemas) {
@@ -103,12 +104,12 @@ function listOperations(document) {
     Object.keys(document.paths).forEach((path) => {
       const p = document.paths[path];
 
-      Object.keys(p).forEach((operation) => {
-        const o = p[operation];
+      Object.keys(p).forEach((method) => {
+        const o = p[method];
         if (o.operationId) {
           const row = {
             id: o.operationId,
-            how: `${operation} ${path}`,
+            how: `${method.toUpperCase()} ${path}`,
             what: o.summary,
             who: o.security,
             goal: o.tags,
