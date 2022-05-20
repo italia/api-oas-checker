@@ -129,7 +129,7 @@ export const APICanvasPanel = () => {
       outputs: YAML.stringify(row.outputs),
     }));
     console.log('rows', rows);
-    const csvFilename = `${oas.info.title.replace('', '_') + oas.info.version}-canvas.csv`;
+    const csvFilename = `${oas.info.title.trim().replace(' ', '_')}-${oas.info.version}-canvas.csv`;
     return (
       <div>
         <CSVLink data={rows} filename={csvFilename}>

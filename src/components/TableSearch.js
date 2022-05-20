@@ -96,10 +96,10 @@ function Table({ columns, data, className }) {
     <>
       <table className={className} {...getTableProps()}>
         <thead>
-          {headerGroups.map((headerGroup) => (
-            <tr {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
-                <th {...column.getHeaderProps()}>
+          {headerGroups.map((headerGroup, i) => (
+            <tr key={i} {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column, j) => (
+                <th key={j} {...column.getHeaderProps()}>
                   {column.render('Header')}
                   {/* Render the columns filter UI */}
                   <div>{column.canFilter ? column.render('Filter') : null}</div>
@@ -117,12 +117,14 @@ function Table({ columns, data, className }) {
           </tr>
         </thead>
         <tbody {...getTableBodyProps()}>
-          {firstPageRows.map((row) => {
+          {firstPageRows.map((row, rowId) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
-                {row.cells.map((cell) => (
-                  <td {...cell.getCellProps()}>{cell.render('Cell')}</td>
+              <tr key={rowId} {...row.getRowProps()}>
+                {row.cells.map((cell, cellId) => (
+                  <td key={cellId} {...cell.getCellProps()}>
+                    {cell.render('Cell')}
+                  </td>
                 ))}
               </tr>
             );
