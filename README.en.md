@@ -146,8 +146,10 @@ see https://github.com/json-path/JsonPath/issues/287#issuecomment-265479196
 
 For more information on spectral rules see https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/getting-started/rulesets.md
 
-## Thanks to
+## Acknowledgements
 
-- Paolo Falomo
-- Vincenzo Chianese
-- Giuseppe De Marco
+Thanks to the following contributors for their code and ideas:
+Paolo Falomo,
+Giuseppe De Marco,
+Francesco Marinucci
+and Vincenzo Chianese.

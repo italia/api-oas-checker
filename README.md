@@ -154,5 +154,7 @@ Per ulteriori informazioni sulle regole di spectral si veda https://stoplight.io
 
 ## Contributi
 
-Grazie a Paolo Falomo
-e a Vincenzo Chianese per i suggerimenti ed i contributi!
+Grazie a Paolo Falomo,
+Francesco Marinucci,
+Giuseppe De Marco
+e Vincenzo Chianese per i suggerimenti ed i contributi!
