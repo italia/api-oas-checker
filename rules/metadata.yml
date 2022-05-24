@@ -58,7 +58,7 @@ rules:
       to an API.
       This is useful to track an API even when its `#/info/title` changes.
     given: $
-    severity: error
+    severity: hint
     recommended: true
     type: style
     then:
