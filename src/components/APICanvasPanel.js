@@ -1,5 +1,7 @@
 import React from 'react';
-import { Document, Parsers } from '@stoplight/spectral';
+import { Document } from '@stoplight/spectral/dist/document';
+import { Yaml } from '@stoplight/spectral/dist/parsers/yaml';
+
 import { CSVLink } from 'react-csv';
 import YAML from 'yaml';
 import { useSelector } from 'react-redux';
@@ -115,7 +117,7 @@ function listOperations(document) {
 export const APICanvasPanel = () => {
   try {
     const documentText = useSelector((state) => getDocumentText(state));
-    const document = new Document(documentText, Parsers.Yaml);
+    const document = new Document(documentText, Yaml);
     console.log('spectral document', document);
     const oas = document.data;
     const ops = listOperations(oas);
