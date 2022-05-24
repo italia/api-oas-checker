@@ -5,7 +5,7 @@ import { UploadFileButton } from './UploadFileButton.js';
 import { ExportResultsButton } from './ExportResultsButton.js';
 import { SaveFileButton } from './SaveFileButton.js';
 import { LoadTestfileButton } from './LoadTestfileButton.js';
-import { CopyUrlButton } from './CopyUrlButton.js';
+import { ShowButton } from './ShowButton.js';
 
 const useStyles = createUseStyles({
   buttonContainer: {
@@ -36,7 +36,7 @@ export const Menu = () => {
           <ExportResultsButton />
         </div>
         <div className={classes.buttonContainer}>
-          <CopyUrlButton />
+          <ShowButton />
         </div>
       </section>
       <section className="border-top">
