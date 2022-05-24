@@ -1,0 +1,21 @@
+/**
+ * APICanvasPanel.css
+ */
+
+.apiCanvas table, .apiCanvas tr, .apiCanvas td, .apiCanvas th {
+  /* width: 100%; */
+  border-style: solid;
+  border-width: thin;
+  border-color: gray;
+}
+
+.apiCanvas table td:first-child {
+  max-width: 20em;
+}
+
+.apiCanvas th {
+    text-align: center;
+    background-color: #0066cc;
+    color: white;
+    border-style: none;
+}

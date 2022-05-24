@@ -1,0 +1,60 @@
+/**
+ * Style for the SwaggerPanel component.
+ */
+
+.mt-3.modal-body .model-box-control {
+  /* Improve nested models rendering. */
+  width: 100%;
+  margin-top: 1em;
+  text-align: left;
+  background-color: #0066cc;
+  color: white;
+  border-style: none;
+}
+
+.mt-3.modal-body table tr {
+    border-style: none;
+    border-color: grey;
+    border-width: thin;
+    padding-right: 1em;
+    vertical-align: top;
+    margin-top: 1em;
+    margin-bottom: 1em;
+    padding-top: 2em;
+    padding-bottom: 2em;
+}
+.mt-3.modal-body table td {
+    min-width: 10em;
+}
+.mt-3.modal-body table td:last-child {
+    min-width: 10em;
+    border-bottom-style: solid;
+    border-bottom-color: grey;
+    border-bottom-width: thin;
+}
+
+/** Font settings */
+.mt-3.modal-body span.prop-type {
+    font-weight: bold;
+}
+.mt-3.modal-body span.prop-format {
+    color: darkred;
+    font-style: italic;
+}
+.mt-3.modal-body .renderedMarkdown {
+    font-weight: bold;
+}
+
+/* Hidden components */
+.mt-3.modal-body span.brace-open  {
+    display: none;
+}
+.mt-3.modal-body span.brace-close  {
+    display: none;
+}
+.mt-3.modal-body .model-hint  {
+    display: none;
+}
+.mt-3.modal-body .models-control {
+  display: none;
+}
