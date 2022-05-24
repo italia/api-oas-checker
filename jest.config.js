@@ -5,7 +5,7 @@ module.exports = {
   },
   transform: { 
     '\\.m?[jt]sx?$': 'babel-jest',
-    "^.+\\.svg$": "jest-svg-transformer"
+    "^.+\\.svg$": "./transformers/svg.js"
   },
   transformIgnorePatterns: ['/node_modules/(?!monaco-editor)/'],
   //ignore css imported in components
