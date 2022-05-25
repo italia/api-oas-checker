@@ -14,4 +14,5 @@ module.exports = {
     'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js',
     '^worker-loader.+$': '<rootDir>/src/mocks/workerMock.js'
   },
+  testEnvironment: "jsdom"
 };
