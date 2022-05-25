@@ -5,7 +5,7 @@ module.exports = {
   },
   transform: { 
     '\\.m?[jt]sx?$': 'babel-jest',
-    "^.+\\.svg$": "jest-svg-transformer"
+    "^.+\\.svg$": "./transformers/svg.js"
   },
   transformIgnorePatterns: ['/node_modules/(?!monaco-editor)/'],
   //ignore css imported in components
@@ -14,4 +14,5 @@ module.exports = {
     'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js',
     '^worker-loader.+$': '<rootDir>/src/mocks/workerMock.js'
   },
+  testEnvironment: "jsdom"
 };
