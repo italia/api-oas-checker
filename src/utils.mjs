@@ -2,6 +2,10 @@
 // I've tried to set package.json to 'module' but webpack didn't work anymore
 // As a quick fix I've used .mjs extension here and in the nodejs script which depends on this module
 
+import LZString from 'lz-string';
+import DOMPurify from 'dompurify';
+import { marked } from 'marked';
+
 export const getDocFilename = (ruleset) => {
   const docFilename = ruleset.split('.')[0]; // Use path-browserify if file name extraction becomes more complex
   return `${docFilename}.doc.html`;
@@ -30,3 +34,10 @@ export const downloadFile = (content, fileName, contentType) => {
 };
 
 export const autoLinkRFC = (text) => text.replace(/(rfc[0-9]+)/gi, '[$1](https://tools.ietf.org/html/$1)');
+export const b64url_encode = (buf) => LZString.compressToEncodedURIComponent(buf);
+export const b64url_decode = (s) => LZString.decompressFromEncodedURIComponent(s);
+export function renderMarkdown(text) {
+  return DOMPurify.sanitize(marked(text), {
+    USE_PROFILES: { html: true },
+  });
+}
