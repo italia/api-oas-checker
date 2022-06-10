@@ -69,7 +69,7 @@ rules:
       PATCH /user/123/enable
       ````
     message: >-
-      PATCH requires a non empty requestBody.
+      PATCH requires a non empty requestBody and requestBody.required set to true.
     severity: error
     given: >-
       $.paths.*.patch
