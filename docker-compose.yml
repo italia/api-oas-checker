@@ -7,12 +7,14 @@ services:
   # $ docker-compose up -d dev
   # $ docker exec -ti -w /code api-oas-checker_dev_1 /bin/bash
   dev:
-    image: node
+    image: node:14.15
     user: $UID:$GID
     working_dir: /code
     volumes:
     - .:/code:z
     - ./.devbashrc:/root/.bashrc
+    - /home/rpolli/.npm:/root/.npm
+    - /home/rpolli/.npm/yarn:/usr/local/share/.cache/yarn
     command: ["tail", "-f", "/etc/hosts"]
   start:
     build:

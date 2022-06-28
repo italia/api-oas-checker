@@ -8,6 +8,7 @@ import { SwaggerPanel } from './SwaggerPanel.js';
 import { APICanvasPanel } from './APICanvasPanel.js';
 import useModalView from './useModalView.js';
 import './SwaggerPanel.css';
+import { SchemaDescriptorPanel } from './SchemaDescriptorPanel.js';
 
 const MAX_SNIPPET_SIZE = 16000;
 
@@ -84,6 +85,32 @@ export const ShowButton = () => {
     );
   };
 
+  const SchemaDescriptorPanelModal = () => {
+    const [isModalOpen, closeModal, openModal] = useModalView();
+    const handleConfirmAction = useCallback(() => {
+      closeModal();
+    }, [closeModal]);
+    return (
+      <DropdownItem onClick={openModal}>
+        <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
+        Show schema description
+        <Modal className={'modal-fs'} fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
+          <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+            Schema description
+          </ModalHeader>
+          <ModalBody className="mt-3" tag="div">
+            <SchemaDescriptorPanel />
+          </ModalBody>
+          <ModalFooter tag="div">
+            <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
+              Close
+            </Button>
+          </ModalFooter>
+        </Modal>
+      </DropdownItem>
+    );
+  };
+
   const [open, toggle] = useState(false);
   return (
     <Dropdown isOpen={open} toggle={() => toggle(!open)}>
@@ -97,6 +124,7 @@ export const ShowButton = () => {
         </DropdownItem>
         {SwaggerPanelModal()}
         {APICanvasPanelModal()}
+        {SchemaDescriptorPanelModal()}
       </DropdownMenu>
     </Dropdown>
   );
