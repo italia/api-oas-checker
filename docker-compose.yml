@@ -7,7 +7,7 @@ services:
   # $ docker-compose up -d dev
   # $ docker exec -ti -w /code api-oas-checker_dev_1 /bin/bash
   dev:
-    image: node
+    image: node:16.15
     user: $UID:$GID
     working_dir: /code
     volumes:
