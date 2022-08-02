@@ -15,6 +15,7 @@ jobs:
         with:
           node-version: '16'
           check-latest: true
+          cache: yarn
       - name: Extra tests
         run: |
           make ittest
