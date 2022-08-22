@@ -188,6 +188,27 @@ from the national ontologies available at <a href="https://w3id.org/italia/onto/
   }
 }
 </code></pre>
+<h2 id="no-method-name-in-operationid">no-method-name-in-operationId</h2>
+<p>Avoid using method names in <code>operationId</code>s because it couples
+the API design with the implementation.</p>
+<p>An operation that edits an entry can be published with different methods,
+for example either POST, PUT or PATCH, and while evolving the API
+you could decide to associate an operationId with another method.</p>
+<p>You can use for example</p>
+<pre><code>openapi: 3.0.1
+...
+paths:
+  /entries:
+    get:
+      operationId: list_entries
+    post:
+      operationId: create_entry
+  /entries/{id}:
+    put:
+      operationId: upsert_entry
+    patch:
+      operationId: edit_entry
+</code></pre>
 <h2 id="no-swagger-2">no-swagger-2</h2>
 <p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
 <h2 id="sec-securityschemes-oauth-http">sec-securitySchemes-oauth-http</h2>

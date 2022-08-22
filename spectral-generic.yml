@@ -459,6 +459,43 @@ rules:
       function: pattern
       functionOptions:
         match: //
+  no-method-name-in-operationId:
+    description: |-
+      Avoid using method names in `operationId`s because it couples
+      the API design with the implementation.
+
+      An operation that edits an entry can be published with different methods,
+      for example either POST, PUT or PATCH, and while evolving the API
+      you could decide to associate an operationId with another method.
+
+      You can use for example
+
+      ```
+      openapi: 3.0.1
+      ...
+      paths:
+        /entries:
+          get:
+            operationId: list_entries
+          post:
+            operationId: create_entry
+        /entries/{id}:
+          put:
+            operationId: upsert_entry
+          patch:
+            operationId: edit_entry
+      ```
+    message: Avoid using method names in operationIds.
+    formats:
+      - oas3
+    severity: hint
+    given: $..[?(@.operationId && @.operationId.match &&
+      @.operationId.match(/^(get|post|put|delete|patch|head)/i) )]
+    then:
+      field: operationId
+      function: pattern
+      functionOptions:
+        match: //
   no-swagger-2:
     description: Swagger 2 files are not allowed. Use OpenAPI >= 3.0
     given: $
