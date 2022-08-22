@@ -32,7 +32,14 @@ paths:
     - name: fiscalNumber
     - name: fiscal_number
     - name: fiscal_code
-
+  /ok-operation:
+    get:
+      operationId: list_entries
+  /ko-operation:
+    get:
+      operationId: get_entries
+    post:
+      operationId: postEntries
 components:
   schemas:
     OkSchemaItalian:
