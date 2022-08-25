@@ -46,6 +46,16 @@ rules:
   paths-status-problem-schema:
     description: |-
       "/status" schema is not a Problem object.
+      
+      It is possible to reuse the [schema provided here](https://github.com/teamdigitale/openapi/blob/master/docs/schemas/problem.yaml),
+      extend it or reference it.
+      
+      ```
+      schemas:
+        Problem:
+          $ref: "https://teamdigitale.github.io/openapi/0.0.7/definitions.yaml#/schemas/Problem"
+      ```
+      
     message: |-
       {{error}} {{path}}
     severity: warn
