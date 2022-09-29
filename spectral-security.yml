@@ -14,7 +14,8 @@ extends: spectral:oas
 rules:
   sec-array-boundaries:
     description: >-
-      Array size should be limited to mitigate resource exhaustion attacks.
+      Array size should be limited to mitigate resource exhaustion
+      attacks.
 
       This can be done using `maxItems` and `minItems`, like in the example
 
@@ -407,7 +408,8 @@ rules:
             - head
   sec-securitySchemes-oauth:
     description: >-
-      Json Web Tokens RFC7519 is a compact, URL-safe means of representing
+      Json Web Tokens RFC7519 is a compact, URL-safe means of
+      representing
 
       claims to be transferred between two parties. JWT can be enclosed in
 
@@ -457,7 +459,8 @@ rules:
           match: .*RFC8725.*
   sec-securitySchemes-jwt:
     description: >-
-      Json Web Tokens RFC7519 is a compact, URL-safe means of representing
+      Json Web Tokens RFC7519 is a compact, URL-safe means of
+      representing
 
       claims to be transferred between two parties. JWT can be enclosed in
 

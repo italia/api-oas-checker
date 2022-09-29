@@ -14,7 +14,8 @@ extends: spectral:oas
 rules:
   cache-control-parameter-undocumented:
     description: >-
-      Cache usage SHOULD be extensively detailed in the `description` property
+      Cache usage SHOULD be extensively detailed in the `description`
+      property
 
       to avoid data leaks or the usage of stale data.
 
@@ -64,7 +65,8 @@ rules:
           match: .*(max-age|private|no-store|no-cache|no-transform).*
   cache-responses-undocumented:
     description: >-
-      Cache usage SHOULD be extensively detailed in the `description` property
+      Cache usage SHOULD be extensively detailed in the `description`
+      property
 
       to avoid data leaks or the usage of stale data.
 
@@ -107,7 +109,8 @@ rules:
     then: *a2
   cache-responses-indeterminate-behavior:
     description: >-
-      Cache usage SHOULD be extensively detailed in the `description` property
+      Cache usage SHOULD be extensively detailed in the `description`
+      property
 
       to avoid data leaks or the usage of stale data.
 
@@ -294,8 +297,8 @@ rules:
       function: undefined
   http-response-no-content-204-205:
     description: >-
-      Responses with the following status codes usually expected to include a
-      content, which might have zero length: 200, 201, 202, 203, 206.
+      Responses with the following status codes usually expected to
+      include a content, which might have zero length: 200, 201, 202, 203, 206.
 
       Responses with status code 204 and 205 MUST NOT include a content.
 
@@ -308,8 +311,8 @@ rules:
       function: falsy
   http-response-content-2xx:
     description: >-
-      Responses with the following status codes usually expected to include a
-      content, which might have zero length: 200, 201, 202, 203, 206.
+      Responses with the following status codes usually expected to
+      include a content, which might have zero length: 200, 201, 202, 203, 206.
 
       Responses with status code 204 and 205 MUST NOT include a content.
 
@@ -794,7 +797,8 @@ rules:
         match: array
   paths-status:
     description: >-
-      You must define a `/status` path that can be used to health-check the API.
+      You must define a `/status` path that can be used to health-check
+      the API.
 
       Using this path avoids the arbitrary usage of a server URL for health-check
 
@@ -851,7 +855,8 @@ rules:
         field: properties.detail
   paths-http-method:
     description: >-
-      When you design a REST API, you don't usually need to mention terms like
+      When you design a REST API, you don't usually need to mention terms
+      like
 
       `get`, `delete` and so on in your `paths`, because this information is
 
