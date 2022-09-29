@@ -1004,21 +1004,26 @@ rules:
     formats:
       - oas3
     severity: hint
-    recommended: false
-    given: $.paths.[*].responses[?(@property &&
-      @property.match(/^(4|5|default)/)  && !@["x-noqa"] )][[schema]]
+    recommended: true
+    given: $..[responses][?(@property && @property.match(/^(4|5|default)/)  &&
+      !@["x-noqa"] )][[schema]].properties
     then:
       function: schema
       functionOptions:
         schema:
-          type: object
-          properties:
-            status:
-              type: integer
-            title:
-              type: string
-            detail:
-              type: string
+          anyOf:
+            - type: object
+              required:
+                - title
+                - status
+            - type: object
+              required:
+                - title
+                - type
+            - type: object
+              required:
+                - type
+                - status
   hint-problem-schema:
     description: |-
       
