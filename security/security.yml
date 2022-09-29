@@ -48,6 +48,9 @@ rules:
           bearerFormat: JWT
       ```
 
+      You can use `security: [{}]` either globally or at operation level
+      in case of GET or HEAD operations that don't need to be protected.
+
     message: >-
       The following unsafe operation is not protected by a `security` rule: {{path}}
     severity: error
