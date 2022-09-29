@@ -1,0 +1,79 @@
+rules:
+  openapi-v3-limit-number-of-sub-resources:
+    description: Ensures that there are not too many sub-resources.
+    message: There should be no more than three levels of sub-resources.
+    severity: warn
+    given: $.paths.*~
+    then:
+      function: pattern
+      functionOptions:
+        match: ^/[^/]*((/{[^}]*})*/[^/]*(/{[^}]*})*){0,3}/?$
+  openapi-v3-limit-number-of-paths:
+    description: Ensures that there are not too many paths.
+    message: There should be no more than 10 paths.
+    severity: warn
+    given: $.paths
+    then:
+      function: count-resource-types
+      functionOptions:
+        max: 10
+  openapi-v3-parameters-name-length:
+    description: Ensures that that parameter names aren't too long.
+    message: Your parameter names should not be longer than 25 characters.
+    given:
+    - $.paths.*.parameters[?(@.in=='query')]
+    - $.components.parameters.[?(@.in=='query')]
+    then:
+      field: name
+      function: length
+      functionOptions:
+        max: 25
+
+  # Max length.
+  openapi-v3-description-max-length:
+    description: |-
+      Ensures that all APIs descriptions and summaries are under a specific length.
+    given:
+    - $.info
+    - $.paths.*
+    severity: hint
+    recommended: true
+    type: style
+    formats:
+      - oas3
+    then:
+    - field: description
+      function: length
+      functionOptions:
+        max: 500
+    - field: description
+      function: length
+      functionOptions:
+        max: 120
+
+  openapi-v3-info-summary-word-check:
+    description: Ensures that all OpenAPIs information object summary do not contain
+      some words.
+    message: The info object summary should not contain the words REST, Public, or
+      Developer.
+    given: $.info.summary
+    severity: error
+    recommended: true
+    type: style
+    formats:
+      - oas3
+    then:
+      function: pattern
+      functionOptions:
+        notMatch: \b(REST|Public|Developer)\b
+  # Examples
+  openapi-v3-parameters-example:
+    description: Ensures that that all parameters have a examples.
+    message: Your parameters all need examples.
+    given:
+    - $.paths.*.*.parameters[?(@.example=='query')]
+    then:
+      - field: example
+        function: truthy
+      - field: examples
+        function: truthy
