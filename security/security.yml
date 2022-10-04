@@ -48,8 +48,16 @@ rules:
           bearerFormat: JWT
       ```
 
-      You can use `security: [{}]` either globally or at operation level
-      in case of GET or HEAD operations that don't need to be protected.
+      If your [safe methods](https://www.rfc-editor.org/rfc/rfc9110.html#name-safe-methods) (e.g. GET, HEAD) don't need to be protected,
+      you need to state it explicitly using an empty security rule: 
+      
+      ```
+      security:
+      - {}
+      ```
+
+      This can be done at operation level or at global level, but the latter is
+      discouraged because it will affect unsafe methods too.
 
     message: >-
       The following unsafe operation is not protected by a `security` rule: {{path}}
