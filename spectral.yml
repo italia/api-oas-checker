@@ -1036,6 +1036,10 @@ rules:
               required:
                 - type
                 - status
+            - type: object
+              required:
+                - title
+                - detail
   hint-problem-schema:
     description: |-
       
