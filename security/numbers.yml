@@ -2,7 +2,7 @@ rules:
   sec-number-boundaries:
     description: |-
       Numeric values should be limited in size to mitigate resource exhaustion
-      using either `maximum` and `minimum` or `enum`.
+      using  both `maximum` and `minimum` or `enum`.
 
       If you delegate input validation to a library or framework,
       be sure to test it thoroughly.
