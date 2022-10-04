@@ -80,7 +80,8 @@ rules:
             required: [title, type]
           - type: object
             required: [type, status]
-
+          - type: object
+            required: [title, detail]
 
   hint-problem-schema:
     description: |-

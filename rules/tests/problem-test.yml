@@ -12,7 +12,17 @@ paths:
                 $ref: '#/components/schemas/Problem'
             application/problem+xml:
               schema:
-                $ref: '#/components/schemas/Problem' 
+                $ref: '#/components/schemas/Problem'
+  /ok-default-alternative-problem:
+    get:
+      responses:
+        "400":
+          $ref: 'https://teamdigitale.github.io/openapi/0.0.5/definitions.yaml#/responses/400BadRequest'
+        default:
+          content:
+            application/problem+json:
+              schema:
+                $ref: '#/components/schemas/AlternativeProblem'
   /ko-default-use-problem:
     get:
       responses:
@@ -76,7 +86,12 @@ components:
         status:
           type: integer
           format: int32
-
+    AlternativeProblem:
+      properties:
+        title:
+          type: string
+        detail:
+          type: string
     ko_Problem:
       properties:
         message:
