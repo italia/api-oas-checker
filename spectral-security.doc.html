@@ -187,6 +187,13 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
+<p>If your <a href="https://www.rfc-editor.org/rfc/%5Brfc9110%5D(https://tools.ietf.org/html/rfc9110).html#name-safe-methods">safe methods</a> (e.g. GET, HEAD) don't need to be protected,
+you need to state it explicitly using an empty security rule: </p>
+<pre><code>security:
+- {}
+</code></pre>
+<p>This can be done at operation level or at global level, but the latter is
+discouraged because it will affect unsafe methods too.</p>
 <h2 id="sec-protection-global-unsafe-strict">sec-protection-global-unsafe-strict</h2>
 <p>Check if the operation is protected at operation level.
 Otherwise, the global <code>#/security</code> property is check.</p>
@@ -224,6 +231,13 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
+<p>If your <a href="https://www.rfc-editor.org/rfc/%5Brfc9110%5D(https://tools.ietf.org/html/rfc9110).html#name-safe-methods">safe methods</a> (e.g. GET, HEAD) don't need to be protected,
+you need to state it explicitly using an empty security rule: </p>
+<pre><code>security:
+- {}
+</code></pre>
+<p>This can be done at operation level or at global level, but the latter is
+discouraged because it will affect unsafe methods too.</p>
 <h2 id="sec-protection-global-safe">sec-protection-global-safe</h2>
 <p>Check if the operation is protected at operation level.
 Otherwise, the global <code>#/security</code> property is check.</p>
@@ -261,6 +275,13 @@ securitySchemes:
     type: bearer
     bearerFormat: JWT
 </code></pre>
+<p>If your <a href="https://www.rfc-editor.org/rfc/%5Brfc9110%5D(https://tools.ietf.org/html/rfc9110).html#name-safe-methods">safe methods</a> (e.g. GET, HEAD) don't need to be protected,
+you need to state it explicitly using an empty security rule: </p>
+<pre><code>security:
+- {}
+</code></pre>
+<p>This can be done at operation level or at global level, but the latter is
+discouraged because it will affect unsafe methods too.</p>
 <h2 id="sec-securityschemes-oauth">sec-securitySchemes-oauth</h2>
 <p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
 claims to be transferred between two parties. JWT can be enclosed in

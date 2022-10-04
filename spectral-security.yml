@@ -227,24 +227,37 @@ rules:
       - field: maxProperties
         function: defined
   sec-protection-global-unsafe:
-    description: |-
+    description: >-
       Check if the operation is protected at operation level.
+
       Otherwise, the global `#/security` property is check.
 
+
       Your API should be protected by a `security` rule either at
+
       global or operation level.
+
       All operations should be protected especially when they
+
       not safe (methods that do not alter the state of the server) 
+
       HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+
       This is done with one or more non-empty `security` rules.
+
 
       Security rules are defined in the `securityScheme` section.
 
+
       An example of a security rule applied at global level.
 
+
       ```
+
       security:
+
       - BasicAuth: []
+
       paths:
         /books: {}
         /users: {}
@@ -254,10 +267,14 @@ rules:
           type: basic
       ```
 
+
       An example of a security rule applied at operation level, which
+
       eventually overrides the global one
 
+
       ```
+
       paths:
         /books:
           post:
@@ -272,6 +289,25 @@ rules:
           type: bearer
           bearerFormat: JWT
       ```
+
+
+      If your [safe methods](https://www.rfc-editor.org/rfc/rfc9110.html#name-safe-methods) (e.g. GET, HEAD) don't need to be protected,
+
+      you need to state it explicitly using an empty security rule: 
+
+
+      ```
+
+      security:
+
+      - {}
+
+      ```
+
+
+      This can be done at operation level or at global level, but the latter is
+
+      discouraged because it will affect unsafe methods too.
     message: "The following unsafe operation is not protected by a `security` rule:
       {{path}}"
     severity: error
@@ -288,24 +324,37 @@ rules:
             - delete
             - put
   sec-protection-global-unsafe-strict:
-    description: |-
+    description: >-
       Check if the operation is protected at operation level.
+
       Otherwise, the global `#/security` property is check.
 
+
       Your API should be protected by a `security` rule either at
+
       global or operation level.
+
       All operations should be protected especially when they
+
       not safe (methods that do not alter the state of the server) 
+
       HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+
       This is done with one or more non-empty `security` rules.
+
 
       Security rules are defined in the `securityScheme` section.
 
+
       An example of a security rule applied at global level.
 
+
       ```
+
       security:
+
       - BasicAuth: []
+
       paths:
         /books: {}
         /users: {}
@@ -315,10 +364,14 @@ rules:
           type: basic
       ```
 
+
       An example of a security rule applied at operation level, which
+
       eventually overrides the global one
 
+
       ```
+
       paths:
         /books:
           post:
@@ -333,6 +386,25 @@ rules:
           type: bearer
           bearerFormat: JWT
       ```
+
+
+      If your [safe methods](https://www.rfc-editor.org/rfc/rfc9110.html#name-safe-methods) (e.g. GET, HEAD) don't need to be protected,
+
+      you need to state it explicitly using an empty security rule: 
+
+
+      ```
+
+      security:
+
+      - {}
+
+      ```
+
+
+      This can be done at operation level or at global level, but the latter is
+
+      discouraged because it will affect unsafe methods too.
     message: "The following unsafe operation is not protected by a `security` rule:
       {{path}}"
     severity: info
@@ -349,24 +421,37 @@ rules:
             - delete
             - put
   sec-protection-global-safe:
-    description: |-
+    description: >-
       Check if the operation is protected at operation level.
+
       Otherwise, the global `#/security` property is check.
 
+
       Your API should be protected by a `security` rule either at
+
       global or operation level.
+
       All operations should be protected especially when they
+
       not safe (methods that do not alter the state of the server) 
+
       HTTP methods like `POST`, `PUT`, `PATCH` and `DELETE`.
+
       This is done with one or more non-empty `security` rules.
+
 
       Security rules are defined in the `securityScheme` section.
 
+
       An example of a security rule applied at global level.
 
+
       ```
+
       security:
+
       - BasicAuth: []
+
       paths:
         /books: {}
         /users: {}
@@ -376,10 +461,14 @@ rules:
           type: basic
       ```
 
+
       An example of a security rule applied at operation level, which
+
       eventually overrides the global one
 
+
       ```
+
       paths:
         /books:
           post:
@@ -394,6 +483,25 @@ rules:
           type: bearer
           bearerFormat: JWT
       ```
+
+
+      If your [safe methods](https://www.rfc-editor.org/rfc/rfc9110.html#name-safe-methods) (e.g. GET, HEAD) don't need to be protected,
+
+      you need to state it explicitly using an empty security rule: 
+
+
+      ```
+
+      security:
+
+      - {}
+
+      ```
+
+
+      This can be done at operation level or at global level, but the latter is
+
+      discouraged because it will affect unsafe methods too.
     message: "The following operation is not protected by a `security` rule: {{path}}"
     severity: info
     given: $
