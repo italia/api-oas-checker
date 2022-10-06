@@ -2758,10 +2758,10 @@ boolbase@^1.0.0:
   resolved "https://registry.yarnpkg.com/boolbase/-/boolbase-1.0.0.tgz#68dff5fbe60c51eb37725ea9e3ed310dcc1e776e"
   integrity sha1-aN/1++YMUes3cl6p4+0xDcwed24=
 
-bootstrap-italia@^1.6.2:
-  version "1.6.2"
-  resolved "https://registry.yarnpkg.com/bootstrap-italia/-/bootstrap-italia-1.6.2.tgz#b19ee7aa3f0f4bfa0df715a6cf895352a9a884b0"
-  integrity sha512-CUFmqTbspLR3Gunc2MDuj0kH6lGOADSHbtse2HWP3pApk1XgAxENInz2fBVLbK/aHU7XLVL1JYT0B0jKZcc2gA==
+bootstrap-italia@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/bootstrap-italia/-/bootstrap-italia-1.6.4.tgz#b8510c0bbb0e958e37cf04b0b0f5d124d2d36fa8"
+  integrity sha512-PyrFh66bgfbx8M0AGFJf4alPj/cu81qoXkow9KKzVvNf0SRK6p09aor+7pjuaNJoeISF6oSTH1hyWAyA7qK5bA==
   dependencies:
     "@splidejs/splide" "^3.6.12"
     accessible-autocomplete "^2.0.4"
