@@ -13,7 +13,7 @@ L'applicazione on-line pronta all'uso è disponibile [qui](https://italia.github
 
 Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral).
 Lo abbiamo preferito rispetto ad altri software perché
-non richiede l'utilizzo di database o componenti server (OAS Checker è una pagina statica deployata su github pages),
+non richiede l'utilizzo di database o componenti server a cui inviare i tuoi documenti OpenAPI (OAS Checker è una pagina statica deployata su github pages),
 e perché la maggior parte delle regole è descritta tramite file statici (e.g. YAML):
 [tranne in casi specifici](security/functions/) non è necessario quindi eseguire codice javascript.
 Inoltre gli utenti possono sempre limitarsi ad importare le sole regole statiche.

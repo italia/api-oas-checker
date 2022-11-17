@@ -13,7 +13,7 @@ The ready-to-use online application is available [here](https://teamdigitale.git
 The validator is based on [Spectral](https://github.com/stoplightio/spectral).
 
 We preferred it because
-it does not require databases or server components (OAS Checker is a github pages static application),
+it does not require databases or server components to process your OpenAPI documents (OAS Checker is a github pages static application),
 and because the vast majority of ruleset can be described via static files (e.g. YAML):
 [except for very specific cases](security/functions/) you don't need to execute javascript code.
 Moreover, uses that do not trust sourcing javascript code, can just limit themself to static rules.
