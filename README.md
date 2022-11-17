@@ -11,10 +11,17 @@ E' in beta una [github-action che utilizza queste regole](https://github.com/tea
 
 L'applicazione on-line pronta all'uso è disponibile [qui](https://italia.github.io/api-oas-checker/).
 
-Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral) che abbiamo preferito rispetto ad altri software:
+Il validatore è basato su [Spectral](https://github.com/stoplightio/spectral).
+Lo abbiamo preferito rispetto ad altri software perché
+non richiede l'utilizzo di database o componenti server (OAS Checker è una pagina statica deployata su github pages),
+e perché la maggior parte delle regole è descritta tramite file statici (e.g. YAML):
+[tranne in casi specifici](security/functions/) non è necessario quindi eseguire codice javascript.
+Inoltre gli utenti possono sempre limitarsi ad importare le sole regole statiche.
+
+Le alternative valutate, ugualmente valide, sono:
 
 - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
-- [Speccy](https://github.com/wework/speccy) pare supportare solo regole in javascript, mentre questo validatore utilizza dei file yaml statici.
+- [Speccy](https://github.com/wework/speccy) pare supportare solo regole in javascript, mentre questo validatore utilizza per lo più dei file YAML statici.
 
 ## Contenuto
 

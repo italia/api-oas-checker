@@ -10,10 +10,18 @@ There's a Beta [github-action that uses these rules](https://github.com/teamdigi
 
 The ready-to-use online application is available [here](https://teamdigitale.github.io/api-oas-checker).
 
-The validator is based on [Spectral](https://github.com/stoplightio/spectral) which we preferred over other good validators:
+The validator is based on [Spectral](https://github.com/stoplightio/spectral).
+
+We preferred it because
+it does not require databases or server components (OAS Checker is a github pages static application),
+and because the vast majority of ruleset can be described via static files (e.g. YAML):
+[except for very specific cases](security/functions/) you don't need to execute javascript code.
+Moreover, uses that do not trust sourcing javascript code, can just limit themself to static rules.
+
+Other good validators we evaluated are:
 
 - [Zally](https://github.com/zalando/zally) requires a database and cannot be webpackaged in a browser application;
-- [Speccy](https://github.com/wework/speccy) seem to support only javascript rules, while our rules are described using static yaml files.
+- [Speccy](https://github.com/wework/speccy) seem to support only javascript rules, while our rules are usually described using static YAML files.
 
 ## Content
 
