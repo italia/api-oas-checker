@@ -2,12 +2,12 @@ rules:
   sec-number-boundaries:
     description: |-
       Numeric values should be limited in size to mitigate resource exhaustion
-      using `maximum` and `minimum`.
+      using  both `maximum` and `minimum` or `enum`.
 
       If you delegate input validation to a library or framework,
       be sure to test it thoroughly.
     message: >-
-      Schema of type number or integer must specify a maximum and a minimum. {{path}} {{error}}
+      Schema of type number or integer must specify a maximum and a minimum or enum. {{path}} {{error}}
     formats:
     - oas3
     severity: warn
@@ -18,7 +18,15 @@ rules:
     - >-
       $..[?(@.type=="integer")]
     then:
-    - field: maximum
-      function: defined
-    - field: minimum
-      function: defined
+      function: schema
+      functionOptions:
+        schema:
+          anyOf:
+          - type: object
+            required: [maximum, minimum]
+            not:
+              required: [enum]
+          - type: object
+            required: [enum]
+            not:
+              required: [maximum, minimum]

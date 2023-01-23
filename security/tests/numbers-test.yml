@@ -9,10 +9,18 @@ components:
     ko_Number_nomax:
         type: number
         minimum: 1
+    ko_EnumAndMinMax:
+        type: number
+        enum: [3]
+        minimum: 8
+        maximum: 10
     Number:
         type: number
         minimum: 1
         maximum: 5
+    Enum:
+        type: number
+        enum: [3]
 openapi: 3.0.1
 paths:
   /number-ko-params:
@@ -56,6 +64,16 @@ paths:
                   $ref: '#/components/schemas/ko_Number_nomin'
                 nbad2:
                   $ref: '#/components/schemas/ko_Number_nomax'
+  /number-ko-enum-and-min-max:
+    put:
+      responses: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              properties:
+                bad:
+                  $ref: '#/components/schemas/ko_EnumAndMinMax'
 
   /number-ok:
     put:
@@ -70,6 +88,19 @@ paths:
           application/json-patch+json:
             schema:
               $ref: '#/components/schemas/Number'
+  /enum-ok:
+    put:
+      responses: {}
+      parameters:
+        - name: n1
+          in: query
+          schema:
+            $ref: '#/components/schemas/Enum'
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              $ref: '#/components/schemas/Enum'
 
 info:
   version: 1.0.0
