@@ -9,7 +9,7 @@
     "classnames": "^2.3.1",
     "design-react-kit": "https://github.com/italia/design-react-kit",
     "dompurify": "^2.4.0",
-    "js-base64": "^3.7.2",
+    "js-base64": "^3.7.5",
     "lodash.debounce": "^4.0.8",
     "lz-string": "^1.4.4",
     "marked": "^4.1.0",
