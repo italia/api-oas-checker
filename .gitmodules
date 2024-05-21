@@ -1,0 +1,3 @@
+[submodule "submodules/api-oas-checker-rules"]
+	path = submodules/api-oas-checker-rules
+	url = https://github.com/italia/api-oas-checker-rules.git
