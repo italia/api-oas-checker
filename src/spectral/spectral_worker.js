@@ -6,8 +6,9 @@ onmessage = async (e) => {
     const document = new Document(e.data.documentText, Parsers.Yaml);
     const spectral = await getSpectralEngine(e.data.ruleset);
     const originalResults = await spectral.run(document);
+    const filteredResults = originalResults.filter(result => e.data.onlyErrors && result.severity === 0).sort((a, b) => a.severity - b.severity);
     // Decorate results with rule description
-    const resultsWithRuleDescription = originalResults.map((r) => ({
+    const resultsWithRuleDescription = filteredResults.map((r) => ({
       ...r,
       description: spectral.rules[r.code]?.description,
     }));
