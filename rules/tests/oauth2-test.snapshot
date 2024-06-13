@@ -1,9 +1,0 @@
-OpenAPI 3.x detected
-
-/code/rules/tests/oauth2-test.yml
- 41:31  error  sec-securitySchemes-oauth-http           OAuth endpoints must use https://             components.securitySchemes.MyOauth_ko3.flows.authorizationCode.authorizationUrl
- 42:20  error  sec-securitySchemes-oauth-allowed-flows  Do not use oauth2 insecure flow: "implicit".  components.securitySchemes.MyOauth_ko3.flows.implicit
- 44:20  error  sec-securitySchemes-oauth-allowed-flows  Do not use oauth2 insecure flow: "password".  components.securitySchemes.MyOauth_ko3.flows.password
-
-✖ 3 problems (3 errors, 0 warnings, 0 infos, 0 hints)
-

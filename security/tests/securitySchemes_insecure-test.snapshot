@@ -1,9 +1,0 @@
-OpenAPI 3.x detected
-
-/code/security/tests/securitySchemes_insecure-test.yml
- 18:11  error  sec-apikeys-cookie         ApiKey stored in cookie or passed in URL: must not match the pattern '^(cookie)$'.   components.securitySchemes.ko_api_key_cookie.in
- 25:15  error  sec-auth-insecure-schemes  Authentication scheme is insecure: must not match the pattern '^(negotiate|oauth)$'  components.securitySchemes.ko_insecure_scheme.scheme
- 28:15  error  sec-auth-insecure-schemes  Authentication scheme is insecure: must not match the pattern '^(negotiate|oauth)$'  components.securitySchemes.ko_insecure_oauth1.scheme
-
-✖ 3 problems (3 errors, 0 warnings, 0 infos, 0 hints)
-

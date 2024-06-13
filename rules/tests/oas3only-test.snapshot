@@ -1,7 +1,0 @@
-OpenAPI 2.0 (Swagger) detected
-
-/code/rules/tests/oas3only-test.yml
- 1:10  error  no-swagger-2  Swagger 2 files are not allowed. Use OpenAPI >= 3.0  swagger
-
-✖ 1 problem (1 error, 0 warnings, 0 infos, 0 hints)
-
