@@ -18,7 +18,6 @@ install: yarn.lock
 	rm -rf node_modules
 	yarn install --frozen-lockfile
 
-
 # Generate spectral ruleset with documentation
 rules: clean $(RULE_FILES)
 
@@ -52,8 +51,8 @@ test-ui: install
 
 # TODO: this doesn't work on MacOS!
 test: install
-	bash test-ruleset.sh rules/ all
-	bash test-ruleset.sh security/ all
+	bash test-ruleset.sh rules-modi/rules/ all
+	bash test-ruleset.sh rules-modi/security/ all
 
 # regression test with existing files
 ittest: test rules
