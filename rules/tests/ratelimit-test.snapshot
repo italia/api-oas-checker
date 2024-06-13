@@ -1,9 +1,0 @@
-OpenAPI 3.x detected
-
-/code/rules/tests/ratelimit-test.yml
- 35:19  warning  missing-ratelimit    Missing ratelimit headers. headers X-RateLimit-Limit and RateLimit-Limit cannot be both defined or both undefined #/paths/~1ko/get/responses/201/headers  paths./ko.get.responses[201].headers
- 39:19  warning  missing-retry-after  Missing ratelimit header: headers.Retry-After in #/paths/~1ko/get/responses/429/headers                                                                   paths./ko.get.responses[429].headers
- 42:19  warning  missing-retry-after  Missing ratelimit header: headers.Retry-After in #/paths/~1ko/get/responses/503/headers                                                                   paths./ko.get.responses[503].headers
-
-✖ 3 problems (0 errors, 3 warnings, 0 infos, 0 hints)
-

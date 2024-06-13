@@ -1,9 +1,0 @@
-OpenAPI 3.x detected
-
-/code/security/tests/objects-test.yml
-  4:13  warning  sec-no-default-additionalProperties   Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  components.schemas.ko_wild
-  9:29  warning  sec-no-additionalProperties           Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  components.schemas.ko_wild_1.additionalProperties
- 10:15  warning  sec-constrained-additionalProperties  Objects should not allow unconstrained additionalProperties. Disable them with `additionalProperties: false` or add `maxProperties`.  components.schemas.ko_wild_2
-
-✖ 3 problems (0 errors, 3 warnings, 0 infos, 0 hints)
-
