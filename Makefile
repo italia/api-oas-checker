@@ -21,19 +21,23 @@ install: yarn.lock
 
 # Generate spectral ruleset with documentation
 rules: clean $(RULE_FILES)
-spectral.yml: ./rules/
+
+rulesets-dir:
+	@mkdir -p rules-modi/rulesets
+
+spectral.yml: ./rules/ rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
-spectral-generic.yml: ./rules/  spectral.yml
+spectral-generic.yml: ./rules/ spectral.yml rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
-spectral-security.yml: ./rules/  ./security/
+spectral-security.yml: ./rules/ ./security/ rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
-spectral-full.yml: spectral.yml spectral-security.yml
+spectral-full.yml: spectral.yml spectral-security.yml rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
-spectral-modi.yml:
+spectral-modi.yml: rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'ModI Guidelines'
 
