@@ -1,3 +1,4 @@
 [submodule "rules-modi"]
 	path = rules-modi
 	url = https://github.com/italia/api-oas-checker-rules.git
+	branch = main

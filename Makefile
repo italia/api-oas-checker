@@ -3,7 +3,7 @@
 #
 #
 
-RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml
+RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml spectral-modi.yml
 RULE_DOCS := $(RULE_FILES:.yml=.doc.html)
 
 all: clean install rules build test-ui
@@ -22,21 +22,20 @@ install: yarn.lock
 # Generate spectral ruleset with documentation
 rules: clean $(RULE_FILES)
 spectral.yml: ./rules/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml rules/*.yml >> $@
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
 spectral-generic.yml: ./rules/  spectral.yml
-	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
 spectral-security.yml: ./rules/  ./security/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml security/*.yml >> $@
-	mkdir -p ./functions
-	cp ./security/functions/* ./functions/
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
 spectral-full.yml: spectral.yml spectral-security.yml
-	./rules/merge-yaml spectral.yml spectral-security.yml > $@
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
+spectral-modi.yml:
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
+	node ruleset_doc_generator.mjs --file $@ --title 'ModI Guidelines'
 
 # Build js bundle
 build: install rules
