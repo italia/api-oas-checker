@@ -45,7 +45,11 @@ export const ValidationController = () => {
 
   const handleValidation = useCallback(() => {
     dispatch(setValidationInProgress());
-    spectralWorker.postMessage({ documentText, ruleset: `${location.origin}${location.pathname}${ruleset}`, onlyErrors});
+    spectralWorker.postMessage({
+      documentText,
+      ruleset: `${location.origin}${location.pathname}${ruleset}`,
+      onlyErrors,
+    });
     spectralWorker.onmessage = (event) => {
       if (event.data.error) {
         console.error(event.data.error);
@@ -109,7 +113,7 @@ ${event.data.error}`);
           <div data-testid="only-errors" className="toggles">
             <Label className="m-0 font-weight-light" check>
               Only-errors
-              <Input type="checkbox" checked={onlyErrors} onChange={handleOnlyErrorsToggle}/>
+              <Input type="checkbox" checked={onlyErrors} onChange={handleOnlyErrorsToggle} />
               <span className="lever" />
             </Label>
           </div>
