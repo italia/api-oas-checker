@@ -1,8 +1,0 @@
-OpenAPI 3.x detected
-
-/code/rules/tests/schemas-test.yml
- 11:23  warning  response-with-json-object  JSON responses must use json objects (eg "{}"), not string. #/paths/~1ko-response-not-object/get/responses/200/content/application~1json/schema/type  paths./ko-response-not-object.get.responses[200].content.application/json.schema.type
- 68:13  warning  response-with-json-object  JSON responses must use json objects (eg "{}"), not string. #/components/schemas/ko_String/type                                                       components.schemas.ko_String.type
-
-✖ 2 problems (0 errors, 2 warnings, 0 infos, 0 hints)
-
