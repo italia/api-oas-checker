@@ -12,6 +12,7 @@ all: clean install rules build test-ui
 clean:
 	rm -f $(RULE_DOCS)
 	rm -f $(RULE_FILES)
+	rm -rf functions
 
 # Install node dependencies
 install: yarn.lock
@@ -22,16 +23,18 @@ install: yarn.lock
 rules: clean $(RULE_FILES)
 
 rulesets-dir:
+	@mkdir -p functions
 	@mkdir -p rules-modi/rulesets
+	@mkdir -p rules-modi/rulesets/functions
 
-spectral.yml: ./rules/ rulesets-dir
+spectral.yml: ./rules-modi/rules/ rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
-spectral-generic.yml: ./rules/ spectral.yml rulesets-dir
+spectral-generic.yml: ./rules-modi/rules/ spectral.yml rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
-spectral-security.yml: ./rules/ ./security/ rulesets-dir
-	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
+spectral-security.yml: ./rules-modi/rules/ ./rules-modi/security/ rulesets-dir
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ . && mv rules-modi/rulesets/functions/* functions/
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
 spectral-full.yml: spectral.yml spectral-security.yml rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
