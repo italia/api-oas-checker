@@ -3,7 +3,7 @@
 #
 #
 
-RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml
+RULE_FILES := spectral.yml spectral-full.yml spectral-security.yml spectral-generic.yml spectral-modi.yml
 RULE_DOCS := $(RULE_FILES:.yml=.doc.html)
 
 all: clean install rules build test-ui
@@ -12,31 +12,36 @@ all: clean install rules build test-ui
 clean:
 	rm -f $(RULE_DOCS)
 	rm -f $(RULE_FILES)
+	rm -rf functions
 
 # Install node dependencies
 install: yarn.lock
 	rm -rf node_modules
 	yarn install --frozen-lockfile
 
-
 # Generate spectral ruleset with documentation
 rules: clean $(RULE_FILES)
-spectral.yml: ./rules/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml rules/*.yml >> $@
+
+rulesets-dir:
+	@mkdir -p functions
+	@mkdir -p rules-modi/rulesets
+	@mkdir -p rules-modi/rulesets/functions
+
+spectral.yml: ./rules-modi/rules/ rulesets-dir
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
-spectral-generic.yml: ./rules/  spectral.yml
-	./rules/merge-yaml spectral.yml rules/skip-italian.yml.template > $@
+spectral-generic.yml: ./rules-modi/rules/ spectral.yml rulesets-dir
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
-spectral-security.yml: ./rules/  ./security/
-	cat ./rules/rules-template.yml.template > $@
-	./rules/merge-yaml security/*.yml >> $@
-	mkdir -p ./functions
-	cp ./security/functions/* ./functions/
+spectral-security.yml: ./rules-modi/rules/ ./rules-modi/security/ rulesets-dir
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ . && mv rules-modi/rulesets/functions/* functions/
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
-spectral-full.yml: spectral.yml spectral-security.yml
-	./rules/merge-yaml spectral.yml spectral-security.yml > $@
+spectral-full.yml: spectral.yml spectral-security.yml rulesets-dir
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
+spectral-modi.yml: rulesets-dir
+	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
+	node ruleset_doc_generator.mjs --file $@ --title 'ModI Guidelines'
 
 # Build js bundle
 build: install rules
@@ -49,8 +54,8 @@ test-ui: install
 
 # TODO: this doesn't work on MacOS!
 test: install
-	bash test-ruleset.sh rules/ all
-	bash test-ruleset.sh security/ all
+	bash test-ruleset.sh rules-modi/rules/ all
+	bash test-ruleset.sh rules-modi/security/ all
 
 # regression test with existing files
 ittest: test rules

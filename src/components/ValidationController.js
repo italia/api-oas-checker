@@ -38,9 +38,18 @@ export const ValidationController = () => {
   );
   const classes = useStyles(validationInProgress);
 
+  const [onlyErrors, setOnlyErrors] = useState(true);
+  const handleOnlyErrorsToggle = useCallback(() => {
+    setOnlyErrors((prevOnlyErrors) => !prevOnlyErrors);
+  }, []);
+
   const handleValidation = useCallback(() => {
     dispatch(setValidationInProgress());
-    spectralWorker.postMessage({ documentText, ruleset: `${location.origin}${location.pathname}${ruleset}` });
+    spectralWorker.postMessage({
+      documentText,
+      ruleset: `${location.origin}${location.pathname}${ruleset}`,
+      onlyErrors,
+    });
     spectralWorker.onmessage = (event) => {
       if (event.data.error) {
         console.error(event.data.error);
@@ -52,7 +61,7 @@ ${event.data.error}`);
       }
       dispatch(setValidationResults(event.data));
     };
-  }, [documentText, ruleset, dispatch]);
+  }, [documentText, ruleset, onlyErrors, dispatch]);
 
   const [autoRefresh, setAutoRefresh] = useState(false);
 
@@ -98,6 +107,13 @@ ${event.data.error}`);
             <Label className="m-0 font-weight-light" check>
               Auto-refresh
               <Input type="checkbox" checked={autoRefresh} onChange={handleAutoRefreshToogle} />
+              <span className="lever" />
+            </Label>
+          </div>
+          <div data-testid="only-errors" className="toggles">
+            <Label className="m-0 font-weight-light" check>
+              Only-errors
+              <Input type="checkbox" checked={onlyErrors} onChange={handleOnlyErrorsToggle} />
               <span className="lever" />
             </Label>
           </div>

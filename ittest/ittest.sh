@@ -15,8 +15,10 @@ test(){
         exit 1
     fi
 
-    spectral lint -r "${RULESET}" -D -F warn "${openapi}" | \
-        diff - "${snapshot}.snapshot"
+    echo "Testing ${openapi} with ${RULESET}. The output will be compared to ${snapshot}.snapshot"
+
+    spectral lint -r "${RULESET}" -D "${openapi}" | \
+        diff -u --color - "${snapshot}.snapshot"
 }
 
 snapshot(){
@@ -28,7 +30,9 @@ snapshot(){
         exit 1
     fi
     
-    spectral lint -r "${RULESET}" -D -F warn "${openapi}" > "${snapshot}.snapshot"
+    echo "Snapshotting ${openapi} with ${RULESET}. The output will saved as ${snapshot}.snapshot"
+
+    spectral lint -r "${RULESET}" -D "${openapi}" > "${snapshot}.snapshot"
 }
 
 
