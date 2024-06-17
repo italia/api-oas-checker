@@ -1,6 +1,6 @@
 #  This application lints your OpenAPI specification using the opensource tool Spectral.
 #  You can use different verification profiles, including
-#  the one based on the Italian API Guidelines (default)
+#  the one based on the Italian Guidelines (default)
 #  the one with some basic Security checks.
 
 #  Paste here your OAS spec and click on "Validate"
