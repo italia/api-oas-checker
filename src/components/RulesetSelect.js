@@ -8,8 +8,8 @@ import {
   getDocFilename,
   RULESET_BEST_PRACTICES,
   RULESET_ITALIAN,
-  RULESET_ITALIAN_PLUS_SECURITY,
-  RULESET_MODI,
+  RULESET_ITALIAN_EXTENDED_PLUS_SECURITY,
+  RULESET_ITALIAN_EXTENDED,
   RULESET_SECURITY,
 } from '../utils.mjs';
 
@@ -48,11 +48,13 @@ export const RulesetSelect = () => {
         value={ruleset}
         onChange={(e) => dispatch(setRuleset(e.target.value))}
       >
-        <option value={RULESET_MODI}>ModI Guidelines</option>
-        <option value={RULESET_ITALIAN}>Italian API Guidelines</option>
+        <option value={RULESET_ITALIAN}>Italian Guidelines</option>
+        <option value={RULESET_ITALIAN_EXTENDED}>Italian Guidelines Extended</option>
         <option value={RULESET_BEST_PRACTICES}>Best Practices Only</option>
         <option value={RULESET_SECURITY}>Extra Security Checks</option>
-        <option value={RULESET_ITALIAN_PLUS_SECURITY}>Italian API Guidelines + Extra Security Checks</option>
+        <option value={RULESET_ITALIAN_EXTENDED_PLUS_SECURITY}>
+          Italian Guidelines Extended + Extra Security Checks
+        </option>
       </select>
       <a className={classes.anchor} href={getDocFilename(ruleset)} rel="noreferrer" target="_blank">
         Ruleset
