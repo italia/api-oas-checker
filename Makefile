@@ -29,7 +29,7 @@ rulesets-dir:
 
 spectral.yml: ./rules-modi/rules/ rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
-	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines'
+	node ruleset_doc_generator.mjs --file $@ --title 'Italian Guidelines Extended'
 spectral-generic.yml: ./rules-modi/rules/ spectral.yml rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
 	node ruleset_doc_generator.mjs --file $@ --title 'Best Practices Only'
@@ -38,10 +38,10 @@ spectral-security.yml: ./rules-modi/rules/ ./rules-modi/security/ rulesets-dir
 	node ruleset_doc_generator.mjs --file $@ --title 'Extra Security Checks'
 spectral-full.yml: spectral.yml spectral-security.yml rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
-	node ruleset_doc_generator.mjs --file $@ --title 'Italian API Guidelines + Extra Security Checks'
+	node ruleset_doc_generator.mjs --file $@ --title 'Italian Guidelines Extended + Extra Security Checks'
 spectral-modi.yml: rulesets-dir
 	make -C rules-modi $@ && mv rules-modi/rulesets/$@ .
-	node ruleset_doc_generator.mjs --file $@ --title 'ModI Guidelines'
+	node ruleset_doc_generator.mjs --file $@ --title 'Italian Guidelines'
 
 # Build js bundle
 build: install rules
