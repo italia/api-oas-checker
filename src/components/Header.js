@@ -86,10 +86,10 @@ export const Header = () => {
           <div data-testid="right-section" className={rightSection}>
             <img className="d-none d-md-block ml-4 mr-2" src="it.svg" alt="it logo" />
             <img className="d-none d-md-block mx-2" src="loghetto.svg" alt="checker logo" />
-            <span className="m-0 font-weight-semibold">Italian OpenAPI Validation Checker</span>
+            <span className="m-0 font-weight-semibold">Italian OpenAPI Checker</span>
             <span href="#" className={classes.version}>
               {/* eslint-disable-next-line no-undef */}
-              Beta {VERSION}
+              {VERSION}
             </span>
             {/* eslint-disable-next-line no-undef */}
             <a className={classes.anchor} href={REPO_URL}>
