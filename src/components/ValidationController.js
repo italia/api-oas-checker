@@ -96,7 +96,7 @@ ${event.data.error}`);
           tag="button"
           onClick={validationInProgress ? Function.prototype : handleValidation}
         >
-          {validationInProgress ? 'Please wait...' : 'Validate'}
+          {validationInProgress ? 'Please wait...' : 'Check'}
           <Icon className={classes.validatorIcon} color="white" icon="it-refresh" />
         </Button>
       </div>

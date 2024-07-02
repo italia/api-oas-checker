@@ -1,16 +1,16 @@
-# APIs validator compliant to the Italian Interoperability Framework
+# APIs checker compliant to the Italian Interoperability Framework
 
 [![Join the #api channel](https://img.shields.io/badge/Slack-%23api-blue.svg?logo=slack)](https://developersitalia.slack.com/messages/CDKBYTG74)
 [![API on forum.italia.it](https://img.shields.io/badge/Forum-interoperabilit%C3%A0-blue.svg)](https://forum.italia.it/c/piano-triennale/interoperabilita)
 
-This repository contains an in-browser validator that verifies some of the rules for the REST APIs, as indicated in the Interoperability Model.
+This repository contains an in-browser checker that verifies some of the rules for the REST APIs, as indicated in the Interoperability Model.
 
 The associated projects are indicated in the [API Starter Kit](https://github.com/teamdigitale/api-starter-kit).
 There's a Beta [github-action that uses these rules](https://github.com/teamdigitale/api-oas-checker-action).
 
 The ready-to-use online application is available [here](https://teamdigitale.github.io/api-oas-checker).
 
-The validator is based on [Spectral](https://github.com/stoplightio/spectral).
+The checker is based on [Spectral](https://github.com/stoplightio/spectral).
 
 We preferred it because
 it does not require databases or server components to process your OpenAPI documents (OAS Checker is a github pages static application),
@@ -18,7 +18,7 @@ and because the vast majority of ruleset can be described via static files (e.g.
 [except for very specific cases](security/functions/) you don't need to execute javascript code.
 Moreover, uses that do not trust sourcing javascript code, can just limit themself to static rules.
 
-Other good validators we evaluated are:
+Other good checkers we evaluated are:
 
 - [Zally](https://github.com/zalando/zally) requires a database and cannot be webpackaged in a browser application;
 - [Speccy](https://github.com/wework/speccy) seem to support only javascript rules, while our rules are usually described using static YAML files.
@@ -42,7 +42,7 @@ $ spectral lint -r https://italia.github.io/api-oas-checker/spectral.yml $OAS_UR
 
 ## CI Mode (versioned rulesets)
 
-When embedding the validator in a CI, you may want to use a specific version of the rules instead of the latest one.
+When embedding the checker in a CI, you may want to use a specific version of the rules instead of the latest one.
 version of the rules instead of the latest one. In this case, you can refer to
 tags prefixed with `rules/X.Y.Z` (e.g. `rules/0.3.3`).
 
@@ -53,7 +53,7 @@ $ spectral lint -r https://raw.githubusercontent.com/italia/api-oas-checker/rule
 ## IDE mode
 
 Some IDEs support Spectral via extensions.
-Here are the steps to use the complete validation profile
+Here are the steps to use the complete checking profile
 with [the official Spectral extension for Visual Studio Code](https://github.com/stoplightio/vscode-spectral):
 
 ```bash
@@ -137,7 +137,7 @@ that the spectral output corresponds to that indicated in the associated `.snaps
 ./test-ruleset.sh rules problem
 ```
 
-Therefore, when editing a rule, it is necessary to recreate and validate the contents of the snapshot
+Therefore, when editing a rule, it is necessary to recreate and check the contents of the snapshot
 with
 
 ```bash
