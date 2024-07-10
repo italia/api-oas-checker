@@ -1,6 +1,7 @@
+const fs = require('fs');
+const path = require('path');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
@@ -29,6 +30,69 @@ const optimization = isProduction
       },
     }
   : {};
+
+// ----- Retrieval of the rules.
+
+const directoryPath = path.join(__dirname, '/rulesets');
+
+const readFirstTwoLines = (filePath) => {
+  const fileContent = fs.readFileSync(filePath, 'utf8');
+  const lines = fileContent.split('\n');
+  return {
+    firstLine: lines[0],
+    secondLine: lines[1]
+  };
+};
+
+// Function to synchronously retrieve file names from a directory
+const getFilesInDirectory = (directoryPath) => {
+  try {
+    const files = fs.readdirSync(directoryPath);
+    const fileMap = {};
+
+    files.forEach((file) => {
+      if (file.endsWith('.yml') || file.endsWith('.yaml')) {
+        const filePath = path.join(directoryPath, file);
+        const { firstLine, secondLine } = readFirstTwoLines(filePath);
+
+        const nameMatch = firstLine.match(/#\tRuleset name:\s*(.*)/);
+        const versionMatch = secondLine.match(/#\tRuleset version:\s*(.*)/);
+
+        if (nameMatch && versionMatch) {
+          const rulesetName = nameMatch[1].trim();
+          const rulesetVersion = versionMatch[1].trim();
+          fileMap["rulesets/" + file] = {
+            rulesetName,
+            rulesetVersion
+          };
+        }
+      }
+    });
+    return fileMap;
+  } catch (err) {
+    console.error('Error reading directory:', err);
+    return {};
+  }
+};
+  
+const filesDictionary = getFilesInDirectory(directoryPath);
+const getDefault = (fileMap) => {
+  // Look for the filePath with the rulesetName "Italian API Guidelines"
+  const specificFilePath = Object.keys(fileMap).find(filePath => fileMap[filePath].rulesetName === "Italian Guidelines");
+
+  // If found, return the specific filePath
+  if (specificFilePath) {
+    return specificFilePath;
+  }
+
+  const filePaths = Object.keys(fileMap);
+  return filePaths[0];
+};
+
+const firstFilePath = Object.keys(filesDictionary)[0];
+const rulesVersion = firstFilePath ? filesDictionary[firstFilePath].rulesetVersion.trim() : "N.A.";
+
+// ----- Retrieval of the rules.
 
 module.exports = {
   entry: `${srcPath}/index.js`,
@@ -72,14 +136,15 @@ module.exports = {
     new CopyWebpackPlugin({
       patterns: [
         { from: 'public', to: '.' },
-        { from: 'functions', to: 'functions' },
-        { from: 'spectral*.yml', to: '.' },
-        { from: 'spectral*.doc.html', to: '.' },
+        { from: directoryPath, to: 'rulesets' },
       ],
     }),
     new webpack.DefinePlugin({
       REPO_URL: JSON.stringify(packageJson.repository),
       VERSION: JSON.stringify(packageJson.version),
+      FILES_DICTIONARY: JSON.stringify(filesDictionary),
+      DEFAULT_RULESET: JSON.stringify(getDefault(filesDictionary)),
+      RULESETS_VERSION: JSON.stringify(rulesVersion),
     }),
     new HtmlWebpackPlugin({
       template: `${srcPath}/index.html`,

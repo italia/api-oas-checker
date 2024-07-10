@@ -1,6 +1,0 @@
-# A list of specification to test.
-# The content is a two-column text files, where
-# the first column is the url of the specification
-# and the second column is the snapshot filename prefix.
-https://raw.githubusercontent.com/INGV/openapi/master/src/api/dante/0.0.2/openapi.yaml ingv
-https://git.fitko.de/fit-connect/routing-api/-/raw/de2200d4fb5d6a09be4fc5bab8318217a4d592dc/routing-api.yaml fitko

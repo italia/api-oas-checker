@@ -6,13 +6,10 @@
 /dist
 /assets
 *.zip
-spectral*.yml
-spectral*.doc.html
 /css
 /fonts
 /svg
 yarn-error.log
-/functions
 
 # IDE files
 /coverage
