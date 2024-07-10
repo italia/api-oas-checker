@@ -13,7 +13,7 @@
 /*# sourceMappingURL=bootstrap-italia.min.css.map */
 
     h2, h3 {
-        color: var(--primary)
+        color: var(--primary);
     }
     h1, h2 {
         margin: 30px 0;
@@ -22,14 +22,14 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines Extended + Extra Security Checks</title>
+    <title>Italian Guidelines Extended (v1.1)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <h1 id="italian-guidelines-extended--extra-security-checks">Italian Guidelines Extended + Extra Security Checks</h1>
-<h2 id="cache-control-parameter-undocumented">cache-control-parameter-undocumented</h2>
+            <div><h1>Italian Guidelines Extended (v1.1)</h1>
+<h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
 <p>This rule should ensure in some way that the api provider
@@ -38,18 +38,16 @@ or usage of stale data.
 The <code>no-transform</code> directive can
 be used in responses to avoid transforming proxies to
 modify (eg. compress) the content.</p>
-<p>For now this ruleset tests:</p>
-<ul>
-<li>the presence of following keywords
-in the <code>description</code>: <code>max-age</code>, <code>private</code>, <code>no-store</code>, <code>no-cache</code>,
-<code>no-transform</code>.</li>
-<li>that one and only one between Expires and Cache-Control is used.</li>
-</ul>
+<p>For now this ruleset tests:
+* the presence of following keywords
+  in the <code>description</code>: <code>max-age</code>, <code>private</code>, <code>no-store</code>, <code>no-cache</code>,
+  <code>no-transform</code>.
+* that one and only one between Expires and Cache-Control is used.</p>
 <p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjunction,
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
 Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
-like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
-<h2 id="cache-responses-undocumented">cache-responses-undocumented</h2>
+like described in <a href="https://tools.ietf.org/html/RFC">RFC</a>7234.</p>
+<h2>cache-responses-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
 <p>This rule should ensure in some way that the api provider
@@ -58,18 +56,16 @@ or usage of stale data.
 The <code>no-transform</code> directive can
 be used in responses to avoid transforming proxies to
 modify (eg. compress) the content.</p>
-<p>For now this ruleset tests:</p>
-<ul>
-<li>the presence of following keywords
-in the <code>description</code>: <code>max-age</code>, <code>private</code>, <code>no-store</code>, <code>no-cache</code>,
-<code>no-transform</code>.</li>
-<li>that one and only one between Expires and Cache-Control is used.</li>
-</ul>
+<p>For now this ruleset tests:
+* the presence of following keywords
+  in the <code>description</code>: <code>max-age</code>, <code>private</code>, <code>no-store</code>, <code>no-cache</code>,
+  <code>no-transform</code>.
+* that one and only one between Expires and Cache-Control is used.</p>
 <p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjunction,
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
 Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
-like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
-<h2 id="cache-responses-indeterminate-behavior">cache-responses-indeterminate-behavior</h2>
+like described in <a href="https://tools.ietf.org/html/RFC">RFC</a>7234.</p>
+<h2>cache-responses-indeterminate-behavior</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
 <p>This rule should ensure in some way that the api provider
@@ -78,94 +74,91 @@ or usage of stale data.
 The <code>no-transform</code> directive can
 be used in responses to avoid transforming proxies to
 modify (eg. compress) the content.</p>
-<p>For now this ruleset tests:</p>
-<ul>
-<li>the presence of following keywords
-in the <code>description</code>: <code>max-age</code>, <code>private</code>, <code>no-store</code>, <code>no-cache</code>,
-<code>no-transform</code>.</li>
-<li>that one and only one between Expires and Cache-Control is used.</li>
-</ul>
+<p>For now this ruleset tests:
+* the presence of following keywords
+  in the <code>description</code>: <code>max-age</code>, <code>private</code>, <code>no-store</code>, <code>no-cache</code>,
+  <code>no-transform</code>.
+* that one and only one between Expires and Cache-Control is used.</p>
 <p><code>Cache-Control</code> and <code>Expires</code> should not be used in conjunction,
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
 Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
-like described in <a href="https://tools.ietf.org/html/RFC7234">RFC7234</a>.</p>
-<h2 id="paths-kebab-case">paths-kebab-case</h2>
+like described in <a href="https://tools.ietf.org/html/RFC">RFC</a>7234.</p>
+<h2>paths-kebab-case</h2>
 <p>Paths should be kebab-case (e.g. <code>path-parameter</code>).</p>
 <p>See Italian recommendation RAC_REST_NAME_002.</p>
-<h2 id="request-headers-pascal-case">request-headers-pascal-case</h2>
+<h2>request-headers-pascal-case</h2>
 <p>Headers should be pascal-case, separated by hyphens (e.g. <code>PascalCase-Header</code>)</p>
 <p>See Italian recommendation RAC_REST_NAME_003.</p>
-<h2 id="response-headers-pascal-case">response-headers-pascal-case</h2>
+<h2>response-headers-pascal-case</h2>
 <p>Headers should be pascal-case, separated by hyphens (e.g. <code>PascalCase-Header</code>)</p>
 <p>See Italian recommendation RAC_REST_NAME_003.</p>
-<h2 id="schema-camel-case">schema-camel-case</h2>
+<h2>schema-camel-case</h2>
 <p>Schema definitions should be CamelCase
 (pascal case with blank separator char).</p>
 <p>This improves readability and avoid
 confusion between schema names and properties.</p>
-<pre><code>Website:
+<p><code>Website:
   type: string
   format: url
 Person:
   type: object
   properties:
     website:
-      $ref: "#/components/schemas/Website"
-</code></pre>
-<h2 id="no-forbidden-headers">no-forbidden-headers</h2>
+      $ref: "#/components/schemas/Website"</code> </p>
+<h2>no-forbidden-headers</h2>
 <p>OAS do not allow using the following HTTP headers in a specification
 file: Authorization, Content-Type and Accept.
 You MUST use the associate functionalities provided by OAS, instead.</p>
-<h2 id="no-x-headers-request">no-x-headers-request</h2>
-<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
-<h2 id="no-x-headers-response">no-x-headers-response</h2>
-<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC6648">RFC6648</a>.</p>
-<h2 id="http-request-get-no-body">http-request-GET-no-body</h2>
+<h2>no-x-headers-request</h2>
+<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC">RFC</a>6648.</p>
+<h2>no-x-headers-response</h2>
+<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC">RFC</a>6648.</p>
+<h2>http-request-GET-no-body</h2>
 <p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
 because this behavior is not interoperable.
 Moreover intermediaries such as reverse proxies
 are allowed to strip the content from <code>GET</code> requests.</p>
-<p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
-<h2 id="http-request-delete-no-body">http-request-DELETE-no-body</h2>
+<p>See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
+<h2>http-request-DELETE-no-body</h2>
 <p>Sending a <code>requestBody</code> in a <code>DELETE</code> request 
 is not considered interoperable.
 Moreover intermediaries such as reverse proxies
 might strip the content from <code>DELETE</code> requests.</p>
-<p>See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
-<h2 id="http-response-no-content-204-205">http-response-no-content-204-205</h2>
+<p>See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
+<h2>http-response-no-content-204-205</h2>
 <p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
 Responses with status code 204 and 205 MUST NOT include a content.
-See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
-<h2 id="http-response-content-2xx">http-response-content-2xx</h2>
+See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
+<h2>http-response-content-2xx</h2>
 <p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
 Responses with status code 204 and 205 MUST NOT include a content.
-See <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> for further information.</p>
-<h2 id="servers-description">servers-description</h2>
+See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
+<h2>servers-description</h2>
 <p>Servers must have a description.</p>
-<h2 id="servers-use-https">servers-use-https</h2>
+<h2>servers-use-https</h2>
 <p>Servers must use https to ensure the origin of the responses
 and protect the integrity and the  confidentiality of the communication.</p>
 <p>You can use <code>http://</code> only on sandboxes environment.
 Use <code>x-sandbox: true</code> to skip this kind of check.</p>
-<h2 id="has-x-summary">has-x-summary</h2>
+<h2>has-x-summary</h2>
 <p>The <code>#/info/x-summary</code> can be used to specify a brief, one-liner description of your API: this is very useful for catalog purposes (eg. this can be shown as your API subtitle in catalogs and developer portals).
 In OAS3.1 you can use the standard <code>#/info/summary</code> field.</p>
-<h2 id="has-termsofservice">has-termsOfService</h2>
+<h2>has-termsOfService</h2>
 <p>API MUST reference the URL of the Terms of Service in <code>#/info/termsOfService</code></p>
-<h2 id="has-contact">has-contact</h2>
+<h2>has-contact</h2>
 <p>API MUST reference a contact, either url or email in #/info/contact</p>
-<h2 id="has-x-api-id">has-x-api-id</h2>
+<h2>has-x-api-id</h2>
 <p>The <code>#/info/x-api-id</code> field can be used to associate an identifier
 to an API.
 This is useful to track an API even when its <code>#/info/title</code> changes.</p>
-<h2 id="use-semver">use-semver</h2>
+<h2>use-semver</h2>
 <p>The API version field should follow
 <a href="https://semver.org/#semantic-versioning-specification-semver">semantic versioning</a>.</p>
-<h2 id="use-recommended-names-in-parameters">use-recommended-names-in-parameters</h2>
+<h2>use-recommended-names-in-parameters</h2>
 <p>Use well defined parameter and schema names, deriving them
-from the national ontologies available at <a href="https://w3id.org/italia/onto/">https://w3id.org/italia/onto/</a></p>
+from the national ontologies available at https://w3id.org/italia/onto/</p>
 <p>For example, you can model a person using the following names:</p>
-<pre><code>{
+<p><code>{
   "en": {
     "given_name": "Mario",
     "family_name": "Rossi",
@@ -176,13 +169,12 @@ from the national ontologies available at <a href="https://w3id.org/italia/onto/
     "cognome": "Rossi",
     "codice_fiscale": "12345678901"
   }
-}
-</code></pre>
-<h2 id="use-recommended-names-in-schemas">use-recommended-names-in-schemas</h2>
+}</code></p>
+<h2>use-recommended-names-in-schemas</h2>
 <p>Use well defined parameter and schema names, deriving them
-from the national ontologies available at <a href="https://w3id.org/italia/onto/">https://w3id.org/italia/onto/</a></p>
+from the national ontologies available at https://w3id.org/italia/onto/</p>
 <p>For example, you can model a person using the following names:</p>
-<pre><code>{
+<p><code>{
   "en": {
     "given_name": "Mario",
     "family_name": "Rossi",
@@ -193,16 +185,15 @@ from the national ontologies available at <a href="https://w3id.org/italia/onto/
     "cognome": "Rossi",
     "codice_fiscale": "12345678901"
   }
-}
-</code></pre>
-<h2 id="no-method-name-in-operationid">no-method-name-in-operationId</h2>
+}</code></p>
+<h2>no-method-name-in-operationId</h2>
 <p>Avoid using method names in <code>operationId</code>s because it couples
 the API design with the implementation.</p>
 <p>An operation that edits an entry can be published with different methods,
 for example either POST, PUT or PATCH, and while evolving the API
 you could decide to associate an operationId with another method.</p>
 <p>You can use for example</p>
-<pre><code>openapi: 3.0.1
+<p><code>openapi: 3.0.1
 ...
 paths:
   /entries:
@@ -214,50 +205,49 @@ paths:
     put:
       operationId: upsert_entry
     patch:
-      operationId: edit_entry
-</code></pre>
-<h2 id="number-format">number-format</h2>
+      operationId: edit_entry</code></p>
+<h2>number-format</h2>
 <p>Schema of type number or integer must specify a format
 to express the associated datatype, eg. <code>int32</code>, <code>int64</code>, ...</p>
 <p>You can express similar requirements using the <code>minimum</code> and <code>maximum</code> properties.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
-<h2 id="integer-format">integer-format</h2>
+<h2>integer-format</h2>
 <p>Schema of type number or integer must specify a format
 to express the associated datatype, eg. <code>int32</code>, <code>int64</code>, ...</p>
 <p>You can express similar requirements using the <code>minimum</code> and <code>maximum</code> properties.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
-<h2 id="allowed-integer-format">allowed-integer-format</h2>
+<h2>allowed-integer-format</h2>
 <p>To improve interoperability, integer and number formats are constrained
 to a shared subset.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
-<h2 id="allowed-number-format">allowed-number-format</h2>
+<h2>allowed-number-format</h2>
 <p>To improve interoperability, integer and number formats are constrained
 to a shared subset.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
-<h2 id="no-swagger-2">no-swagger-2</h2>
+<h2>no-swagger-2</h2>
 <p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
-<h2 id="sec-securityschemes-oauth-http">sec-securitySchemes-oauth-http</h2>
+<h2>sec-securitySchemes-oauth-http</h2>
 <p>OAuth2 endpoints must use <code>https://</code></p>
-<h2 id="sec-securityschemes-oauth-allowed-flows">sec-securitySchemes-oauth-allowed-flows</h2>
+<h2>sec-securitySchemes-oauth-allowed-flows</h2>
 <p>The OAuth2 authorization framework defines various
-<a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3">grant types</a>,
-most notably the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.1">AuthorizationCode</a>
-and the <a href="https://tools.ietf.org/html/%5Brfc6749%5D(https://tools.ietf.org/html/rfc6749)#section-1.3.4">Client Credentials</a>.</p>
+<a href="https://tools.ietf.org/html/rfc6749#section-1.3">grant types</a>,
+most notably the <a href="https://tools.ietf.org/html/rfc6749#section-1.3.1">AuthorizationCode</a>
+and the <a href="https://tools.ietf.org/html/rfc6749#section-1.3.4">Client Credentials</a>.</p>
 <p>Some grant types are now considered insecure
 and MUST not be used, including <code>implicit</code> and <code>password</code>.
 The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a>
 still in draft, removes them and suggests to
-replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC7636">RFC7636</a>.</p>
+replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7636.</p>
 <p>For further info, see the OAuth2 section of <a href="https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/">API Security Guidelines</a>.</p>
-<h2 id="patch-media-type">patch-media-type</h2>
+<h2>patch-media-type</h2>
 <p>The PATCH specification explicits that the request body contains
 a "patch document" describing the changes to be applied
 to the target resource.</p>
 <p>To avoid confusion, <a href="https://www.rfc-editor.org/errata/eid3169">this errata</a>
 explains that <code>application/json</code> is not an appropriate media-type for <code>PATCH</code>.</p>
 <p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
-defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
-<pre><code>paths:
+defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>6902.</p>
+<p><code>paths:
   /books/{book_id}:
     patch:
       requestBody:
@@ -266,9 +256,8 @@ defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
             schema:
               type: array
               ...
-            example: [{ "op": "add", "path": "/baz", "value": "qux" }]
-</code></pre>
-<h2 id="patch-without-request-body">patch-without-request-body</h2>
+            example: [{ "op": "add", "path": "/baz", "value": "qux" }]</code></p>
+<h2>patch-without-request-body</h2>
 <p>The PATCH method requests that a set of changes described in the
 <code>requestBody</code> be applied to the target resource.
 A PATCH specification without a <code>requestBody</code>
@@ -278,23 +267,23 @@ on a different target resource may result in non-interoperable
 behavior.</p>
 <p>For example, to modify the resource at <code>/user/123</code>,
 you can use the following PATCH request:</p>
-<pre><code>PATCH /user/123
-Content-Type: application/json-patch+json
-
-[{"op": "replace", "path": "enable", "value": true}]
-</code></pre>
+<p>```
+PATCH /user/123
+Content-Type: application/json-patch+json</p>
+<p>[{"op": "replace", "path": "enable", "value": true}]
+```</p>
 <p>or  POST request with the semantic implied by the target url:</p>
-<pre><code>POST /user/123/enable
-</code></pre>
+<p><code>POST /user/123/enable</code></p>
 <p>Instead, the following request
 is expected to modify the <code>/user/123/enable</code>
 subresource, and not the <code>/user/123</code> one.</p>
-<pre><code>PATCH /user/123/enable
-</code></pre>
-<h2 id="patch-json-patch-mediatype">patch-json-patch-mediatype</h2>
+<p>```
+PATCH /user/123/enable
+````</p>
+<h2>patch-json-patch-mediatype</h2>
 <p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
-defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
-<pre><code>paths:
+defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>6902.</p>
+<p><code>paths:
   /books/{book_id}:
     patch:
       requestBody:
@@ -303,158 +292,145 @@ defined in <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>.</p>
             schema:
               type: array
               ...
-            example: [{ "op": "add", "path": "/baz", "value": "qux" }]
-</code></pre>
-<h2 id="paths-status">paths-status</h2>
+            example: [{ "op": "add", "path": "/baz", "value": "qux" }]</code></p>
+<h2>paths-status</h2>
 <p>You must define a <code>/status</code> path that can be used to health-check the API.
 Using this path avoids the arbitrary usage of a server URL for health-check
 scope.</p>
 <p>The <code>/status</code> endpoint should return a <code>application/problem+json</code> response
 containing a successful status code if the service is working correctly.</p>
 <p>The service provider is free to define the implementation logic for this path.</p>
-<h2 id="paths-status-return-problem">paths-status-return-problem</h2>
+<h2>paths-status-return-problem</h2>
 <p>"/status" must return a Problem object.</p>
-<h2 id="paths-status-problem-schema">paths-status-problem-schema</h2>
+<h2>paths-status-problem-schema</h2>
 <p>"/status" schema is not a Problem object.</p>
-<h2 id="paths-http-method">paths-http-method</h2>
+<h2>paths-http-method</h2>
 <p>When you design a REST API, you don't usually need to mention terms like
 <code>get</code>, <code>delete</code> and so on in your <code>paths</code>, because this information is
 conveyed by the HTTP method.</p>
 <p>Instead of using</p>
-<pre><code>POST /books/1234/delete HTTP/1.1
-Host: api.example
-</code></pre>
+<p><code>POST /books/1234/delete HTTP/1.1
+Host: api.example</code></p>
 <p>You can simply call</p>
-<pre><code>DELETE /books/1234 HTTP/1.1
-Host: api.example
-</code></pre>
+<p><code>DELETE /books/1234 HTTP/1.1
+Host: api.example</code></p>
 <p>Similarly you don't need verbs like <code>list</code> or <code>create</code> because
-the HTTP Semantics <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a> supports this kind of actions natively
+the HTTP Semantics <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 supports this kind of actions natively
 with proper methods and status code.</p>
 <p>Instead of</p>
-<pre><code>POST /create/user HTTP/1.1
+<p>```
+POST /create/user HTTP/1.1
 Host: api.example
-Content-Type: application/json
-
-{"given_name": "Mario"}
-</code></pre>
-<p>You can use</p>
-<pre><code>POST /create/user HTTP/1.1
+Content-Type: application/json</p>
+<p>{"given_name": "Mario"}
+```</p>
+<p>You can use
+```
+POST /create/user HTTP/1.1
 Host: api.example
-Content-Type: application/json
-
-{"given_name": "Mario"}
-</code></pre>
+Content-Type: application/json</p>
+<p>{"given_name": "Mario"}
+```</p>
 <p>returning a proper response</p>
-<pre><code>HTTP/1.1 201 Created
-Location: /users/1234
-</code></pre>
+<p>```
+HTTP/1.1 201 Created
+Location: /users/1234</p>
+<p>```</p>
 <p>This simplifies securing your API as you know beforehand the kind of action
 which is going to be performed.</p>
-<h2 id="use-problem-json-for-errors">use-problem-json-for-errors</h2>
+<h2>use-problem-json-for-errors</h2>
 <p>Error management is a key enabler of a resilient API ecosystem.
 Enforcing a consistent schema for errors between different APIs,
 enables client to properly implement an error management strategy,
 with positive impacts for users.</p>
 <p>Error responses should return one of the media-type
-defined in <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>:</p>
-<ul>
-<li><code>application/problem+json</code></li>
-<li><code>application/problem+xml</code></li>
-</ul>
+defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7807:
+- <code>application/problem+json</code>
+- <code>application/problem+xml</code></p>
 <p>An example of a valid response:</p>
-<pre><code>responses:
+<p><code>responses:
   "503":
     content:
       application/problem+json:
         schema:
-          ...
-</code></pre>
-<h2 id="use-problem-schema">use-problem-schema</h2>
+          ...</code></p>
+<h2>use-problem-schema</h2>
 <p>WARN: This rule is under implementation and just provides an hint.</p>
 <p>Error management is a key enabler of a resilient API ecosystem.
 Enforcing a consistent schema for errors between different APIs,
 enables client to properly implement an error management strategy,
 with positive impacts for users.</p>
 <p>This rule inspects the schema returned by an error response and
-verifies whether it contains the main properties defined in <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a>:
+verifies whether it contains the main properties defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7807:
 <code>status</code>, <code>title</code> and <code>detail</code>.</p>
-<p>An example of a valid payload is</p>
-<pre><code>{
+<p>An example of a valid payload is
+<code>{
  "title": "Not Found",
  "status": 404,
  "detail": "Book does not exist; id: 123"
-}
-</code></pre>
+}</code></p>
 <p>See recommendation RAC_REST_NAME_007.</p>
-<h2 id="hint-problem-schema">hint-problem-schema</h2>
+<h2>hint-problem-schema</h2>
 <p>WARN: This rule is under implementation and just provides an hint.</p>
 <p>Error management is a key enabler of a resilient API ecosystem.
 Enforcing a consistent schema for errors between different APIs,
 enables client to properly implement an error management strategy,
 with positive impacts for users.</p>
-<p>Errors should return <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a> objects. Instead, this schema
+<p>Errors should return <a href="https://tools.ietf.org/html/RFC">RFC</a>7807 objects. Instead, this schema
 seems to use non standard properties such as:
 <code>message</code>, <code>msg</code> and <code>code</code>.</p>
 <p>An error of the following form</p>
-<pre><code>{
+<p><code>{
   "msg": "Book with id: 123 does not exist.",
   "code": 6063
-}
-</code></pre>
-<p>can be expressed in <a href="https://tools.ietf.org/html/RFC7807">RFC7807</a> with</p>
-<pre><code>{
+}</code></p>
+<p>can be expressed in <a href="https://tools.ietf.org/html/RFC">RFC</a>7807 with</p>
+<p><code>{
   "detail": "Book with id: 123 does not exist.",
   "type": "https://api.example/v1/errors/6063",
   "status": 404,
   "title": "Not Found"
-}
-</code></pre>
+}</code></p>
 <p>Returning an URI in <code>type</code>, instead of an opaque <code>code</code> can help
 the client in better identifying the error; moreover the URI
 though it should not be dereferenced automatically, can return
 an actual resource providing guidance in addressing the issue.</p>
 <p>See recommendation RAC_REST_NAME_007.</p>
-<h2 id="missing-retry-after">missing-retry-after</h2>
-<p>When a client is either:</p>
-<ul>
-<li>throttled out with a 429 status code;</li>
-<li>warned about a temporary server issue with a 503 status code;
+<h2>missing-retry-after</h2>
+<p>When a client is either:
+* throttled out with a 429 status code;
+* warned about a temporary server issue with a 503 status code;
 the server should explicitly communicate how long to wait
-before issuing further requests using the Retry-After header.</li>
-</ul>
-<p>Retry-After is defined in <a href="https://tools.ietf.org/html/RFC7231">RFC7231</a>.</p>
-<h2 id="missing-ratelimit">missing-ratelimit</h2>
+before issuing further requests using the Retry-After header.</p>
+<p>Retry-After is defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7231.</p>
+<h2>missing-ratelimit</h2>
 <p>Ratelimiting an API preserves a service and limits attack scenario
 <a href="https://owasp.org/www-project-api-security">see API4:2019 Lack of Resources &amp; Rate Limiting</a>.</p>
-<p>APIs should use the following headers at least on successful responses:</p>
-<ul>
-<li><code>X-RateLimit-Limit</code>: number of total requests in a give time window</li>
-<li><code>X-RateLimit-Remaining</code>: remaining requests in the current window</li>
-<li><code>X-RateLimit-Reset</code>: number of seconds before the window resets</li>
-</ul>
+<p>APIs should use the following headers at least on successful responses:
+- <code>X-RateLimit-Limit</code>: number of total requests in a give time window
+- <code>X-RateLimit-Remaining</code>: remaining requests in the current window
+- <code>X-RateLimit-Reset</code>: number of seconds before the window resets</p>
 <p>An example set of headers is the following</p>
-<pre><code>X-Ratelimit-Limit: 100
+<p><code>X-Ratelimit-Limit: 100
 X-Ratelimit-Remaining: 40
-X-Ratelimit-Reset: 12
-</code></pre>
+X-Ratelimit-Reset: 12</code></p>
 <p>A standardization proposal for ratelimit headers is ongoing
 inside the IETF HTTPAPI Workgroup.
 See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p>
-<h2 id="response-with-json-object">response-with-json-object</h2>
+<h2>response-with-json-object</h2>
 <p>JSON responses MUST use JSON objects, in order to be extensible.</p>
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return
 an object <code>{"items": [1, 2, 3]}</code>.</p>
 <p>This allows the schema to evolve in a backward compatible ways.</p>
 <p>There are notable exceptions when specific media types are involved,
-for example json-patch is an array (see <a href="https://tools.ietf.org/html/RFC6902">RFC6902</a>).</p>
-<h2 id="sec-apikeys-url">sec-apikeys-url</h2>
+for example json-patch is an array (see <a href="https://tools.ietf.org/html/RFC">RFC</a>6902).</p>
+<h2>sec-apikeys-url</h2>
 <p>API Keys are (usually opaque) strings that
 are passed in headers, cookies or query parameters
 to access APIs.</p>
 <p>Those keys can be eavesdropped, especially when they are stored
 in cookies or passed as URL parameters.</p>
-<pre><code>security:
+<p><code>security:
 - ApiKey: []
 paths:
   /books: {}
@@ -463,387 +439,11 @@ securitySchemes:
   ApiKey:
     type: apiKey
     in: cookie
-    name: X-Api-Key
-</code></pre>
-<h2 id="sec-credentials-parameters">sec-credentials-parameters</h2>
+    name: X-Api-Key</code></p>
+<h2>sec-credentials-parameters</h2>
 <p>URL parameters MUST NOT contain credentials such as
 apikey, password, or secret.</p>
-<p>See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl">RAC_GEN_004</a></p>
-<h2 id="sec-array-boundaries">sec-array-boundaries</h2>
-<p>Array size should be limited to mitigate resource exhaustion attacks.
-This can be done using <code>maxItems</code> and <code>minItems</code>, like in the example
-below.</p>
-<pre><code>Limited:
-  type: array
-  maxItems: 10
-  items:
-    type: string
-    format: date
-</code></pre>
-<p>You should ensure that the schema referenced in  <code>items</code> is constrained too.</p>
-<p>If you delegate input validation to a library or framework,
-be sure to test it thoroughly and ensure that it verifies <code>maxItems</code>.</p>
-<h2 id="sec-number-boundaries">sec-number-boundaries</h2>
-<p>Numeric values should be limited in size to mitigate resource exhaustion
-using <code>maximum</code> and <code>minimum</code>.</p>
-<p>If you delegate input validation to a library or framework,
-be sure to test it thoroughly.</p>
-<h2 id="sec-no-additionalproperties">sec-no-additionalProperties</h2>
-<p>By default, jsonschema allows additionalProperties. This means
-that schema validators can be bypassed using further, unspecified
-fields.</p>
-<p>While forbidding additionalProperties can create rigidity and hinder
-the evolution of an API - eg making it hard to accept new parameters
-or fields - it is possible that this flexibility can be used
-to bypass the schema validator and force the application to process
-unwanted information.</p>
-<p>Disable <code>additionalProperties</code> with <code>false</code></p>
-<pre><code>Person:
-  type: object
-  additionalProperties: false
-  properties:
-    given_name:
-      type: string
-      pattern: [a-zA-Z ]{24}
-</code></pre>
-<p>Or constraint them using <code>maxProperties</code></p>
-<pre><code>Person:
-  type: object
-  additionalProperties:
-    type: string
-    pattern: /+39[0-9]{,14}/
-  maxProperties: 3
-  properties:
-    given_name:
-      type: string
-      pattern: [a-zA-Z ]{24}
-</code></pre>
-<ul>
-<li>no additionalProperties</li>
-<li>constrained additionalProperties</li>
-</ul>
-<h2 id="sec-no-default-additionalproperties">sec-no-default-additionalProperties</h2>
-<p>By default, jsonschema allows additionalProperties. This means
-that schema validators can be bypassed using further, unspecified
-fields.</p>
-<p>While forbidding additionalProperties can create rigidity and hinder
-the evolution of an API - eg making it hard to accept new parameters
-or fields - it is possible that this flexibility can be used
-to bypass the schema validator and force the application to process
-unwanted information.</p>
-<p>Disable <code>additionalProperties</code> with <code>false</code></p>
-<pre><code>Person:
-  type: object
-  additionalProperties: false
-  properties:
-    given_name:
-      type: string
-      pattern: [a-zA-Z ]{24}
-</code></pre>
-<p>Or constraint them using <code>maxProperties</code></p>
-<pre><code>Person:
-  type: object
-  additionalProperties:
-    type: string
-    pattern: /+39[0-9]{,14}/
-  maxProperties: 3
-  properties:
-    given_name:
-      type: string
-      pattern: [a-zA-Z ]{24}
-</code></pre>
-<ul>
-<li>no additionalProperties</li>
-<li>constrained additionalProperties</li>
-</ul>
-<h2 id="sec-constrained-additionalproperties">sec-constrained-additionalProperties</h2>
-<p>By default, jsonschema allows additionalProperties. This means
-that schema validators can be bypassed using further, unspecified
-fields.</p>
-<p>While forbidding additionalProperties can create rigidity and hinder
-the evolution of an API - eg making it hard to accept new parameters
-or fields - it is possible that this flexibility can be used
-to bypass the schema validator and force the application to process
-unwanted information.</p>
-<p>Disable <code>additionalProperties</code> with <code>false</code></p>
-<pre><code>Person:
-  type: object
-  additionalProperties: false
-  properties:
-    given_name:
-      type: string
-      pattern: [a-zA-Z ]{24}
-</code></pre>
-<p>Or constraint them using <code>maxProperties</code></p>
-<pre><code>Person:
-  type: object
-  additionalProperties:
-    type: string
-    pattern: /+39[0-9]{,14}/
-  maxProperties: 3
-  properties:
-    given_name:
-      type: string
-      pattern: [a-zA-Z ]{24}
-</code></pre>
-<ul>
-<li>no additionalProperties</li>
-<li>constrained additionalProperties</li>
-</ul>
-<h2 id="sec-protection-global-unsafe">sec-protection-global-unsafe</h2>
-<p>Check if the operation is protected at operation level.
-Otherwise, the global <code>#/security</code> property is check.</p>
-<p>Your API should be protected by a <code>security</code> rule either at
-global or operation level.
-All operations should be protected especially when they
-not safe (methods that do not alter the state of the server) 
-HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
-This is done with one or more non-empty <code>security</code> rules.</p>
-<p>Security rules are defined in the <code>securityScheme</code> section.</p>
-<p>An example of a security rule applied at global level.</p>
-<pre><code>security:
-- BasicAuth: []
-paths:
-  /books: {}
-  /users: {}
-securitySchemes:
-  BasicAuth:
-    scheme: http
-    type: basic
-</code></pre>
-<p>An example of a security rule applied at operation level, which
-eventually overrides the global one</p>
-<pre><code>paths:
-  /books:
-    post:
-      security:
-      - AccessToken: []
-securitySchemes:
-  BasicAuth:
-    scheme: http
-    type: basic
-  AccessToken:
-    scheme: http
-    type: bearer
-    bearerFormat: JWT
-</code></pre>
-<p>If your <a href="https://www.rfc-editor.org/rfc/%5Brfc9110%5D(https://tools.ietf.org/html/rfc9110).html#name-safe-methods">safe methods</a> (e.g. GET, HEAD) don't need to be protected,
-you need to state it explicitly using an empty security rule: </p>
-<pre><code>security:
-- {}
-</code></pre>
-<p>This can be done at operation level or at global level, but the latter is
-discouraged because it will affect unsafe methods too.</p>
-<h2 id="sec-protection-global-unsafe-strict">sec-protection-global-unsafe-strict</h2>
-<p>Check if the operation is protected at operation level.
-Otherwise, the global <code>#/security</code> property is check.</p>
-<p>Your API should be protected by a <code>security</code> rule either at
-global or operation level.
-All operations should be protected especially when they
-not safe (methods that do not alter the state of the server) 
-HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
-This is done with one or more non-empty <code>security</code> rules.</p>
-<p>Security rules are defined in the <code>securityScheme</code> section.</p>
-<p>An example of a security rule applied at global level.</p>
-<pre><code>security:
-- BasicAuth: []
-paths:
-  /books: {}
-  /users: {}
-securitySchemes:
-  BasicAuth:
-    scheme: http
-    type: basic
-</code></pre>
-<p>An example of a security rule applied at operation level, which
-eventually overrides the global one</p>
-<pre><code>paths:
-  /books:
-    post:
-      security:
-      - AccessToken: []
-securitySchemes:
-  BasicAuth:
-    scheme: http
-    type: basic
-  AccessToken:
-    scheme: http
-    type: bearer
-    bearerFormat: JWT
-</code></pre>
-<p>If your <a href="https://www.rfc-editor.org/rfc/%5Brfc9110%5D(https://tools.ietf.org/html/rfc9110).html#name-safe-methods">safe methods</a> (e.g. GET, HEAD) don't need to be protected,
-you need to state it explicitly using an empty security rule: </p>
-<pre><code>security:
-- {}
-</code></pre>
-<p>This can be done at operation level or at global level, but the latter is
-discouraged because it will affect unsafe methods too.</p>
-<h2 id="sec-protection-global-safe">sec-protection-global-safe</h2>
-<p>Check if the operation is protected at operation level.
-Otherwise, the global <code>#/security</code> property is check.</p>
-<p>Your API should be protected by a <code>security</code> rule either at
-global or operation level.
-All operations should be protected especially when they
-not safe (methods that do not alter the state of the server) 
-HTTP methods like <code>POST</code>, <code>PUT</code>, <code>PATCH</code> and <code>DELETE</code>.
-This is done with one or more non-empty <code>security</code> rules.</p>
-<p>Security rules are defined in the <code>securityScheme</code> section.</p>
-<p>An example of a security rule applied at global level.</p>
-<pre><code>security:
-- BasicAuth: []
-paths:
-  /books: {}
-  /users: {}
-securitySchemes:
-  BasicAuth:
-    scheme: http
-    type: basic
-</code></pre>
-<p>An example of a security rule applied at operation level, which
-eventually overrides the global one</p>
-<pre><code>paths:
-  /books:
-    post:
-      security:
-      - AccessToken: []
-securitySchemes:
-  BasicAuth:
-    scheme: http
-    type: basic
-  AccessToken:
-    scheme: http
-    type: bearer
-    bearerFormat: JWT
-</code></pre>
-<p>If your <a href="https://www.rfc-editor.org/rfc/%5Brfc9110%5D(https://tools.ietf.org/html/rfc9110).html#name-safe-methods">safe methods</a> (e.g. GET, HEAD) don't need to be protected,
-you need to state it explicitly using an empty security rule: </p>
-<pre><code>security:
-- {}
-</code></pre>
-<p>This can be done at operation level or at global level, but the latter is
-discouraged because it will affect unsafe methods too.</p>
-<h2 id="sec-securityschemes-oauth">sec-securitySchemes-oauth</h2>
-<p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
-claims to be transferred between two parties. JWT can be enclosed in
-encrypted or signed tokens like JWS and JWE.</p>
-<p>The <a href="https://www.iana.org/assignments/jose/jose.xhtml">JOSE IANA registry</a>
-provides algorithms information.</p>
-<p><a href="https://tools.ietf.org/html/RFC8725">RFC8725</a> describes common pitfalls in the JWx specifications and in
-their implementations, such as:</p>
-<ul>
-<li>the ability to ignore algorithms, eg. <code>{"alg": "none"}</code>;</li>
-<li>using insecure algorithms like <code>RSASSA-PKCS1-v1_5</code> eg. <code>{"alg": "RS256"}</code>.</li>
-</ul>
-<p>An API using JWT should explicit in the <code>description</code>
-that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725">RFC8725</a>.</p>
-<pre><code>components:
-  securitySchemes:
-    JWTBearer:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |-
-        A bearer token in the format of a JWS and conformato
-        to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).
-</code></pre>
-<h2 id="sec-securityschemes-jwt">sec-securitySchemes-jwt</h2>
-<p>Json Web Tokens <a href="https://tools.ietf.org/html/RFC7519">RFC7519</a> is a compact, URL-safe means of representing
-claims to be transferred between two parties. JWT can be enclosed in
-encrypted or signed tokens like JWS and JWE.</p>
-<p>The <a href="https://www.iana.org/assignments/jose/jose.xhtml">JOSE IANA registry</a>
-provides algorithms information.</p>
-<p><a href="https://tools.ietf.org/html/RFC8725">RFC8725</a> describes common pitfalls in the JWx specifications and in
-their implementations, such as:</p>
-<ul>
-<li>the ability to ignore algorithms, eg. <code>{"alg": "none"}</code>;</li>
-<li>using insecure algorithms like <code>RSASSA-PKCS1-v1_5</code> eg. <code>{"alg": "RS256"}</code>.</li>
-</ul>
-<p>An API using JWT should explicit in the <code>description</code>
-that the implementation conforms to <a href="https://tools.ietf.org/html/RFC8725">RFC8725</a>.</p>
-<pre><code>components:
-  securitySchemes:
-    JWTBearer:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-      description: |-
-        A bearer token in the format of a JWS and conformato
-        to the specifications included in [RFC8725](https://tools.ietf.org/html/RFC8725).
-</code></pre>
-<h2 id="sec-apikeys-cookie">sec-apikeys-cookie</h2>
-<p>API Keys are (usually opaque) strings that
-are passed in headers, cookies or query parameters
-to access APIs.</p>
-<p>Those keys can be eavesdropped, especially when they are stored
-in cookies or passed as URL parameters.</p>
-<pre><code>security:
-- ApiKey: []
-paths:
-  /books: {}
-  /users: {}
-securitySchemes:
-  ApiKey:
-    type: apiKey
-    in: cookie
-    name: X-Api-Key
-</code></pre>
-<h2 id="sec-auth-insecure-schemes">sec-auth-insecure-schemes</h2>
-<p>The http authorization type in OAS supports
-all the schemes defined in the associated
-<a href="https://www.iana.org/assignments/http-authschemes/">IANA table</a>.</p>
-<p>Some of those schemes are
-now considered insecure, such as
-negotiating authentication using specifications
-like NTLM or OAuth v1.</p>
-<h2 id="sec-string-maxlength">sec-string-maxlength</h2>
-<p>String length should be limited to avoid an attacker
-to send very long strings to your service.</p>
-<p>You can do this in different ways:</p>
-<ul>
-<li>specify a <code>maxLength</code></li>
-<li>constraint the possible values with an <code>enum</code></li>
-<li>use a constrained <code>format</code> like <code>date</code> or <code>date-time</code>.</li>
-</ul>
-<p>A constrained string using the <code>date</code> format.</p>
-<pre><code>ConstrainedString:
-  type: string
-  format: date
-</code></pre>
-<p>Another constrained string using <code>maxLength</code>.
-You can always add further constraints using a
-<code>pattern</code> or a <code>format</code>.</p>
-<pre><code>ZipCode:
-  type: string
-  maxLength: 5
-  pattern: '[0-9]{5}'
-</code></pre>
-<p>For further security, you can always limit string length even
-in conjunction with <code>format</code> and <code>pattern</code>.</p>
-<h2 id="sec-string-pattern-or-format-or-enum">sec-string-pattern-or-format-or-enum</h2>
-<p>String length should be limited to avoid an attacker
-to send very long strings to your service.</p>
-<p>You can do this in different ways:</p>
-<ul>
-<li>specify a <code>maxLength</code></li>
-<li>constraint the possible values with an <code>enum</code></li>
-<li>use a constrained <code>format</code> like <code>date</code> or <code>date-time</code>.</li>
-</ul>
-<p>A constrained string using the <code>date</code> format.</p>
-<pre><code>ConstrainedString:
-  type: string
-  format: date
-</code></pre>
-<p>Another constrained string using <code>maxLength</code>.
-You can always add further constraints using a
-<code>pattern</code> or a <code>format</code>.</p>
-<pre><code>ZipCode:
-  type: string
-  maxLength: 5
-  pattern: '[0-9]{5}'
-</code></pre>
-<p>For further security, you can always limit string length even
-in conjunction with <code>format</code> and <code>pattern</code>.</p>
-
+<p>See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl">RAC_GEN_004</a></p></div>
         </div>
     </div>
 </div>

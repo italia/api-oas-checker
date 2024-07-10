@@ -1,3 +1,6 @@
+#	Ruleset name: Italian Guidelines
+#	Ruleset version: 1.1
+
 #
 # These rules are based on the Italian Guidelines,
 # which are meant to align the design and security requirements
@@ -37,7 +40,7 @@ rules:
         message: '[RFC7234] Cache usage SHOULD be documented when used.'
         formats:
         - oas3
-        severity: error
+        severity: warn
         recommended: true
         given: $..[parameters][?(@.in == "header" && @.name.match(/Cache-Control/i))]
         then:
@@ -73,7 +76,7 @@ rules:
             and/or Expires. {{error}}'
         formats:
         - oas3
-        severity: error
+        severity: info
         recommended: true
         given: $..[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]
         then:
@@ -108,7 +111,7 @@ rules:
         message: '[RFC7234] {{error}}'
         formats:
         - oas3
-        severity: error
+        severity: info
         recommended: true
         given: $..[responses][?(@property[0] == "2" )][headers]
         then:
@@ -149,7 +152,7 @@ rules:
             \ strip the content from `DELETE` requests.\n\nSee RFC7231 for further\
             \ information."
         message: '[RFC7231] A DELETE request SHOULD NOT accept a requestBody: {{error}}.'
-        severity: error
+        severity: warn
         given: $.paths..delete.requestBody
         then:
             function: undefined
@@ -171,7 +174,7 @@ rules:
             See RFC7231 for further information.
         message: '[RFC7231] 200, 201, 202, 203 and 206 responses usually have a content:
             {{error}}.'
-        severity: error
+        severity: hint
         given: $..paths..responses[?( @property && @property.match("(200|201|202|203|206)")
             )]
         then:
@@ -234,7 +237,7 @@ rules:
         message: Avoid using method names in operationIds.
         formats:
         - oas3
-        severity: error
+        severity: hint
         given: $..[?(@.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
             )]
         then:
@@ -288,7 +291,7 @@ rules:
             [int32, int64]. {{path}}'
         formats:
         - oas3
-        severity: error
+        severity: hint
         recommended: true
         given: $..[?(@ && @.type=="integer")]
         then:
@@ -308,7 +311,7 @@ rules:
             [decimal32, decimal64, decimal128, float, double]. {{path}}'
         formats:
         - oas3
-        severity: error
+        severity: hint
         recommended: true
         given: $..[?(@ && @.type=="number")]
         then:
@@ -375,7 +378,7 @@ rules:
     paths-status-problem-schema:
         description: '"/status" schema is not a Problem object.'
         message: '{{error}} {{path}}'
-        severity: error
+        severity: warn
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.[schema]
         then:
@@ -447,7 +450,7 @@ rules:
             it is ok? {{path}}'
         formats:
         - oas3
-        severity: error
+        severity: hint
         recommended: true
         given: $..[responses][?(@property && @property.match(/^(4|5|default)/)  &&
             !@["x-noqa"] )][schema].properties
@@ -484,7 +487,7 @@ rules:
         message: '[RFC7231] Missing ratelimit header: {{property}} in {{path}}'
         formats:
         - oas3
-        severity: error
+        severity: warn
         recommended: true
         given: $..[responses][?(@property == "429" || @property == "503"  )][headers]
         then:
@@ -514,7 +517,7 @@ rules:
         message: Missing ratelimit headers. {{property}} {{error}} {{path}}
         formats:
         - oas3
-        severity: error
+        severity: warn
         recommended: true
         given: $..[responses][?(@property[0] == "2" )][headers]
         then:
