@@ -20,9 +20,17 @@ jobs:
           node-version: '16'
           check-latest: true
           cache: yarn
-      - name: Test rules
+      - uses: robinraju/release-downloader@v1.11
+        with:
+          repository: italia/api-oas-checker-rules
+          fileName: '*'
+          out-file-path: rulesets/
+          latest: true
+      - name: Unzip files
         run: |
-          make test
+          for file in rulesets/*.zip; do
+            unzip -o "$file" -d rulesets/
+          done
       - name: Build ui, test ui and deploy
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/italia/api-oas-checker.git

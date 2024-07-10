@@ -4,14 +4,7 @@ import { createUseStyles } from 'react-jss';
 import { Icon } from 'design-react-kit';
 import { isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { setRuleset } from '../redux/actions.js';
-import {
-  getDocFilename,
-  RULESET_BEST_PRACTICES,
-  RULESET_ITALIAN,
-  RULESET_ITALIAN_EXTENDED_PLUS_SECURITY,
-  RULESET_ITALIAN_EXTENDED,
-  RULESET_SECURITY,
-} from '../utils.mjs';
+import { getDocFilename } from '../utils.mjs';
 
 const useStyles = createUseStyles({
   select: {
@@ -48,16 +41,14 @@ export const RulesetSelect = () => {
         value={ruleset}
         onChange={(e) => dispatch(setRuleset(e.target.value))}
       >
-        <option value={RULESET_ITALIAN}>Italian Guidelines</option>
-        <option value={RULESET_ITALIAN_EXTENDED}>Italian Guidelines Extended</option>
-        <option value={RULESET_BEST_PRACTICES}>Best Practices Only</option>
-        <option value={RULESET_SECURITY}>Extra Security Checks</option>
-        <option value={RULESET_ITALIAN_EXTENDED_PLUS_SECURITY}>
-          Italian Guidelines Extended + Extra Security Checks
-        </option>
+        {Object.entries(FILES_DICTIONARY).map(([filePath, fileInfo]) => (
+          <option value={filePath}>
+            {`${fileInfo.rulesetName}`}
+          </option>
+        ))}
       </select>
       <a className={classes.anchor} href={getDocFilename(ruleset)} rel="noreferrer" target="_blank">
-        Ruleset
+        Rules (v{RULESETS_VERSION})
       </a>
       <Icon className={classes.info} icon="it-info-circle" />
     </div>

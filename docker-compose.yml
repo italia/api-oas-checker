@@ -20,14 +20,6 @@ services:
     ports:
       - 3000:3000
     user: $UID:$GID
-  test:
-    build:
-      context: .
-    entrypoint:
-      - make
-      - test
-      - test-ui
-    user: $UID:$GID
   build:
     build:
       context: .
