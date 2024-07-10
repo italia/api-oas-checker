@@ -15,8 +15,5 @@ yarn-error.log
 /coverage
 .idea
 
-# generated json files
-rules/*.json
-
 # generated css from bootstrap-italia
 src/bootstrap-italia-custom.min.css
