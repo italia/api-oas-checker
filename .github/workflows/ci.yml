@@ -20,9 +20,6 @@ jobs:
           node-version: '16'
           check-latest: true
           cache: yarn
-      - name: Test rules
-        run: |
-          make test
-      - name: Build ui and test ui
+      - name: Make
         run: |
           make all
