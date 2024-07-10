@@ -93,7 +93,7 @@ export const Header = () => {
             </span>
             {/* eslint-disable-next-line no-undef */}
             <a className={classes.anchor} href={REPO_URL}>
-              Info + Repo
+              Repo + Guida
             </a>
             <Icon color="white" className="p-2 d-none d-md-block" icon="it-github" size="lg" />
           </div>

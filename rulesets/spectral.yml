@@ -1,0 +1,1099 @@
+#	Ruleset name: Italian Guidelines Extended
+#	Ruleset version: 1.0
+
+#
+# These rules are based on the Italian Guidelines,
+# which are meant to align the design and security requirements
+# for the APIs provided by more that 20'000 administrations.
+#
+# Ruleset integrate the current HTTP specifications and a wide set of Best Current Practices
+# currently adopted both in the private and the public sector.
+#
+# You can discuss the ruleset on github:
+# - https://github.com/italia/api-oas-checker
+#
+extends: spectral:oas
+
+rules:
+    cache-control-parameter-undocumented:
+        description: |-
+            Cache usage SHOULD be extensively detailed in the `description` property
+            to avoid data leaks or the usage of stale data.
+
+            This rule should ensure in some way that the api provider
+            documented extensively the cache usage to avoid data leaks
+            or usage of stale data.
+            The `no-transform` directive can
+            be used in responses to avoid transforming proxies to
+            modify (eg. compress) the content.
+
+            For now this ruleset tests:
+            * the presence of following keywords
+              in the `description`: `max-age`, `private`, `no-store`, `no-cache`,
+              `no-transform`.
+            * that one and only one between Expires and Cache-Control is used.
+
+            `Cache-Control` and `Expires` should not be used in conjunction,
+            because `Cache-Control` overrides `Expires` when `max-age` is set.
+            Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
+            like described in RFC7234.
+        message: '[RFC7234] Cache usage SHOULD be documented when used.'
+        formats:
+        - oas3
+        severity: warn
+        recommended: true
+        given: $..[parameters][?(@.in == "header" && @.name.match(/Cache-Control/i))]
+        then:
+        -   field: description
+            function: truthy
+        -   field: description
+            function: pattern
+            functionOptions:
+                match: .*(max-age|private|no-store|no-cache|no-transform).*
+    cache-responses-undocumented:
+        description: |-
+            Cache usage SHOULD be extensively detailed in the `description` property
+            to avoid data leaks or the usage of stale data.
+
+            This rule should ensure in some way that the api provider
+            documented extensively the cache usage to avoid data leaks
+            or usage of stale data.
+            The `no-transform` directive can
+            be used in responses to avoid transforming proxies to
+            modify (eg. compress) the content.
+
+            For now this ruleset tests:
+            * the presence of following keywords
+              in the `description`: `max-age`, `private`, `no-store`, `no-cache`,
+              `no-transform`.
+            * that one and only one between Expires and Cache-Control is used.
+
+            `Cache-Control` and `Expires` should not be used in conjunction,
+            because `Cache-Control` overrides `Expires` when `max-age` is set.
+            Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
+            like described in RFC7234.
+        message: '[RFC7234] Cache usage in responses SHOULD be documented in Cache-Control
+            and/or Expires. {{error}}'
+        formats:
+        - oas3
+        severity: info
+        recommended: true
+        given: $..[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]
+        then:
+        -   field: description
+            function: truthy
+        -   field: description
+            function: pattern
+            functionOptions:
+                match: .*(max-age|private|no-store|no-cache|no-transform).*
+    cache-responses-indeterminate-behavior:
+        description: |-
+            Cache usage SHOULD be extensively detailed in the `description` property
+            to avoid data leaks or the usage of stale data.
+
+            This rule should ensure in some way that the api provider
+            documented extensively the cache usage to avoid data leaks
+            or usage of stale data.
+            The `no-transform` directive can
+            be used in responses to avoid transforming proxies to
+            modify (eg. compress) the content.
+
+            For now this ruleset tests:
+            * the presence of following keywords
+              in the `description`: `max-age`, `private`, `no-store`, `no-cache`,
+              `no-transform`.
+            * that one and only one between Expires and Cache-Control is used.
+
+            `Cache-Control` and `Expires` should not be used in conjunction,
+            because `Cache-Control` overrides `Expires` when `max-age` is set.
+            Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
+            like described in RFC7234.
+        message: '[RFC7234] {{error}}'
+        formats:
+        - oas3
+        severity: info
+        recommended: true
+        given: $..[responses][?(@property[0] == "2" )][headers]
+        then:
+        -   function: xor
+            functionOptions:
+                properties:
+                - Expires
+                - Cache-Control
+    paths-kebab-case:
+        description: |
+            Paths should be kebab-case (e.g. `path-parameter`).
+
+            See Italian recommendation RAC_REST_NAME_002.
+        message: '[RAC_REST_NAME_002] {{property}} is not kebab-case: {{error}}'
+        severity: warn
+        recommended: true
+        given: $.paths[*]~
+        then:
+            function: pattern
+            functionOptions:
+                match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
+    request-headers-pascal-case:
+        description: |
+            Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
+
+            See Italian recommendation RAC_REST_NAME_003.
+        message: '[RAC_REST_NAME_003] {{value}} {{error}} in {{path}}'
+        severity: hint
+        recommended: true
+        given:
+        - $..[parameters][?(@.in=="header")].name
+        then:
+            function: casing
+            functionOptions:
+                type: pascal
+                separator:
+                    char: '-'
+    response-headers-pascal-case:
+        description: |
+            Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
+
+            See Italian recommendation RAC_REST_NAME_003.
+        message: '[RAC_REST_NAME_003] Header {{error}}: {{path}}'
+        severity: hint
+        recommended: true
+        given:
+        - $..[responses][*].headers.*~
+        then:
+            function: casing
+            functionOptions:
+                type: pascal
+                separator:
+                    char: '-'
+    schema-camel-case:
+        description: "Schema definitions should be CamelCase\n(pascal case with blank\
+            \ separator char).\n\nThis improves readability and avoid\nconfusion between\
+            \ schema names and properties.\n\n```\nWebsite:\n  type: string\n  format:\
+            \ url\nPerson:\n  type: object\n  properties:\n    website:\n      $ref:\
+            \ \"#/components/schemas/Website\"\n``` "
+        message: Schema name should be CamelCase in {{path}}
+        severity: hint
+        recommended: true
+        given: $.components.schemas[*]~
+        then:
+            function: casing
+            functionOptions:
+                type: pascal
+                separator:
+                    char: ''
+    no-forbidden-headers:
+        description: |-
+            OAS do not allow using the following HTTP headers in a specification
+            file: Authorization, Content-Type and Accept.
+            You MUST use the associate functionalities provided by OAS, instead.
+        message: '{{error}} in {{path}} {{value}}'
+        severity: error
+        given:
+        - $..parameters[?(@.in == 'header')].name
+        - $..[responses][*].headers.*~
+        then:
+            function: pattern
+            functionOptions:
+                notMatch: /^(accept|content-type|authorization)$/i
+    no-x-headers-request:
+        description: '''HTTP'' headers SHOULD NOT start with ''X-'' RFC6648.'
+        severity: warn
+        given:
+        - $..parameters[?(@.in == 'header')].name
+        message: '[RFC6648] HTTP header ''{{value}}'' SHOULD NOT start with ''X-''
+            in {{path}}'
+        recommended: true
+        type: style
+        then:
+            function: pattern
+            functionOptions:
+                match: /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
+    no-x-headers-response:
+        description: '''HTTP'' headers SHOULD NOT start with ''X-'' RFC6648.'
+        severity: warn
+        given:
+        - $..[responses][*].headers.*~
+        message: '[RFC6648] HTTP response header SHOULD NOT start with ''X-'' in {{path}}'
+        recommended: true
+        type: style
+        then:
+            function: pattern
+            functionOptions:
+                match: /^([^x]|.[^-])|RateLimit-|Correlation-ID|ReplyTo/i
+    http-request-GET-no-body:
+        description: |-
+            A `GET` request MUST NOT accept a `requestBody`
+            because this behavior is not interoperable.
+            Moreover intermediaries such as reverse proxies
+            are allowed to strip the content from `GET` requests.
+
+            See RFC7231 for further information.
+        message: '[RFC7231] A GET request MUST NOT accept a requestBody: {{error}}.'
+        severity: error
+        given: $.paths..get.requestBody
+        then:
+            function: undefined
+    http-request-DELETE-no-body:
+        description: "Sending a `requestBody` in a `DELETE` request \nis not considered\
+            \ interoperable.\nMoreover intermediaries such as reverse proxies\nmight\
+            \ strip the content from `DELETE` requests.\n\nSee RFC7231 for further\
+            \ information."
+        message: '[RFC7231] A DELETE request SHOULD NOT accept a requestBody: {{error}}.'
+        severity: warn
+        given: $.paths..delete.requestBody
+        then:
+            function: undefined
+    http-response-no-content-204-205:
+        description: |-
+            Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
+            Responses with status code 204 and 205 MUST NOT include a content.
+            See RFC7231 for further information.
+        message: '[RFC7231] 204 and 205 responses MUST NOT have a content: {{error}}.'
+        severity: error
+        given: $..paths..responses[?(@property && @property.match("(204|205)") )]
+        then:
+            field: content
+            function: falsy
+    http-response-content-2xx:
+        description: |-
+            Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
+            Responses with status code 204 and 205 MUST NOT include a content.
+            See RFC7231 for further information.
+        message: '[RFC7231] 200, 201, 202, 203 and 206 responses usually have a content:
+            {{error}}.'
+        severity: hint
+        given: $..paths..responses[?( @property && @property.match("(200|201|202|203|206)")
+            )]
+        then:
+        -   field: content
+            function: truthy
+        -   field: content
+            function: schema
+            functionOptions:
+                schema:
+                    type: object
+                    minProperties: 1
+                    additionalProperties:
+                        required:
+                        - schema
+    servers-description:
+        description: Servers must have a description.
+        message: Server {{path}} must have a description.
+        given:
+        - $.servers[*]
+        - $.paths..servers
+        severity: error
+        recommended: true
+        then:
+            field: description
+            function: truthy
+    servers-use-https:
+        description: |-
+            Servers must use https to ensure the origin of the responses
+            and protect the integrity and the  confidentiality of the communication.
+
+            You can use `http://` only on sandboxes environment.
+            Use `x-sandbox: true` to skip this kind of check.
+        message: 'Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip
+            this check on a specific server.'
+        given:
+        - $.servers[?(@["x-sandbox"] != true)]
+        - $.paths..servers[?(@["x-sandbox"] != true)]
+        severity: error
+        recommended: true
+        then:
+            field: url
+            function: pattern
+            functionOptions:
+                match: ^https://.*
+    has-x-summary:
+        message: 'API MUST have an one-liner #/info/x-summary field containing a brief
+            description.'
+        description: |-
+            The `#/info/x-summary` can be used to specify a brief, one-liner description of your API: this is very useful for catalog purposes (eg. this can be shown as your API subtitle in catalogs and developer portals).
+            In OAS3.1 you can use the standard `#/info/summary` field.
+        given: $
+        severity: error
+        recommended: true
+        type: style
+        formats:
+        - oas3
+        then:
+            field: info.x-summary
+            function: truthy
+    has-termsOfService:
+        message: 'API MUST reference the URL of the Terms of Service in #/info/termsOfService.'
+        description: API MUST reference the URL of the Terms of Service in `#/info/termsOfService`
+        given: $
+        severity: error
+        recommended: true
+        type: style
+        formats:
+        - oas3
+        then:
+            field: info.termsOfService
+            function: truthy
+    has-contact:
+        description: 'API MUST reference a contact, either url or email in #/info/contact'
+        given: $
+        severity: error
+        recommended: true
+        type: style
+        formats:
+        - oas3
+        then:
+            field: info.contact
+            function: truthy
+    has-x-api-id:
+        message: 'API must have an unique identifier in x-api-id in #/info/x-api-id.'
+        description: |-
+            The `#/info/x-api-id` field can be used to associate an identifier
+            to an API.
+            This is useful to track an API even when its `#/info/title` changes.
+        given: $
+        severity: hint
+        recommended: true
+        type: style
+        then:
+            field: info.x-api-id
+            function: truthy
+    use-semver:
+        description: |-
+            The API version field should follow
+            [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
+        severity: error
+        recommended: true
+        message: Specs should follow semantic versioning. {{value}} is not a valid
+            version.
+        given: $.info.version
+        then:
+            function: pattern
+            functionOptions:
+                match: ^[0-9]+.[0-9]+.[0-9]+(-[a-z0-9+.-]+)?
+    use-recommended-names-in-parameters:
+        description: |-
+            Use well defined parameter and schema names, deriving them
+            from the national ontologies available at https://w3id.org/italia/onto/
+
+            For example, you can model a person using the following names:
+
+            ```
+            {
+              "en": {
+                "given_name": "Mario",
+                "family_name": "Rossi",
+                "tax_code": "12345678901"
+              },
+              "it": {
+                "nome_proprio": "Mario",
+                "cognome": "Rossi",
+                "codice_fiscale": "12345678901"
+              }
+            }
+            ```
+        message: Use recommended variable names in {{value}}.
+        formats:
+        - oas3
+        severity: info
+        given: $..parameters.[?(@.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+            )]
+        then:
+            field: name
+            function: pattern
+            functionOptions:
+                match: //
+    use-recommended-names-in-schemas:
+        description: |-
+            Use well defined parameter and schema names, deriving them
+            from the national ontologies available at https://w3id.org/italia/onto/
+
+            For example, you can model a person using the following names:
+
+            ```
+            {
+              "en": {
+                "given_name": "Mario",
+                "family_name": "Rossi",
+                "tax_code": "12345678901"
+              },
+              "it": {
+                "nome_proprio": "Mario",
+                "cognome": "Rossi",
+                "codice_fiscale": "12345678901"
+              }
+            }
+            ```
+        message: Use recommended variable names in {{value}}.
+        formats:
+        - oas3
+        severity: info
+        given: $..[?(@ && @.type=="object")].properties.[?( @property && @property.match
+            && @property.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+            )]
+        then:
+            field: '@key'
+            function: pattern
+            functionOptions:
+                match: //
+    no-method-name-in-operationId:
+        description: |-
+            Avoid using method names in `operationId`s because it couples
+            the API design with the implementation.
+
+            An operation that edits an entry can be published with different methods,
+            for example either POST, PUT or PATCH, and while evolving the API
+            you could decide to associate an operationId with another method.
+
+            You can use for example
+
+            ```
+            openapi: 3.0.1
+            ...
+            paths:
+              /entries:
+                get:
+                  operationId: list_entries
+                post:
+                  operationId: create_entry
+              /entries/{id}:
+                put:
+                  operationId: upsert_entry
+                patch:
+                  operationId: edit_entry
+            ```
+        message: Avoid using method names in operationIds.
+        formats:
+        - oas3
+        severity: hint
+        given: $..[?(@.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
+            )]
+        then:
+            field: operationId
+            function: pattern
+            functionOptions:
+                match: //
+    number-format:
+        description: |-
+            Schema of type number or integer must specify a format
+            to express the associated datatype, eg. `int32`, `int64`, ...
+
+            You can express similar requirements using the `minimum` and `maximum` properties.
+
+            See recommendation RAC_REST_FORMAT_004.
+        message: '[RAC_REST_FORMAT_004] Schema of type number or integer must specify
+            a format. {{path}}'
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given: $..[?(@ && @.type=="number")]
+        then:
+            field: format
+            function: truthy
+    integer-format:
+        description: |-
+            Schema of type number or integer must specify a format
+            to express the associated datatype, eg. `int32`, `int64`, ...
+
+            You can express similar requirements using the `minimum` and `maximum` properties.
+
+            See recommendation RAC_REST_FORMAT_004.
+        message: '[RAC_REST_FORMAT_004] Schema of type number or integer must specify
+            a format. {{path}}'
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given: $..[?(@ && @.type=="integer")]
+        then:
+            field: format
+            function: truthy
+    allowed-integer-format:
+        description: |-
+            To improve interoperability, integer and number formats are constrained
+            to a shared subset.
+
+            See recommendation RAC_REST_FORMAT_004.
+        message: '[RAC_REST_FORMAT_004] Type format is "{{value}}", expected one of
+            [int32, int64]. {{path}}'
+        formats:
+        - oas3
+        severity: hint
+        recommended: true
+        given: $..[?(@ && @.type=="integer")]
+        then:
+            field: format
+            function: enumeration
+            functionOptions:
+                values:
+                - int32
+                - int64
+    allowed-number-format:
+        description: |-
+            To improve interoperability, integer and number formats are constrained
+            to a shared subset.
+
+            See recommendation RAC_REST_FORMAT_004.
+        message: '[RAC_REST_FORMAT_004] Type format is "{{value}}", expected one of
+            [decimal32, decimal64, decimal128, float, double]. {{path}}'
+        formats:
+        - oas3
+        severity: hint
+        recommended: true
+        given: $..[?(@ && @.type=="number")]
+        then:
+            field: format
+            function: enumeration
+            functionOptions:
+                values:
+                - decimal32
+                - decimal64
+                - float
+                - double
+                - decimal128
+    no-swagger-2:
+        description: Swagger 2 files are not allowed. Use OpenAPI >= 3.0
+        given: $
+        severity: error
+        recommended: true
+        type: style
+        formats:
+        - oas2
+        then:
+            field: swagger
+            function: falsy
+    sec-securitySchemes-oauth-http:
+        description: OAuth2 endpoints must use `https://`
+        message: OAuth endpoints must use https://
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given:
+        - $..[securitySchemes][?(@ && @.type=="oauth2")][*].[?(@property && @property.match(/Url$/i))]
+        then:
+        -   field: value
+            function: pattern
+            functionOptions:
+                match: ^https://
+    sec-securitySchemes-oauth-allowed-flows:
+        description: |-
+            The OAuth2 authorization framework defines various
+            [grant types](https://tools.ietf.org/html/rfc6749#section-1.3),
+            most notably the [AuthorizationCode](https://tools.ietf.org/html/rfc6749#section-1.3.1)
+            and the [Client Credentials](https://tools.ietf.org/html/rfc6749#section-1.3.4).
+
+            Some grant types are now considered insecure
+            and MUST not be used, including `implicit` and `password`.
+            The new [OAuth2.1](https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01)
+            still in draft, removes them and suggests to
+            replace the `implicit` with `authorizationCode` + PKCE defined in RFC7636.
+
+            For further info, see the OAuth2 section of [API Security Guidelines](https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/).
+        message: '[RFC7636] Do not use oauth2 insecure flow: "{{property}}".'
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given:
+        - $..[?(@ && @.type=="oauth2")].flows
+        then:
+        -   field: implicit
+            function: falsy
+        -   field: password
+            function: falsy
+    patch-media-type:
+        description: |-
+            The PATCH specification explicits that the request body contains
+            a "patch document" describing the changes to be applied
+            to the target resource.
+
+            To avoid confusion, [this errata](https://www.rfc-editor.org/errata/eid3169)
+            explains that `application/json` is not an appropriate media-type for `PATCH`.
+
+            A correct example of PATCH using eg. `application/json-patch+json` media-type
+            defined in RFC6902.
+
+            ```
+            paths:
+              /books/{book_id}:
+                patch:
+                  requestBody:
+                    content:
+                      application/json-patch+json:
+                        schema:
+                          type: array
+                          ...
+                        example: [{ "op": "add", "path": "/baz", "value": "qux" }]
+            ```
+        message: '[RFC6902] application/json is not an appropriate media-type for
+            PATCH. {{path}}'
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given: $..[patch][requestBody][content]
+        then:
+            field: application/json
+            function: falsy
+    patch-without-request-body:
+        description: |-
+            The PATCH method requests that a set of changes described in the
+            `requestBody` be applied to the target resource.
+            A PATCH specification without a `requestBody`
+            just applies no changes to the target resource.
+
+            Since PATCH has impacts on caches, using it
+            on a different target resource may result in non-interoperable
+            behavior.
+
+            For example, to modify the resource at `/user/123`,
+            you can use the following PATCH request:
+
+            ```
+            PATCH /user/123
+            Content-Type: application/json-patch+json
+
+            [{"op": "replace", "path": "enable", "value": true}]
+            ```
+
+            or  POST request with the semantic implied by the target url:
+
+            ```
+            POST /user/123/enable
+            ```
+
+            Instead, the following request
+            is expected to modify the `/user/123/enable`
+            subresource, and not the `/user/123` one.
+
+            ```
+            PATCH /user/123/enable
+            ````
+        message: PATCH requires a non empty requestBody and requestBody.required set
+            to true.
+        severity: error
+        given: $.paths.*.patch
+        then:
+        -   field: requestBody
+            function: defined
+        -   field: requestBody.required
+            function: truthy
+    patch-json-patch-mediatype:
+        description: |-
+            A correct example of PATCH using eg. `application/json-patch+json` media-type
+            defined in RFC6902.
+
+            ```
+            paths:
+              /books/{book_id}:
+                patch:
+                  requestBody:
+                    content:
+                      application/json-patch+json:
+                        schema:
+                          type: array
+                          ...
+                        example: [{ "op": "add", "path": "/baz", "value": "qux" }]
+            ```
+        message: '[RFC6902] application/json-patch+json is not an array. {{path}}'
+        formats:
+        - oas3
+        severity: warn
+        recommended: true
+        given: $..[patch][requestBody][content][application/json-patch+json][schema]
+        then:
+            field: type
+            function: pattern
+            functionOptions:
+                match: array
+    paths-status:
+        description: |-
+            You must define a `/status` path that can be used to health-check the API.
+            Using this path avoids the arbitrary usage of a server URL for health-check
+            scope.
+
+            The `/status` endpoint should return a `application/problem+json` response
+            containing a successful status code if the service is working correctly.
+
+            The service provider is free to define the implementation logic for this path.
+        message: The "/status" path used to health-check the API must be defined.
+            {{error}}
+        severity: error
+        recommended: true
+        given: $.paths
+        then:
+            function: schema
+            functionOptions:
+                schema:
+                    oneOf:
+                    -   type: object
+                        required:
+                        - /status
+                        properties:
+                            /status:
+                                type: object
+                    -   type: object
+                        additionalProperties: false
+    paths-status-return-problem:
+        description: '"/status" must return a Problem object.'
+        message: '{{error}}'
+        severity: error
+        recommended: true
+        given: $.paths.'/status'.get.responses.200.content.*~
+        then:
+            function: enumeration
+            functionOptions:
+                values:
+                - application/problem+xml
+                - application/problem+json
+    paths-status-problem-schema:
+        description: '"/status" schema is not a Problem object.'
+        message: '{{error}} {{path}}'
+        severity: warn
+        recommended: true
+        given: $.paths.'/status'.get.responses.200.content.[schema]
+        then:
+        -   function: truthy
+            field: properties.status
+        -   function: truthy
+            field: properties.title
+        -   function: truthy
+            field: properties.detail
+    paths-http-method:
+        description: |-
+            When you design a REST API, you don't usually need to mention terms like
+            `get`, `delete` and so on in your `paths`, because this information is
+            conveyed by the HTTP method.
+
+            Instead of using
+
+            ```
+            POST /books/1234/delete HTTP/1.1
+            Host: api.example
+            ```
+
+            You can simply call
+
+            ```
+            DELETE /books/1234 HTTP/1.1
+            Host: api.example
+            ```
+
+            Similarly you don't need verbs like `list` or `create` because
+            the HTTP Semantics RFC7231 supports this kind of actions natively
+            with proper methods and status code.
+
+            Instead of
+
+            ```
+            POST /create/user HTTP/1.1
+            Host: api.example
+            Content-Type: application/json
+
+            {"given_name": "Mario"}
+            ```
+
+            You can use
+            ```
+            POST /create/user HTTP/1.1
+            Host: api.example
+            Content-Type: application/json
+
+            {"given_name": "Mario"}
+            ```
+
+            returning a proper response
+
+            ```
+            HTTP/1.1 201 Created
+            Location: /users/1234
+
+            ```
+
+            This simplifies securing your API as you know beforehand the kind of action
+            which is going to be performed.
+        message: '[RFC7231] API "path" contains a name of an http method. {{error}}'
+        severity: hint
+        recommended: true
+        given:
+        - $.paths[?(@property && @property.match( "/(get|post|put|delete|patch)[\/A-Z_\-]?"
+            ))]~
+        - $.paths[?(@property && @property.match( "/(create|remove|list)[\/A-Z_\-]?"
+            ))]~
+        then:
+            field: '@key'
+            function: undefined
+    use-problem-json-for-errors:
+        description: |4-
+
+            Error management is a key enabler of a resilient API ecosystem.
+            Enforcing a consistent schema for errors between different APIs,
+            enables client to properly implement an error management strategy,
+            with positive impacts for users.
+
+            Error responses should return one of the media-type
+            defined in RFC7807:
+            - `application/problem+json`
+            - `application/problem+xml`
+
+            An example of a valid response:
+
+            ```
+            responses:
+              "503":
+                content:
+                  application/problem+json:
+                    schema:
+                      ...
+            ```
+        message: '[RFC7807] Error responses should support RFC7807 in {{path}}.'
+        formats:
+        - oas3
+        severity: error
+        given: $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/)
+            && !@["x-noqa"] )].content.*~
+        then:
+            function: enumeration
+            functionOptions:
+                values:
+                - application/problem+xml
+                - application/problem+json
+    use-problem-schema:
+        description: |-
+            WARN: This rule is under implementation and just provides an hint.
+
+            Error management is a key enabler of a resilient API ecosystem.
+            Enforcing a consistent schema for errors between different APIs,
+            enables client to properly implement an error management strategy,
+            with positive impacts for users.
+
+            This rule inspects the schema returned by an error response and
+            verifies whether it contains the main properties defined in RFC7807:
+            `status`, `title` and `detail`.
+
+            An example of a valid payload is
+            ```
+            {
+             "title": "Not Found",
+             "status": 404,
+             "detail": "Book does not exist; id: 123"
+            }
+            ```
+
+            See recommendation RAC_REST_NAME_007.
+        message: '[RFC7807] Your schema doesn''t seem to match RFC7807. Are you sure
+            it is ok? {{path}}'
+        formats:
+        - oas3
+        severity: hint
+        recommended: true
+        given: $..[responses][?(@property && @property.match(/^(4|5|default)/)  &&
+            !@["x-noqa"] )][schema].properties
+        then:
+            function: schema
+            functionOptions:
+                schema:
+                    anyOf:
+                    -   type: object
+                        required:
+                        - title
+                        - status
+                    -   type: object
+                        required:
+                        - title
+                        - type
+                    -   type: object
+                        required:
+                        - type
+                        - status
+                    -   type: object
+                        required:
+                        - title
+                        - detail
+    hint-problem-schema:
+        description: |4-
+
+            WARN: This rule is under implementation and just provides an hint.
+
+            Error management is a key enabler of a resilient API ecosystem.
+            Enforcing a consistent schema for errors between different APIs,
+            enables client to properly implement an error management strategy,
+            with positive impacts for users.
+
+            Errors should return RFC7807 objects. Instead, this schema
+            seems to use non standard properties such as:
+            `message`, `msg` and `code`.
+
+            An error of the following form
+
+            ```
+            {
+              "msg": "Book with id: 123 does not exist.",
+              "code": 6063
+            }
+            ```
+
+            can be expressed in RFC7807 with
+
+            ```
+            {
+              "detail": "Book with id: 123 does not exist.",
+              "type": "https://api.example/v1/errors/6063",
+              "status": 404,
+              "title": "Not Found"
+            }
+            ```
+
+            Returning an URI in `type`, instead of an opaque `code` can help
+            the client in better identifying the error; moreover the URI
+            though it should not be dereferenced automatically, can return
+            an actual resource providing guidance in addressing the issue.
+
+            See recommendation RAC_REST_NAME_007.
+        message: '[RFC7807] Error response doesn''t seem to match RFC7807. Are you
+            sure it is ok? {{path}}'
+        formats:
+        - oas3
+        severity: hint
+        recommended: true
+        given: $..[responses][?(@property && @property.match(/^(4|5|default)/)  &&
+            !@["x-noqa"] )][schema][properties].*~
+        then:
+            field: '@key'
+            function: pattern
+            functionOptions:
+                notMatch: message|code|msg
+    missing-retry-after:
+        description: |-
+            When a client is either:
+            * throttled out with a 429 status code;
+            * warned about a temporary server issue with a 503 status code;
+            the server should explicitly communicate how long to wait
+            before issuing further requests using the Retry-After header.
+
+            Retry-After is defined in RFC7231.
+        message: '[RFC7231] Missing ratelimit header: {{property}} in {{path}}'
+        formats:
+        - oas3
+        severity: warn
+        recommended: true
+        given: $..[responses][?(@property == "429" || @property == "503"  )][headers]
+        then:
+            field: Retry-After
+            function: truthy
+    missing-ratelimit:
+        description: |-
+            Ratelimiting an API preserves a service and limits attack scenario
+            [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).
+
+            APIs should use the following headers at least on successful responses:
+            - `X-RateLimit-Limit`: number of total requests in a give time window
+            - `X-RateLimit-Remaining`: remaining requests in the current window
+            - `X-RateLimit-Reset`: number of seconds before the window resets
+
+            An example set of headers is the following
+
+            ```
+            X-Ratelimit-Limit: 100
+            X-Ratelimit-Remaining: 40
+            X-Ratelimit-Reset: 12
+            ```
+
+            A standardization proposal for ratelimit headers is ongoing
+            inside the IETF HTTPAPI Workgroup.
+            See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
+        message: Missing ratelimit headers. {{property}} {{error}} {{path}}
+        formats:
+        - oas3
+        severity: warn
+        recommended: true
+        given: $..[responses][?(@property[0] == "2" )][headers]
+        then:
+        -   functionOptions:
+                properties:
+                - X-RateLimit-Limit
+                - RateLimit-Limit
+            function: xor
+        -   functionOptions:
+                properties:
+                - X-RateLimit-Remaining
+                - RateLimit-Remaining
+            function: xor
+        -   functionOptions:
+                properties:
+                - X-RateLimit-Reset
+                - RateLimit-Reset
+            function: xor
+    response-with-json-object:
+        description: |-
+            JSON responses MUST use JSON objects, in order to be extensible.
+
+            For example, instead of a list `[1, 2, 3]` you should return
+            an object `{"items": [1, 2, 3]}`.
+
+            This allows the schema to evolve in a backward compatible ways.
+
+            There are notable exceptions when specific media types are involved,
+            for example json-patch is an array (see RFC6902).
+        message: '[RFC6902] JSON responses must use json objects (eg "{}"), not {{value}}.
+            {{path}}'
+        severity: warn
+        recommended: true
+        given:
+        - $..[responses][*][content][?(@property && @property.match("json$") && !@property.match(/json-patch\+json$/))][schema]
+        then:
+            field: type
+            function: pattern
+            functionOptions:
+                match: object
+    sec-apikeys-url:
+        description: |-
+            API Keys are (usually opaque) strings that
+            are passed in headers, cookies or query parameters
+            to access APIs.
+
+            Those keys can be eavesdropped, especially when they are stored
+            in cookies or passed as URL parameters.
+
+            ```
+            security:
+            - ApiKey: []
+            paths:
+              /books: {}
+              /users: {}
+            securitySchemes:
+              ApiKey:
+                type: apiKey
+                in: cookie
+                name: X-Api-Key
+            ```
+        message: 'ApiKey passed in URL: {{error}}.'
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given:
+        - $..[securitySchemes][?(@ && @.type=="apiKey")].in
+        then:
+        -   function: pattern
+            functionOptions:
+                notMatch: ^(query)$
+    sec-credentials-parameters:
+        description: |-
+            URL parameters MUST NOT contain credentials such as
+            apikey, password, or secret.
+
+            See [RAC_GEN_004](https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl)
+        message: '[RAC_GEN_004] Credentials are sent via URLs. {{path}} {{error}}'
+        formats:
+        - oas3
+        severity: error
+        recommended: true
+        given:
+        - $..parameters[?(@ && @.in && @.in.match(/query|path/))].name
+        then:
+        -   field: name
+            function: pattern
+            functionOptions:
+                notMatch: /^.*(password|secret|apikey).*$/i
