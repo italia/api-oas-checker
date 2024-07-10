@@ -33,7 +33,7 @@ jobs:
           done
       - name: Build ui, test ui and deploy
         run: |
-          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/imesimone/api-oas-checker.git
+          git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/italia/api-oas-checker.git
           make deploy
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
