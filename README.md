@@ -21,21 +21,20 @@ non richiede l'utilizzo di database o componenti server a cui inviare i tuoi doc
 > - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
 > - [Speccy](https://github.com/wework/speccy) pare supportare solo regole in JavaScript, mentre questo checker utilizza per lo più dei file YAML statici.
 
-## 📦 Contenuto
+## 📦 Regole
 
-- Una web app sviluppata con React che usa Webpack + Babel per creare una single-page application
-- Due directory [rules-modi/rules](rules-modi/rules) e [rules-modi/security/](rules-modi/security/), che puntano a un altro repository, contenenti le regole applicate, che vengono poi aggregate nei seguenti file:
-     - [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), o _Italian Guidelines_
-     - [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), o _Italian Guidelines Extended_
-     - [spectral-generic.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-generic.yml), o _Best Practices Only_
-     - [spectral-security.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-security.yml), o _Extra Security Checks_
-     - [spectral-full.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-full.yml), o _Italian Guidelines Extended + Extra Security Checks_
+Le regole che il checker utilizzata sono gestite in un repository dedicato: [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules).
 
-La gestione delle regole è esterna: la cartella `rules-modi` punta, infatti, al repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules).
+Al momento, i ruleset sono:
+- [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), o _Italian Guidelines_, quelle di default
+- [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), o _Italian Guidelines Extended_
+- [spectral-generic.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-generic.yml), o _Best Practices Only_
+- [spectral-security.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-security.yml), o _Extra Security Checks_
+- [spectral-full.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-full.yml), o _Italian Guidelines Extended + Extra Security Checks_
 
 ## 🔍 Eseguire il check delle API
 
-Il modo più semplice per controllare un'API è di utilizzare la versione web di questo checker, inserendo il contenuto dell'API e selezionando un set di regole. Sarà, quindi, possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
+Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
 
 In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
 
@@ -57,47 +56,6 @@ $ docker-compose up --build start
 ```
 
 e al termine della compilazione collegarsi a http://localhost:3000
-
-
-## 📝 Come scrivere le regole
-
-Spectral itera le specifiche OAS usando le espressioni JSONPath indicate nelle regole di default presenti nelle directory [rules-modi/rules](rules-modi/rules) e [rules-modi/security/](rules-modi/security/) ed esegue le callback indicate sulle righe corrispondenti. È possibile testare ogni singolo file di regole (ad esempio, problem.yml) verificando che l’output di Spectral corrisponda a quello indicato nel file .snapshot associato.
-
-Questo comando testa le regole presenti nel file `problem.yml` contenuto nella directory `rules-modi/rules`:
-
-```bash
-./test-ruleset.sh rules-modi/rules problem
-```
-
-Quando si modifica una regola, è necessario ricreare e rifare il check del contenuto della snapshot con:
-
-```bash
-./test-ruleset.sh rules-modi/rules --snapshot problem
-```
-
-Per ulteriori informazioni sulle regole di Spectral si veda [la documentazione ufficiale](https://stoplight.io/p/docs/gh/stoplightio/spectral/docs/getting-started/rulesets.md).
-
-### JSONPath
-
-Sul sito [jsonpath.com](https://jsonpath.com/) si possono testare le regole online.
-
-JSONPath supporta le back-references; si veda [questo commento](https://github.com/json-path/JsonPath/issues/287#issuecomment-265479196) per maggiori dettagli.
-
-## 🪖 Testing
-
-Per testare le regole generate nel repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) e la UI, è possibile usare i seguenti comandi:
-
-```bash
-# N.B. make test non funziona correttamente su MacOS
-$ make test
-$ make test-ui
-```
-
-In alternativa:
-
-```bash
-$ docker-compose up --build test
-```
 
 ## ✍🏻 Contributi
 
