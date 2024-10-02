@@ -1,12 +1,14 @@
 import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_URL, SET_DOCUMENT_TEXT } from '../actionTypes.js';
 import { DEFAULT_DOCUMENT_URL } from '../../utils.mjs';
 
-const queryParams = new URLSearchParams(window.location.search);
+// Replace query string with fragment
+const hashParams = new URLSearchParams(window.location.hash.substring(1)); // Get params from fragment
+
 const initialState = {
   focusLine: null,
   text: null,
-  textParameter: queryParams.get('text') || null,
-  url: queryParams.get('text') ? null : queryParams.get('url') || DEFAULT_DOCUMENT_URL,
+  textParameter: hashParams.get('text') || null, // Get 'text' from fragment
+  url: hashParams.get('text') ? null : hashParams.get('url') || DEFAULT_DOCUMENT_URL, // Get 'url' from fragment or use default
 };
 
 export default function (state = initialState, action) {
