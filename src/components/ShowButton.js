@@ -19,7 +19,7 @@ export const ShowButton = () => {
     if (isDocumentTextTooLong(documentText)) {
       alert('Snippet is too long.');
     } else {
-      const url = `${window.location.origin}${window.location.pathname}?text=${b64url_encode(documentText)}`;
+      const url = `${window.location.origin}${window.location.pathname}#text=${b64url_encode(documentText)}`;
       if (window.navigator.clipboard) {
         window.navigator.clipboard.writeText(url).then(() => {
           alert('Snippet url copied to clipboard!');
