@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import cx from 'classnames';
-import { setDocumentUrl, resetValidationResults } from '../redux/actions.js';
+import { resetValidationResults, setDocumentFile } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 
 export const UploadFileButton = () => {
@@ -10,12 +10,14 @@ export const UploadFileButton = () => {
   const loadFile = useCallback(
     (e) => {
       const file = e.target.files[0];
-      const reader = new FileReader();
-      reader.onload = (loadedEvent) => {
-        dispatch(setDocumentUrl(loadedEvent.target.result));
-        dispatch(resetValidationResults());
-      };
-      reader.readAsDataURL(file);
+      if (file) {
+        const reader = new FileReader();
+        reader.onloadend = (loadedEvent) => {
+          dispatch(setDocumentFile(loadedEvent.target.result));
+          dispatch(resetValidationResults());
+        };
+        reader.readAsText(file, 'UTF-8');
+      }
     },
     [dispatch]
   );
@@ -29,7 +31,7 @@ export const UploadFileButton = () => {
 
   return (
     <label role="button" className={labelAsButton}>
-      Upload file <input type="file" hidden onChange={loadFile} />
+      Upload file <input type="file" accept=".yaml, .yml" hidden onChange={loadFile} />
     </label>
   );
 };
