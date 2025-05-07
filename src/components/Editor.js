@@ -6,7 +6,13 @@ import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getDocumentTextParameter, getDocumentUrl, getLineToFocus, getValidationResults } from '../redux/selectors.js';
+import {
+  getDocumentTextParameter,
+  getDocumentUrl,
+  getDocumentFile,
+  getLineToFocus,
+  getValidationResults,
+} from '../redux/selectors.js';
 import { ERROR, WARNING, INFO, HINT, b64url_decode } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
@@ -39,6 +45,7 @@ const Editor = () => {
   const validationResults = useSelector((state) => getValidationResults(state));
   const focusLine = useSelector((state) => getLineToFocus(state));
   const documentUrl = useSelector((state) => getDocumentUrl(state));
+  const documentFile = useSelector((state) => getDocumentFile(state));
   const documentTextParameter = useSelector((state) => getDocumentTextParameter(state));
   const dispatch = useDispatch();
 
@@ -96,6 +103,16 @@ const Editor = () => {
       }
     };
 
+    const loadDocumentFromFile = async (documentFile) => {
+      try {
+        editor.current.getModel().setValue(documentFile.toString());
+        dispatch(setDocumentText(documentFile.toString()));
+      } catch (e) {
+        console.error(e);
+        alert(e.message);
+      }
+    };
+
     const loadDocumentFromTextParam = (textParam) => {
       try {
         const { data: text } = { data: b64url_decode(textParam) };
@@ -111,10 +128,10 @@ const Editor = () => {
       loadDocumentFromTextParam(documentTextParameter);
     } else if (documentUrl) {
       loadDocumentFromUrl(documentUrl);
-    } else {
-      return;
+    } else if (documentFile) {
+      loadDocumentFromFile(documentFile);
     }
-  }, [documentUrl, documentTextParameter, dispatch]);
+  }, [documentUrl, documentFile, documentTextParameter, dispatch]);
 
   useEffect(() => {
     if (validationResults === null) {
