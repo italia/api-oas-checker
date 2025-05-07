@@ -5,6 +5,7 @@ import {
   SET_DOCUMENT_TEXT,
   FOCUS_DOCUMENT_LINE,
   SET_DOCUMENT_URL,
+  SET_DOCUMENT_FILE,
   SET_RULESET,
   SET_TEMPLATE_DOCUMENT_NAME,
 } from './actionTypes.js';
@@ -32,6 +33,11 @@ export const setRuleset = (ruleset) => ({
 export const setDocumentText = (text) => ({
   type: SET_DOCUMENT_TEXT,
   text,
+});
+
+export const setDocumentFile = (file) => ({
+  type: SET_DOCUMENT_FILE,
+  payload: file,
 });
 
 export const focusDocumentLine = (line) => ({

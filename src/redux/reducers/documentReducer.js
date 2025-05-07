@@ -1,4 +1,4 @@
-import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_URL, SET_DOCUMENT_TEXT } from '../actionTypes.js';
+import { FOCUS_DOCUMENT_LINE, SET_DOCUMENT_URL, SET_DOCUMENT_TEXT, SET_DOCUMENT_FILE } from '../actionTypes.js';
 import { DEFAULT_DOCUMENT_URL } from '../../utils.mjs';
 
 // Replace query string with fragment
@@ -7,6 +7,7 @@ const hashParams = new URLSearchParams(window.location.hash.substring(1)); // Ge
 const initialState = {
   focusLine: null,
   text: null,
+  file: null,
   textParameter: hashParams.get('text') || null, // Get 'text' from fragment
   url: hashParams.get('text') ? null : hashParams.get('url') || DEFAULT_DOCUMENT_URL, // Get 'url' from fragment or use default
 };
@@ -24,6 +25,13 @@ export default function (state = initialState, action) {
       return {
         ...state,
         focusLine: action.line,
+      };
+    case SET_DOCUMENT_FILE:
+      return {
+        ...state,
+        file: action.payload,
+        url: null,
+        textParameter: null,
       };
     case SET_DOCUMENT_URL:
       return {
