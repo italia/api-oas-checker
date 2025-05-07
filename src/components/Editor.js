@@ -6,7 +6,13 @@ import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
 import { setDocumentText } from '../redux/actions.js';
-import { getDocumentTextParameter, getDocumentUrl, getDocumentFile, getLineToFocus, getValidationResults } from '../redux/selectors.js';
+import {
+  getDocumentTextParameter,
+  getDocumentUrl,
+  getDocumentFile,
+  getLineToFocus,
+  getValidationResults,
+} from '../redux/selectors.js';
 import { ERROR, WARNING, INFO, HINT, b64url_decode } from '../utils.mjs';
 import { getSeverityByLineMap, getValidationResultType } from '../spectral/spectral_utils.js';
 
@@ -123,9 +129,7 @@ const Editor = () => {
     } else if (documentUrl) {
       loadDocumentFromUrl(documentUrl);
     } else if (documentFile) {
-      loadDocumentFromFile(documentFile)
-    } else {
-      return;
+      loadDocumentFromFile(documentFile);
     }
   }, [documentUrl, documentFile, documentTextParameter, dispatch]);
 
