@@ -45,7 +45,7 @@
     "css-minimizer-webpack-plugin": "^4.2.0",
     "eslint": "^7.32.0",
     "eslint-config-italia": "^1.0.3",
-    "gh-pages": "^4.0.0",
+    "gh-pages": "^6.1.1",
     "html-webpack-plugin": "^5.5.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^28.1.0",
