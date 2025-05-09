@@ -116,12 +116,13 @@ const readFirstTwoLines = (filePath) => {
   };
 };
 
-module.exports = async (env, argv) => {
+module.exports = async () => {
   await initializeRulesets();
 
   return {
     entry: `${srcPath}/index.js`,
     devtool: isProduction ? false : 'source-map',
+    stats: { children: true },
     devServer: {
       static: buildPath,
       open: true,
@@ -211,6 +212,7 @@ module.exports = async (env, argv) => {
       fallback: {
         vm: false,
         fs: false,
+        path: require.resolve('path-browserify'),
       },
     },
     target: isProduction ? 'browserslist' : 'web',
