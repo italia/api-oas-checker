@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 1.1
+#	Ruleset version: 1.2
 
 #
 # These rules are based on the Italian Guidelines,
@@ -120,32 +120,6 @@ rules:
                 properties:
                 - Expires
                 - Cache-Control
-    paths-kebab-case:
-        description: |
-            Paths should be kebab-case (e.g. `path-parameter`).
-
-            See Italian recommendation RAC_REST_NAME_002.
-        message: '[RAC_REST_NAME_002] {{property}} is not kebab-case: {{error}}'
-        severity: warn
-        recommended: true
-        given: $.paths[*]~
-        then:
-            function: pattern
-            functionOptions:
-                match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
-    http-request-GET-no-body:
-        description: |-
-            A `GET` request MUST NOT accept a `requestBody`
-            because this behavior is not interoperable.
-            Moreover intermediaries such as reverse proxies
-            are allowed to strip the content from `GET` requests.
-
-            See RFC7231 for further information.
-        message: '[RFC7231] A GET request MUST NOT accept a requestBody: {{error}}.'
-        severity: error
-        given: $.paths..get.requestBody
-        then:
-            function: undefined
     http-request-DELETE-no-body:
         description: "Sending a `requestBody` in a `DELETE` request \nis not considered\
             \ interoperable.\nMoreover intermediaries such as reverse proxies\nmight\
@@ -156,17 +130,6 @@ rules:
         given: $.paths..delete.requestBody
         then:
             function: undefined
-    http-response-no-content-204-205:
-        description: |-
-            Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
-            Responses with status code 204 and 205 MUST NOT include a content.
-            See RFC7231 for further information.
-        message: '[RFC7231] 204 and 205 responses MUST NOT have a content: {{error}}.'
-        severity: error
-        given: $..paths..responses[?(@property && @property.match("(204|205)") )]
-        then:
-            field: content
-            function: falsy
     http-response-content-2xx:
         description: |-
             Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
@@ -189,25 +152,6 @@ rules:
                     additionalProperties:
                         required:
                         - schema
-    servers-use-https:
-        description: |-
-            Servers must use https to ensure the origin of the responses
-            and protect the integrity and the  confidentiality of the communication.
-
-            You can use `http://` only on sandboxes environment.
-            Use `x-sandbox: true` to skip this kind of check.
-        message: 'Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip
-            this check on a specific server.'
-        given:
-        - $.servers[?(@["x-sandbox"] != true)]
-        - $.paths..servers[?(@["x-sandbox"] != true)]
-        severity: error
-        recommended: true
-        then:
-            field: url
-            function: pattern
-            functionOptions:
-                match: ^https://.*
     no-method-name-in-operationId:
         description: |-
             Avoid using method names in `operationId`s because it couples
@@ -245,42 +189,6 @@ rules:
             function: pattern
             functionOptions:
                 match: //
-    number-format:
-        description: |-
-            Schema of type number or integer must specify a format
-            to express the associated datatype, eg. `int32`, `int64`, ...
-
-            You can express similar requirements using the `minimum` and `maximum` properties.
-
-            See recommendation RAC_REST_FORMAT_004.
-        message: '[RAC_REST_FORMAT_004] Schema of type number or integer must specify
-            a format. {{path}}'
-        formats:
-        - oas3
-        severity: error
-        recommended: true
-        given: $..[?(@ && @.type=="number")]
-        then:
-            field: format
-            function: truthy
-    integer-format:
-        description: |-
-            Schema of type number or integer must specify a format
-            to express the associated datatype, eg. `int32`, `int64`, ...
-
-            You can express similar requirements using the `minimum` and `maximum` properties.
-
-            See recommendation RAC_REST_FORMAT_004.
-        message: '[RAC_REST_FORMAT_004] Schema of type number or integer must specify
-            a format. {{path}}'
-        formats:
-        - oas3
-        severity: error
-        recommended: true
-        given: $..[?(@ && @.type=="integer")]
-        then:
-            field: format
-            function: truthy
     allowed-integer-format:
         description: |-
             To improve interoperability, integer and number formats are constrained
@@ -324,57 +232,6 @@ rules:
                 - float
                 - double
                 - decimal128
-    no-swagger-2:
-        description: Swagger 2 files are not allowed. Use OpenAPI >= 3.0
-        given: $
-        severity: error
-        recommended: true
-        type: style
-        formats:
-        - oas2
-        then:
-            field: swagger
-            function: falsy
-    paths-status:
-        description: |-
-            You must define a `/status` path that can be used to health-check the API.
-            Using this path avoids the arbitrary usage of a server URL for health-check
-            scope.
-
-            The `/status` endpoint should return a `application/problem+json` response
-            containing a successful status code if the service is working correctly.
-
-            The service provider is free to define the implementation logic for this path.
-        message: The "/status" path used to health-check the API must be defined.
-            {{error}}
-        severity: error
-        recommended: true
-        given: $.paths
-        then:
-            function: schema
-            functionOptions:
-                schema:
-                    oneOf:
-                    -   type: object
-                        required:
-                        - /status
-                        properties:
-                            /status:
-                                type: object
-                    -   type: object
-                        additionalProperties: false
-    paths-status-return-problem:
-        description: '"/status" must return a Problem object.'
-        message: '{{error}}'
-        severity: error
-        recommended: true
-        given: $.paths.'/status'.get.responses.200.content.*~
-        then:
-            function: enumeration
-            functionOptions:
-                values:
-                - application/problem+xml
-                - application/problem+json
     paths-status-problem-schema:
         description: '"/status" schema is not a Problem object.'
         message: '{{error}} {{path}}'
@@ -388,41 +245,6 @@ rules:
             field: properties.title
         -   function: truthy
             field: properties.detail
-    use-problem-json-for-errors:
-        description: |4-
-
-            Error management is a key enabler of a resilient API ecosystem.
-            Enforcing a consistent schema for errors between different APIs,
-            enables client to properly implement an error management strategy,
-            with positive impacts for users.
-
-            Error responses should return one of the media-type
-            defined in RFC7807:
-            - `application/problem+json`
-            - `application/problem+xml`
-
-            An example of a valid response:
-
-            ```
-            responses:
-              "503":
-                content:
-                  application/problem+json:
-                    schema:
-                      ...
-            ```
-        message: '[RFC7807] Error responses should support RFC7807 in {{path}}.'
-        formats:
-        - oas3
-        severity: error
-        given: $.paths.[*].responses[?(@property && @property.match(/^(4|5|default)/)
-            && !@["x-noqa"] )].content.*~
-        then:
-            function: enumeration
-            functionOptions:
-                values:
-                - application/problem+xml
-                - application/problem+json
     use-problem-schema:
         description: |-
             WARN: This rule is under implementation and just provides an hint.
@@ -536,53 +358,3 @@ rules:
                 - X-RateLimit-Reset
                 - RateLimit-Reset
             function: xor
-    sec-apikeys-url:
-        description: |-
-            API Keys are (usually opaque) strings that
-            are passed in headers, cookies or query parameters
-            to access APIs.
-
-            Those keys can be eavesdropped, especially when they are stored
-            in cookies or passed as URL parameters.
-
-            ```
-            security:
-            - ApiKey: []
-            paths:
-              /books: {}
-              /users: {}
-            securitySchemes:
-              ApiKey:
-                type: apiKey
-                in: cookie
-                name: X-Api-Key
-            ```
-        message: 'ApiKey passed in URL: {{error}}.'
-        formats:
-        - oas3
-        severity: error
-        recommended: true
-        given:
-        - $..[securitySchemes][?(@ && @.type=="apiKey")].in
-        then:
-        -   function: pattern
-            functionOptions:
-                notMatch: ^(query)$
-    sec-credentials-parameters:
-        description: |-
-            URL parameters MUST NOT contain credentials such as
-            apikey, password, or secret.
-
-            See [RAC_GEN_004](https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl)
-        message: '[RAC_GEN_004] Credentials are sent via URLs. {{path}} {{error}}'
-        formats:
-        - oas3
-        severity: error
-        recommended: true
-        given:
-        - $..parameters[?(@ && @.in && @.in.match(/query|path/))].name
-        then:
-        -   field: name
-            function: pattern
-            functionOptions:
-                notMatch: /^.*(password|secret|apikey).*$/i

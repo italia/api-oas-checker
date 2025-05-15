@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines (v1.1)</title>
+    <title>Italian Guidelines (v1.2)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Italian Guidelines (v1.1)</h1>
+            <div><h1>Italian Guidelines (v1.2)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -83,34 +83,16 @@ modify (eg. compress) the content.</p>
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
 Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
 like described in <a href="https://tools.ietf.org/html/RFC">RFC</a>7234.</p>
-<h2>paths-kebab-case</h2>
-<p>Paths should be kebab-case (e.g. <code>path-parameter</code>).</p>
-<p>See Italian recommendation RAC_REST_NAME_002.</p>
-<h2>http-request-GET-no-body</h2>
-<p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
-because this behavior is not interoperable.
-Moreover intermediaries such as reverse proxies
-are allowed to strip the content from <code>GET</code> requests.</p>
-<p>See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
 <h2>http-request-DELETE-no-body</h2>
 <p>Sending a <code>requestBody</code> in a <code>DELETE</code> request 
 is not considered interoperable.
 Moreover intermediaries such as reverse proxies
 might strip the content from <code>DELETE</code> requests.</p>
 <p>See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
-<h2>http-response-no-content-204-205</h2>
-<p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
-Responses with status code 204 and 205 MUST NOT include a content.
-See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
 <h2>http-response-content-2xx</h2>
 <p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
 Responses with status code 204 and 205 MUST NOT include a content.
 See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
-<h2>servers-use-https</h2>
-<p>Servers must use https to ensure the origin of the responses
-and protect the integrity and the  confidentiality of the communication.</p>
-<p>You can use <code>http://</code> only on sandboxes environment.
-Use <code>x-sandbox: true</code> to skip this kind of check.</p>
 <h2>no-method-name-in-operationId</h2>
 <p>Avoid using method names in <code>operationId</code>s because it couples
 the API design with the implementation.</p>
@@ -131,16 +113,6 @@ paths:
       operationId: upsert_entry
     patch:
       operationId: edit_entry</code></p>
-<h2>number-format</h2>
-<p>Schema of type number or integer must specify a format
-to express the associated datatype, eg. <code>int32</code>, <code>int64</code>, ...</p>
-<p>You can express similar requirements using the <code>minimum</code> and <code>maximum</code> properties.</p>
-<p>See recommendation RAC_REST_FORMAT_004.</p>
-<h2>integer-format</h2>
-<p>Schema of type number or integer must specify a format
-to express the associated datatype, eg. <code>int32</code>, <code>int64</code>, ...</p>
-<p>You can express similar requirements using the <code>minimum</code> and <code>maximum</code> properties.</p>
-<p>See recommendation RAC_REST_FORMAT_004.</p>
 <h2>allowed-integer-format</h2>
 <p>To improve interoperability, integer and number formats are constrained
 to a shared subset.</p>
@@ -149,35 +121,8 @@ to a shared subset.</p>
 <p>To improve interoperability, integer and number formats are constrained
 to a shared subset.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
-<h2>no-swagger-2</h2>
-<p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
-<h2>paths-status</h2>
-<p>You must define a <code>/status</code> path that can be used to health-check the API.
-Using this path avoids the arbitrary usage of a server URL for health-check
-scope.</p>
-<p>The <code>/status</code> endpoint should return a <code>application/problem+json</code> response
-containing a successful status code if the service is working correctly.</p>
-<p>The service provider is free to define the implementation logic for this path.</p>
-<h2>paths-status-return-problem</h2>
-<p>"/status" must return a Problem object.</p>
 <h2>paths-status-problem-schema</h2>
 <p>"/status" schema is not a Problem object.</p>
-<h2>use-problem-json-for-errors</h2>
-<p>Error management is a key enabler of a resilient API ecosystem.
-Enforcing a consistent schema for errors between different APIs,
-enables client to properly implement an error management strategy,
-with positive impacts for users.</p>
-<p>Error responses should return one of the media-type
-defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7807:
-- <code>application/problem+json</code>
-- <code>application/problem+xml</code></p>
-<p>An example of a valid response:</p>
-<p><code>responses:
-  "503":
-    content:
-      application/problem+json:
-        schema:
-          ...</code></p>
 <h2>use-problem-schema</h2>
 <p>WARN: This rule is under implementation and just provides an hint.</p>
 <p>Error management is a key enabler of a resilient API ecosystem.
@@ -214,27 +159,7 @@ X-Ratelimit-Remaining: 40
 X-Ratelimit-Reset: 12</code></p>
 <p>A standardization proposal for ratelimit headers is ongoing
 inside the IETF HTTPAPI Workgroup.
-See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p>
-<h2>sec-apikeys-url</h2>
-<p>API Keys are (usually opaque) strings that
-are passed in headers, cookies or query parameters
-to access APIs.</p>
-<p>Those keys can be eavesdropped, especially when they are stored
-in cookies or passed as URL parameters.</p>
-<p><code>security:
-- ApiKey: []
-paths:
-  /books: {}
-  /users: {}
-securitySchemes:
-  ApiKey:
-    type: apiKey
-    in: cookie
-    name: X-Api-Key</code></p>
-<h2>sec-credentials-parameters</h2>
-<p>URL parameters MUST NOT contain credentials such as
-apikey, password, or secret.</p>
-<p>See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl">RAC_GEN_004</a></p></div>
+See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p></div>
         </div>
     </div>
 </div>
