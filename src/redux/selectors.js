@@ -9,6 +9,7 @@ export const isMenuDisplayed = (state) => state.menuState.isMenuDisplayed;
 
 export const getDocumentText = (state) => state.documentState.text;
 export const getDocumentFile = (state) => state.documentState.file;
+export const getFilename = (state) => state.documentState.filename;
 export const getDocumentTextParameter = (state) => state.documentState.textParameter;
 export const getDocumentUrl = (state) => state.documentState.url;
 
