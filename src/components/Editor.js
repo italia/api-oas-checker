@@ -5,7 +5,7 @@ import { setDiagnosticsOptions } from 'monaco-yaml';
 import debounce from 'lodash.debounce';
 import { createUseStyles } from 'react-jss';
 import { useDispatch, useSelector } from 'react-redux';
-import { setDocumentText } from '../redux/actions.js';
+import { setDocumentText, setFilename } from '../redux/actions.js';
 import {
   getDocumentTextParameter,
   getDocumentUrl,
@@ -78,6 +78,10 @@ const Editor = () => {
     editor.current.onDidChangeModelContent(
       debounce(() => {
         const text = editor.current.getModel().getValue();
+        // If the editor is empty delete the filename section
+        if (text.trim() === '') {
+          dispatch(setFilename(null));
+        }
         dispatch(setDocumentText(text));
       }, 1000)
     );
