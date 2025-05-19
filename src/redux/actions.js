@@ -8,6 +8,7 @@ import {
   SET_DOCUMENT_FILE,
   SET_RULESET,
   SET_TEMPLATE_DOCUMENT_NAME,
+  SET_FILENAME,
 } from './actionTypes.js';
 
 export const toogleMenu = () => ({
@@ -38,6 +39,11 @@ export const setDocumentText = (text) => ({
 export const setDocumentFile = (file) => ({
   type: SET_DOCUMENT_FILE,
   payload: file,
+});
+
+export const setFilename = (filename) => ({
+  type: SET_FILENAME,
+  payload: filename,
 });
 
 export const focusDocumentLine = (line) => ({
