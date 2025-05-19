@@ -9,6 +9,7 @@ import { ValidationController } from './ValidationController.js';
 import { ValidationSummary } from './ValidationSummary.js';
 import { ValidationResults } from './ValidationResults.js';
 import { RulesetSelect } from './RulesetSelect.js';
+import { FilenameSection } from './FilenameSection.js';
 
 // Lazy load editor to gain some ms on the fcp
 const Editor = React.lazy(() => import('./Editor.js'));
@@ -84,6 +85,7 @@ export const Main = () => {
         <section className={classes.rightSection}>
           <RulesetSelect />
           <ValidationController />
+          <FilenameSection />
           <ValidationSummary />
           <ValidationResults />
         </section>

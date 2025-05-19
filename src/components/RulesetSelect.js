@@ -42,7 +42,10 @@ export const RulesetSelect = () => {
         onChange={(e) => dispatch(setRuleset(e.target.value))}
       >
         {Object.entries(FILES_DICTIONARY).map(([filePath, fileInfo]) => (
-          <option value={filePath}>
+          <option
+            value={filePath}
+            key={filePath}
+          >
             {`${fileInfo.rulesetName}`}
           </option>
         ))}
