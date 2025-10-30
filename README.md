@@ -14,7 +14,7 @@
 
 Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines Full_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
 
-📌 **Per la pubblicazione di una API sul Catalogo PDND**, eseguire l'OAS Checker con il profilo **_Italian Guidelines Full_** e verificare che ci siano **0 errori** e **0 warnings**
+📌 **Per la pubblicazione di una API sul Catalogo PDND**, eseguire l'OAS Checker con il profilo **_Italian Guidelines Full_** e verificare che lo _yaml_ presenti **0 errori** e **0 warnings**
 
 In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
 
