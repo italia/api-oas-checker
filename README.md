@@ -10,33 +10,23 @@
 
 👨🏻‍💻 L'applicazione on-line pronta all'uso è disponibile [qui](https://italia.github.io/api-oas-checker/).
 
-⚙️ Il checker è basato su [Spectral](https://github.com/stoplightio/spectral).
+## 🔍 Eseguire il check delle API
 
-> ### Perché Spectral? 🤔
-> Lo abbiamo preferito rispetto ad altri software perché
-non richiede l'utilizzo di database o componenti server a cui inviare i tuoi documenti OpenAPI (OAS Checker è una pagina statica deployata su GitHub Pages) e perché la maggior parte delle regole è descritta tramite file statici (e.g. YAML):
-[tranne in casi specifici](rules-modi/security/functions/) non è necessario quindi eseguire codice JavaScript. Inoltre, gli utenti possono sempre limitarsi ad importare le sole regole statiche.
->
-> Le alternative valutate, ugualmente valide, sono:
-> - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
-> - [Speccy](https://github.com/wework/speccy) pare supportare solo regole in JavaScript, mentre questo checker utilizza per lo più dei file YAML statici.
+Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines Full_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
+
+📌 **Per la pubblicazione di una API sul Catalogo PDND**, eseguire l'OAS Checker con il profilo **_Italian Guidelines Full_** e verificare che lo _yaml_ presenti **0 errori** e **0 warnings**
+
+In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
 
 ## 📦 Regole
 
 Le regole che il checker utilizzata sono gestite in un repository dedicato: [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules).
 
 Al momento, i ruleset sono:
-- [spectral-modi.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-modi.yml), o _Italian Guidelines_, quelle di default
-- [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), o _Italian Guidelines Extended_
+- [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), o _Italian Guidelines Full_, quelle di default
 - [spectral-generic.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-generic.yml), o _Best Practices Only_
 - [spectral-security.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-security.yml), o _Extra Security Checks_
-- [spectral-full.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-full.yml), o _Italian Guidelines Extended + Extra Security Checks_
-
-## 🔍 Eseguire il check delle API
-
-Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
-
-In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
+- [spectral-full.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-full.yml), o _Italian Guidelines Full + Extra Security Checks_
 
 ## 🚀 Avviare la web app in locale
 
@@ -61,5 +51,19 @@ e al termine della compilazione collegarsi a http://localhost:3000
 
 Grazie a Paolo Falomo,
 Francesco Marinucci,
-Giuseppe De Marco
+Giuseppe De Marco,
+Andrea Misuraca,
+Simone Esposito,
+Rocco Affinito
 e Vincenzo Chianese per i suggerimenti ed i contributi!
+
+⚙️ Il checker è basato su [Spectral](https://github.com/stoplightio/spectral).
+
+> ### Perché Spectral? 🤔
+> Lo abbiamo preferito rispetto ad altri software perché
+non richiede l'utilizzo di database o componenti server a cui inviare i tuoi documenti OpenAPI (OAS Checker è una pagina statica deployata su GitHub Pages) e perché la maggior parte delle regole è descritta tramite file statici (e.g. YAML):
+[tranne in casi specifici](rules-modi/security/functions/) non è necessario quindi eseguire codice JavaScript. Inoltre, gli utenti possono sempre limitarsi ad importare le sole regole statiche.
+>
+> Le alternative valutate, ugualmente valide, sono:
+> - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
+> - [Speccy](https://github.com/wework/speccy) pare supportare solo regole in JavaScript, mentre questo checker utilizza per lo più dei file YAML statici.
