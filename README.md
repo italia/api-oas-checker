@@ -14,7 +14,7 @@
 
 Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines Full_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
 
-📌 **Per la pubblicazione di una API sul Catalogo PDND**, eseguire l'OAS Checker con il profilo **_Italian Guidelines Full_** e verificare che lo _yaml_ presenti **0 errori** e **0 warnings**
+📌 **Per la pubblicazione di una API sul Catalogo PDND**, eseguire l'OAS Checker con il profilo **_Italian Guidelines Full_** e verificare che lo _yaml_ presenti **0 errori** ed auspicabilmente **0 warnings**.
 
 In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
 
@@ -62,7 +62,7 @@ e Vincenzo Chianese per i suggerimenti ed i contributi!
 > ### Perché Spectral? 🤔
 > Lo abbiamo preferito rispetto ad altri software perché
 non richiede l'utilizzo di database o componenti server a cui inviare i tuoi documenti OpenAPI (OAS Checker è una pagina statica deployata su GitHub Pages) e perché la maggior parte delle regole è descritta tramite file statici (e.g. YAML):
-[tranne in casi specifici](rules-modi/security/functions/) non è necessario quindi eseguire codice JavaScript. Inoltre, gli utenti possono sempre limitarsi ad importare le sole regole statiche.
+tranne in casi specifici (es. set di regole per la security), non è necessario quindi eseguire codice JavaScript. Inoltre, gli utenti possono sempre limitarsi ad importare le sole regole statiche.
 >
 > Le alternative valutate, ugualmente valide, sono:
 > - [Zally](https://github.com/zalando/zally) ha bisogno di un database e non è possibile farne un webpackage;
