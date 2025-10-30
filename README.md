@@ -10,6 +10,13 @@
 
 👨🏻‍💻 L'applicazione on-line pronta all'uso è disponibile [qui](https://italia.github.io/api-oas-checker/).
 
+## 🔍 Eseguire il check delle API
+
+Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines Full_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
+
+📌 **Per la pubblicazione di una API sul Catalogo PDND**, eseguire l'OAS Checker con il profilo **_Italian Guidelines Full_** e verificare che ci siano **0 errori** e **0 warnings**
+
+In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
 
 ## 📦 Regole
 
@@ -20,12 +27,6 @@ Al momento, i ruleset sono:
 - [spectral-generic.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-generic.yml), o _Best Practices Only_
 - [spectral-security.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-security.yml), o _Extra Security Checks_
 - [spectral-full.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-full.yml), o _Italian Guidelines Full + Extra Security Checks_
-
-## 🔍 Eseguire il check delle API
-
-Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
-
-In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub Action: si rimanda al seguente [README](https://github.com/italia/api-oas-checker-rules/blob/main/README.md) del repo [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules) per tutte le informazioni.
 
 ## 🚀 Avviare la web app in locale
 
