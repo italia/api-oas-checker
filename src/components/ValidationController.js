@@ -38,7 +38,7 @@ export const ValidationController = () => {
   );
   const classes = useStyles(validationInProgress);
 
-  const [onlyErrors, setOnlyErrors] = useState(true);
+  const [onlyErrors, setOnlyErrors] = useState(false);
   const handleOnlyErrorsToggle = useCallback(() => {
     setOnlyErrors((prevOnlyErrors) => !prevOnlyErrors);
   }, []);

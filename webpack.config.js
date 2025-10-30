@@ -102,7 +102,7 @@ async function initializeRulesets() {
 
 const getDefault = (fileMap) => {
   const specificFilePath = Object.keys(fileMap).find(
-    (filePath) => fileMap[filePath].rulesetName === 'Italian Guidelines'
+    (filePath) => fileMap[filePath].rulesetName === 'Italian Guidelines Full'
   );
   return specificFilePath || Object.keys(fileMap)[0];
 };
