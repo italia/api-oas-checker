@@ -1,0 +1,9 @@
+OpenAPI 3.x detected
+
+/code/design/tests/design-test.yml
+ 14:14  warning  openapi-v3-limit-number-of-sub-resources  There should be no more than three levels of sub-resources.    paths./a/b/c/d/e
+ 16:15  warning  openapi-v3-parameters-name-length         Your parameter names should not be longer than 25 characters.  paths./a/b/c/d/e.parameters[0].name
+ 35:13  warning  openapi-v3-parameters-name-length         Your parameter names should not be longer than 25 characters.  components.parameters.MyParam.name
+
+✖ 3 problems (0 errors, 3 warnings, 0 infos, 0 hints)
+
