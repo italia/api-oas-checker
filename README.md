@@ -10,6 +10,12 @@
 
 👨🏻‍💻 L'applicazione on-line pronta all'uso è disponibile [qui](https://italia.github.io/api-oas-checker/).
 
+## 📋 Requisiti
+
+- Node.js 16+ (vedi `.nvmrc`)
+- Yarn (consigliato) o npm
+- Docker (opzionale, per eseguire in container)
+
 ## 🔍 Eseguire il check delle API
 
 Il modo più semplice per controllare un'API è di utilizzare questo checker, inserendo il contenuto dell'API e selezionando un set di regole (di default: _Italian Guidelines Full_). Cliccando su "Check" sarà possibile esaminare tutti gli errori, warning, info e hint rilevati da Spectral.
@@ -20,9 +26,9 @@ In alternativa, è possibile fare il check delle API tramite IDE, CLI e GitHub A
 
 ## 📦 Regole
 
-Le regole che il checker utilizzata sono gestite in un repository dedicato: [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules).
+Le regole che il checker utilizza sono gestite in un repository dedicato: [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules).
 
-Al momento, i ruleset sono:
+I ruleset disponibili sono scaricabili dalle [release del repository](https://github.com/italia/api-oas-checker-rules/releases/latest):
 - [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), o _Italian Guidelines Full_, quelle di default
 - [spectral-generic.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-generic.yml), o _Best Practices Only_
 - [spectral-security.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-security.yml), o _Extra Security Checks_
@@ -46,6 +52,21 @@ $ docker-compose up --build start
 ```
 
 e al termine della compilazione collegarsi a http://localhost:3000
+
+## 🧪 Test
+
+Per eseguire i test:
+
+```bash
+$ yarn test
+```
+
+## 📚 Documentazione e Integrazioni
+
+- **Modello di Interoperabilità**: [Linee guida ufficiali](https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs)
+- **Regole complete**: Repository [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules)
+- **GitHub Action**: Esempio di [configurazione per CI/CD](https://github.com/italia/api-oas-checker-rules/blob/main/docs/resources/github-action.yml)
+- **API Starter Kit**: [Progetti correlati](https://github.com/teamdigitale/api-starter-kit)
 
 ## ✍🏻 Contributi
 

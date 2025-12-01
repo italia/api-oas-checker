@@ -10,6 +10,12 @@
 
 👨🏻‍💻 The ready-to-use online application is available [here](https://italia.github.io/api-oas-checker/).
 
+## 📋 Requirements
+
+- Node.js 16+ (see `.nvmrc`)
+- Yarn (recommended) or npm
+- Docker (optional, for running in containers)
+
 ## 🔍 Checking APIs
 
 The simplest way to check an API is to use this checker by entering the API content and selecting a ruleset (default: _Italian Guidelines Full_). By clicking "Check", you can examine all errors, warnings, info, and hints detected by Spectral.
@@ -22,7 +28,7 @@ Alternatively, you can check APIs via IDE, CLI, and GitHub Action: please refer 
 
 The rules used by the checker are managed in a dedicated repository: [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules).
 
-Currently, the rulesets are:
+The available rulesets can be downloaded from the [repository releases](https://github.com/italia/api-oas-checker-rules/releases/latest):
 - [spectral.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral.yml), or _Italian Guidelines Full_, the default ones
 - [spectral-generic.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-generic.yml), or _Best Practices Only_
 - [spectral-security.yml](https://github.com/italia/api-oas-checker-rules/releases/latest/download/spectral-security.yml), or _Extra Security Checks_
@@ -46,6 +52,21 @@ $ docker-compose up --build start
 ```
 
 and when the build is finished, connect to http://localhost:3000
+
+## 🧪 Tests
+
+To run the tests:
+
+```bash
+$ yarn test
+```
+
+## 📚 Documentation and Integrations
+
+- **Interoperability Framework**: [Official guidelines](https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs)
+- **Complete rules**: [api-oas-checker-rules repository](https://github.com/italia/api-oas-checker-rules)
+- **GitHub Action**: [CI/CD configuration example](https://github.com/italia/api-oas-checker-rules/blob/main/docs/resources/github-action.yml)
+- **API Starter Kit**: [Related projects](https://github.com/teamdigitale/api-starter-kit)
 
 ## ✍🏻 Contributions
 
