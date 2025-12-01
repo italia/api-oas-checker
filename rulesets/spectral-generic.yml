@@ -1,5 +1,5 @@
 #	Ruleset name: Best Practices Only
-#	Ruleset version: 1.2
+#	Ruleset version: 1.4
 
 #
 # These rules are based on the Italian Guidelines,
@@ -281,7 +281,7 @@ rules:
         message: Server {{path}} must have a description.
         given:
         - $.servers[*]
-        - $.paths..servers
+        - $.paths..servers[*]
         severity: error
         recommended: true
         then:
@@ -307,10 +307,10 @@ rules:
             functionOptions:
                 match: ^https://.*
     has-termsOfService:
-        message: 'API MUST reference the URL of the Terms of Service in #/info/termsOfService.'
-        description: API MUST reference the URL of the Terms of Service in `#/info/termsOfService`
+        message: 'API SHOULD reference the URL of the Terms of Service in #/info/termsOfService.'
+        description: API SHOULD reference the URL of the Terms of Service in `#/info/termsOfService`
         given: $
-        severity: error
+        severity: warn
         recommended: true
         type: style
         formats:
