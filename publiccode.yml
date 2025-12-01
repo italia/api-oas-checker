@@ -18,22 +18,19 @@ description:
       delle regole per le API REST indicate nel Modello di Interoperabilità.
 
 
-      ​
+      Il validatore è basato su Stoplight Spectral. Il progetto è basato su
+      Node.js ed usa Webpack per creare una single-page application.
 
 
-      Il validatore è basato su stoplight spectral. Il  progetto è basato su
-      nodejs ed usa webpack per creare una single-page application
+      Le regole di validazione sono gestite nel repository separato
+      [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules)
+      e sono scaricabili dalle release per essere integrate nelle proprie
+      delivery chain. Sono disponibili diversi profili di validazione: Italian
+      Guidelines Full, Best Practices Only, Extra Security Checks.
 
 
-      Nella directory
-      [rules/](https://github.com/italia/api-oas-checker/blob/master/rules)
-      ci sono le regole applicate, che vengono poi aggregate nel file
-      [spectral.yml](https://github.com/italia/api-oas-checker/blob/master/spectral.yml)
-      che è scaricabile ed utilizzabile per integrare le regole nelle proprie
-      delivery chain.
-
-
-      ​
+      Il checker può essere utilizzato tramite interfaccia web, CLI, IDE e
+      GitHub Action.
     shortDescription: >-
       Questo repository contiene un validatore in-browser che verifica alcune
       delle regole per le API REST indicate nel Modello di Interoperabilità.
