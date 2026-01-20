@@ -1,5 +1,5 @@
 #	Ruleset name: Best Practices Only
-#	Ruleset version: 1.4
+#	Ruleset version: 1.5
 
 #
 # These rules are based on the Italian Guidelines,
@@ -859,9 +859,7 @@ rules:
                 notMatch: message|code|msg
     missing-retry-after:
         description: |-
-            When a client is either:
-            * throttled out with a 429 status code;
-            * warned about a temporary server issue with a 503 status code;
+            When a client is warned about a temporary server issue with a 503 status code,
             the server should explicitly communicate how long to wait
             before issuing further requests using the Retry-After header.
 
@@ -871,7 +869,7 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[responses][?(@property == "429" || @property == "503"  )][headers]
+        given: $..[responses][?(@property == "503" )][headers]
         then:
             field: Retry-After
             function: truthy
@@ -880,7 +878,7 @@ rules:
             Ratelimiting an API preserves a service and limits attack scenario
             [see API4:2019 Lack of Resources & Rate Limiting](https://owasp.org/www-project-api-security).
 
-            APIs should use the following headers at least on successful responses:
+            APIs should use the following headers on successful and client error responses:
             - `X-RateLimit-Limit`: number of total requests in a give time window
             - `X-RateLimit-Remaining`: remaining requests in the current window
             - `X-RateLimit-Reset`: number of seconds before the window resets
@@ -901,7 +899,7 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[responses][?(@property[0] == "2" )][headers]
+        given: $..[responses][?(@property[0] == "2" || @property[0] == "4")][headers]
         then:
         -   functionOptions:
                 properties:

@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Best Practices Only (v1.4)</title>
+    <title>Best Practices Only (v1.5)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Best Practices Only (v1.4)</h1>
+            <div><h1>Best Practices Only (v1.5)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -372,16 +372,14 @@ though it should not be dereferenced automatically, can return
 an actual resource providing guidance in addressing the issue.</p>
 <p>See recommendation RAC_REST_NAME_007.</p>
 <h2>missing-retry-after</h2>
-<p>When a client is either:
-* throttled out with a 429 status code;
-* warned about a temporary server issue with a 503 status code;
+<p>When a client is warned about a temporary server issue with a 503 status code,
 the server should explicitly communicate how long to wait
 before issuing further requests using the Retry-After header.</p>
 <p>Retry-After is defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7231.</p>
 <h2>missing-ratelimit</h2>
 <p>Ratelimiting an API preserves a service and limits attack scenario
 <a href="https://owasp.org/www-project-api-security">see API4:2019 Lack of Resources &amp; Rate Limiting</a>.</p>
-<p>APIs should use the following headers at least on successful responses:
+<p>APIs should use the following headers on successful and client error responses:
 - <code>X-RateLimit-Limit</code>: number of total requests in a give time window
 - <code>X-RateLimit-Remaining</code>: remaining requests in the current window
 - <code>X-RateLimit-Reset</code>: number of seconds before the window resets</p>
