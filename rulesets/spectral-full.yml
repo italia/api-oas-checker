@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full + Extra Security Checks
-#	Ruleset version: 1.6
+#	Ruleset version: 1.7
 
 #
 # These rules are based on the Italian Guidelines,
@@ -42,7 +42,8 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[parameters][?(@.in == "header" && @.name && @.name.match && @.name.match(/Cache-Control/i))]
+        given: $..[parameters][?(@ && @.in == "header" && @.name && @.name.match &&
+            @.name.match(/Cache-Control/i))]
         then:
         -   field: description
             function: truthy
@@ -143,7 +144,7 @@ rules:
         severity: hint
         recommended: true
         given:
-        - $..[parameters][?(@.in=="header")].name
+        - $..[parameters][?(@ && @.in=="header")].name
         then:
             function: casing
             functionOptions:
@@ -190,7 +191,7 @@ rules:
         message: '{{error}} in {{path}} {{value}}'
         severity: error
         given:
-        - $..parameters[?(@.in == 'header')].name
+        - $..parameters[?(@ && @.in == 'header')].name
         - $..[responses][*].headers.*~
         then:
             function: pattern
@@ -200,7 +201,7 @@ rules:
         description: '''HTTP'' headers SHOULD NOT start with ''X-'' RFC6648.'
         severity: warn
         given:
-        - $..parameters[?(@.in == 'header')].name
+        - $..parameters[?(@ && @.in == 'header')].name
         message: '[RFC6648] HTTP header ''{{value}}'' SHOULD NOT start with ''X-''
             in {{path}}'
         recommended: true
@@ -396,7 +397,7 @@ rules:
         formats:
         - oas3
         severity: info
-        given: $..parameters.[?(@.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+        given: $..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
             )]
         then:
             field: name
@@ -466,7 +467,7 @@ rules:
         formats:
         - oas3
         severity: hint
-        given: $..[?(@.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
+        given: $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
             )]
         then:
             field: operationId
@@ -1122,7 +1123,7 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[?(@.type=="array")]
+        - $..[?(@ && @.type=="array")]
         then:
         -   field: maxItems
             function: defined
@@ -1142,8 +1143,8 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[?(@.type=="number")]
-        - $..[?(@.type=="integer")]
+        - $..[?(@ && @.type=="number")]
+        - $..[?(@ && @.type=="integer")]
         then:
         -   field: maximum
             function: defined
@@ -1196,7 +1197,7 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[?(@.type=="object" && @.additionalProperties==true)]
+        - $..[?(@ && @.type=="object" && @.additionalProperties==true)]
         then:
         -   field: additionalProperties
             function: falsy
@@ -1247,7 +1248,7 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[?(@.type=="object" && ! @.additionalProperties)]
+        - $..[?(@ && @.type=="object" && ! @.additionalProperties)]
         then:
         -   field: additionalProperties
             function: defined
@@ -1298,7 +1299,7 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[?(@.type=="object" && @.additionalProperties &&  @.additionalProperties!=true
+        - $..[?(@ && @.type=="object" && @.additionalProperties &&  @.additionalProperties!=true
             &&  @.additionalProperties!=false )]
         then:
         -   field: maxProperties
@@ -1435,7 +1436,7 @@ rules:
             ```
         message: JWT usage should be detailed in `description` {{error}}.
         given:
-        - $..[securitySchemes][?(@.type=="oauth2")]
+        - $..[securitySchemes][?(@ && @.type=="oauth2")]
         then:
         -   field: description
             function: truthy
@@ -1473,7 +1474,7 @@ rules:
             ```
         message: JWT usage should be detailed in `description` {{error}}.
         given:
-        - $..[securitySchemes][?(@.bearerFormat=="jwt" || @.bearerFormat=="JWT")]
+        - $..[securitySchemes][?(@ && (@.bearerFormat=="jwt" || @.bearerFormat=="JWT"))]
         then:
         -   field: description
             function: truthy
@@ -1508,7 +1509,7 @@ rules:
         severity: error
         recommended: true
         given:
-        - $..[securitySchemes][?(@.type=="apiKey")].in
+        - $..[securitySchemes][?(@ && @.type=="apiKey")].in
         then:
         -   function: pattern
             functionOptions:
@@ -1529,7 +1530,7 @@ rules:
         recommended: true
         severity: error
         given:
-        - $..[securitySchemes][?(@.type=="http")].scheme
+        - $..[securitySchemes][?(@ && @.type=="http")].scheme
         then:
         -   function: pattern
             functionOptions:
@@ -1571,8 +1572,7 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[?(@.type=="string" && !@.enum && @.format!="date" && @.format !="date-time"
-            )]
+        - $..[?(@ && @.type=="string" && !@.enum && !@.format)]
         then:
         -   field: maxLength
             function: defined
@@ -1613,8 +1613,7 @@ rules:
         severity: hint
         recommended: true
         given:
-        - $..[?(@.type=="string" && !@.enum && @.format!="date" && @.format !="date-time"
-            )]
+        - $..[?(@ && @.type=="string" && !@.enum && !@.format)]
         then:
             function: schema
             functionOptions:

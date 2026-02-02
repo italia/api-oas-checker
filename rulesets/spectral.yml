@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full
-#	Ruleset version: 1.6
+#	Ruleset version: 1.7
 
 #
 # These rules are based on the Italian Guidelines,
@@ -42,7 +42,8 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[parameters][?(@.in == "header" && @.name && @.name.match && @.name.match(/Cache-Control/i))]
+        given: $..[parameters][?(@ && @.in == "header" && @.name && @.name.match &&
+            @.name.match(/Cache-Control/i))]
         then:
         -   field: description
             function: truthy
@@ -143,7 +144,7 @@ rules:
         severity: hint
         recommended: true
         given:
-        - $..[parameters][?(@.in=="header")].name
+        - $..[parameters][?(@ && @.in=="header")].name
         then:
             function: casing
             functionOptions:
@@ -190,7 +191,7 @@ rules:
         message: '{{error}} in {{path}} {{value}}'
         severity: error
         given:
-        - $..parameters[?(@.in == 'header')].name
+        - $..parameters[?(@ && @.in == 'header')].name
         - $..[responses][*].headers.*~
         then:
             function: pattern
@@ -200,7 +201,7 @@ rules:
         description: '''HTTP'' headers SHOULD NOT start with ''X-'' RFC6648.'
         severity: warn
         given:
-        - $..parameters[?(@.in == 'header')].name
+        - $..parameters[?(@ && @.in == 'header')].name
         message: '[RFC6648] HTTP header ''{{value}}'' SHOULD NOT start with ''X-''
             in {{path}}'
         recommended: true
@@ -396,7 +397,7 @@ rules:
         formats:
         - oas3
         severity: info
-        given: $..parameters.[?(@.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
+        given: $..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
             )]
         then:
             field: name
@@ -466,7 +467,7 @@ rules:
         formats:
         - oas3
         severity: hint
-        given: $..[?(@.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
+        given: $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
             )]
         then:
             field: operationId

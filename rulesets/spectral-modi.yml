@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 1.6
+#	Ruleset version: 1.7
 
 #
 # These rules are based on the Italian Guidelines,
@@ -42,7 +42,8 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[parameters][?(@.in == "header" && @.name && @.name.match && @.name.match(/Cache-Control/i))]
+        given: $..[parameters][?(@ && @.in == "header" && @.name && @.name.match &&
+            @.name.match(/Cache-Control/i))]
         then:
         -   field: description
             function: truthy
@@ -183,7 +184,7 @@ rules:
         formats:
         - oas3
         severity: hint
-        given: $..[?(@.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
+        given: $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
             )]
         then:
             field: operationId
