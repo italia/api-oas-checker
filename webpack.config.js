@@ -73,7 +73,7 @@ async function downloadLatestRelease() {
   }
 }
 
-// Function to retrieve file names and metadata from a directory using YAML parsing
+// Function to retrieve file names and metadata from a directory
 const getFilesInDirectory = (rulesetsPath) => {
   try {
     if (!fs.existsSync(rulesetsPath)) {
@@ -87,13 +87,9 @@ const getFilesInDirectory = (rulesetsPath) => {
         const filePath = path.join(rulesetsPath, file);
         try {
           const fileContent = fs.readFileSync(filePath, 'utf8');
-          const doc = YAML.parseDocument(fileContent);
           
-          // Access comments before the document
-          const commentBefore = doc.commentBefore || '';
-          
-          const nameMatch = commentBefore.match(/Ruleset name:\s*(.*)/i);
-          const versionMatch = commentBefore.match(/Ruleset version:\s*(.*)/i);
+          const nameMatch = fileContent.match(/Ruleset name:\s*(.*)/i);
+          const versionMatch = fileContent.match(/Ruleset version:\s*(.*)/i);
 
           if (nameMatch && versionMatch) {
             const rulesetName = nameMatch[1].trim();
@@ -103,8 +99,8 @@ const getFilesInDirectory = (rulesetsPath) => {
               rulesetVersion,
             };
           }
-        } catch (parseError) {
-          console.error(`Error parsing YAML file ${file}:`, parseError.message);
+        } catch (readError) {
+          console.error(`Error reading file ${file}:`, readError.message);
         }
       }
     });
@@ -135,10 +131,14 @@ async function initializeRulesets() {
 }
 
 const getDefault = (fileMap) => {
-  const specificFilePath = Object.keys(fileMap).find(
+  const keys = Object.keys(fileMap);
+  if (keys.length === 0) {
+    return '';
+  }
+  const specificFilePath = keys.find(
     (filePath) => fileMap[filePath].rulesetName === 'Italian Guidelines'
   );
-  return specificFilePath || Object.keys(fileMap)[0];
+  return specificFilePath || keys[0];
 };
 
 module.exports = async () => {

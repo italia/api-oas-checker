@@ -9,10 +9,16 @@ import {
   SET_RULESET,
   SET_TEMPLATE_DOCUMENT_NAME,
   SET_FILENAME,
+  TRIGGER_FORMAT,
 } from './actionTypes.js';
 
 export const toogleMenu = () => ({
   type: TOOGLE_MENU,
+});
+
+export const triggerFormat = (tabSize) => ({
+  type: TRIGGER_FORMAT,
+  tabSize,
 });
 
 export const setValidationResults = (results) => ({

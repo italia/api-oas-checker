@@ -8,6 +8,7 @@ import {
   getDocumentFile,
   getLineToFocus,
   getValidationResults,
+  getFormatting,
 } from '../redux/selectors.js';
 import { useMonaco } from '../hooks/useMonaco.js';
 import { useDocumentLoader } from '../hooks/useDocumentLoader.js';
@@ -45,6 +46,7 @@ const Editor = () => {
   const documentUrl = useSelector(getDocumentUrl);
   const documentFile = useSelector(getDocumentFile);
   const documentTextParameter = useSelector(getDocumentTextParameter);
+  const formatting = useSelector(getFormatting);
 
   // Callback for editor content changes
   const handleContentChange = useCallback(
@@ -83,6 +85,20 @@ const Editor = () => {
     editorInstance.setPosition({ lineNumber: focusLine.line, column: focusLine.character });
     editorInstance.focus();
   }, [editorInstance, focusLine]);
+
+  // Handle formatting
+  useEffect(() => {
+    if (!editorInstance || !formatting) {
+      return;
+    }
+
+    const { tabSize } = formatting;
+    const model = editorInstance.getModel();
+    if (model) {
+      model.updateOptions({ tabSize });
+      editorInstance.getAction('editor.action.formatDocument').run();
+    }
+  }, [editorInstance, formatting]);
 
   return <div ref={editorEl} className={classes.editor}></div>;
 };
