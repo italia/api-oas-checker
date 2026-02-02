@@ -7,6 +7,9 @@ import DOMPurify from 'dompurify';
 import { marked } from 'marked';
 
 export const getDocFilename = (ruleset) => {
+  if (!ruleset || typeof ruleset !== 'string' || ruleset.trim() === '') {
+    return '#';
+  }
   const docFilename = ruleset.split('.')[0];
   return `${docFilename}.html`;
 };
