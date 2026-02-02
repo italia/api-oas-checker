@@ -2,17 +2,20 @@ module.exports = {
   globals: {
     REPO_URL: 'https://localhost',
     VERSION: '1.0.0',
+    DEFAULT_RULESET: 'rulesets/italian-guidelines.yaml',
+    FILES_DICTIONARY: {},
+    RULESETS_VERSION: '0.0.0',
   },
-  transform: { 
+  transform: {
     '\\.m?[jt]sx?$': 'babel-jest',
-    "^.+\\.svg$": "./transformers/svg.js"
+    '^.+\\.svg$': './transformers/svg.js',
   },
   transformIgnorePatterns: ['/node_modules/(?!monaco-editor)/'],
-  //ignore css imported in components
+  // ignore css imported in components
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     'monaco-editor': 'monaco-editor/esm/vs/editor/editor.api.js',
-    '^worker-loader.+$': '<rootDir>/src/mocks/workerMock.js'
+    '^worker-loader.+$': '<rootDir>/src/mocks/workerMock.js',
   },
-  testEnvironment: "jsdom"
+  testEnvironment: 'jsdom',
 };

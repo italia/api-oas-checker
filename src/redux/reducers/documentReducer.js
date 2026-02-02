@@ -4,6 +4,7 @@ import {
   SET_DOCUMENT_TEXT,
   SET_DOCUMENT_FILE,
   SET_FILENAME,
+  TRIGGER_FORMAT,
 } from "../actionTypes.js";
 import { DEFAULT_DOCUMENT_URL } from "../../utils.mjs";
 
@@ -19,6 +20,7 @@ const initialState = {
   url: hashParams.get("text")
     ? null
     : hashParams.get("url") || DEFAULT_DOCUMENT_URL, // Get 'url' from fragment or use default
+  formatting: null, // { tabSize: number, timestamp: number }
 };
 
 export default function (state = initialState, action) {
@@ -54,6 +56,14 @@ export default function (state = initialState, action) {
         ...state,
         url: action.url,
         textParameter: null,
+      };
+    case TRIGGER_FORMAT:
+      return {
+        ...state,
+        formatting: {
+          tabSize: action.tabSize,
+          timestamp: Date.now(),
+        },
       };
     default:
       return state;
