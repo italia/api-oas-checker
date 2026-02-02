@@ -173,11 +173,11 @@ module.exports = async () => {
     },
     optimization: isProduction
       ? {
-          minimizer: [`...`, new CssMinimizerPlugin()],
+          minimizer: ['...', new CssMinimizerPlugin()],
           splitChunks: {
             cacheGroups: {
               vendor: {
-                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/
+                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/,
                 name: 'vendor',
                 chunks: 'all',
               },
