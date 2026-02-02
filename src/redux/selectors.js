@@ -15,4 +15,6 @@ export const getDocumentUrl = (state) => state.documentState.url;
 
 export const getLineToFocus = (state) => state.documentState.focusLine;
 
+export const getFormatting = (state) => state.documentState.formatting;
+
 export const getTemplateDocumentName = (state) => state.documentState.templateDocumentName;

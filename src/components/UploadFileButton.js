@@ -1,17 +1,11 @@
-import React, { useCallback } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import cx from "classnames";
-import {
-  resetValidationResults,
-  setDocumentFile,
-  setFilename,
-} from "../redux/actions.js";
-import { isValidationInProgress } from "../redux/selectors.js";
+import React, { useCallback } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import cx from 'classnames';
+import { resetValidationResults, setDocumentFile, setFilename } from '../redux/actions.js';
+import { isValidationInProgress } from '../redux/selectors.js';
 
 export const UploadFileButton = () => {
-  const validationInProgress = useSelector((state) =>
-    isValidationInProgress(state)
-  );
+  const validationInProgress = useSelector((state) => isValidationInProgress(state));
   const dispatch = useDispatch();
   const loadFile = useCallback(
     (e) => {
@@ -23,7 +17,7 @@ export const UploadFileButton = () => {
           dispatch(setFilename(file.name));
           dispatch(resetValidationResults());
         };
-        reader.readAsText(file, "UTF-8");
+        reader.readAsText(file, 'UTF-8');
       }
     },
     [dispatch]
@@ -33,13 +27,12 @@ export const UploadFileButton = () => {
     {
       disabled: validationInProgress,
     },
-    ["btn", "btn-outline-primary"]
+    ['btn', 'btn-outline-primary']
   );
 
   return (
     <label role="button" className={labelAsButton}>
-      Upload file{" "}
-      <input type="file" accept=".yaml, .yml" hidden onChange={loadFile} />
+      Upload file <input type="file" accept=".yaml, .yml, .json" hidden onChange={loadFile} />
     </label>
   );
 };
