@@ -63,6 +63,11 @@ export const useMonaco = (containerRef, onContentChange) => {
       debouncedChangeHandler(editor);
     });
 
+    // Expose flush to allow immediate updates
+    editor.flushChanges = () => debouncedChangeHandler.flush();
+
+    window.editor = editor;
+
     editorRef.current = editor;
     setEditorInstance(editor);
 
