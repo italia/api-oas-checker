@@ -15,5 +15,7 @@ yarn-error.log
 /coverage
 .idea
 
+/rulesets
+
 # generated css from bootstrap-italia
 src/bootstrap-italia-custom.min.css

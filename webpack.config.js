@@ -9,7 +9,11 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const webpack = require('webpack');
 const axios = require('axios');
 const AdmZip = require('adm-zip');
+const YAML = require('yaml');
 const packageJson = require('./package.json');
+
+// Constants
+const RULES_REPO_URL = 'https://api.github.com/repos/italia/api-oas-checker-rules/releases/latest';
 
 const srcPath = path.resolve(__dirname, 'src');
 const buildPath = path.resolve(__dirname, 'dist');
@@ -24,66 +28,89 @@ if (!fs.existsSync(rulesetsPath)) {
 
 async function downloadLatestRelease() {
   try {
-    const response = await axios.get('https://api.github.com/repos/italia/api-oas-checker-rules/releases/latest');
+    console.log(`Fetching latest release from ${RULES_REPO_URL}...`);
+    const response = await axios.get(RULES_REPO_URL);
     const latestRelease = response.data;
     const assets = latestRelease.assets;
 
+    if (!assets || assets.length === 0) {
+      console.warn('No assets found in the latest release.');
+      return;
+    }
+
     for (const asset of assets) {
-      console.log(`Downloading asset: ${asset.name} from ${asset.browser_download_url}`);
-      const assetResponse = await axios.get(asset.browser_download_url, { responseType: 'arraybuffer' });
-      const buffer = Buffer.from(assetResponse.data);
+      try {
+        console.log(`Downloading asset: ${asset.name} from ${asset.browser_download_url}`);
+        const assetResponse = await axios.get(asset.browser_download_url, { responseType: 'arraybuffer' });
+        const buffer = Buffer.from(assetResponse.data);
 
-      if (asset.name === 'functions.zip') {
-        console.log('Extracting functions.zip...');
-        const zip = new AdmZip(buffer);
-        const functionsPath = path.join(rulesetsPath, 'functions');
+        if (asset.name === 'functions.zip') {
+          console.log('Extracting functions.zip...');
+          const zip = new AdmZip(buffer);
+          const functionsPath = path.join(rulesetsPath, 'functions');
 
-        // Ensure the functions directory exists
-        if (!fs.existsSync(functionsPath)) {
-          fs.mkdirSync(functionsPath, { recursive: true });
+          // Ensure the functions directory exists
+          if (!fs.existsSync(functionsPath)) {
+            fs.mkdirSync(functionsPath, { recursive: true });
+          }
+
+          zip.extractAllTo(functionsPath, true);
+          console.log(`functions.zip extracted to ${functionsPath}`);
+        } else {
+          const filePath = path.join(rulesetsPath, asset.name);
+          fs.writeFileSync(filePath, buffer);
+          console.log(`Asset ${asset.name} saved to ${filePath}`);
         }
-
-        zip.extractAllTo(functionsPath, true);
-        console.log(`functions.zip extracted to ${functionsPath}`);
-      } else {
-        const filePath = path.join(rulesetsPath, asset.name);
-        fs.writeFileSync(filePath, buffer);
-        console.log(`Asset ${asset.name} saved to ${filePath}`);
+      } catch (assetError) {
+        console.error(`Error downloading or processing asset ${asset.name}:`, assetError.message);
+        // Continue with other assets
       }
     }
-    console.log('All assets processed successfully');
+    console.log('Assets processing completed.');
   } catch (error) {
-    console.error('Error downloading latest release:', error);
+    console.error('Error fetching latest release info:', error.message);
+    // Do not throw, allow build to proceed with existing files if any
   }
 }
 
-// Function to synchronously retrieve file names from a directory
+// Function to retrieve file names and metadata from a directory using YAML parsing
 const getFilesInDirectory = (rulesetsPath) => {
   try {
+    if (!fs.existsSync(rulesetsPath)) {
+      return {};
+    }
     const files = fs.readdirSync(rulesetsPath);
     const fileMap = {};
 
     files.forEach((file) => {
       if (file.endsWith('.yml') || file.endsWith('.yaml')) {
         const filePath = path.join(rulesetsPath, file);
-        const { firstLine, secondLine } = readFirstTwoLines(filePath);
+        try {
+          const fileContent = fs.readFileSync(filePath, 'utf8');
+          const doc = YAML.parseDocument(fileContent);
+          
+          // Access comments before the document
+          const commentBefore = doc.commentBefore || '';
+          
+          const nameMatch = commentBefore.match(/Ruleset name:\s*(.*)/i);
+          const versionMatch = commentBefore.match(/Ruleset version:\s*(.*)/i);
 
-        const nameMatch = firstLine.match(/#\tRuleset name:\s*(.*)/);
-        const versionMatch = secondLine.match(/#\tRuleset version:\s*(.*)/);
-
-        if (nameMatch && versionMatch) {
-          const rulesetName = nameMatch[1].trim();
-          const rulesetVersion = versionMatch[1].trim();
-          fileMap['rulesets/' + file] = {
-            rulesetName,
-            rulesetVersion,
-          };
+          if (nameMatch && versionMatch) {
+            const rulesetName = nameMatch[1].trim();
+            const rulesetVersion = versionMatch[1].trim();
+            fileMap['rulesets/' + file] = {
+              rulesetName,
+              rulesetVersion,
+            };
+          }
+        } catch (parseError) {
+          console.error(`Error parsing YAML file ${file}:`, parseError.message);
         }
       }
     });
     return fileMap;
   } catch (err) {
-    console.error('Error reading directory:', err);
+    console.error('Error reading rulesets directory:', err);
     return {};
   }
 };
@@ -95,7 +122,14 @@ async function initializeRulesets() {
   if (!isProduction) {
     await downloadLatestRelease();
   }
+  
   filesDictionary = getFilesInDirectory(rulesetsPath);
+  
+  // Fallback if dictionary is empty (e.g. download failed and no local files)
+  if (Object.keys(filesDictionary).length === 0) {
+    console.warn('No rulesets found. Application may not function correctly without rulesets.');
+  }
+
   const firstFilePath = Object.keys(filesDictionary)[0];
   rulesVersion = firstFilePath ? filesDictionary[firstFilePath].rulesetVersion.trim() : 'N.A.';
 }
@@ -105,15 +139,6 @@ const getDefault = (fileMap) => {
     (filePath) => fileMap[filePath].rulesetName === 'Italian Guidelines'
   );
   return specificFilePath || Object.keys(fileMap)[0];
-};
-
-const readFirstTwoLines = (filePath) => {
-  const fileContent = fs.readFileSync(filePath, 'utf8');
-  const lines = fileContent.split('\n');
-  return {
-    firstLine: lines[0],
-    secondLine: lines[1],
-  };
 };
 
 module.exports = async () => {
@@ -152,7 +177,7 @@ module.exports = async () => {
           splitChunks: {
             cacheGroups: {
               vendor: {
-                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/,
+                test: /[\\/]node_modules[\\/](monaco-editor)[\\/]/
                 name: 'vendor',
                 chunks: 'all',
               },
