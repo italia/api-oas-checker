@@ -6,6 +6,7 @@ import { createUseStyles } from 'react-jss';
 import { useSelector, useDispatch } from 'react-redux';
 import { getDocumentText, isValidationInProgress, getRuleset } from '../redux/selectors.js';
 import { resetValidationResults, setValidationInProgress, setValidationResults } from '../redux/actions.js';
+import store from '../redux/store.js';
 
 const useStyles = createUseStyles({
   '@keyframes rotation': {
@@ -44,9 +45,13 @@ export const ValidationController = () => {
   }, []);
 
   const handleValidation = useCallback(() => {
+    if (window.editor && window.editor.flushChanges) {
+      window.editor.flushChanges();
+    }
+    const latestDocumentText = getDocumentText(store.getState());
     dispatch(setValidationInProgress());
     spectralWorker.postMessage({
-      documentText,
+      documentText: latestDocumentText,
       ruleset: `${location.origin}${location.pathname}${ruleset}`,
       onlyErrors,
     });

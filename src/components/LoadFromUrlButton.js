@@ -24,19 +24,19 @@ export const LoadFromUrlButton = () => {
   return (
     <>
       <Button onClick={openModal} color="primary" disabled={validationInProgress} icon={false} tag="button" outline>
-        From url
+        Load from URL
       </Button>
 
       <Modal fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal}>
         <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
-          Load from url
+          Load from URL
         </ModalHeader>
         <ModalBody className="mt-3" tag="div">
-          <Input label="Url" type="text" value={url} onChange={handleOnChange} />
+          <Input label="URL" type="text" value={url} onChange={handleOnChange} />
         </ModalBody>
         <ModalFooter tag="div">
           <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
-            Load Url
+            Load URL
           </Button>
         </ModalFooter>
       </Modal>
