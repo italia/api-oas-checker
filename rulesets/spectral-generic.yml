@@ -1,5 +1,5 @@
 #	Ruleset name: Best Practices Only
-#	Ruleset version: 1.5
+#	Ruleset version: 1.6
 
 #
 # These rules are based on the Italian Guidelines,
@@ -42,7 +42,7 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[parameters][?(@.in == "header" && @.name.match(/Cache-Control/i))]
+        given: $..[parameters][?(@.in == "header" && @.name && @.name.match && @.name.match(/Cache-Control/i))]
         then:
         -   field: description
             function: truthy
@@ -78,7 +78,8 @@ rules:
         - oas3
         severity: info
         recommended: true
-        given: $..[responses][?(@property[0] == "2" )][headers].[?(@property.match(/Cache-Control|Expires/i))]
+        given: $..[responses][?(@property[0] == "2" )][headers].[?(@property && @property.match
+            && @property.match(/Cache-Control|Expires/i))]
         then:
         -   field: description
             function: truthy
