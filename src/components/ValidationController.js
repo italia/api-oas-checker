@@ -56,8 +56,8 @@ export const ValidationController = () => {
       onlyErrors,
     });
     spectralWorker.onmessage = (event) => {
-      if (event.data.error) {
-        console.error(event.data.error);
+      if (event.data.error !== undefined) {
+        console.error('Validation error:', event.data.error);
         alert(`Error during validation
         
 ${event.data.error}`);

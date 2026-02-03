@@ -17,10 +17,8 @@ description:
       Questo repository contiene un validatore in-browser che verifica alcune
       delle regole per le API REST indicate nel Modello di Interoperabilità.
 
-
       Il validatore è basato su Stoplight Spectral. Il progetto è basato su
       Node.js ed usa Webpack per creare una single-page application.
-
 
       Le regole di validazione sono gestite nel repository separato
       [api-oas-checker-rules](https://github.com/italia/api-oas-checker-rules)
@@ -28,12 +26,10 @@ description:
       delivery chain. Sono disponibili diversi profili di validazione: Italian
       Guidelines Full, Best Practices Only, Extra Security Checks.
 
-
       Il checker può essere utilizzato tramite interfaccia web, CLI, IDE e
       GitHub Action.
     shortDescription: >-
-      Questo repository contiene un validatore in-browser che verifica alcune
-      delle regole per le API REST indicate nel Modello di Interoperabilità.
+      Validatore in-browser che verifica alcune delle regole per le API indicate nel Modello di Interoperabilità.
     screenshots:
       - screenshot.png
 developmentStatus: development
@@ -52,7 +48,7 @@ it:
   riuso:
     codiceIPA: pcm
 legal:
-  license: BSD-3-Clause
+  license: EUPL-1.2
   repoOwner: Presidenza del Consiglio dei Ministri
 localisation:
   availableLanguages:
@@ -68,5 +64,5 @@ platforms:
   - linux
 releaseDate: "2020-06-16"
 softwareType: standalone/web
-softwareVersion: 0.3.0
+softwareVersion: 0.8.0
 url: "https://github.com/italia/api-oas-checker"

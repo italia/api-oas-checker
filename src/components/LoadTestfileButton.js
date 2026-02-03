@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react';
-import { Dropdown, DropdownItem, DropdownMenu, DropdownToggle, Icon } from 'design-react-kit';
+import { Dropdown, DropdownMenu, DropdownToggle, Icon } from 'design-react-kit';
+import { DropdownItem } from 'reactstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { setDocumentUrl, resetValidationResults, setTemplateDocumentName } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';

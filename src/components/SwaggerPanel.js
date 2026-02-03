@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import SwaggerUI from 'swagger-ui-react';
+import { Yaml } from '@stoplight/spectral-parsers';
 import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getDocumentText } from '../redux/selectors.js';
@@ -29,9 +30,17 @@ const OperationsLayoutPlugin = () => ({
 export const SwaggerPanel = () => {
   const documentText = useSelector((state) => getDocumentText(state));
 
+  const spec = useMemo(() => {
+    try {
+      return Yaml.parse(documentText).data;
+    } catch (e) {
+      return documentText;
+    }
+  }, [documentText]);
+
   return (
     <SwaggerUI
-      spec={documentText}
+      spec={spec}
       plugins={[OperationsLayoutPlugin]}
       layout={'OperationsLayout'}
       showCommonExtensions={true}
