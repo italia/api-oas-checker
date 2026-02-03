@@ -10,6 +10,7 @@ import { PrettifyButton } from './PrettifyButton.js';
 const useStyles = createUseStyles({
   buttonContainer: {
     composes: 'm-4 pl-3',
+    whiteSpace: 'nowrap',
     '& button': {
       padding: '8px 16px',
       width: '100%',

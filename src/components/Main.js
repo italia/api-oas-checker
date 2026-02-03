@@ -18,6 +18,10 @@ const useStyles = createUseStyles({
   animate: {
     transition: '0.3s ease-in-out',
   },
+  leftSection: {
+    extend: 'animate',
+    overflow: 'hidden',
+  },
   fullHeight: {
     height: 'calc(100vh - 90px)',
   },
@@ -54,7 +58,7 @@ export const Main = () => {
       'col-lg-2 col-xxl-1': showMenu,
       [classes['col-0']]: !showMenu,
     },
-    classes.animate
+    classes.leftSection
   );
 
   const editorSection = cx(
@@ -69,7 +73,9 @@ export const Main = () => {
     <main className={classes.main} data-testid="main">
       <div className="row no-gutters">
         <aside className={leftSection}>
-          <Menu />
+          <div style={{ width: 'max-content' }}>
+            <Menu />
+          </div>
         </aside>
         <section className={editorSection}>
           <Suspense
