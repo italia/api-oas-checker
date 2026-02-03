@@ -1,6 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem, Icon } from 'design-react-kit';
+import { Dropdown, DropdownToggle, DropdownMenu, Icon } from 'design-react-kit';
+import { DropdownItem } from 'reactstrap';
 import { triggerFormat } from '../redux/actions.js';
 import { isValidationInProgress } from '../redux/selectors.js';
 

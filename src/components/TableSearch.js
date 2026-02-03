@@ -17,7 +17,7 @@ function MyCell({ value }) {
   return <div dangerouslySetInnerHTML={descriptionMarkup} />;
 }
 MyCell.propTypes = {
-  value: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
 // Define a default UI for filtering

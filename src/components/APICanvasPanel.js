@@ -1,6 +1,6 @@
 import React from 'react';
-import { Document } from '@stoplight/spectral/dist/document';
-import { Yaml } from '@stoplight/spectral/dist/parsers/yaml';
+import { Document } from '@stoplight/spectral-core';
+import { Yaml } from '@stoplight/spectral-parsers';
 
 import { CSVLink } from 'react-csv';
 import YAML from 'yaml';
@@ -131,7 +131,9 @@ export const APICanvasPanel = () => {
       outputs: YAML.stringify(row.outputs),
     }));
     console.log('rows', rows);
-    const csvFilename = `${oas.info.title.trim().replace(' ', '_')}-${oas.info.version}-canvas.csv`;
+    const title = oas?.info?.title ? oas.info.title.trim().replace(/\s+/g, '_') : 'api';
+    const version = oas?.info?.version || 'unknown';
+    const csvFilename = `${title}-${version}-canvas.csv`;
     return (
       <div>
         <CSVLink data={rows} filename={csvFilename}>
