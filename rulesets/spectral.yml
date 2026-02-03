@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full
-#	Ruleset version: 1.7
+#	Ruleset version: 1.8
 
 #
 # These rules are based on the Italian Guidelines,
@@ -299,8 +299,8 @@ rules:
         message: 'Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip
             this check on a specific server.'
         given:
-        - $.servers[?(@["x-sandbox"] != true)]
-        - $.paths..servers[?(@["x-sandbox"] != true)]
+        - $.servers[?(@ && @["x-sandbox"] != true)]
+        - $.paths..servers[?(@ && @["x-sandbox"] != true)]
         severity: error
         recommended: true
         then:
