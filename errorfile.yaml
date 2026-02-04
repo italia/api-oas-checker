@@ -38,8 +38,8 @@ info:
     - public
   x-api-id: 00000000-0000-0000-0000-000000000000
   license:
-    name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    name: EUPL 1.2
+    url: 'https://joinup.ec.europa.eu/collection/eupl/eupl-text-eupl-12'
 
   x-lifecycle:
     published: 1970-01-01
