@@ -2,11 +2,12 @@ import React, { useCallback, useState } from 'react';
 import { Dropdown, DropdownMenu, DropdownToggle, Icon } from 'design-react-kit';
 import { DropdownItem } from 'reactstrap';
 import { useSelector } from 'react-redux';
+import { CSVLink } from 'react-csv';
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
 import { getDocumentText, isValidationInProgress } from '../redux/selectors.js';
 import { b64url_encode } from '../utils.mjs';
 import { SwaggerPanel } from './SwaggerPanel.js';
-import { APICanvasPanel } from './APICanvasPanel.js';
+import { APICanvasTable, useApiCanvasData } from './APICanvasPanel.js';
 import useModalView from './useModalView.js';
 import './SwaggerPanel.css';
 
@@ -75,6 +76,8 @@ export const ShowButton = () => {
     const handleConfirmAction = useCallback(() => {
       closeModal();
     }, [closeModal]);
+    const { rows, csvFilename } = useApiCanvasData();
+
     return (
       <DropdownItem onClick={openModal}>
         <Icon className="left" icon="it-fullscreen" aria-hidden size="sm" />
@@ -94,10 +97,15 @@ export const ShowButton = () => {
           >
             API Canvas
           </ModalHeader>
-          <ModalBody className="mt-3" tag="div" style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 250px)' }}>
-            <APICanvasPanel />
+          <ModalBody tag="div" style={{ overflowY: 'auto', maxHeight: 'calc(100vh - 250px)' }}>
+            <APICanvasTable rows={rows} />
           </ModalBody>
           <ModalFooter tag="div">
+            {rows.length > 0 && (
+              <CSVLink data={rows} filename={csvFilename} className="btn btn-outline-primary btn-sm mr-2" style={{ marginRight: '10px' }}>
+                Download Canvas CSV
+              </CSVLink>
+            )}
             <Button color="primary" icon={false} onClick={handleConfirmAction} tag="button">
               Close
             </Button>
