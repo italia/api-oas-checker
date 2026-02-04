@@ -2,20 +2,35 @@
  * APICanvasPanel.css
  */
 
-.apiCanvas table, .apiCanvas tr, .apiCanvas td, .apiCanvas th {
-  /* width: 100%; */
-  border-style: solid;
-  border-width: thin;
-  border-color: gray;
+.apiCanvas.table {
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 0.9rem;
+}
+
+.apiCanvas .thead-light th {
+  background-color: #f0f6ff;
+  border-bottom: 2px solid #0066cc;
+  color: #33485c;
+}
+
+.apiCanvas td {
+  border-bottom: 1px solid #dee2e6;
+  color: #33485c;
+}
+
+.apiCanvas .text-muted {
+  color: #adb5bd !important;
+  font-style: italic;
 }
 
 .apiCanvas table td:first-child {
-  max-width: 20em;
+  font-weight: 600;
+  color: #0066cc;
+  background-color: #fcfdff;
 }
 
-.apiCanvas th {
-    text-align: center;
-    background-color: #0066cc;
-    color: white;
-    border-style: none;
+.apiCanvas code {
+  font-size: 85%;
+  color: #d63384;
 }

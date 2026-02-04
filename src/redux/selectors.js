@@ -4,8 +4,8 @@ export const getRawValidationResults = (state) => state.validationState.rawResul
 export const isValidationInProgress = (state) => state.validationState.inProgress;
 
 export const getRuleset = (state) => state.validationState.ruleset;
-
-export const isMenuDisplayed = (state) => state.menuState.isMenuDisplayed;
+export const getOnlyErrors = (state) => state.validationState.onlyErrors;
+export const getAutoRefresh = (state) => state.validationState.autoRefresh;
 
 export const getDocumentText = (state) => state.documentState.text;
 export const getDocumentFile = (state) => state.documentState.file;
@@ -16,5 +16,3 @@ export const getDocumentUrl = (state) => state.documentState.url;
 export const getLineToFocus = (state) => state.documentState.focusLine;
 
 export const getFormatting = (state) => state.documentState.formatting;
-
-export const getTemplateDocumentName = (state) => state.documentState.templateDocumentName;

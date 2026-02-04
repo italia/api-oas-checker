@@ -1,19 +1,26 @@
 import {
-  SET_VALIDATION_RESULTS,
-  TOOGLE_MENU,
-  SET_VALIDATION_IN_PROGRESS,
-  SET_DOCUMENT_TEXT,
-  FOCUS_DOCUMENT_LINE,
-  SET_DOCUMENT_URL,
-  SET_DOCUMENT_FILE,
-  SET_RULESET,
-  SET_TEMPLATE_DOCUMENT_NAME,
-  SET_FILENAME,
-  TRIGGER_FORMAT,
+	FOCUS_DOCUMENT_LINE,
+	SET_AUTO_REFRESH,
+	SET_DOCUMENT_FILE,
+	SET_DOCUMENT_TEXT,
+	SET_DOCUMENT_URL,
+	SET_FILENAME,
+	SET_ONLY_ERRORS,
+	SET_RULESET,
+	SET_TEMPLATE_DOCUMENT_NAME,
+	SET_VALIDATION_IN_PROGRESS,
+	SET_VALIDATION_RESULTS,
+	TRIGGER_FORMAT,
 } from './actionTypes.js';
 
-export const toogleMenu = () => ({
-  type: TOOGLE_MENU,
+export const setOnlyErrors = (onlyErrors) => ({
+  type: SET_ONLY_ERRORS,
+  onlyErrors,
+});
+
+export const setAutoRefresh = (autoRefresh) => ({
+  type: SET_AUTO_REFRESH,
+  autoRefresh,
 });
 
 export const triggerFormat = (tabSize) => ({
