@@ -1,18 +1,19 @@
-import React, { useRef, useCallback, useEffect } from 'react';
-import { createUseStyles } from 'react-jss';
-import { useDispatch, useSelector } from 'react-redux';
-import { setDocumentText, setFilename } from '../redux/actions.js';
+import React, {useCallback, useEffect, useRef} from 'react';
+import {createUseStyles} from 'react-jss';
+import {useDispatch, useSelector} from 'react-redux';
+import {setDocumentText, setFilename} from '../redux/actions.js';
 import {
+  getDocumentFile,
+  getDocumentText,
   getDocumentTextParameter,
   getDocumentUrl,
-  getDocumentFile,
+  getFormatting,
   getLineToFocus,
   getValidationResults,
-  getFormatting,
 } from '../redux/selectors.js';
-import { useMonaco } from '../hooks/useMonaco.js';
-import { useDocumentLoader } from '../hooks/useDocumentLoader.js';
-import { useEditorDecorations } from '../hooks/useEditorDecorations.js';
+import {useMonaco} from '../hooks/useMonaco.js';
+import {useDocumentLoader} from '../hooks/useDocumentLoader.js';
+import {useEditorDecorations} from '../hooks/useEditorDecorations.js';
 
 const useStyles = createUseStyles({
   editor: {
@@ -47,6 +48,7 @@ const Editor = () => {
   const documentFile = useSelector(getDocumentFile);
   const documentTextParameter = useSelector(getDocumentTextParameter);
   const formatting = useSelector(getFormatting);
+  const documentText = useSelector(getDocumentText);
 
   // Callback for editor content changes
   const handleContentChange = useCallback(
@@ -62,6 +64,13 @@ const Editor = () => {
 
   // Initialize Monaco
   const editorInstance = useMonaco(editorEl, handleContentChange);
+
+  // Sync Redux state to Editor (e.g. Clear action)
+  useEffect(() => {
+    if (editorInstance && documentText !== undefined && documentText !== editorInstance.getValue()) {
+      editorInstance.setValue(documentText);
+    }
+  }, [editorInstance, documentText]);
 
   // Handle document loading (URL, File, Param)
   useDocumentLoader(
