@@ -2023,7 +2023,7 @@
     lodash "~4.17.21"
     tslib "^2.8.1"
 
-"@stoplight/spectral-parsers@>=1", "@stoplight/spectral-parsers@^1.0.0", "@stoplight/spectral-parsers@^1.0.4":
+"@stoplight/spectral-parsers@>=1", "@stoplight/spectral-parsers@^1.0.0", "@stoplight/spectral-parsers@^1.0.4", "@stoplight/spectral-parsers@^1.0.5":
   version "1.0.5"
   resolved "https://registry.yarnpkg.com/@stoplight/spectral-parsers/-/spectral-parsers-1.0.5.tgz#2febd979b2917465759c97fe7375145f86574ff2"
   integrity sha512-ANDTp2IHWGvsQDAY85/jQi9ZrF4mRrA5bciNHX+PUxPr4DwS6iv4h+FVWJMVwcEYdpyoIdyL+SRmHdJfQEPmwQ==
@@ -9201,6 +9201,18 @@ reactstrap@9.2.2:
   version "9.2.2"
   resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-9.2.2.tgz#d3a062cb1492a9cf6ed4684698044fa1996350c9"
   integrity sha512-4KroiGOdqZLAnMGzHjpErW3G7bLB+QbKzzMLIDXydPIV0y74lpdL7WtXHkLWAGInd97WCPNx4+R0NQDPyzIfhw==
+  dependencies:
+    "@babel/runtime" "^7.12.5"
+    "@popperjs/core" "^2.6.0"
+    classnames "^2.2.3"
+    prop-types "^15.5.8"
+    react-popper "^2.2.4"
+    react-transition-group "^4.4.2"
+
+reactstrap@^9.2.3:
+  version "9.2.3"
+  resolved "https://registry.yarnpkg.com/reactstrap/-/reactstrap-9.2.3.tgz#45f04617f996177081516a2376a0efc17c4f09f5"
+  integrity sha512-1nXy7FIBIoOgXr3AIHOpgzcZXdj6rZE5YvNSPd1hYgwv8X64m6TAJsU0ExlieJdlRXhaRfTYRSZoTWa127b0gw==
   dependencies:
     "@babel/runtime" "^7.12.5"
     "@popperjs/core" "^2.6.0"

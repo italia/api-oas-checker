@@ -8,22 +8,35 @@ import axios from 'axios';
 const spectral = new Spectral();
 let currentRuleset = null;
 
+// Dynamically load custom functions from ../../rulesets/functions
+const customFunctions = {};
+try {
+  const context = require.context('../../rulesets/functions', false, /\.js$/);
+  context.keys().forEach((key) => {
+    const functionName = key.replace(/^\.\//, '').replace(/\.js$/, '');
+    const module = context(key);
+    customFunctions[functionName] = module.default || module;
+  });
+} catch (e) {
+  // This might fail if the directory doesn't exist or isn't bundlable, which is expected in some envs.
+  console.log('No custom functions loaded or directory missing:', e.message);
+}
+
 function replaceFunctions(rules) {
   if (!rules) return;
   for (const ruleName in rules) {
     const rule = rules[ruleName];
     if (rule.then) {
-      if (Array.isArray(rule.then)) {
-        rule.then.forEach((then) => {
-          if (typeof then.function === 'string' && spectralFunctions[then.function]) {
+      const thens = Array.isArray(rule.then) ? rule.then : [rule.then];
+      thens.forEach((then) => {
+        if (typeof then.function === 'string') {
+          if (spectralFunctions[then.function]) {
             then.function = spectralFunctions[then.function];
+          } else if (customFunctions[then.function]) {
+            then.function = customFunctions[then.function];
           }
-        });
-      } else {
-        if (typeof rule.then.function === 'string' && spectralFunctions[rule.then.function]) {
-          rule.then.function = spectralFunctions[rule.then.function];
         }
-      }
+      });
     }
   }
 }
@@ -59,6 +72,12 @@ export const getSpectralEngine = async (ruleset) => {
       if (data.rules) {
         replaceFunctions(data.rules);
         replaceFormats(data.rules);
+      }
+      
+      // Remove functions property to avoid schema validation errors
+      // as we have manually resolved and replaced them in the rules.
+      if (data.functions) {
+        delete data.functions;
       }
     }
 
