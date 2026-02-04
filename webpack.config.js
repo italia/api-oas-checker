@@ -159,10 +159,28 @@ module.exports = async () => {
     mode: isProduction ? 'production' : 'development',
     module: {
       rules: [
-        { test: /\.(m)?js$/, use: ['babel-loader'], exclude: /node_modules/ },
+        {
+          test: /\.(m)?js$/,
+          use: ['babel-loader'],
+          resolve: {
+            fullySpecified: false,
+          },
+        },
         {
           test: /\.(s)?css$/,
-          use: [isProduction ? MiniCssExtractPlugin.loader : 'style-loader', 'css-loader', 'sass-loader'],
+          use: [
+            isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+            'css-loader',
+            {
+              loader: 'sass-loader',
+              options: {
+                sassOptions: {
+                  includePaths: [path.resolve(__dirname, 'node_modules')],
+                  silenceDeprecations: ['legacy-js-api', 'import', 'color-functions', 'global-builtin', 'if-function', 'abs-percent'],
+                },
+              },
+            },
+          ],
         },
         {
           test: /\.(woff(2)?|ico|png|jpg|jpeg|svg|ttf)$/i,
@@ -213,6 +231,13 @@ module.exports = async () => {
         DEFAULT_RULESET: JSON.stringify(getDefault(filesDictionary)),
         RULESETS_VERSION: JSON.stringify(rulesVersion),
       }),
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+        process: 'process/browser',
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+      }),
       new HtmlWebpackPlugin({
         template: `${srcPath}/index.html`,
         filename: 'index.html',
@@ -238,6 +263,15 @@ module.exports = async () => {
         vm: false,
         fs: false,
         path: require.resolve('path-browserify'),
+        stream: require.resolve('stream-browserify'),
+        os: require.resolve('os-browserify/browser'),
+        util: require.resolve('util/'),
+        assert: require.resolve('assert/'),
+        https: require.resolve('https-browserify'),
+        http: require.resolve('stream-http'),
+        url: require.resolve('url/'),
+        buffer: require.resolve('buffer/'),
+        process: require.resolve('process/browser'),
       },
     },
     target: isProduction ? 'browserslist' : 'web',

@@ -1,63 +1,63 @@
 import React from 'react';
-import { useTable, useFilters, useGlobalFilter } from 'react-table';
 import PropTypes from 'prop-types';
-// A library for fuzzy filtering/sorting items
+import cx from 'classnames';
 import { matchSorter } from 'match-sorter';
+import { Icon } from 'design-react-kit';
+import { UncontrolledTooltip } from 'reactstrap';
 import { renderMarkdown } from '../utils.mjs';
 
+const { useTable, useFilters, useGlobalFilter } = require('react-table');
+
 function MyCell({ value }) {
-  console.log('MyCell', value);
+  const content = value && value.trim() !== '' && value !== '[]' && value !== '""' ? value : null;
+
   const descriptionMarkup = React.useMemo(
     () => ({
-      __html: renderMarkdown(value ?? ''),
+      __html: renderMarkdown(content ?? ''),
     }),
-    [value]
+    [content]
   );
+
+  if (!content) {
+    return <span className="text-muted font-italic small">N/A</span>;
+  }
 
   return <div dangerouslySetInnerHTML={descriptionMarkup} />;
 }
 MyCell.propTypes = {
-  value: PropTypes.func.isRequired,
+  value: PropTypes.string,
 };
 
-// Define a default UI for filtering
 function DefaultColumnFilter({ column: { filterValue, preFilteredRows, setFilter } }) {
   const count = preFilteredRows.length;
 
   return (
-    <input
-      value={filterValue || ''}
-      onChange={(e) => {
-        setFilter(e.target.value || undefined); // Set undefined to remove the filter entirely
-      }}
-      placeholder={`Search ${count} records...`}
-    />
+    <div className="form-group mb-0">
+      <input
+        className="form-control form-control-sm"
+        value={filterValue || ''}
+        onChange={(e) => {
+          setFilter(e.target.value || undefined);
+        }}
+        placeholder={`Search ${count}...`}
+        style={{ minWidth: '80px' }}
+      />
+    </div>
   );
 }
 DefaultColumnFilter.propTypes = {
   column: PropTypes.object.isRequired,
 };
+
 function fuzzyTextFilterFn(rows, id, filterValue) {
   return matchSorter(rows, filterValue, { keys: [(row) => row.values[id]] });
 }
-
-// Let the table remove the filter if the string is empty
 fuzzyTextFilterFn.autoRemove = (val) => !val;
 
-Table.propTypes = {
-  data: PropTypes.array.isRequired,
-  columns: PropTypes.array.isRequired,
-  className: PropTypes.string,
-};
-
-// Our table component
 function Table({ columns, data, className }) {
   const filterTypes = React.useMemo(
     () => ({
-      // Add a new fuzzyTextFilterFn filter type.
       fuzzyText: fuzzyTextFilterFn,
-      // Or, override the default text filter to use
-      // "startWith"
       text: (rows, id, filterValue) =>
         rows.filter((row) => {
           const rowValue = row.values[id];
@@ -71,50 +71,39 @@ function Table({ columns, data, className }) {
 
   const defaultColumn = React.useMemo(
     () => ({
-      // Let's set up our default Filter UI
       Filter: DefaultColumnFilter,
     }),
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow, state, visibleColumns } = useTable(
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow} = useTable(
     {
       columns,
       data,
-      defaultColumn, // Be sure to pass the defaultColumn option
+      defaultColumn,
       filterTypes,
     },
-    useFilters, // useFilters!
-    useGlobalFilter // useGlobalFilter!
+    useFilters,
+    useGlobalFilter
   );
-  // We don't want to render all of the rows for this example, so cap
-  // it for this use case
+
   const pageSize = 30;
   const firstPageRows = rows.slice(0, pageSize);
 
   return (
-    <>
-      <table className={className} {...getTableProps()}>
-        <thead>
+    <div className="table-responsive">
+      <table className={cx('table table-hover table-sm table-bordered bg-white', className)} {...getTableProps()}>
+        <thead className="thead-light">
           {headerGroups.map((headerGroup, i) => (
             <tr key={i} {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column, j) => (
-                <th key={j} {...column.getHeaderProps()}>
-                  {column.render('Header')}
-                  {/* Render the columns filter UI */}
-                  <div>{column.canFilter ? column.render('Filter') : null}</div>
+                <th key={j} {...column.getHeaderProps()} className="align-top py-3">
+                  <div className="mb-2 text-uppercase small font-weight-bold">{column.render('Header')}</div>
+                  {column.canFilter ? column.render('Filter') : null}
                 </th>
               ))}
             </tr>
           ))}
-          <tr>
-            <th
-              colSpan={visibleColumns.length}
-              style={{
-                textAlign: 'left',
-              }}
-            ></th>
-          </tr>
         </thead>
         <tbody {...getTableBodyProps()}>
           {firstPageRows.map((row, rowId) => {
@@ -122,7 +111,7 @@ function Table({ columns, data, className }) {
             return (
               <tr key={rowId} {...row.getRowProps()}>
                 {row.cells.map((cell, cellId) => (
-                  <td key={cellId} {...cell.getCellProps()}>
+                  <td key={cellId} {...cell.getCellProps()} className="align-middle p-3">
                     {cell.render('Cell')}
                   </td>
                 ))}
@@ -131,86 +120,130 @@ function Table({ columns, data, className }) {
           })}
         </tbody>
       </table>
-      <br />
-      <div>
-        Showing the first {pageSize} results of {rows.length} rows
-      </div>
-      <div>
-        <pre>
-          <code>{JSON.stringify(state.filters, null, 2)}</code>
-        </pre>
-      </div>
-    </>
+      {rows.length > pageSize && (
+        <div className="mt-3 small text-muted text-center">
+          Showing first {pageSize} of {rows.length} operations.
+        </div>
+      )}
+    </div>
   );
 }
-
-// Define a custom filter filter function!
-function filterGreaterThan(rows, id, filterValue) {
-  return rows.filter((row) => {
-    const rowValue = row.values[id];
-    return rowValue >= filterValue;
-  });
-}
-
-// This is an autoRemove method on the filter function that
-// when given the new filter value and returns true, the filter
-// will be automatically removed. Normally this is just an undefined
-// check, but here, we want to remove the filter if it's not a number
-filterGreaterThan.autoRemove = (val) => typeof val !== 'number';
-TableSearch.propTypes = {
+Table.propTypes = {
   data: PropTypes.array.isRequired,
+  columns: PropTypes.array.isRequired,
   className: PropTypes.string,
 };
+
 export default function TableSearch({ data, className }) {
   const columns = React.useMemo(
     () => [
       {
-        Header: 'Operation',
+        Header: 'Technical Core',
         columns: [
           {
-            Header: 'Operation',
-            accessor: 'id',
-          },
-          {
-            Header: 'Goals',
-            accessor: 'goal',
-            // Use our custom `fuzzyText` filter on this column
+            Header: () => (
+              <span>
+                Method <Icon icon="it-info-circle" size="xs" id="tooltip-method" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-method">
+                  HTTP Method (e.g. GET, POST)
+                </UncontrolledTooltip>
+              </span>
+            ),
+            accessor: 'method',
             filter: 'fuzzyText',
           },
-        ],
-      },
-      {
-        Header: 'Info',
-        columns: [
           {
-            Header: 'Who',
-            accessor: 'who',
+            Header: () => (
+              <span>
+                Path <Icon icon="it-info-circle" size="xs" id="tooltip-path" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-path">
+                  Endpoint Path
+                </UncontrolledTooltip>
+              </span>
+            ),
+            accessor: 'path',
             filter: 'fuzzyText',
-            Cell: MyCell,
           },
           {
-            Header: 'What',
-            accessor: 'what',
-            filter: 'fuzzyText',
-            Cell: MyCell,
-          },
-          {
-            Header: 'How',
-            accessor: 'how',
-            filter: 'includes',
-            Cell: MyCell,
-          },
-          {
-            Header: 'Inputs',
+            Header: () => (
+              <span>
+                Inputs <Icon icon="it-info-circle" size="xs" id="tooltip-inputs" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-inputs">
+                  Parameters (header, query, path, cookie) and Request Body
+                </UncontrolledTooltip>
+              </span>
+            ),
             accessor: 'inputs',
             filter: 'includes',
             Cell: MyCell,
           },
           {
-            Header: 'Outputs',
+            Header: () => (
+              <span>
+                Outputs <Icon icon="it-info-circle" size="xs" id="tooltip-outputs" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-outputs">
+                  Response Statuses and Schemas
+                </UncontrolledTooltip>
+              </span>
+            ),
             accessor: 'outputs',
             filter: 'includes',
             Cell: MyCell,
+          },
+        ],
+      },
+      {
+        Header: 'Metadata (Optional)',
+        columns: [
+          {
+            Header: () => (
+              <span>
+                Summary <Icon icon="it-info-circle" size="xs" id="tooltip-summary" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-summary">
+                  Operation Summary
+                </UncontrolledTooltip>
+              </span>
+            ),
+            accessor: 'what',
+            filter: 'fuzzyText',
+            Cell: MyCell,
+          },
+          {
+            Header: () => (
+              <span>
+                Operation ID <Icon icon="it-info-circle" size="xs" id="tooltip-id" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-id">
+                  Unique Identifier for the operation
+                </UncontrolledTooltip>
+              </span>
+            ),
+            accessor: 'id',
+            filter: 'fuzzyText',
+          },
+          {
+            Header: () => (
+              <span>
+                Who <Icon icon="it-info-circle" size="xs" id="tooltip-who" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-who">
+                  Security schemes (e.g. OAuth2, API Key) required to access this operation.
+                </UncontrolledTooltip>
+              </span>
+            ),
+            accessor: 'who',
+            filter: 'fuzzyText',
+            Cell: MyCell,
+          },
+          {
+            Header: () => (
+              <span>
+                Goal <Icon icon="it-info-circle" size="xs" id="tooltip-goal" style={{ verticalAlign: 'middle' }} />
+                <UncontrolledTooltip placement="top" target="tooltip-goal">
+                  Tags indicating the functional goal or resource group.
+                </UncontrolledTooltip>
+              </span>
+            ),
+            accessor: 'goal',
+            filter: 'fuzzyText',
           },
         ],
       },
@@ -218,6 +251,5 @@ export default function TableSearch({ data, className }) {
     []
   );
 
-  const indata = React.useMemo(() => data, [data]);
-  return <Table className={className} columns={columns} data={indata} />;
+  return <Table className={className} columns={columns} data={data} />;
 }

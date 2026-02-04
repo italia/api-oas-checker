@@ -1,4 +1,5 @@
-import { Document, Parsers } from '@stoplight/spectral';
+import { Document } from '@stoplight/spectral-core';
+import { Yaml } from '@stoplight/spectral-parsers';
 import { getSpectralEngine } from './spectral_engine.js';
 
 const SEVERITY_LEVELS = {
@@ -11,7 +12,7 @@ const SEVERITY_LEVELS = {
 onmessage = async (e) => {
   try {
     const { documentText, ruleset: rulesetUrl, onlyErrors } = e.data;
-    const document = new Document(documentText, Parsers.Yaml);
+    const document = new Document(documentText, Yaml);
     const spectral = await getSpectralEngine(rulesetUrl);
     let originalResults = await spectral.run(document);
 
@@ -37,11 +38,13 @@ onmessage = async (e) => {
 
     const resultsWithRuleDescription = filteredResults.map((r) => ({
       ...r,
-      description: spectral.rules[r.code]?.description,
+      description: spectral.ruleset?.rules[r.code]?.description,
     }));
 
     postMessage(resultsWithRuleDescription);
   } catch (err) {
-    postMessage({ error: err.message });
+    // eslint-disable-next-line no-console
+    console.error('Spectral Worker Error:', err);
+    postMessage({ error: err.message || 'An unknown error occurred in the validation worker.' });
   }
 };

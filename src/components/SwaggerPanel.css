@@ -2,6 +2,26 @@
  * Style for the SwaggerPanel component.
  */
 
+.swagger-panel-container {
+  padding: 5px;
+}
+
+.swagger-panel-container .description-text {
+  font-size: 1rem;
+  line-height: 1.5;
+  color: #333;
+  background-color: #e9ecef;
+  padding: 15px;
+  border-radius: 4px;
+  border-left: 5px solid #0066cc;
+}
+
+/* Override Swagger UI generic styles within our modal */
+.swagger-ui .wrapper {
+  padding: 0;
+  max-width: none;
+}
+
 .mt-3.modal-body .model-box-control {
   /* Improve nested models rendering. */
   width: 100%;
@@ -10,6 +30,13 @@
   background-color: #0066cc;
   color: white;
   border-style: none;
+  padding: 10px;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.mt-3.modal-body .model-box-control:focus {
+    outline: none;
 }
 
 .mt-3.modal-body table tr {
@@ -36,6 +63,7 @@
 /** Font settings */
 .mt-3.modal-body span.prop-type {
     font-weight: bold;
+    color: #0066cc;
 }
 .mt-3.modal-body span.prop-format {
     color: darkred;
@@ -57,4 +85,15 @@
 }
 .mt-3.modal-body .models-control {
   display: none;
+}
+
+/* Clean up SwaggerUI noise */
+.swagger-ui .opblock-tag {
+    display: none;
+}
+.swagger-ui section.models {
+    border: none;
+}
+.swagger-ui section.models h4 {
+    display: none; /* Hide the "Models" title as we have our own header */
 }

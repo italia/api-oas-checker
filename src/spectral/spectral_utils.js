@@ -55,7 +55,10 @@ export const getSeverityByLineMap = (validationResults) => {
 };
 // https://github.com/italia/api-oas-checker/issues/79
 export const getUniqueValidationResults = (results) => {
-  if (results === null) {
+  if (!Array.isArray(results)) {
+    if (results !== null) {
+      console.warn('getUniqueValidationResults received non-array results:', JSON.stringify(results));
+    }
     return null;
   }
 

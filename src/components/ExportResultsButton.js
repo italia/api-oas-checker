@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
-import { useSelector } from 'react-redux';
-import { Button } from 'design-react-kit';
-import { getRawValidationResults, isValidationInProgress } from '../redux/selectors.js';
-import { downloadFile } from '../utils.mjs';
+import React, {useCallback} from 'react';
+import {useSelector} from 'react-redux';
+import {Button, Icon} from 'design-react-kit';
+import {getRawValidationResults, isValidationInProgress} from '../redux/selectors.js';
+import {downloadFile} from '../utils.mjs';
 
-export const ExportResultsButton = () => {
+export const ExportResultsButton = ({ className }) => {
   const validationInProgress = useSelector((state) => isValidationInProgress(state));
   const validationResults = useSelector((state) => getRawValidationResults(state));
   const exportValidationResults = useCallback(() => {
@@ -14,12 +14,13 @@ export const ExportResultsButton = () => {
     <Button
       color="primary"
       disabled={validationInProgress || validationResults === null || validationResults.length === 0}
-      icon={false}
+      icon
       tag="button"
       onClick={exportValidationResults}
-      outline
+      className={className}
     >
-      Export results
+      <Icon icon="it-download" color="white" className="mr-2" />
+      Export validation
     </Button>
   );
 };
