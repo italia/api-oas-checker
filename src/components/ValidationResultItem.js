@@ -1,12 +1,12 @@
-import React, { useCallback, useMemo } from 'react';
-import { createUseStyles } from 'react-jss';
+import React, {useCallback, useMemo} from 'react';
+import {createUseStyles} from 'react-jss';
 import cx from 'classnames';
 import DOMPurify from 'dompurify';
-import { marked } from 'marked';
-import { useDispatch } from 'react-redux';
-import { Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader } from 'design-react-kit';
-import { ERROR, WARNING, INFO, HINT, autoLinkRFC } from '../utils.mjs';
-import { focusDocumentLine } from '../redux/actions.js';
+import {marked} from 'marked';
+import {useDispatch} from 'react-redux';
+import {Button, Icon, Modal, ModalBody, ModalFooter, ModalHeader} from 'design-react-kit';
+import {autoLinkRFC, ERROR, HINT, INFO, WARNING} from '../utils.mjs';
+import {focusDocumentLine} from '../redux/actions.js';
 import {
   getValidationResultItemPropTypes,
   getValidationResultLine,
@@ -154,7 +154,18 @@ export const ValidationResultItem = ({ resultItem }) => {
       </div>
 
       <Modal fade={false} isOpen={isModalOpen} role="dialog" centered toggle={closeModal} className={'modal-xl'}>
-        <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeModal}>
+        <ModalHeader
+          charCode={215}
+          closeAriaLabel="Close"
+          tag="h5"
+          wrapTag="div"
+          toggle={closeModal}
+          close={
+            <button className="close" onClick={closeModal}>
+              <Icon icon="it-close" />
+            </button>
+          }
+        >
           {resultItem.code}
         </ModalHeader>
         <ModalBody className="mt-3" tag="div">

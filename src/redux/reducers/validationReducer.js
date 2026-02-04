@@ -1,11 +1,19 @@
-import { SET_VALIDATION_RESULTS, SET_VALIDATION_IN_PROGRESS, SET_RULESET } from '../actionTypes.js';
-import { getUniqueValidationResults } from '../../spectral/spectral_utils.js';
+import {
+  SET_AUTO_REFRESH,
+  SET_ONLY_ERRORS,
+  SET_RULESET,
+  SET_VALIDATION_IN_PROGRESS,
+  SET_VALIDATION_RESULTS
+} from '../actionTypes.js';
+import {getUniqueValidationResults} from '../../spectral/spectral_utils.js';
 
 const initialState = {
   results: null, // null to explicitly declare that the results are not available ([] -> when there are no errors)
   rawResults: null, // https://github.com/italia/api-oas-checker/issues/79
   inProgress: false,
   ruleset: DEFAULT_RULESET,
+  onlyErrors: false,
+  autoRefresh: false,
 };
 
 export default function (state = initialState, action) {
@@ -28,6 +36,16 @@ export default function (state = initialState, action) {
       return {
         ...state,
         ruleset: action.ruleset,
+      };
+    case SET_ONLY_ERRORS:
+      return {
+        ...state,
+        onlyErrors: action.onlyErrors,
+      };
+    case SET_AUTO_REFRESH:
+      return {
+        ...state,
+        autoRefresh: action.autoRefresh,
       };
     default:
       return state;
