@@ -1,4 +1,5 @@
 import React, {useCallback, useRef, useState} from 'react';
+import {createUseStyles} from 'react-jss';
 import {useDispatch, useSelector} from 'react-redux';
 import {
   Button,
@@ -17,7 +18,17 @@ import {resetValidationResults, setDocumentFile, setDocumentUrl, setFilename} fr
 import {isValidationInProgress} from '../redux/selectors.js';
 import useModalView from './useModalView.js';
 
+const useStyles = createUseStyles({
+  modalBody: {
+    padding: '1.5rem !important',
+    '& div.form-group': {
+      marginBottom: '0 !important',
+    },
+  },
+});
+
 export const LoadOpenAPIButton = () => {
+  const classes = useStyles();
   const dispatch = useDispatch();
   const validationInProgress = useSelector((state) => isValidationInProgress(state));
   const [open, setOpen] = useState(false);
@@ -88,14 +99,42 @@ export const LoadOpenAPIButton = () => {
     />
 
     <Modal fade={false} isOpen={isUrlModalOpen} role="dialog" centered toggle={closeUrlModal}>
-        <ModalHeader charCode={215} closeAriaLabel="Close" tag="h5" wrapTag="div" toggle={closeUrlModal}>
-          Load from URL
+        <ModalHeader
+          charCode={215}
+          closeAriaLabel="Close"
+          tag="h5"
+          wrapTag="div"
+          toggle={closeUrlModal}
+          close={
+            <button className="close" onClick={closeUrlModal}>
+              <Icon icon="it-close" />
+            </button>
+          }
+        >
+          <div className="d-flex align-items-center">
+            <Icon icon="it-link" className="mr-2" style={{marginRight: '12px'}} />
+            <span>Load from URL</span>
+          </div>
         </ModalHeader>
-        <ModalBody className="mt-3" tag="div">
-          <Input label="URL" type="text" value={url} onChange={(e) => setUrl(e.target.value)} />
+        <ModalBody className={classes.modalBody} tag="div">
+          <p className="mb-5">Enter the public URL of your OpenAPI definition (YAML or JSON).</p>
+          <Input
+            label="URL"
+            type="text" 
+            value={url} 
+            onChange={(e) => setUrl(e.target.value)} 
+            placeholder="https://example.com/openapi.yaml"
+          />
+          <small className="form-text text-muted mt-3">The resource must be publicly accessible (CORS enabled).</small>
         </ModalBody>
         <ModalFooter tag="div">
-          <Button color="primary" icon={false} onClick={handleUrlConfirm} tag="button">
+          <Button 
+            color="primary" 
+            icon={false} 
+            onClick={handleUrlConfirm} 
+            tag="button" 
+            disabled={!url || !url.trim()}
+          >
             Load URL
           </Button>
         </ModalFooter>
