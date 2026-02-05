@@ -27,4 +27,9 @@ $info: #f8f9fa;
   margin-bottom: 2em;
 }
 
+// Ensure notifications are always on top of modals (Bootstrap modal z-index is 1050)
+.notification {
+  z-index: 2000 !important;
+}
+
 @import 'node_modules/bootstrap-italia/src/scss/bootstrap-italia';
