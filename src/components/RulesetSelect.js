@@ -4,6 +4,7 @@ import {createUseStyles} from 'react-jss';
 import {Icon} from 'design-react-kit';
 import {getRuleset, isValidationInProgress} from '../redux/selectors.js';
 import {setRuleset} from '../redux/actions.js';
+import {getDocFilename} from "../utils.mjs";
 
 const useStyles = createUseStyles({
     select: {
@@ -25,9 +26,20 @@ const useStyles = createUseStyles({
     info: {
         composes: 'icon icon-primary mx-1',
         width: '24px',
+        height: '24px',
+        display: 'inline-block',
+        verticalAlign: 'middle',
+    },
+    ext: {
+        composes: 'icon icon-primary mx-1',
+        width: '24px',
+        height: '24px',
+        display: 'inline-block',
+        verticalAlign: 'middle',
     },
     version: {
-        display: 'block',
+        display: 'flex',
+        alignItems: 'center',
         fontSize: '0.9rem',
         width: '100%',
         color: 'var(--primary)',
@@ -56,7 +68,7 @@ export const RulesetSelect = () => {
                 ))}
             </select>
             <p className={classes.version}>
-                <Icon className={classes.info} icon="it-info-circle"/> Current Ruleset Bundle: {RULESETS_VERSION}
+                <Icon className={classes.info} icon="it-info-circle"/> Current Ruleset Bundle: {RULESETS_VERSION} <a className={classes.anchor} href={getDocFilename(ruleset)} rel="noreferrer" target="_blank"><Icon className={classes.ext} icon="it-external-link" /></a>
             </p>
         </div>
     );

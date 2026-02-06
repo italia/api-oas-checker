@@ -28,7 +28,8 @@ const useStyles = createUseStyles({
     alignItems: 'center',
   },
   fileInfo: {
-    display: 'block',
+    display: 'flex',
+    alignItems: 'center',
     fontSize: '0.9rem',
     width: '100%',
     color: 'var(--primary)',
@@ -38,6 +39,9 @@ const useStyles = createUseStyles({
   info: {
     composes: 'icon icon-primary mx-1',
     width: '24px',
+    height: '24px',
+    display: 'inline-block',
+    verticalAlign: 'middle',
   },
 });
 
