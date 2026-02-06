@@ -47,15 +47,9 @@ async function downloadLatestRelease() {
         if (asset.name === 'functions.zip') {
           console.log('Extracting functions.zip...');
           const zip = new AdmZip(buffer);
-          const functionsPath = path.join(rulesetsPath, 'functions');
-
-          // Ensure the functions directory exists
-          if (!fs.existsSync(functionsPath)) {
-            fs.mkdirSync(functionsPath, { recursive: true });
-          }
-
-          zip.extractAllTo(functionsPath, true);
-          console.log(`functions.zip extracted to ${functionsPath}`);
+          
+          zip.extractAllTo(__dirname, true);
+          console.log(`functions.zip extracted to ${__dirname}`);
         } else {
           const filePath = path.join(rulesetsPath, asset.name);
           fs.writeFileSync(filePath, buffer);
