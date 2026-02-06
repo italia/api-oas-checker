@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 1.8
+#	Ruleset version: 1.9
 
 #
 # These rules are based on the Italian Guidelines,
@@ -37,7 +37,8 @@ rules:
             because `Cache-Control` overrides `Expires` when `max-age` is set.
             Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
             like described in RFC7234.
-        message: '[RFC7234] Cache usage SHOULD be documented when used.'
+        message: '[RFC7234] Cache usage must be documented in the description (include
+            keywords like max-age, no-store, etc.).'
         formats:
         - oas3
         severity: warn
@@ -73,8 +74,8 @@ rules:
             because `Cache-Control` overrides `Expires` when `max-age` is set.
             Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
             like described in RFC7234.
-        message: '[RFC7234] Cache usage in responses SHOULD be documented in Cache-Control
-            and/or Expires. {{error}}'
+        message: '[RFC7234] Cache usage for response header must be documented in
+            its description.'
         formats:
         - oas3
         severity: info
@@ -110,7 +111,8 @@ rules:
             because `Cache-Control` overrides `Expires` when `max-age` is set.
             Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
             like described in RFC7234.
-        message: '[RFC7234] {{error}}'
+        message: '[RFC7234] Use either ''Cache-Control'' or ''Expires'' header, but
+            not both or neither.'
         formats:
         - oas3
         severity: info
@@ -137,8 +139,7 @@ rules:
             Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
             Responses with status code 204 and 205 MUST NOT include a content.
             See RFC7231 for further information.
-        message: '[RFC7231] 200, 201, 202, 203 and 206 responses usually have a content:
-            {{error}}.'
+        message: '[RFC7231] A 2xx response should include a message body.'
         severity: hint
         given: $..paths..responses[?( @property && @property.match("(200|201|202|203|206)")
             )]
@@ -180,14 +181,13 @@ rules:
                 patch:
                   operationId: edit_entry
             ```
-        message: Avoid using method names in operationIds.
+        message: 'Avoid using method names in operationIds: {{value}}.'
         formats:
         - oas3
         severity: hint
         given: $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
-            )]
+            )].operationId
         then:
-            field: operationId
             function: pattern
             functionOptions:
                 match: //
@@ -203,9 +203,8 @@ rules:
         - oas3
         severity: hint
         recommended: true
-        given: $..[?(@ && @.type=="integer")]
+        given: $..[?(@ && @.type=="integer")].format
         then:
-            field: format
             function: enumeration
             functionOptions:
                 values:
@@ -223,9 +222,8 @@ rules:
         - oas3
         severity: hint
         recommended: true
-        given: $..[?(@ && @.type=="number")]
+        given: $..[?(@ && @.type=="number")].format
         then:
-            field: format
             function: enumeration
             functionOptions:
                 values:
@@ -234,19 +232,36 @@ rules:
                 - float
                 - double
                 - decimal128
+    oas3-valid-media-example:
+        description: Ensure examples are valid against their schema.
+        message: 'Example value is invalid against the schema. Check for structural
+            issues like ''nullable: true'' without an explicit ''type'' in the schema
+            definition. Details: {{error}}'
+        severity: error
+        recommended: true
+        given: $
+        then:
+            function: truthy
     paths-status-problem-schema:
         description: '"/status" schema is not a Problem object.'
-        message: '{{error}} {{path}}'
+        message: The "/status" response schema must include standard Problem fields
+            (status, title, detail).
         severity: warn
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.[schema]
         then:
         -   function: truthy
             field: properties.status
+            message: The "/status" response schema must include the standard Problem
+                field "status".
         -   function: truthy
             field: properties.title
+            message: The "/status" response schema must include the standard Problem
+                field "title".
         -   function: truthy
             field: properties.detail
+            message: The "/status" response schema must include the standard Problem
+                field "detail".
     use-problem-schema:
         description: |-
             WARN: This rule is under implementation and just provides an hint.
@@ -306,7 +321,7 @@ rules:
             before issuing further requests using the Retry-After header.
 
             Retry-After is defined in RFC7231.
-        message: '[RFC7231] Missing ratelimit header: {{property}} in {{path}}'
+        message: '[RFC7231] A 503 response must include the `Retry-After` header.'
         formats:
         - oas3
         severity: warn
@@ -336,7 +351,8 @@ rules:
             A standardization proposal for ratelimit headers is ongoing
             inside the IETF HTTPAPI Workgroup.
             See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
-        message: Missing ratelimit headers. {{property}} {{error}} {{path}}
+        message: 'Missing or ambiguous rate-limit header: ''{{property}}'' must be
+            defined (standard or X- prefix).'
         formats:
         - oas3
         severity: warn

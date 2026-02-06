@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines Full + Extra Security Checks (v1.8)</title>
+    <title>Italian Guidelines Full + Extra Security Checks (v1.9)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Italian Guidelines Full + Extra Security Checks (v1.8)</h1>
+            <div><h1>Italian Guidelines Full + Extra Security Checks (v1.9)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -86,11 +86,11 @@ like described in <a href="https://tools.ietf.org/html/RFC">RFC</a>7234.</p>
 <h2>paths-kebab-case</h2>
 <p>Paths should be kebab-case (e.g. <code>path-parameter</code>).</p>
 <p>See Italian recommendation RAC_REST_NAME_002.</p>
-<h2>request-headers-pascal-case</h2>
-<p>Headers should be pascal-case, separated by hyphens (e.g. <code>PascalCase-Header</code>)</p>
+<h2>request-headers-train-case</h2>
+<p>Headers should be Train-Case / HTTP-Header-Case (e.g. <code>X-Header-Name</code>).</p>
 <p>See Italian recommendation RAC_REST_NAME_003.</p>
-<h2>response-headers-pascal-case</h2>
-<p>Headers should be pascal-case, separated by hyphens (e.g. <code>PascalCase-Header</code>)</p>
+<h2>response-headers-train-case</h2>
+<p>Headers should be Train-Case / HTTP-Header-Case (e.g. <code>X-Header-Name</code>).</p>
 <p>See Italian recommendation RAC_REST_NAME_003.</p>
 <h2>schema-camel-case</h2>
 <p>Schema definitions should be CamelCase
@@ -173,19 +173,6 @@ from the national ontologies available at https://w3id.org/italia/onto/</p>
 <h2>use-recommended-names-in-schemas</h2>
 <p>Use well defined parameter and schema names, deriving them
 from the national ontologies available at https://w3id.org/italia/onto/</p>
-<p>For example, you can model a person using the following names:</p>
-<p><code>{
-  "en": {
-    "given_name": "Mario",
-    "family_name": "Rossi",
-    "tax_code": "12345678901"
-  },
-  "it": {
-    "nome_proprio": "Mario",
-    "cognome": "Rossi",
-    "codice_fiscale": "12345678901"
-  }
-}</code></p>
 <h2>no-method-name-in-operationId</h2>
 <p>Avoid using method names in <code>operationId</code>s because it couples
 the API design with the implementation.</p>
@@ -226,6 +213,8 @@ to a shared subset.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
 <h2>no-swagger-2</h2>
 <p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
+<h2>oas3-valid-media-example</h2>
+<p>Ensure examples are valid against their schema.</p>
 <h2>sec-securitySchemes-oauth-http</h2>
 <p>OAuth2 endpoints must use <code>https://</code></p>
 <h2>sec-securitySchemes-oauth-allowed-flows</h2>

@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full
-#	Ruleset version: 1.8
+#	Ruleset version: 1.9
 
 #
 # These rules are based on the Italian Guidelines,
@@ -37,7 +37,8 @@ rules:
             because `Cache-Control` overrides `Expires` when `max-age` is set.
             Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
             like described in RFC7234.
-        message: '[RFC7234] Cache usage SHOULD be documented when used.'
+        message: '[RFC7234] Cache usage must be documented in the description (include
+            keywords like max-age, no-store, etc.).'
         formats:
         - oas3
         severity: warn
@@ -73,8 +74,8 @@ rules:
             because `Cache-Control` overrides `Expires` when `max-age` is set.
             Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
             like described in RFC7234.
-        message: '[RFC7234] Cache usage in responses SHOULD be documented in Cache-Control
-            and/or Expires. {{error}}'
+        message: '[RFC7234] Cache usage for response header must be documented in
+            its description.'
         formats:
         - oas3
         severity: info
@@ -110,7 +111,8 @@ rules:
             because `Cache-Control` overrides `Expires` when `max-age` is set.
             Instead if neither `Cache-Control` or `Expires` are set, clients MAY use heuristic cache
             like described in RFC7234.
-        message: '[RFC7234] {{error}}'
+        message: '[RFC7234] Use either ''Cache-Control'' or ''Expires'' header, but
+            not both or neither.'
         formats:
         - oas3
         severity: info
@@ -127,57 +129,57 @@ rules:
             Paths should be kebab-case (e.g. `path-parameter`).
 
             See Italian recommendation RAC_REST_NAME_002.
-        message: '[RAC_REST_NAME_002] {{property}} is not kebab-case: {{error}}'
+        message: '[RAC_REST_NAME_002] Path "{{property}}" must be kebab-case (e.g.,
+            /my-resource-name).'
         severity: warn
         recommended: true
-        given: $.paths[*]~
+        given: $.paths[*]
         then:
+            field: '@property'
             function: pattern
             functionOptions:
                 match: ^(/[a-z0-9-.]+|/{[a-zA-Z0-9_]+})+$
-    request-headers-pascal-case:
+    request-headers-train-case:
         description: |
-            Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
+            Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).
 
             See Italian recommendation RAC_REST_NAME_003.
-        message: '[RAC_REST_NAME_003] {{value}} {{error}} in {{path}}'
+        message: '[RAC_REST_NAME_003] Header "{{value}}" must be Train-Case / HTTP-Header-Case.'
         severity: hint
         recommended: true
         given:
         - $..[parameters][?(@ && @.in=="header")].name
         then:
-            function: casing
+            function: pattern
             functionOptions:
-                type: pascal
-                separator:
-                    char: '-'
-    response-headers-pascal-case:
+                match: ^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$
+    response-headers-train-case:
         description: |
-            Headers should be pascal-case, separated by hyphens (e.g. `PascalCase-Header`)
+            Headers should be Train-Case / HTTP-Header-Case (e.g. `X-Header-Name`).
 
             See Italian recommendation RAC_REST_NAME_003.
-        message: '[RAC_REST_NAME_003] Header {{error}}: {{path}}'
+        message: '[RAC_REST_NAME_003] Response header "{{property}}" must be Train-Case
+            / HTTP-Header-Case.'
         severity: hint
         recommended: true
         given:
         - $..[responses][*].headers.*~
         then:
-            function: casing
+            function: pattern
             functionOptions:
-                type: pascal
-                separator:
-                    char: '-'
+                match: ^([A-Z][a-zA-Z0-9]*(-[A-Z][a-zA-Z0-9]*)*)$
     schema-camel-case:
         description: "Schema definitions should be CamelCase\n(pascal case with blank\
             \ separator char).\n\nThis improves readability and avoid\nconfusion between\
             \ schema names and properties.\n\n```\nWebsite:\n  type: string\n  format:\
             \ url\nPerson:\n  type: object\n  properties:\n    website:\n      $ref:\
             \ \"#/components/schemas/Website\"\n``` "
-        message: Schema name should be CamelCase in {{path}}
+        message: Schema name "{{property}}" should be PascalCase (e.g., MySchema).
         severity: hint
         recommended: true
-        given: $.components.schemas[*]~
+        given: $.components.schemas[*]
         then:
+            field: '@property'
             function: casing
             functionOptions:
                 type: pascal
@@ -188,7 +190,8 @@ rules:
             OAS do not allow using the following HTTP headers in a specification
             file: Authorization, Content-Type and Accept.
             You MUST use the associate functionalities provided by OAS, instead.
-        message: '{{error}} in {{path}} {{value}}'
+        message: Do not define 'Authorization', 'Content-Type' or 'Accept' as headers;
+            use the specific OAS fields for security schemes or media types instead.
         severity: error
         given:
         - $..parameters[?(@ && @.in == 'header')].name
@@ -202,8 +205,8 @@ rules:
         severity: warn
         given:
         - $..parameters[?(@ && @.in == 'header')].name
-        message: '[RFC6648] HTTP header ''{{value}}'' SHOULD NOT start with ''X-''
-            in {{path}}'
+        message: '[RFC6648] Avoid using ''X-'' prefix for header ''{{value}}''. Use
+            meaningful names instead.'
         recommended: true
         type: style
         then:
@@ -215,7 +218,8 @@ rules:
         severity: warn
         given:
         - $..[responses][*].headers.*~
-        message: '[RFC6648] HTTP response header SHOULD NOT start with ''X-'' in {{path}}'
+        message: '[RFC6648] Avoid using ''X-'' prefix for response headers. Use meaningful
+            names instead.'
         recommended: true
         type: style
         then:
@@ -250,7 +254,7 @@ rules:
             Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
             Responses with status code 204 and 205 MUST NOT include a content.
             See RFC7231 for further information.
-        message: '[RFC7231] 204 and 205 responses MUST NOT have a content: {{error}}.'
+        message: '[RFC7231] A 204 or 205 response must not include a message body.'
         severity: error
         given: $..paths..responses[?(@property && @property.match("(204|205)") )]
         then:
@@ -261,8 +265,7 @@ rules:
             Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
             Responses with status code 204 and 205 MUST NOT include a content.
             See RFC7231 for further information.
-        message: '[RFC7231] 200, 201, 202, 203 and 206 responses usually have a content:
-            {{error}}.'
+        message: '[RFC7231] A 2xx response should include a message body.'
         severity: hint
         given: $..paths..responses[?( @property && @property.match("(200|201|202|203|206)")
             )]
@@ -280,7 +283,8 @@ rules:
                         - schema
     servers-description:
         description: Servers must have a description.
-        message: Server {{path}} must have a description.
+        message: Server must have a description explaining its purpose (e.g., Production,
+            Sandbox).
         given:
         - $.servers[*]
         - $.paths..servers[*]
@@ -296,21 +300,19 @@ rules:
 
             You can use `http://` only on sandboxes environment.
             Use `x-sandbox: true` to skip this kind of check.
-        message: 'Non-sandbox url  {{value}} {{error}}. Add `x-sandbox: true` to skip
-            this check on a specific server.'
+        message: 'Non-sandbox URL ''{{value}}'' must use https. Set ''x-sandbox: true''
+            to skip this check for development environments.'
         given:
-        - $.servers[?(@ && @["x-sandbox"] != true)]
-        - $.paths..servers[?(@ && @["x-sandbox"] != true)]
+        - $.servers[?(@ && @["x-sandbox"] != true)].url
+        - $.paths..servers[?(@ && @["x-sandbox"] != true)].url
         severity: error
         recommended: true
         then:
-            field: url
             function: pattern
             functionOptions:
                 match: ^https://.*
     has-x-summary:
-        message: 'API MUST have an one-liner #/info/x-summary field containing a brief
-            description.'
+        message: The API info object must contain an `x-summary` field.
         description: |-
             The `#/info/x-summary` can be used to specify a brief, one-liner description of your API: this is very useful for catalog purposes (eg. this can be shown as your API subtitle in catalogs and developer portals).
             In OAS3.1 you can use the standard `#/info/summary` field.
@@ -324,7 +326,7 @@ rules:
             field: info.x-summary
             function: truthy
     has-termsOfService:
-        message: 'API SHOULD reference the URL of the Terms of Service in #/info/termsOfService.'
+        message: The API info object should contain a `termsOfService` URL.
         description: API SHOULD reference the URL of the Terms of Service in `#/info/termsOfService`
         given: $
         severity: warn
@@ -336,6 +338,8 @@ rules:
             field: info.termsOfService
             function: truthy
     has-contact:
+        message: The API info object must contain a `contact` object with contact
+            information.
         description: 'API MUST reference a contact, either url or email in #/info/contact'
         given: $
         severity: error
@@ -347,7 +351,7 @@ rules:
             field: info.contact
             function: truthy
     has-x-api-id:
-        message: 'API must have an unique identifier in x-api-id in #/info/x-api-id.'
+        message: The API info object should contain an `x-api-id` for tracking purposes.
         description: |-
             The `#/info/x-api-id` field can be used to associate an identifier
             to an API.
@@ -365,8 +369,8 @@ rules:
             [semantic versioning](https://semver.org/#semantic-versioning-specification-semver).
         severity: error
         recommended: true
-        message: Specs should follow semantic versioning. {{value}} is not a valid
-            version.
+        message: The version '{{value}}' is not valid; use semantic versioning (e.g.,
+            1.0.0).
         given: $.info.version
         then:
             function: pattern
@@ -398,9 +402,8 @@ rules:
         - oas3
         severity: info
         given: $..parameters.[?(@ && @.name && @.name.match && @.name.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
-            )]
+            )].name
         then:
-            field: name
             function: pattern
             functionOptions:
                 match: //
@@ -408,24 +411,7 @@ rules:
         description: |-
             Use well defined parameter and schema names, deriving them
             from the national ontologies available at https://w3id.org/italia/onto/
-
-            For example, you can model a person using the following names:
-
-            ```
-            {
-              "en": {
-                "given_name": "Mario",
-                "family_name": "Rossi",
-                "tax_code": "12345678901"
-              },
-              "it": {
-                "nome_proprio": "Mario",
-                "cognome": "Rossi",
-                "codice_fiscale": "12345678901"
-              }
-            }
-            ```
-        message: Use recommended variable names in {{value}}.
+        message: Use recommended variable names in '{{value}}'.
         formats:
         - oas3
         severity: info
@@ -433,10 +419,8 @@ rules:
             && @property.match(/^(nome|name|surname|cf|fiscal_?code|fiscal_?number|first_?name|last_?name)$/i)
             )]
         then:
-            field: '@key'
-            function: pattern
-            functionOptions:
-                match: //
+            field: '@property'
+            function: undefined
     no-method-name-in-operationId:
         description: |-
             Avoid using method names in `operationId`s because it couples
@@ -463,14 +447,13 @@ rules:
                 patch:
                   operationId: edit_entry
             ```
-        message: Avoid using method names in operationIds.
+        message: 'Avoid using method names in operationIds: {{value}}.'
         formats:
         - oas3
         severity: hint
         given: $..[?(@ && @.operationId && @.operationId.match && @.operationId.match(/^(get|post|put|delete|patch|head)/i)
-            )]
+            )].operationId
         then:
-            field: operationId
             function: pattern
             functionOptions:
                 match: //
@@ -482,8 +465,8 @@ rules:
             You can express similar requirements using the `minimum` and `maximum` properties.
 
             See recommendation RAC_REST_FORMAT_004.
-        message: '[RAC_REST_FORMAT_004] Schema of type number or integer must specify
-            a format. {{path}}'
+        message: '[RAC_REST_FORMAT_004] The schema of type ''number'' must specify
+            a format (e.g., float, double).'
         formats:
         - oas3
         severity: error
@@ -500,8 +483,8 @@ rules:
             You can express similar requirements using the `minimum` and `maximum` properties.
 
             See recommendation RAC_REST_FORMAT_004.
-        message: '[RAC_REST_FORMAT_004] Schema of type number or integer must specify
-            a format. {{path}}'
+        message: '[RAC_REST_FORMAT_004] The schema of type ''integer'' must specify
+            a format (e.g., int32, int64).'
         formats:
         - oas3
         severity: error
@@ -522,9 +505,8 @@ rules:
         - oas3
         severity: hint
         recommended: true
-        given: $..[?(@ && @.type=="integer")]
+        given: $..[?(@ && @.type=="integer")].format
         then:
-            field: format
             function: enumeration
             functionOptions:
                 values:
@@ -542,9 +524,8 @@ rules:
         - oas3
         severity: hint
         recommended: true
-        given: $..[?(@ && @.type=="number")]
+        given: $..[?(@ && @.type=="number")].format
         then:
-            field: format
             function: enumeration
             functionOptions:
                 values:
@@ -555,6 +536,8 @@ rules:
                 - decimal128
     no-swagger-2:
         description: Swagger 2 files are not allowed. Use OpenAPI >= 3.0
+        message: The document uses Swagger 2.0, which is deprecated. Please upgrade
+            to OpenAPI 3.0 or higher.
         given: $
         severity: error
         recommended: true
@@ -564,6 +547,16 @@ rules:
         then:
             field: swagger
             function: falsy
+    oas3-valid-media-example:
+        description: Ensure examples are valid against their schema.
+        message: 'Example value is invalid against the schema. Check for structural
+            issues like ''nullable: true'' without an explicit ''type'' in the schema
+            definition. Details: {{error}}'
+        severity: error
+        recommended: true
+        given: $
+        then:
+            function: truthy
     sec-securitySchemes-oauth-http:
         description: OAuth2 endpoints must use `https://`
         message: OAuth endpoints must use https://
@@ -574,8 +567,7 @@ rules:
         given:
         - $..[securitySchemes][?(@ && @.type=="oauth2")][*].[?(@property && @property.match(/Url$/i))]
         then:
-        -   field: value
-            function: pattern
+        -   function: pattern
             functionOptions:
                 match: ^https://
     sec-securitySchemes-oauth-allowed-flows:
@@ -628,8 +620,8 @@ rules:
                           ...
                         example: [{ "op": "add", "path": "/baz", "value": "qux" }]
             ```
-        message: '[RFC6902] application/json is not an appropriate media-type for
-            PATCH. {{path}}'
+        message: '[RFC6902] The `application/json` media type is not appropriate for
+            PATCH requests. Use a more specific media type like `application/json-patch+json`.'
         formats:
         - oas3
         severity: error
@@ -672,15 +664,17 @@ rules:
             ```
             PATCH /user/123/enable
             ````
-        message: PATCH requires a non empty requestBody and requestBody.required set
-            to true.
+        message: PATCH requests must include a `requestBody` and the `requestBody`
+            must be required.
         severity: error
         given: $.paths.*.patch
         then:
         -   field: requestBody
             function: defined
+            message: PATCH requests must include a `requestBody`.
         -   field: requestBody.required
             function: truthy
+            message: The `requestBody` of a PATCH request must be required.
     patch-json-patch-mediatype:
         description: |-
             A correct example of PATCH using eg. `application/json-patch+json` media-type
@@ -719,8 +713,7 @@ rules:
             containing a successful status code if the service is working correctly.
 
             The service provider is free to define the implementation logic for this path.
-        message: The "/status" path used to health-check the API must be defined.
-            {{error}}
+        message: The "/status" path must be defined for API health-checks.
         severity: error
         recommended: true
         given: $.paths
@@ -739,7 +732,8 @@ rules:
                         additionalProperties: false
     paths-status-return-problem:
         description: '"/status" must return a Problem object.'
-        message: '{{error}}'
+        message: The "/status" endpoint must return "application/problem+json" or
+            "application/problem+xml".
         severity: error
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.*~
@@ -751,17 +745,24 @@ rules:
                 - application/problem+json
     paths-status-problem-schema:
         description: '"/status" schema is not a Problem object.'
-        message: '{{error}} {{path}}'
+        message: The "/status" response schema must include standard Problem fields
+            (status, title, detail).
         severity: warn
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.[schema]
         then:
         -   function: truthy
             field: properties.status
+            message: The "/status" response schema must include the standard Problem
+                field "status".
         -   function: truthy
             field: properties.title
+            message: The "/status" response schema must include the standard Problem
+                field "title".
         -   function: truthy
             field: properties.detail
+            message: The "/status" response schema must include the standard Problem
+                field "detail".
     paths-http-method:
         description: |-
             When you design a REST API, you don't usually need to mention terms like
@@ -815,16 +816,17 @@ rules:
 
             This simplifies securing your API as you know beforehand the kind of action
             which is going to be performed.
-        message: '[RFC7231] API "path" contains a name of an http method. {{error}}'
+        message: '[RFC7231] Path "{{property}}" contains an HTTP method or action
+            verb (e.g., get, list, create); use proper HTTP methods instead.'
         severity: hint
         recommended: true
         given:
         - $.paths[?(@property && @property.match( "/(get|post|put|delete|patch)[\/A-Z_\-]?"
-            ))]~
+            ))]
         - $.paths[?(@property && @property.match( "/(create|remove|list)[\/A-Z_\-]?"
-            ))]~
+            ))]
         then:
-            field: '@key'
+            field: '@property'
             function: undefined
     use-problem-json-for-errors:
         description: |4-
@@ -962,7 +964,6 @@ rules:
         given: $..[responses][?(@property && @property.match(/^(4|5|default)/)  &&
             !@["x-noqa"] )][schema][properties].*~
         then:
-            field: '@key'
             function: pattern
             functionOptions:
                 notMatch: message|code|msg
@@ -973,7 +974,7 @@ rules:
             before issuing further requests using the Retry-After header.
 
             Retry-After is defined in RFC7231.
-        message: '[RFC7231] Missing ratelimit header: {{property}} in {{path}}'
+        message: '[RFC7231] A 503 response must include the `Retry-After` header.'
         formats:
         - oas3
         severity: warn
@@ -1003,7 +1004,8 @@ rules:
             A standardization proposal for ratelimit headers is ongoing
             inside the IETF HTTPAPI Workgroup.
             See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
-        message: Missing ratelimit headers. {{property}} {{error}} {{path}}
+        message: 'Missing or ambiguous rate-limit header: ''{{property}}'' must be
+            defined (standard or X- prefix).'
         formats:
         - oas3
         severity: warn
@@ -1041,9 +1043,8 @@ rules:
         severity: warn
         recommended: true
         given:
-        - $..[responses][*][content][?(@property && @property.match("json$") && !@property.match(/json-patch\+json$/))][schema]
+        - $..[responses][*][content][?(@property && @property.match("json$") && !@property.match(/json-patch\+json$/))][schema].type
         then:
-            field: type
             function: pattern
             functionOptions:
                 match: object
@@ -1093,7 +1094,6 @@ rules:
         given:
         - $..parameters[?(@ && @.in && @.in.match(/query|path/))].name
         then:
-        -   field: name
-            function: pattern
+        -   function: pattern
             functionOptions:
                 notMatch: /^.*(password|secret|apikey).*$/i
