@@ -29,7 +29,11 @@ jobs:
       - name: Unzip files
         run: |
           for file in rulesets/*.zip; do
-            unzip -o "$file" -d rulesets/
+            if [[ "$file" == *"functions.zip" ]]; then
+              unzip -o "$file" -d .
+            else
+              unzip -o "$file" -d rulesets/
+            fi
           done
       - name: Build ui, test ui and deploy
         run: |
