@@ -5,7 +5,10 @@
   "dependencies": {
     "@stoplight/spectral-cli": "^6.15.0",
     "@stoplight/spectral-core": "^1.21.0",
+    "@stoplight/spectral-formats": "^1.8.2",
+    "@stoplight/spectral-functions": "^1.10.1",
     "@stoplight/spectral-parsers": "^1.0.5",
+    "@stoplight/spectral-rulesets": "^1.22.0",
     "adm-zip": "^0.5.5",
     "axios": "1.12.0",
     "bootstrap": "4.6.2",
