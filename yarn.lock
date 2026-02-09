@@ -1977,7 +1977,7 @@
     simple-eval "1.0.1"
     tslib "^2.8.1"
 
-"@stoplight/spectral-formats@^1.8.1":
+"@stoplight/spectral-formats@^1.8.1", "@stoplight/spectral-formats@^1.8.2":
   version "1.8.2"
   resolved "https://registry.yarnpkg.com/@stoplight/spectral-formats/-/spectral-formats-1.8.2.tgz#d5bbdb5d0802b118c9b8f8bbf72d6f34f4248b54"
   integrity sha512-c06HB+rOKfe7tuxg0IdKDEA5XnjL2vrn/m/OVIIxtINtBzphZrOgtRn7epQ5bQF5SWp84Ue7UJWaGgDwVngMFw==
@@ -2086,7 +2086,7 @@
     tslib "^2.8.1"
     validate-npm-package-name "3.0.0"
 
-"@stoplight/spectral-rulesets@>=1":
+"@stoplight/spectral-rulesets@>=1", "@stoplight/spectral-rulesets@^1.22.0":
   version "1.22.0"
   resolved "https://registry.yarnpkg.com/@stoplight/spectral-rulesets/-/spectral-rulesets-1.22.0.tgz#dd17ff8dfdffa2e9ff45e1b57802dd420ca10519"
   integrity sha512-l2EY2jiKKLsvnPfGy+pXC0LeGsbJzcQP5G/AojHgf+cwN//VYxW1Wvv4WKFx/CLmLxc42mJYF2juwWofjWYNIQ==
