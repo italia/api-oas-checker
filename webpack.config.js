@@ -212,9 +212,12 @@ module.exports = async () => {
         patterns: [
           { from: 'public', to: '.' },
           {
-            from: rulesetsPath,
-            to: 'rulesets',
+            from: 'rulesets/**/*',
+            to: '.',
             noErrorOnMissing: true,
+            globOptions: {
+              dot: true,
+            },
           },
         ],
       }),

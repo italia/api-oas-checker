@@ -28,13 +28,8 @@ jobs:
           latest: true
       - name: Unzip files
         run: |
-          for file in rulesets/*.zip; do
-            if [[ "$file" == *"functions.zip" ]]; then
-              unzip -o "$file" -d .
-            else
-              unzip -o "$file" -d rulesets/
-            fi
-          done
+          unzip -o rulesets/functions.zip -d .
+          ls -R rulesets/
       - name: Build ui, test ui and deploy
         run: |
           git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/italia/api-oas-checker.git

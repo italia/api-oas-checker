@@ -2006,7 +2006,7 @@
     text-table "^0.2.0"
     tslib "^2.8.1"
 
-"@stoplight/spectral-functions@>=1", "@stoplight/spectral-functions@^1.9.1":
+"@stoplight/spectral-functions@>=1", "@stoplight/spectral-functions@^1.10.1", "@stoplight/spectral-functions@^1.9.1":
   version "1.10.1"
   resolved "https://registry.yarnpkg.com/@stoplight/spectral-functions/-/spectral-functions-1.10.1.tgz#3f7e6fb3185a295ae30c9165a8b1530f63e739aa"
   integrity sha512-obu8ZfoHxELOapfGsCJixKZXZcffjg+lSoNuttpmUFuDzVLT3VmH8QkPXfOGOL5Pz80BR35ClNAToDkdnYIURg==
