@@ -10,7 +10,7 @@
     "@stoplight/spectral-parsers": "^1.0.5",
     "@stoplight/spectral-rulesets": "^1.22.0",
     "adm-zip": "^0.5.5",
-    "axios": "1.12.0",
+    "axios": "1.13.5",
     "bootstrap": "4.6.2",
     "bootstrap-italia": "^1.6.2",
     "classnames": "^2.3.1",
