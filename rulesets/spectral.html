@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines Full (v1.9)</title>
+    <title>Italian Guidelines Full (v2.0)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Italian Guidelines Full (v1.9)</h1>
+            <div><h1>Italian Guidelines Full (v2.0)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -404,6 +404,15 @@ X-Ratelimit-Reset: 12</code></p>
 <p>A standardization proposal for ratelimit headers is ongoing
 inside the IETF HTTPAPI Workgroup.
 See <a href="https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/">the draft</a></p>
+<h2>ratelimit-429-presence</h2>
+<p>429 (Too Many Requests) responses must include either the <code>Retry-After</code> header 
+or a complete set of RateLimit headers (<code>Limit</code>, <code>Remaining</code>, <code>Reset</code>).</p>
+<h2>ratelimit-429-completeness</h2>
+<p>If RateLimit headers are provided for a 429 response, all three headers 
+(Limit, Remaining, Reset) must be present and follow the same naming convention 
+(standard or X- prefix). 
+If both Retry-After and Reset are present, they should ideally represent 
+the same time interval.</p>
 <h2>response-with-json-object</h2>
 <p>JSON responses MUST use JSON objects, in order to be extensible.</p>
 <p>For example, instead of a list <code>[1, 2, 3]</code> you should return

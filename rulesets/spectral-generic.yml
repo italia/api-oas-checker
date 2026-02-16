@@ -1,5 +1,5 @@
 #	Ruleset name: Best Practices Only
-#	Ruleset version: 1.9
+#	Ruleset version: 2.0
 
 #
 # These rules are based on the Italian Guidelines,
@@ -906,7 +906,8 @@ rules:
         - oas3
         severity: warn
         recommended: true
-        given: $..[responses][?(@property[0] == "2" || @property[0] == "4")][headers]
+        given: $..[responses][?(@property[0] == "2" || (@property[0] == "4" && @property
+            != "429"))][headers]
         then:
         -   functionOptions:
                 properties:
@@ -923,6 +924,75 @@ rules:
                 - X-RateLimit-Reset
                 - RateLimit-Reset
             function: xor
+    ratelimit-429-presence:
+        description: "429 (Too Many Requests) responses must include either the `Retry-After`\
+            \ header \nor a complete set of RateLimit headers (`Limit`, `Remaining`,\
+            \ `Reset`)."
+        message: 429 response must have Retry-After or a complete set of RateLimit
+            headers (Limit, Remaining, Reset).
+        severity: warn
+        formats:
+        - oas3
+        given: $..[responses][?(@property == "429")][headers]
+        then:
+            function: schema
+            functionOptions:
+                schema:
+                    anyOf:
+                    -   required:
+                        - Retry-After
+                    -   required:
+                        - RateLimit-Limit
+                        - RateLimit-Remaining
+                        - RateLimit-Reset
+                    -   required:
+                        - X-RateLimit-Limit
+                        - X-RateLimit-Remaining
+                        - X-RateLimit-Reset
+    ratelimit-429-completeness:
+        description: "If RateLimit headers are provided for a 429 response, all three\
+            \ headers \n(Limit, Remaining, Reset) must be present and follow the same\
+            \ naming convention \n(standard or X- prefix). \nIf both Retry-After and\
+            \ Reset are present, they should ideally represent \nthe same time interval."
+        message: RateLimit headers for 429 must be provided as a complete and consistent
+            set.
+        severity: error
+        formats:
+        - oas3
+        given: $..[responses][?(@property == "429")][headers][?(@["X-RateLimit-Limit"]
+            || @["X-RateLimit-Remaining"] || @["X-RateLimit-Reset"] || @["RateLimit-Limit"]
+            || @["RateLimit-Remaining"] || @["RateLimit-Reset"])]
+        then:
+            function: schema
+            functionOptions:
+                schema:
+                    oneOf:
+                    -   allOf:
+                        -   required:
+                            - RateLimit-Limit
+                            - RateLimit-Remaining
+                            - RateLimit-Reset
+                        -   not:
+                                anyOf:
+                                -   required:
+                                    - X-RateLimit-Limit
+                                -   required:
+                                    - X-RateLimit-Remaining
+                                -   required:
+                                    - X-RateLimit-Reset
+                    -   allOf:
+                        -   required:
+                            - X-RateLimit-Limit
+                            - X-RateLimit-Remaining
+                            - X-RateLimit-Reset
+                        -   not:
+                                anyOf:
+                                -   required:
+                                    - RateLimit-Limit
+                                -   required:
+                                    - RateLimit-Remaining
+                                -   required:
+                                    - RateLimit-Reset
     response-with-json-object:
         description: |-
             JSON responses MUST use JSON objects, in order to be extensible.
