@@ -11,6 +11,7 @@ import {CheckAPISection} from './CheckAPISection.js';
 import {PrettifySection} from './PrettifySection';
 import {APICanvasSection} from './APICanvasSection.js';
 import {APISchemaSection} from './APISchemaSection.js';
+import {GitHubActionSection} from './GitHubActionSection.js';
 import {ExportSection} from './ExportSection.js';
 import {getValidationResults} from '../redux/selectors.js';
 import {ERROR, WARNING} from '../utils.mjs';
@@ -100,6 +101,7 @@ export const RightSection = () => {
           <PrettifySection />
           <APICanvasSection />
           <APISchemaSection />
+          <GitHubActionSection />
         </div>
       )}
     </section>
