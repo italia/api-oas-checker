@@ -17,6 +17,7 @@ jest.mock('./CheckAPISection', () => ({ CheckAPISection: () => <div data-testid=
 jest.mock('./PrettifySection', () => ({ PrettifySection: () => <div data-testid="prettify-section" /> }));
 jest.mock('./APICanvasSection', () => ({ APICanvasSection: () => <div data-testid="api-canvas-section" /> }));
 jest.mock('./APISchemaSection', () => ({ APISchemaSection: () => <div data-testid="api-schema-section" /> }));
+jest.mock('./GitHubActionSection', () => ({ GitHubActionSection: () => <div data-testid="github-action-section" /> }));
 jest.mock('./ExportSection', () => ({ ExportSection: () => <div data-testid="export-section" /> }));
 
 describe('RightSection', () => {
@@ -65,6 +66,7 @@ describe('RightSection', () => {
     expect(screen.getByText('Tools')).toHaveClass('active');
     expect(screen.queryByTestId('load-openapi-section')).not.toBeInTheDocument();
     expect(screen.getByTestId('prettify-section')).toBeInTheDocument();
+    expect(screen.getByTestId('github-action-section')).toBeInTheDocument();
   });
 
   it('shows the badge with validation count', () => {
