@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 2.0
+#	Ruleset version: 2.1
 
 #
 # These rules are based on the Italian Guidelines,
@@ -242,26 +242,39 @@ rules:
         given: $
         then:
             function: truthy
+    paths-status-return-json:
+        description: The "/status" endpoint must return "application/json" when the
+            service is Up.
+        message: The "/status" (Up) response must be "application/json".
+        severity: error
+        recommended: true
+        given: $.paths.'/status'.get.responses.200.content.*~
+        then:
+            function: enumeration
+            functionOptions:
+                values:
+                - application/json
     paths-status-problem-schema:
-        description: '"/status" schema is not a Problem object.'
-        message: The "/status" response schema must include standard Problem fields
-            (status, title, detail).
+        description: The "/status" error response (4xx/5xx) must be a Problem object
+            (RFC7807).
+        message: The "/status" (Down) response schema ({{property}}) must include
+            standard Problem fields (status, title, detail).
         severity: warn
         recommended: true
-        given: $.paths.'/status'.get.responses.200.content.[schema]
+        given: $.paths.'/status'.get.responses[?(@property.match(/^(4|5)/))].content.[schema]
         then:
         -   function: truthy
             field: properties.status
-            message: The "/status" response schema must include the standard Problem
-                field "status".
+            message: The "/status" (Down) response schema must include the standard
+                Problem field "status".
         -   function: truthy
             field: properties.title
-            message: The "/status" response schema must include the standard Problem
-                field "title".
+            message: The "/status" (Down) response schema must include the standard
+                Problem field "title".
         -   function: truthy
             field: properties.detail
-            message: The "/status" response schema must include the standard Problem
-                field "detail".
+            message: The "/status" (Down) response schema must include the standard
+                Problem field "detail".
     use-problem-schema:
         description: |-
             WARN: This rule is under implementation and just provides an hint.

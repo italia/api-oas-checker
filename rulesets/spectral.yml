@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full
-#	Ruleset version: 2.0
+#	Ruleset version: 2.1
 
 #
 # These rules are based on the Italian Guidelines,
@@ -709,8 +709,9 @@ rules:
             Using this path avoids the arbitrary usage of a server URL for health-check
             scope.
 
-            The `/status` endpoint should return a `application/problem+json` response
-            containing a successful status code if the service is working correctly.
+            The `/status` endpoint should return:
+            - a `application/json` response with 200 OK when the service is up.
+            - a `application/problem+json` response with 503 Service Unavailable when the service is down.
 
             The service provider is free to define the implementation logic for this path.
         message: The "/status" path must be defined for API health-checks.
@@ -730,10 +731,10 @@ rules:
                                 type: object
                     -   type: object
                         additionalProperties: false
-    paths-status-return-problem:
-        description: '"/status" must return a Problem object.'
-        message: The "/status" endpoint must return "application/problem+json" or
-            "application/problem+xml".
+    paths-status-return-json:
+        description: The "/status" endpoint must return "application/json" when the
+            service is Up.
+        message: The "/status" (Up) response must be "application/json".
         severity: error
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.*~
@@ -741,28 +742,40 @@ rules:
             function: enumeration
             functionOptions:
                 values:
-                - application/problem+xml
+                - application/json
+    paths-status-return-problem:
+        description: The "/status" endpoint must return "application/problem+json"
+            for all 4xx and 5xx error responses (Down state).
+        message: The "/status" (Down) response ({{property}}) must be "application/problem+json".
+        severity: error
+        recommended: true
+        given: $.paths.'/status'.get.responses[?(@property.match(/^(4|5)/))].content.*~
+        then:
+            function: enumeration
+            functionOptions:
+                values:
                 - application/problem+json
     paths-status-problem-schema:
-        description: '"/status" schema is not a Problem object.'
-        message: The "/status" response schema must include standard Problem fields
-            (status, title, detail).
+        description: The "/status" error response (4xx/5xx) must be a Problem object
+            (RFC7807).
+        message: The "/status" (Down) response schema ({{property}}) must include
+            standard Problem fields (status, title, detail).
         severity: warn
         recommended: true
-        given: $.paths.'/status'.get.responses.200.content.[schema]
+        given: $.paths.'/status'.get.responses[?(@property.match(/^(4|5)/))].content.[schema]
         then:
         -   function: truthy
             field: properties.status
-            message: The "/status" response schema must include the standard Problem
-                field "status".
+            message: The "/status" (Down) response schema must include the standard
+                Problem field "status".
         -   function: truthy
             field: properties.title
-            message: The "/status" response schema must include the standard Problem
-                field "title".
+            message: The "/status" (Down) response schema must include the standard
+                Problem field "title".
         -   function: truthy
             field: properties.detail
-            message: The "/status" response schema must include the standard Problem
-                field "detail".
+            message: The "/status" (Down) response schema must include the standard
+                Problem field "detail".
     paths-http-method:
         description: |-
             When you design a REST API, you don't usually need to mention terms like
