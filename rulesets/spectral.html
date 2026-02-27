@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines Full (v2.1)</title>
+    <title>Italian Guidelines Full (v2.2)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Italian Guidelines Full (v2.1)</h1>
+            <div><h1>Italian Guidelines Full (v2.2)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -287,11 +287,11 @@ defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>6902.</p>
 Using this path avoids the arbitrary usage of a server URL for health-check
 scope.</p>
 <p>The <code>/status</code> endpoint should return:
-- a <code>application/json</code> response with 200 OK when the service is up.
+- a <code>application/json</code> or <code>application/problem+json</code> response with 200 OK when the service is up.
 - a <code>application/problem+json</code> response with 503 Service Unavailable when the service is down.</p>
 <p>The service provider is free to define the implementation logic for this path.</p>
 <h2>paths-status-return-json</h2>
-<p>The "/status" endpoint must return "application/json" when the service is Up.</p>
+<p>The "/status" endpoint must return "application/json" or "application/problem+json" when the service is Up.</p>
 <h2>paths-status-return-problem</h2>
 <p>The "/status" endpoint must return "application/problem+json" for all 4xx and 5xx error responses (Down state).</p>
 <h2>paths-status-problem-schema</h2>

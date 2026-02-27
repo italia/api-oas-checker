@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full + Extra Security Checks
-#	Ruleset version: 2.1
+#	Ruleset version: 2.2
 
 #
 # These rules are based on the Italian Guidelines,
@@ -710,7 +710,7 @@ rules:
             scope.
 
             The `/status` endpoint should return:
-            - a `application/json` response with 200 OK when the service is up.
+            - a `application/json` or `application/problem+json` response with 200 OK when the service is up.
             - a `application/problem+json` response with 503 Service Unavailable when the service is down.
 
             The service provider is free to define the implementation logic for this path.
@@ -732,9 +732,9 @@ rules:
                     -   type: object
                         additionalProperties: false
     paths-status-return-json:
-        description: The "/status" endpoint must return "application/json" when the
-            service is Up.
-        message: The "/status" (Up) response must be "application/json".
+        description: The "/status" endpoint must return "application/json" or "application/problem+json"
+            when the service is Up.
+        message: The "/status" (Up) response must be "application/json" or "application/problem+json".
         severity: error
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.*~
@@ -743,6 +743,7 @@ rules:
             functionOptions:
                 values:
                 - application/json
+                - application/problem+json
     paths-status-return-problem:
         description: The "/status" endpoint must return "application/problem+json"
             for all 4xx and 5xx error responses (Down state).

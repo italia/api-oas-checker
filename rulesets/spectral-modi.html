@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines (v2.1)</title>
+    <title>Italian Guidelines (v2.2)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Italian Guidelines (v2.1)</h1>
+            <div><h1>Italian Guidelines (v2.2)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -124,7 +124,7 @@ to a shared subset.</p>
 <h2>oas3-valid-media-example</h2>
 <p>Ensure examples are valid against their schema.</p>
 <h2>paths-status-return-json</h2>
-<p>The "/status" endpoint must return "application/json" when the service is Up.</p>
+<p>The "/status" endpoint must return "application/json" or "application/problem+json" when the service is Up.</p>
 <h2>paths-status-problem-schema</h2>
 <p>The "/status" error response (4xx/5xx) must be a Problem object (<a href="https://tools.ietf.org/html/RFC">RFC</a>7807).</p>
 <h2>use-problem-schema</h2>

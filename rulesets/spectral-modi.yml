@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 2.1
+#	Ruleset version: 2.2
 
 #
 # These rules are based on the Italian Guidelines,
@@ -243,9 +243,9 @@ rules:
         then:
             function: truthy
     paths-status-return-json:
-        description: The "/status" endpoint must return "application/json" when the
-            service is Up.
-        message: The "/status" (Up) response must be "application/json".
+        description: The "/status" endpoint must return "application/json" or "application/problem+json"
+            when the service is Up.
+        message: The "/status" (Up) response must be "application/json" or "application/problem+json".
         severity: error
         recommended: true
         given: $.paths.'/status'.get.responses.200.content.*~
@@ -254,6 +254,7 @@ rules:
             functionOptions:
                 values:
                 - application/json
+                - application/problem+json
     paths-status-problem-schema:
         description: The "/status" error response (4xx/5xx) must be a Problem object
             (RFC7807).
