@@ -10,12 +10,14 @@ describe('validationReducer', () => {
       rawResults: null,
       results: null,
       ruleset: DEFAULT_RULESET,
+      onlyErrors: false,
+      autoRefresh: false,
     });
   });
 
   it('handles SET_VALIDATION_IN_PROGRESS', () => {
     expect(
-      validationReducer([], {
+      validationReducer({}, {
         type: types.SET_VALIDATION_IN_PROGRESS,
       })
     ).toEqual({

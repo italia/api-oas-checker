@@ -30,7 +30,7 @@ export const useMonaco = (containerRef, onContentChange) => {
       format: true,
       schemas: [
         {
-          uri: 'oas3-completion.schema.json',
+          uri: 'https://json.schemastore.org/openapi-3.X.json',
           fileMatch: ['*'],
         },
       ],
