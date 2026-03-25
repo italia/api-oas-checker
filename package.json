@@ -80,7 +80,7 @@
     "webpack-cli": "5",
     "webpack-dev-server": "5.2.1",
     "worker-loader": "^3.0.8",
-    "yaml": "2.2.2",
+    "yaml": "2.8.3",
     "yargs": "^17.4.1"
   },
   "keywords": [
