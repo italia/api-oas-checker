@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 2.2
+#	Ruleset version: 2.3
 
 #
 # These rules are based on the Italian Guidelines,
@@ -117,13 +117,23 @@ rules:
         - oas3
         severity: info
         recommended: true
-        given: $..[responses][?(@property[0] == "2" )][headers]
+        given: $..[responses][?(@property[0] == "2")][headers]
         then:
-        -   function: xor
+        -   function: schema
             functionOptions:
-                properties:
-                - Expires
-                - Cache-Control
+                schema:
+                    type: object
+                    oneOf:
+                    -   required:
+                        - Cache-Control
+                        not:
+                            required:
+                            - Expires
+                    -   required:
+                        - Expires
+                        not:
+                            required:
+                            - Cache-Control
     http-request-DELETE-no-body:
         description: "Sending a `requestBody` in a `DELETE` request \nis not considered\
             \ interoperable.\nMoreover intermediaries such as reverse proxies\nmight\
@@ -181,7 +191,8 @@ rules:
                 patch:
                   operationId: edit_entry
             ```
-        message: 'Avoid using method names in operationIds: {{value}}.'
+        message: The operationId '{{value}}' starts with an HTTP verb (get, post,
+            put, delete, patch). Use a resource-centric name instead.
         formats:
         - oas3
         severity: hint
@@ -299,8 +310,8 @@ rules:
             ```
 
             See recommendation RAC_REST_NAME_007.
-        message: '[RFC7807] Your schema doesn''t seem to match RFC7807. Are you sure
-            it is ok? {{path}}'
+        message: '[RFC9457] Error response schema does not conform to RFC9457. Expected
+            at least two of: ''title'', ''status'', ''type'', ''detail''.'
         formats:
         - oas3
         severity: hint
@@ -365,8 +376,9 @@ rules:
             A standardization proposal for ratelimit headers is ongoing
             inside the IETF HTTPAPI Workgroup.
             See [the draft](https://datatracker.ietf.org/doc/draft-ietf-httpapi-ratelimit-headers/)
-        message: 'Missing or ambiguous rate-limit header: ''{{property}}'' must be
-            defined (standard or X- prefix).'
+        message: '[RFC7231] 2xx/4xx responses must include all three rate-limit headers
+            (Limit, Remaining, Reset) using one consistent prefix: either ''X-RateLimit-''
+            or ''RateLimit-''.'
         formats:
         - oas3
         severity: warn
@@ -374,27 +386,50 @@ rules:
         given: $..[responses][?(@property[0] == "2" || (@property[0] == "4" && @property
             != "429"))][headers]
         then:
-        -   functionOptions:
-                properties:
-                - X-RateLimit-Limit
-                - RateLimit-Limit
-            function: xor
-        -   functionOptions:
-                properties:
-                - X-RateLimit-Remaining
-                - RateLimit-Remaining
-            function: xor
-        -   functionOptions:
-                properties:
-                - X-RateLimit-Reset
-                - RateLimit-Reset
-            function: xor
+            function: schema
+            functionOptions:
+                schema:
+                    type: object
+                    allOf:
+                    -   oneOf:
+                        -   required:
+                            - X-RateLimit-Limit
+                            not:
+                                required:
+                                - RateLimit-Limit
+                        -   required:
+                            - RateLimit-Limit
+                            not:
+                                required:
+                                - X-RateLimit-Limit
+                    -   oneOf:
+                        -   required:
+                            - X-RateLimit-Remaining
+                            not:
+                                required:
+                                - RateLimit-Remaining
+                        -   required:
+                            - RateLimit-Remaining
+                            not:
+                                required:
+                                - X-RateLimit-Remaining
+                    -   oneOf:
+                        -   required:
+                            - X-RateLimit-Reset
+                            not:
+                                required:
+                                - RateLimit-Reset
+                        -   required:
+                            - RateLimit-Reset
+                            not:
+                                required:
+                                - X-RateLimit-Reset
     ratelimit-429-presence:
         description: "429 (Too Many Requests) responses must include either the `Retry-After`\
             \ header \nor a complete set of RateLimit headers (`Limit`, `Remaining`,\
             \ `Reset`)."
-        message: 429 response must have Retry-After or a complete set of RateLimit
-            headers (Limit, Remaining, Reset).
+        message: '[RFC6585] A 429 response must include ''Retry-After'' or a full
+            set of rate-limit headers: X-RateLimit-{Limit,Remaining,Reset} or RateLimit-{Limit,Remaining,Reset}.'
         severity: warn
         formats:
         - oas3
@@ -419,14 +454,15 @@ rules:
             \ headers \n(Limit, Remaining, Reset) must be present and follow the same\
             \ naming convention \n(standard or X- prefix). \nIf both Retry-After and\
             \ Reset are present, they should ideally represent \nthe same time interval."
-        message: RateLimit headers for 429 must be provided as a complete and consistent
-            set.
+        message: '[RFC6585] A 429 response must include all three rate-limit headers
+            (Limit, Remaining, Reset) using one consistent prefix: either ''X-RateLimit-''
+            or ''RateLimit-'', never mixed.'
         severity: error
         formats:
         - oas3
-        given: $..[responses][?(@property == "429")][headers][?(@["X-RateLimit-Limit"]
+        given: $..[responses][?(@property == "429")][headers][?(@ && (@["X-RateLimit-Limit"]
             || @["X-RateLimit-Remaining"] || @["X-RateLimit-Reset"] || @["RateLimit-Limit"]
-            || @["RateLimit-Remaining"] || @["RateLimit-Reset"])]
+            || @["RateLimit-Remaining"] || @["RateLimit-Reset"]))]
         then:
             function: schema
             functionOptions:
