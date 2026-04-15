@@ -56,8 +56,8 @@ localisation:
   localisationReady: false
 maintenance:
   contacts:
-    - email: roberto@teamdigitale.governo.it
-      name: Roberto Polli
+    - email: m.fortini@innovazione.it
+      name: Matteo Fortini
   type: community
 name: OpenAPI Checker
 platforms:
