@@ -4724,8 +4724,9 @@ dequal@^2.0.3:
   integrity sha512-0je+qPKHEMohvfRTCEo3CrPG6cAzAYgmzKyxRiYSSDkS6eGJdyVJm7WaYA5ECaAD9wLB2T4EEeymA5aFVcYXCA==
 
 "design-react-kit@https://github.com/italia/design-react-kit":
-  version "5.9.2"
-  resolved "https://github.com/italia/design-react-kit#ceba08054663efb6e0d15e16638e54c14d32e89c"
+  version "5.9.3"
+  uid ce854bdb6c9bf467af32d342f7caa06e897320db
+  resolved "https://github.com/italia/design-react-kit#ce854bdb6c9bf467af32d342f7caa06e897320db"
   dependencies:
     "@splidejs/react-splide" "^0.7.12"
     accessible-autocomplete "^3.0.1"
