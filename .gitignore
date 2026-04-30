@@ -20,9 +20,8 @@ yarn-error.log
 # generated css from bootstrap-italia
 src/bootstrap-italia-custom.min.css
 
-# file specifici del sistema operativo
+# os-specific files.
 .DS_Store
 
-### VSCode ###
-
+# IDE
 .vscode/
