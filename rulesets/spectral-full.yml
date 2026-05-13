@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full + Extra Security Checks
-#	Ruleset version: 2.3
+#	Ruleset version: 2.4
 
 #
 # These rules are based on the Italian Guidelines,
@@ -293,12 +293,12 @@ rules:
                         - schema
     servers-description:
         description: Servers must have a description.
-        message: Server must have a description explaining its purpose (e.g., Production,
+        message: Server should have a description explaining its purpose (e.g., Production,
             Sandbox).
         given:
         - $.servers[*]
         - $.paths..servers[*]
-        severity: error
+        severity: warn
         recommended: true
         then:
             field: description
