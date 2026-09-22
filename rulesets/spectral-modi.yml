@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines
-#	Ruleset version: 2.4
+#	Ruleset version: 2.5
 
 #
 # These rules are based on the Italian Guidelines,
@@ -253,6 +253,19 @@ rules:
         given: $
         then:
             function: truthy
+    oas3-version-hint:
+        description: Suggests using OpenAPI 3.0.x for better compatibility.
+        message: Working with OpenAPI 3.0.x is recommended for compatibility reasons.
+        severity: hint
+        formats:
+        - oas2
+        - oas3
+        given: $
+        then:
+            field: openapi
+            function: pattern
+            functionOptions:
+                match: ^3\.0\..+$
     paths-status-return-json:
         description: The "/status" endpoint must return "application/json" or "application/problem+json"
             when the service is Up.
