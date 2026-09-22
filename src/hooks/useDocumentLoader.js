@@ -13,7 +13,24 @@ export const useDocumentLoader = (
   useEffect(() => {
     if (!editorInstance) return;
 
+    const isSafeDocumentUrl = (url) => {
+      try {
+        const parsed = new URL(url, window.location.href);
+        if (!['http:', 'https:'].includes(parsed.protocol)) return false;
+        const hostname = parsed.hostname.toLowerCase();
+        if (['localhost', '127.0.0.1', '::1', '169.254.169.254'].includes(hostname)) return false;
+        if (/^(10\.|192\.168\.|172\.(1[6-9]|2\d|3[01])\.|169\.254\.)/.test(hostname)) return false;
+        return true;
+      } catch (e) {
+        return false;
+      }
+    };
+
     const loadDocumentFromUrl = async (url) => {
+      if (!isSafeDocumentUrl(url)) {
+        console.error('Error loading document from URL: URL not allowed', url);
+        return;
+      }
       try {
         const { data: text } = await axios.get(url);
         updateEditorAndState(text);
