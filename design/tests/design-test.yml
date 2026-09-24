@@ -1,0 +1,38 @@
+openapi: 3.0.1
+servers: []
+paths:
+  /a1: {}
+  /a2: {}
+  /a3: {}
+  /a4: {}
+  /a5: {}
+  /a6: {}
+  /a7: {}
+  /a8: {}
+  /a9: {}
+  /a10: {}
+  /a/b/c/d/e:
+    parameters:
+      - name: fooo_baar_antani_sblindola_monoteca
+        in: query
+        schema:
+          type: string
+
+tags: []
+info:
+  version: 1.2.3
+  contact:
+    name: ciao
+    email: a@b.it
+  title: foo
+  description: ciao
+  x-summary: >-
+    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+
+components:
+  parameters:
+    MyParam:
+      name: fooo_baar_antani_sblindola_monoteca
+      in: query
+      schema:
+        type: string
