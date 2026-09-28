@@ -78,7 +78,7 @@
     "webpack": "5.94.0",
     "webpack-bundle-analyzer": "^4.6.1",
     "webpack-cli": "5",
-    "webpack-dev-server": "5.2.1",
+    "webpack-dev-server": "5.2.4",
     "worker-loader": "^3.0.8",
     "yaml": "2.2.2",
     "yargs": "^17.4.1"
