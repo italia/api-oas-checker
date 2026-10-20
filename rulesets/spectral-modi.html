@@ -22,13 +22,13 @@
         margin: 48px 0 24px 0;
     }
     </style>
-    <title>Italian Guidelines (v2.5)</title>
+    <title>Italian Guidelines (v2.6)</title>
 </head>
 <body>
 <div class="container">
     <div class="row">
         <div style="margin: auto" class="col-xs-12 col-sm-10 col-md-8 col-lg-6">
-            <div><h1>Italian Guidelines (v2.5)</h1>
+            <div><h1>Italian Guidelines (v2.6)</h1>
 <h2>cache-control-parameter-undocumented</h2>
 <p>Cache usage SHOULD be extensively detailed in the <code>description</code> property
 to avoid data leaks or the usage of stale data.</p>
@@ -83,16 +83,72 @@ modify (eg. compress) the content.</p>
 because <code>Cache-Control</code> overrides <code>Expires</code> when <code>max-age</code> is set.
 Instead if neither <code>Cache-Control</code> or <code>Expires</code> are set, clients MAY use heuristic cache
 like described in <a href="https://tools.ietf.org/html/RFC">RFC</a>7234.</p>
+<h2>paths-kebab-case</h2>
+<p>Paths should be kebab-case (e.g. <code>path-parameter</code>).</p>
+<p>See Italian recommendation RAC_REST_NAME_002.</p>
+<h2>response-headers-train-case</h2>
+<p>Headers should be Train-Case / HTTP-Header-Case (e.g. <code>X-Header-Name</code>).</p>
+<p>See Italian recommendation RAC_REST_NAME_003.</p>
+<h2>schema-camel-case</h2>
+<p>Schema definitions should be CamelCase
+(pascal case with blank separator char).</p>
+<p>This improves readability and avoid
+confusion between schema names and properties.</p>
+<p><code>Website:
+  type: string
+  format: url
+Person:
+  type: object
+  properties:
+    website:
+      $ref: "#/components/schemas/Website"</code> </p>
+<h2>no-forbidden-headers</h2>
+<p>OAS do not allow using the following HTTP headers in a specification
+file: Authorization, Content-Type and Accept.
+You MUST use the associate functionalities provided by OAS, instead.</p>
+<h2>no-x-headers-request</h2>
+<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC">RFC</a>6648.</p>
+<h2>no-x-headers-response</h2>
+<p>'HTTP' headers SHOULD NOT start with 'X-' <a href="https://tools.ietf.org/html/RFC">RFC</a>6648.</p>
+<h2>http-request-GET-no-body</h2>
+<p>A <code>GET</code> request MUST NOT accept a <code>requestBody</code>
+because this behavior is not interoperable.
+Moreover intermediaries such as reverse proxies
+are allowed to strip the content from <code>GET</code> requests.</p>
+<p>See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
 <h2>http-request-DELETE-no-body</h2>
 <p>Sending a <code>requestBody</code> in a <code>DELETE</code> request 
 is not considered interoperable.
 Moreover intermediaries such as reverse proxies
 might strip the content from <code>DELETE</code> requests.</p>
 <p>See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
+<h2>http-response-no-content-204-205</h2>
+<p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
+Responses with status code 204 and 205 MUST NOT include a content.
+See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
 <h2>http-response-content-2xx</h2>
 <p>Responses with the following status codes usually expected to include a content, which might have zero length: 200, 201, 202, 203, 206.
 Responses with status code 204 and 205 MUST NOT include a content.
 See <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 for further information.</p>
+<h2>use-recommended-names-in-parameters</h2>
+<p>Use well defined parameter and schema names, deriving them
+from the national ontologies available at https://w3id.org/italia/onto/</p>
+<p>For example, you can model a person using the following names:</p>
+<p><code>{
+  "en": {
+    "given_name": "Mario",
+    "family_name": "Rossi",
+    "tax_code": "12345678901"
+  },
+  "it": {
+    "nome_proprio": "Mario",
+    "cognome": "Rossi",
+    "codice_fiscale": "12345678901"
+  }
+}</code></p>
+<h2>use-recommended-names-in-schemas</h2>
+<p>Use well defined parameter and schema names, deriving them
+from the national ontologies available at https://w3id.org/italia/onto/</p>
 <h2>no-method-name-in-operationId</h2>
 <p>Avoid using method names in <code>operationId</code>s because it couples
 the API design with the implementation.</p>
@@ -113,6 +169,11 @@ paths:
       operationId: upsert_entry
     patch:
       operationId: edit_entry</code></p>
+<h2>number-format</h2>
+<p>Schema of type number or integer must specify a format
+to express the associated datatype, eg. <code>int32</code>, <code>int64</code>, ...</p>
+<p>You can express similar requirements using the <code>minimum</code> and <code>maximum</code> properties.</p>
+<p>See recommendation RAC_REST_FORMAT_004.</p>
 <h2>allowed-integer-format</h2>
 <p>To improve interoperability, integer and number formats are constrained
 to a shared subset.</p>
@@ -121,14 +182,117 @@ to a shared subset.</p>
 <p>To improve interoperability, integer and number formats are constrained
 to a shared subset.</p>
 <p>See recommendation RAC_REST_FORMAT_004.</p>
+<h2>no-swagger-2</h2>
+<p>Swagger 2 files are not allowed. Use OpenAPI &gt;= 3.0</p>
 <h2>oas3-valid-media-example</h2>
 <p>Ensure examples are valid against their schema.</p>
 <h2>oas3-version-hint</h2>
 <p>Suggests using OpenAPI 3.0.x for better compatibility.</p>
-<h2>paths-status-return-json</h2>
-<p>The "/status" endpoint must return "application/json" or "application/problem+json" when the service is Up.</p>
+<h2>sec-securitySchemes-oauth-http</h2>
+<p>OAuth2 endpoints must use <code>https://</code></p>
+<h2>sec-securitySchemes-oauth-allowed-flows</h2>
+<p>The OAuth2 authorization framework defines various
+<a href="https://tools.ietf.org/html/rfc6749#section-1.3">grant types</a>,
+most notably the <a href="https://tools.ietf.org/html/rfc6749#section-1.3.1">AuthorizationCode</a>
+and the <a href="https://tools.ietf.org/html/rfc6749#section-1.3.4">Client Credentials</a>.</p>
+<p>Some grant types are now considered insecure
+and MUST not be used, including <code>implicit</code> and <code>password</code>.
+The new <a href="https://tools.ietf.org/html/draft-ietf-oauth-v2-1-01">OAuth2.1</a>
+still in draft, removes them and suggests to
+replace the <code>implicit</code> with <code>authorizationCode</code> + PKCE defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>7636.</p>
+<p>For further info, see the OAuth2 section of <a href="https://docs.italia.it/AgID/documenti-in-consultazione/lg-sicurezza-interoperabilita-docs/">API Security Guidelines</a>.</p>
+<h2>patch-media-type</h2>
+<p>The PATCH specification explicits that the request body contains
+a "patch document" describing the changes to be applied
+to the target resource.</p>
+<p>To avoid confusion, <a href="https://www.rfc-editor.org/errata/eid3169">this errata</a>
+explains that <code>application/json</code> is not an appropriate media-type for <code>PATCH</code>.</p>
+<p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
+defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>6902.</p>
+<p><code>paths:
+  /books/{book_id}:
+    patch:
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              ...
+            example: [{ "op": "add", "path": "/baz", "value": "qux" }]</code></p>
+<h2>patch-without-request-body</h2>
+<p>The PATCH method requests that a set of changes described in the
+<code>requestBody</code> be applied to the target resource.
+A PATCH specification without a <code>requestBody</code>
+just applies no changes to the target resource.</p>
+<p>Since PATCH has impacts on caches, using it
+on a different target resource may result in non-interoperable
+behavior.</p>
+<p>For example, to modify the resource at <code>/user/123</code>,
+you can use the following PATCH request:</p>
+<p>```
+PATCH /user/123
+Content-Type: application/json-patch+json</p>
+<p>[{"op": "replace", "path": "enable", "value": true}]
+```</p>
+<p>or  POST request with the semantic implied by the target url:</p>
+<p><code>POST /user/123/enable</code></p>
+<p>Instead, the following request
+is expected to modify the <code>/user/123/enable</code>
+subresource, and not the <code>/user/123</code> one.</p>
+<p>```
+PATCH /user/123/enable
+````</p>
+<h2>patch-json-patch-mediatype</h2>
+<p>A correct example of PATCH using eg. <code>application/json-patch+json</code> media-type
+defined in <a href="https://tools.ietf.org/html/RFC">RFC</a>6902.</p>
+<p><code>paths:
+  /books/{book_id}:
+    patch:
+      requestBody:
+        content:
+          application/json-patch+json:
+            schema:
+              type: array
+              ...
+            example: [{ "op": "add", "path": "/baz", "value": "qux" }]</code></p>
+<h2>paths-status-return-problem</h2>
+<p>The "/status" endpoint must return "application/problem+json" for all 4xx and 5xx error responses (Down state).</p>
 <h2>paths-status-problem-schema</h2>
 <p>The "/status" error response (4xx/5xx) must be a Problem object (<a href="https://tools.ietf.org/html/RFC">RFC</a>7807).</p>
+<h2>paths-http-method</h2>
+<p>When you design a REST API, you don't usually need to mention terms like
+<code>get</code>, <code>delete</code> and so on in your <code>paths</code>, because this information is
+conveyed by the HTTP method.</p>
+<p>Instead of using</p>
+<p><code>POST /books/1234/delete HTTP/1.1
+Host: api.example</code></p>
+<p>You can simply call</p>
+<p><code>DELETE /books/1234 HTTP/1.1
+Host: api.example</code></p>
+<p>Similarly you don't need verbs like <code>list</code> or <code>create</code> because
+the HTTP Semantics <a href="https://tools.ietf.org/html/RFC">RFC</a>7231 supports this kind of actions natively
+with proper methods and status code.</p>
+<p>Instead of</p>
+<p>```
+POST /create/user HTTP/1.1
+Host: api.example
+Content-Type: application/json</p>
+<p>{"given_name": "Mario"}
+```</p>
+<p>You can use
+```
+POST /create/user HTTP/1.1
+Host: api.example
+Content-Type: application/json</p>
+<p>{"given_name": "Mario"}
+```</p>
+<p>returning a proper response</p>
+<p>```
+HTTP/1.1 201 Created
+Location: /users/1234</p>
+<p>```</p>
+<p>This simplifies securing your API as you know beforehand the kind of action
+which is going to be performed.</p>
 <h2>use-problem-schema</h2>
 <p>WARN: This rule is under implementation and just provides an hint.</p>
 <p>Error management is a key enabler of a resilient API ecosystem.
@@ -144,6 +308,32 @@ verifies whether it contains the main properties defined in <a href="https://too
  "status": 404,
  "detail": "Book does not exist; id: 123"
 }</code></p>
+<p>See recommendation RAC_REST_NAME_007.</p>
+<h2>hint-problem-schema</h2>
+<p>WARN: This rule is under implementation and just provides an hint.</p>
+<p>Error management is a key enabler of a resilient API ecosystem.
+Enforcing a consistent schema for errors between different APIs,
+enables client to properly implement an error management strategy,
+with positive impacts for users.</p>
+<p>Errors should return <a href="https://tools.ietf.org/html/RFC">RFC</a>7807 objects. Instead, this schema
+seems to use non standard properties such as:
+<code>message</code>, <code>msg</code> and <code>code</code>.</p>
+<p>An error of the following form</p>
+<p><code>{
+  "msg": "Book with id: 123 does not exist.",
+  "code": 6063
+}</code></p>
+<p>can be expressed in <a href="https://tools.ietf.org/html/RFC">RFC</a>7807 with</p>
+<p><code>{
+  "detail": "Book with id: 123 does not exist.",
+  "type": "https://api.example/v1/errors/6063",
+  "status": 404,
+  "title": "Not Found"
+}</code></p>
+<p>Returning an URI in <code>type</code>, instead of an opaque <code>code</code> can help
+the client in better identifying the error; moreover the URI
+though it should not be dereferenced automatically, can return
+an actual resource providing guidance in addressing the issue.</p>
 <p>See recommendation RAC_REST_NAME_007.</p>
 <h2>missing-retry-after</h2>
 <p>When a client is warned about a temporary server issue with a 503 status code,
@@ -172,7 +362,27 @@ or a complete set of RateLimit headers (<code>Limit</code>, <code>Remaining</cod
 (Limit, Remaining, Reset) must be present and follow the same naming convention 
 (standard or X- prefix). 
 If both Retry-After and Reset are present, they should ideally represent 
-the same time interval.</p></div>
+the same time interval.</p>
+<h2>sec-apikeys-url</h2>
+<p>API Keys are (usually opaque) strings that
+are passed in headers, cookies or query parameters
+to access APIs.</p>
+<p>Those keys can be eavesdropped, especially when they are stored
+in cookies or passed as URL parameters.</p>
+<p><code>security:
+- ApiKey: []
+paths:
+  /books: {}
+  /users: {}
+securitySchemes:
+  ApiKey:
+    type: apiKey
+    in: cookie
+    name: X-Api-Key</code></p>
+<h2>sec-credentials-parameters</h2>
+<p>URL parameters MUST NOT contain credentials such as
+apikey, password, or secret.</p>
+<p>See <a href="https://docs.italia.it/italia/piano-triennale-ict/lg-modellointeroperabilita-docs/it/bozza/doc/04_Raccomandazioni%20di%20implementazione/04_raccomandazioni-tecniche-generali/01_globali.html?highlight=credenziali#rac-gen-004-non-passare-credenziali-o-dati-riservati-nellurl">RAC_GEN_004</a></p></div>
         </div>
     </div>
 </div>

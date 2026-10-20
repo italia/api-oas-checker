@@ -1,5 +1,5 @@
 #	Ruleset name: Italian Guidelines Full
-#	Ruleset version: 2.5
+#	Ruleset version: 2.6
 
 #
 # These rules are based on the Italian Guidelines,
@@ -484,6 +484,7 @@ rules:
         - oas3
         severity: error
         recommended: true
+        resolved: false
         given: $..[?(@ && @.type=="number")]
         then:
             field: format
@@ -502,6 +503,7 @@ rules:
         - oas3
         severity: error
         recommended: true
+        resolved: false
         given: $..[?(@ && @.type=="integer")]
         then:
             field: format
@@ -518,7 +520,7 @@ rules:
         - oas3
         severity: hint
         recommended: true
-        given: $..[?(@ && @.type=="integer")].format
+        given: $..[?(@ && @.type=="integer" && @.format)].format
         then:
             function: enumeration
             functionOptions:
@@ -537,7 +539,7 @@ rules:
         - oas3
         severity: hint
         recommended: true
-        given: $..[?(@ && @.type=="number")].format
+        given: $..[?(@ && @.type=="number" && @.format)].format
         then:
             function: enumeration
             functionOptions:
