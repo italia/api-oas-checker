@@ -83,6 +83,10 @@
     "yaml": "2.2.2",
     "yargs": "^17.4.1"
   },
+  "resolutions": {
+    "**/fast-uri": "3.1.9",
+    "**/follow-redirects": "1.16.3"
+  },
   "keywords": [
     "spectral",
     "openapi"
